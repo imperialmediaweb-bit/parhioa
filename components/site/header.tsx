@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { Logo } from './logo';
 import { Button } from '@/components/ui/button';
+import { getImages } from '@/lib/images';
 
 const NAV = [
   { label: 'Despre', href: '/despre' },
@@ -13,11 +14,11 @@ const NAV = [
 ];
 
 export async function SiteHeader() {
+  const IMG = await getImages();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="container flex h-24 sm:h-28 items-center justify-between gap-6">
-        {/* @ts-expect-error Async Server Component */}
-        <Logo />
+        <Logo iconSrc={IMG.parishLogo} />
 
         <nav className="hidden lg:flex items-center gap-7">
           {NAV.map((item) => (

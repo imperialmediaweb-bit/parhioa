@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Facebook, Linkedin, Music2, Check } from 'lucide-react';
 import { Logo } from './logo';
+import { getImages } from '@/lib/images';
 
 const INFO = [
   { label: 'Despre', href: '/despre' },
@@ -18,13 +19,13 @@ const RESURSE = [
 ];
 
 export async function SiteFooter() {
+  const IMG = await getImages();
   return (
     <footer className="border-t border-border bg-white">
       <div className="container py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4 space-y-4">
-            {/* @ts-expect-error Async Server Component */}
-            <Logo size="lg" />
+            <Logo size="lg" iconSrc={IMG.parishLogo} />
             <p className="text-sm text-ink-muted leading-relaxed max-w-xs">
               Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; din Botoșani este o comunitate în
               formare, zidită cu credință, rugăciune și dragoste frățească.

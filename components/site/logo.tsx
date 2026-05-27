@@ -1,24 +1,20 @@
 import Link from 'next/link';
-import { getImages } from '@/lib/images';
 import { cn } from '@/lib/utils';
 
-export async function Logo({
-  className,
-  showText = true,
-  size = 'default',
-  variant = 'header',
-}: {
+interface LogoProps {
   className?: string;
   showText?: boolean;
   size?: 'sm' | 'default' | 'lg' | 'xl';
-  variant?: 'header' | 'footer' | 'hero';
-}) {
-  const dim = size === 'sm' ? 56 : size === 'lg' ? 96 : size === 'xl' ? 128 : 76;
+  iconSrc?: string;
+}
 
-  const IMG = await getImages();
-  // Prefer a custom /logo.png if uploaded; otherwise fall back to the
-  // parish icon from Cloudinary (set up by the WP import).
-  const logoSrc = IMG.parishLogo || '/logo.png';
+export function Logo({
+  className,
+  showText = true,
+  size = 'default',
+  iconSrc = '/logo.png',
+}: LogoProps) {
+  const dim = size === 'sm' ? 56 : size === 'lg' ? 96 : size === 'xl' ? 128 : 76;
 
   return (
     <Link
@@ -27,7 +23,7 @@ export async function Logo({
       aria-label="Parohia Sf. Cuvioasă Teodora de la Sihla — acasă"
     >
       <img
-        src={logoSrc}
+        src={iconSrc}
         alt="Icoană Sfânta Cuvioasă Teodora de la Sihla"
         width={dim}
         height={dim}
