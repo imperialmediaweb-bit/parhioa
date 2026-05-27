@@ -5,16 +5,24 @@ import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { Testimonials, type Testimonial } from '@/components/site/testimonials';
-import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
 import { VideoSection } from '@/components/site/video-section';
+import { CrossDivider } from '@/components/site/cross-divider';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BorderBeam } from '@/components/magicui/border-beam';
-import { ShimmerButton } from '@/components/magicui/shimmer-button';
-import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text';
 import { FadeIn } from '@/components/magicui/fade-in';
-import { NumberTicker } from '@/components/magicui/number-ticker';
-import { Heart, HandHeart, Users, Church, BookOpen, Sparkles } from 'lucide-react';
+import {
+  Heart,
+  HandHeart,
+  Church,
+  BookOpen,
+  Percent,
+  Users,
+  Flame,
+  CrossIcon,
+  Sparkles,
+  Quote as QuoteIcon,
+} from 'lucide-react';
 
 export const revalidate = 60;
 
@@ -58,10 +66,9 @@ async function getHomeData() {
 export default async function HomePage() {
   const [{ posts }, IMG] = await Promise.all([getHomeData(), getImages()]);
 
-  // Hero slides — exact images from the live site
   const HERO_SLIDES: HeroSlide[] = [
     {
-      media: { type: 'image', src: IMG.heroSlide1, alt: 'Bisericuța' },
+      media: { type: 'image', src: IMG.heroSlide1, alt: 'Sfântul altar' },
       eyebrow: 'Binecuvântare și chemare',
       title: <>Într-o inimă, o credință, o familie duhovnicească</>,
       subtitle:
@@ -79,162 +86,372 @@ export default async function HomePage() {
       ),
       subtitle:
         'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul tău, putem pune piatra de temelie. Orice dar devine o cărămidă în casa Domnului.',
-      primaryCta: { label: 'Contribuie', href: '/doneaza' },
-      secondaryCta: { label: 'Redirecționează 3,5%', href: '/redirectioneaza-3-5' },
+      primaryCta: {
+        label: 'Contribuie',
+        href: '/donations/strangere-de-fonduri-pentru-construirea-bisericii',
+      },
     },
-  ];
-
-  // Gallery uses the same set of icons the live "Sprijină lucrarea parohiei"
-  // section shows, plus the parish icon and campaign poster.
-  const GALLERY: GalleryImage[] = [
-    { src: IMG.parishIcon, alt: 'Icoana parohiei', caption: 'Sfânta Cuvioasă Teodora' },
-    { src: IMG.iconBox1, alt: 'Donează', caption: 'Sprijină zidirea' },
-    { src: IMG.iconBox2, alt: 'Redirecționează', caption: 'Redirecționează 3,5%' },
-    { src: IMG.iconBox3, alt: 'Implică-te', caption: 'Comunitate vie' },
-    { src: IMG.iconBox4, alt: 'Liturghie', caption: 'Slujbe vii' },
-    { src: IMG.campaignPoster, alt: 'Devino ctitor', caption: 'Campania de zidire' },
-    { src: IMG.parishLogoBotosani, alt: 'Parohia', caption: 'Sub ocrotirea Sf. Teodora' },
-    { src: IMG.priestPortrait, alt: 'Părintele Cătălin', caption: 'Părintele paroh' },
   ];
 
   return (
     <>
-      {/* ===== 1. HERO SLIDER (video + 2 images) ===== */}
+      {/* ============= 1. HERO SLIDER ============= */}
       <HeroSlider slides={HERO_SLIDES} />
 
-      {/* ===== 2. ABOUT THE PRIEST — INTRO ===== */}
-      <section className="container py-16 sm:py-24">
+      {/* ============= 2. STICKY SUB-NAV ============= */}
+      <nav className="border-y border-border bg-white sticky top-24 sm:top-28 z-30">
+        <div className="container flex items-center justify-center gap-6 sm:gap-12 py-4 text-sm overflow-x-auto">
+          <a
+            href="#parohul"
+            className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
+          >
+            <span className="font-display text-base">→</span>
+            <span>Parohul bisericii</span>
+          </a>
+          <a
+            href="#despre-parohia"
+            className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
+          >
+            <span className="font-display text-base">→</span>
+            <span>Despre</span>
+          </a>
+          <a
+            href="#daruieste"
+            className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
+          >
+            <span className="font-display text-base">→</span>
+            <span>Dăruiește pentru zidire</span>
+          </a>
+        </div>
+      </nav>
+
+      {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
+      <section id="parohul" className="container py-16 sm:py-24 scroll-mt-44">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
-            <SectionEyebrow>Implică-te în lucrarea parohiei</SectionEyebrow>
+            <div className="relative aspect-[5/6] rounded-3xl overflow-hidden shadow-xl bg-cream-card">
+              <img
+                src={IMG.priestPortrait}
+                alt="Părintele Cătălin Ailenei"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.15}>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
-              Mărturisirea credinței prin <em className="italic text-burgundy">rugăciune și cuvânt</em>
+              Părintele Cătălin Ailenei – <em className="italic text-burgundy">păstor cu inimă de rugăciune</em>
             </h2>
             <p className="text-ink-muted leading-relaxed text-[17px] mb-4">
               Cu blândețe și râvnă, părintele Cătălin Ailenei veghează asupra obștii încredințate,
               purtând în rugăciune și jertfelnicie sufletele celor ce se adună sub acoperământul
               Sfintei Cuvioase Teodora de la Sihla.
             </p>
-            <p className="text-ink-muted leading-relaxed text-[17px] mb-8">
-              Ne dorim ca, urmându-i pașii, să zidim în sufletele noastre altar viu al rugăciunii,
-              unde harul lui Dumnezeu să odihnească peste comunitatea noastră.
+            <p className="text-ink-muted leading-relaxed text-[17px] mb-6">
+              În vremea în care sfânta biserică se zidește cu trudă, piatra cea vie se așază mai
+              întâi în inimile credincioșilor, prin harul slujirii și al cuvântului duhovnicesc.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/despre">
-                <Button variant="default" size="lg">
-                  Despre părintele paroh
-                </Button>
-              </Link>
-              <Link href="/misiune">
-                <Button variant="outline" size="lg">
-                  Misiunea parohiei
-                </Button>
-              </Link>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
-              <img
-                src={IMG.priestPortrait}
-                alt="Părintele Cătălin Ailenei"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/40 to-transparent" />
-              <Card className="absolute bottom-6 left-6 right-6 p-5 bg-white/95 backdrop-blur border-0 shadow-lg">
-                <p className="font-ceremonial uppercase text-xs tracking-[0.2em] text-burgundy mb-1">
-                  Părintele Cătălin Ailenei
-                </p>
-                <p className="text-sm text-ink-muted italic">Preot paroh</p>
-              </Card>
-              <BorderBeam size={250} duration={10} delay={2} colorFrom="#EAC784" colorTo="#81231B" />
-            </div>
+            <Link href="/despre">
+              <Button size="lg">Despre părintele paroh</Button>
+            </Link>
           </FadeIn>
         </div>
       </section>
 
-      {/* ===== 3. THE 3 PILLARS ===== */}
+      {/* ============= 4. IMPLICĂ-TE + DEVINO CTITOR CARD ============= */}
       <section className="bg-cream py-16 sm:py-24">
         <div className="container">
           <FadeIn>
-            <div className="text-center mb-12 max-w-2xl mx-auto">
-              <SectionEyebrow align="center">Misiunea noastră</SectionEyebrow>
+            <div className="text-center mb-12 max-w-3xl mx-auto">
+              <SectionEyebrow align="center">
+                Milostenia zidește și suflete, nu doar ziduri
+              </SectionEyebrow>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-                Zidim credința, slujim cu <em className="italic text-burgundy">dragoste</em>, trăim în rugăciune
+                Implică-te în lucrarea parohiei <br className="hidden sm:inline" />
+                și sprijinirea celor în <em className="italic text-burgundy">suferință</em>
               </h2>
-              <p className="text-ink-muted mt-5 text-[17px]">
-                Trei stâlpi care țin viața parohiei și prin care creștem împreună întru Hristos.
-              </p>
             </div>
           </FadeIn>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Church,
-                title: 'Rugăciune',
-                text:
-                  'Ne adunăm cu evlavie la Sfânta Liturghie și la toate rânduielile Bisericii, căutând întărirea sufletelor și luminarea vieții noastre în Hristos.',
-              },
-              {
-                icon: Heart,
-                title: 'Milostenie',
-                text:
-                  'Ne străduim să fim aproape de cei în suferință – bolnavi, bătrâni, copii lipsiți – cu ce putem, din dragoste pentru Dumnezeu și pentru aproapele.',
-              },
-              {
-                icon: HandHeart,
-                title: 'Iubire',
-                text:
-                  'Rugăciunea este temelia parohiei noastre. Ne unim inimile înaintea Domnului, în unitate și pace, cu nădejde că El primește și osteneala, și tăcerea.',
-              },
-            ].map((p, i) => (
-              <FadeIn key={p.title} delay={i * 0.1}>
-                <Card className="h-full p-8 bg-white">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-burgundy text-white mb-5">
-                    <p.icon className="h-7 w-7" />
+          <FadeIn delay={0.1}>
+            <div className="max-w-md mx-auto">
+              <Link href="/donations/strangere-de-fonduri-pentru-construirea-bisericii">
+                <Card className="overflow-hidden bg-white border-0 hover:shadow-2xl transition-shadow cursor-pointer group">
+                  <div className="aspect-[4/5] overflow-hidden">
+                    <img
+                      src={IMG.campaignPoster}
+                      alt="Devino ctitor — campania de zidire"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
-                  <h3 className="font-display text-2xl font-semibold mb-3 text-burgundy">{p.title}</h3>
-                  <p className="text-ink-muted leading-relaxed">{p.text}</p>
+                  <div className="p-5">
+                    <h3 className="font-display text-xl font-semibold text-burgundy mb-2">
+                      Strângere de fonduri pentru construirea bisericii
+                    </h3>
+                    <p className="font-serif italic text-sm text-ink-muted">
+                      📜 „Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"
+                    </p>
+                  </div>
                 </Card>
-              </FadeIn>
-            ))}
+              </Link>
+              <div className="text-center mt-6">
+                <Link href="/campanii">
+                  <Button variant="default" size="lg">Campaniile parohiei</Button>
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ============= 5. SUB OCROTIREA SF. CUVIOASE TEODORA ============= */}
+      <section id="despre-parohia" className="container py-16 sm:py-24 scroll-mt-44">
+        <CrossDivider className="mb-12" />
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <FadeIn delay={0.15} className="lg:order-2">
+            <div className="relative aspect-[4/5] sm:aspect-[5/6] rounded-3xl overflow-hidden shadow-xl">
+              <img
+                src={IMG.parishLogoBotosani}
+                alt="Parohia Sf. Cuvioasă Teodora — Botoșani"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          </FadeIn>
+          <FadeIn className="lg:order-1">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
+              Sub ocrotirea <em className="italic text-burgundy">Sfintei Cuvioase Teodora</em> de la Sihla
+            </h2>
+            <p className="text-ink-muted leading-relaxed text-[17px] mb-4">
+              Parohia noastră din Botoșani se află sub binecuvântata ocrotire a Sfintei Cuvioase
+              Teodora de la Sihla, floare aleasă a pustiei și rugătoare neîncetată înaintea lui
+              Hristos. Viața ei, petrecută în post și lacrimi, în adâncul pădurilor Neamțului, este
+              pentru noi pildă de răbdare, smerenie și statornicie în credință.
+            </p>
+            <p className="text-ink-muted leading-relaxed text-[17px] mb-6">
+              Ne dorim ca, urmându-i pașii, să zidim în sufletele noastre altar viu al rugăciunii,
+              unde harul lui Dumnezeu să odihnească peste comunitatea noastră.
+            </p>
+            <Link href="/misiune">
+              <Button size="lg">Misiune</Button>
+            </Link>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
+      <section id="daruieste" className="bg-cream py-16 sm:py-24 scroll-mt-44">
+        <div className="container">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <FadeIn>
+              <div className="relative aspect-[4/5] sm:aspect-[5/6] rounded-3xl overflow-hidden shadow-xl bg-white p-2">
+                <img
+                  src={IMG.parishIcon}
+                  alt="Icoană Sfânta Cuvioasă Teodora"
+                  className="absolute inset-2 w-[calc(100%-1rem)] h-[calc(100%-1rem)] object-contain rounded-2xl"
+                />
+                <BorderBeam size={300} duration={12} colorFrom="#EAC784" colorTo="#81231B" />
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.15}>
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
+                Fii ctitor al unei <em className="italic text-burgundy">lucrări sfinte</em>
+              </h2>
+              <blockquote className="border-l-4 border-burgundy pl-4 my-5 italic text-ink-muted">
+                „Unde sunt doi sau trei adunați în Numele Meu, acolo sunt și Eu în mijlocul lor."{' '}
+                <span className="block text-sm not-italic mt-1 text-burgundy">(Matei 18, 20)</span>
+              </blockquote>
+              <p className="text-ink-muted leading-relaxed text-[17px] mb-4">
+                <strong className="text-ink">Sub ocrotirea Sfintei Cuvioase Teodora de la Sihla,</strong>{' '}
+                zidim cu credință o biserică pentru sufletele care caută mângâiere, luminare și întâlnire
+                cu Dumnezeu.
+              </p>
+              <p className="text-ink-muted leading-relaxed text-[17px] mb-4">
+                Fiecare dar adus cu inimă curată devine o cărămidă vie în acest lăcaș al harului.
+              </p>
+              <p className="text-ink-muted leading-relaxed text-[17px] mb-6">
+                Alătură-te acestei lucrări binecuvântate, pentru ca împreună să ridicăm un loc unde
+                rugăciunea să ardă neîncetat și unde fiecare suflet să afle pace și întărire.
+              </p>
+              <Link href="/donations/strangere-de-fonduri-pentru-construirea-bisericii">
+                <Button size="lg">Ajută la zidire</Button>
+              </Link>
+            </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* ===== 4. VIDEO SECTION ===== */}
+      {/* ============= 7. 3 STÂLPI – MISIUNEA PAROHIEI ============= */}
       <section className="container py-16 sm:py-24">
         <FadeIn>
-          <div className="text-center mb-10 max-w-2xl mx-auto">
-            <SectionEyebrow align="center">Slujbe și cuvinte de folos</SectionEyebrow>
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <SectionEyebrow align="center">
+              Misiunea parohiei „Sfânta Cuvioasă Teodora de la Sihla"
+            </SectionEyebrow>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-              Urmărește-ne pe <em className="italic text-burgundy">YouTube</em>
+              Zidim credința, slujim cu <em className="italic text-burgundy">dragoste</em>, trăim în rugăciune
+            </h2>
+          </div>
+        </FadeIn>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              icon: Church,
+              title: 'Slujire liturgică',
+              text:
+                'Ne adunăm cu evlavie la Sfânta Liturghie și la toate rânduielile Bisericii, căutând întărirea sufletelor și luminarea vieții noastre în Hristos.',
+            },
+            {
+              icon: Heart,
+              title: 'Milostenie și grijă',
+              text:
+                'Ne străduim să fim aproape de cei în suferință – bolnavi, bătrâni, copii lipsiți – cu ce putem, din dragoste pentru Dumnezeu și pentru aproapele.',
+            },
+            {
+              icon: HandHeart,
+              title: 'Rugăciune împreună',
+              text:
+                'Rugăciunea este temelia parohiei noastre. Ne unim inimile înaintea Domnului, în unitate și pace, cu nădejde că El primește și osteneala, și tăcerea.',
+            },
+          ].map((p, i) => (
+            <FadeIn key={p.title} delay={i * 0.1}>
+              <Card className="h-full p-8 bg-cream text-center">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-burgundy text-white mb-5 shadow-lg">
+                  <p.icon className="h-9 w-9" />
+                </div>
+                <h3 className="font-display text-2xl font-semibold mb-3 text-burgundy">{p.title}</h3>
+                <p className="text-ink-muted leading-relaxed">{p.text}</p>
+              </Card>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ============= 8. VIDEO YOUTUBE ============= */}
+      <section
+        className="relative py-20 sm:py-24 text-white"
+        style={{
+          backgroundImage: `linear-gradient(rgba(19, 31, 51, 0.7), rgba(19, 31, 51, 0.85)), url(${IMG.videoSectionBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        <div className="container max-w-3xl text-center">
+          <FadeIn>
+            <p className="font-ceremonial uppercase tracking-[0.22em] text-sm text-gold mb-4">
+              Împreună întru Hristos, dincolo de ziduri
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5 !text-white">
+              Mărturisirea credinței prin <em className="italic text-gold">rugăciune și cuvânt</em>
+            </h2>
+            <p className="text-white/90 mb-8 leading-relaxed text-[17px]">
+              Cu ajutorul lui Dumnezeu, slujbele săvârșite în parohia noastră, împreună cu cuvinte de
+              folos, momente duhovnicești și clipe de bucurie creștină, pot fi urmărite și pe canalul
+              nostru de YouTube.
+            </p>
+            <a
+              href="https://www.youtube.com/watch?v=w03-ddqY-AE"
+              target="_blank"
+              rel="noopener"
+              className="inline-flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border-2 border-white/40 hover:bg-white hover:text-burgundy transition group"
+              aria-label="Vezi pe YouTube"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-10 w-10 ml-1 text-white group-hover:text-burgundy transition-colors"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </a>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ============= 8b. SCHEȚE / VIAȚA PAROHIEI – cards with Orthodox motifs ============= */}
+      <section className="container py-16 sm:py-24">
+        <FadeIn>
+          <CrossDivider size="lg" className="mb-10" />
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <SectionEyebrow align="center">Viața parohiei în chipuri</SectionEyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+              Pași spre <em className="italic text-burgundy">Hristos</em>
             </h2>
             <p className="text-ink-muted mt-4 text-[17px]">
-              Cu ajutorul lui Dumnezeu, slujbele săvârșite în parohia noastră — împreună cu cuvinte
-              de folos, momente duhovnicești și clipe de bucurie creștină — pot fi urmărite și pe
-              canalul nostru YouTube.
+              Sfintele Liturghii, icoanele, lumânările aprinse și clipele de pelerinaj sunt firele
+              vii ale comunității noastre.
             </p>
           </div>
         </FadeIn>
-        <FadeIn delay={0.1}>
-          <VideoSection
-            poster={IMG.videoSectionBg}
-            youtubeId="w03-ddqY-AE"
-            className="max-w-4xl mx-auto"
-          />
-        </FadeIn>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              img: IMG.liturghie,
+              icon: Church,
+              eyebrow: 'Sfânta Liturghie',
+              title: 'Slujbe vii',
+              text: 'Liturghie, vecernii și paraclise în rânduiala bisericească.',
+            },
+            {
+              img: IMG.iconTeodora,
+              icon: Sparkles,
+              eyebrow: 'Icoane',
+              title: 'Acoperământul sfinților',
+              text: 'Sub ocrotirea Sfintei Cuvioase Teodora de la Sihla.',
+            },
+            {
+              img: IMG.handsBranch,
+              icon: Flame,
+              eyebrow: 'Lumânări și rugăciuni',
+              title: 'Pomelnice și sfeștanii',
+              text: 'Pomeniri la Sfânta Liturghie pentru cei vii și adormiți.',
+            },
+            {
+              img: IMG.handsChurch,
+              icon: Heart,
+              eyebrow: 'Pelerinaje',
+              title: 'Drumuri spre lumină',
+              text: 'Drumuri la mănăstiri, întâlniri duhovnicești și clipe de bucurie creștină.',
+            },
+          ].map((s, i) => (
+            <FadeIn key={s.title} delay={i * 0.08}>
+              <Card className="h-full overflow-hidden bg-white border border-border group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={s.img}
+                    alt={s.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/60 via-transparent to-transparent" />
+                  <div className="absolute top-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-burgundy shadow-md">
+                    <s.icon className="h-5 w-5" />
+                  </div>
+                </div>
+                <div className="p-5">
+                  <p className="font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy mb-2">
+                    {s.eyebrow}
+                  </p>
+                  <h3 className="font-display text-xl font-semibold text-navy mb-2">{s.title}</h3>
+                  <p className="text-sm text-ink-muted leading-relaxed">{s.text}</p>
+                </div>
+              </Card>
+            </FadeIn>
+          ))}
+        </div>
       </section>
 
-      {/* ===== 5. TESTIMONIALS ===== */}
+      {/* ============= 9. TESTIMONIALE ============= */}
       <section className="bg-lavender-soft/50 py-16 sm:py-24">
         <div className="container">
           <FadeIn>
             <div className="text-center mb-12 max-w-2xl mx-auto">
-              <SectionEyebrow align="center">Glasul comunității</SectionEyebrow>
+              <SectionEyebrow align="center">
+                Milostenia zidește și suflete, nu doar ziduri
+              </SectionEyebrow>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-                Despre credință, rugăciune și <em className="italic text-burgundy">nădejde</em>
+                Glasul comunității – despre credință, rugăciune și{' '}
+                <em className="italic text-burgundy">nădejde</em>
               </h2>
             </div>
           </FadeIn>
@@ -244,151 +461,170 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== 6. DONATE CTA ===== */}
-      <section className="bg-gradient-to-br from-burgundy via-burgundy-dark to-burgundy text-white py-20 relative overflow-hidden">
-        <div className="container text-center max-w-3xl relative z-10">
-          <FadeIn>
-            <SectionEyebrow align="center" className="!text-gold">
-              Fii alături
-            </SectionEyebrow>
-            <h2 className="font-ecclesia text-3xl sm:text-5xl font-bold mb-5 text-white uppercase tracking-wide leading-tight">
-              Fii alături de parohie cu{' '}
-              <em className="text-gold font-serif italic normal-case">rugăciunea și darul</em>
-            </h2>
-            <p className="text-white/85 mb-8 max-w-xl mx-auto text-[17px] leading-relaxed">
-              Fiecare dar adus cu inimă curată devine o cărămidă vie în acest lăcaș al harului.
-              Alătură-te lucrării binecuvântate.
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/redirectioneaza-3-5">
-                <ShimmerButton background="linear-gradient(135deg, #EAC784 0%, #c9a361 100%)">
-                  <span className="text-base font-semibold text-burgundy-dark">Redirecționează 3,5%</span>
-                </ShimmerButton>
-              </Link>
-              <Link href="/doneaza">
-                <Button variant="cream" size="lg">
-                  Donează acum
-                </Button>
-              </Link>
-            </div>
-
-            <div className="mt-14 grid grid-cols-3 gap-6 text-center max-w-2xl mx-auto">
-              <div>
-                <div className="font-ecclesia text-4xl sm:text-5xl font-bold text-gold">
-                  <NumberTicker value={3.5} decimalPlaces={1} />%
-                </div>
-                <p className="font-ceremonial text-xs uppercase tracking-wider text-white/70 mt-2">din impozit</p>
-              </div>
-              <div>
-                <div className="font-ecclesia text-4xl sm:text-5xl font-bold text-gold">
-                  <NumberTicker value={2022} />
-                </div>
-                <p className="font-ceremonial text-xs uppercase tracking-wider text-white/70 mt-2">an înființare</p>
-              </div>
-              <div>
-                <div className="font-ecclesia text-4xl sm:text-5xl font-bold text-gold">∞</div>
-                <p className="font-ceremonial text-xs uppercase tracking-wider text-white/70 mt-2">recunoștință</p>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-
-        <Sparkles className="absolute top-10 left-10 h-8 w-8 text-gold/20" />
-        <Sparkles className="absolute bottom-10 right-10 h-8 w-8 text-gold/20" />
-      </section>
-
-      {/* ===== 7. LATEST POSTS ===== */}
+      {/* ============= 10. FII ALĂTURI DE PAROHIE – 4 IMG GRID + 3 ICON BOXES ============= */}
       <section className="container py-16 sm:py-24">
         <FadeIn>
-          <div className="text-center mb-12">
-            <SectionEyebrow align="center">Noutăți din viața parohiei</SectionEyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold">
-              Vești, mărturii și <em className="italic text-burgundy">povești</em>
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <SectionEyebrow align="center">Sprijină lucrarea parohiei</SectionEyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+              Fii alături de parohie cu <em className="italic text-burgundy">rugăciunea și darul</em>
             </h2>
+            <p className="text-ink-muted mt-5 text-[17px] max-w-2xl mx-auto">
+              Parohia „Sfânta Cuvioasă Teodora de la Sihla" se zidește cu nădejde – în piatră și în
+              suflete. Orice jertfă adusă, fie prin donații, redirecționarea impozitului sau
+              voluntariat, devine parte din această lucrare binecuvântată.
+            </p>
           </div>
         </FadeIn>
 
-        {posts.length === 0 ? (
-          <p className="text-center text-ink-muted">
-            Rulează scriptul de import:{' '}
-            <code className="bg-cream-card px-2 py-0.5 rounded">npm run import:wp</code>
-          </p>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((p, i) => (
-              <FadeIn key={p.id} delay={(i % 6) * 0.05}>
-                <PostCard
-                  slug={p.slug}
-                  title={p.title}
-                  excerpt={p.excerpt}
-                  publishedAt={p.publishedAt}
-                  featuredUrl={p.featured?.url}
-                  featuredAlt={p.featured?.alt}
-                  categories={p.categories}
-                />
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left: 4 icon images in a 2x2 grid (hidden on tablet) */}
+          <FadeIn delay={0.1} className="hidden lg:grid lg:col-span-5 grid-cols-2 gap-3">
+            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
+              <img src={IMG.iconBox1} alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg mt-12">
+              <img src={IMG.iconBox2} alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
+              <img src={IMG.iconBox3} alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg mt-12">
+              <img src={IMG.iconBox4} alt="" className="w-full h-full object-cover" />
+            </div>
+          </FadeIn>
+
+          {/* Right: 3 icon boxes with descriptions */}
+          <div className="lg:col-span-7 space-y-5">
+            {[
+              {
+                icon: Percent,
+                title: 'Redirecționează din impozit',
+                text:
+                  'Atât persoanele fizice (3,5%) cât și firmele (20% din impozitul pe profit sau venit) pot susține parohia fără costuri suplimentare. Sprijină zidirea bisericii printr-un gest simplu.',
+                href: '/redirectioneaza-3-5',
+                cta: 'Vezi cum',
+              },
+              {
+                icon: HandHeart,
+                title: 'Dăruiește cu inimă',
+                text:
+                  'Prin darul tău, biserica prinde viață, iar cei aflați în nevoi simt mâna lui Dumnezeu. Dăruiește cu credință și nădejde.',
+                href: '/donations/strangere-de-fonduri-pentru-construirea-bisericii',
+                cta: 'Donează',
+              },
+              {
+                icon: Users,
+                title: 'Implică-te ca voluntar',
+                text:
+                  'Biserica are nevoie și de oameni, nu doar de bani. Fie că ajuți la curățenie, organizare sau distribuirea unor ajutoare, prezența ta contează.',
+                href: '/contact',
+                cta: 'Mă alătur',
+              },
+            ].map((p, i) => (
+              <FadeIn key={p.title} delay={i * 0.1}>
+                <div className="flex gap-4 sm:gap-5">
+                  <div className="flex-shrink-0 flex h-14 w-14 items-center justify-center rounded-full bg-burgundy text-white shadow-lg">
+                    <p.icon className="h-7 w-7" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display text-xl font-semibold text-navy mb-1.5">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-ink-muted leading-relaxed mb-2">{p.text}</p>
+                    <Link
+                      href={p.href}
+                      className="text-sm font-medium text-burgundy hover:underline"
+                    >
+                      {p.cta} →
+                    </Link>
+                  </div>
+                </div>
               </FadeIn>
             ))}
           </div>
-        )}
-
-        <FadeIn delay={0.2}>
-          <div className="text-center mt-12">
-            <Link href="/blog">
-              <Button variant="outline" size="lg">
-                Vezi toate noutățile
-              </Button>
-            </Link>
-          </div>
-        </FadeIn>
-      </section>
-
-      {/* ===== 8. PHOTO GALLERY (real DB images) ===== */}
-      <section className="bg-cream py-16 sm:py-24">
-        <div className="container">
-          <FadeIn>
-            <div className="text-center mb-12 max-w-2xl mx-auto">
-              <SectionEyebrow align="center">Galerie foto</SectionEyebrow>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold">
-                Momente din viața <em className="italic text-burgundy">parohiei</em>
-              </h2>
-              <p className="text-ink-muted mt-4 text-[17px]">
-                Imagini din slujbe, întâlniri și momente împărtășite. Click pe orice fotografie pentru a o mări.
-              </p>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <PhotoGallery images={GALLERY} />
-          </FadeIn>
         </div>
       </section>
 
-      {/* ===== 9. NEWSLETTER ===== */}
-      <section className="container py-16 sm:py-20">
-        <FadeIn>
-          <Card className="p-10 sm:p-14 text-center bg-gradient-to-br from-cream-card to-cream relative overflow-hidden border-0">
-            <BookOpen className="absolute -top-6 -left-6 h-32 w-32 text-burgundy/5" />
-            <BookOpen className="absolute -bottom-6 -right-6 h-32 w-32 text-burgundy/5 rotate-180" />
-            <SectionEyebrow align="center">Rămâi aproape</SectionEyebrow>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold mb-3">
-              Primește vești, rugăciuni și cuvinte de folos
-            </h2>
-            <p className="text-ink-muted mb-6 max-w-lg mx-auto">
-              Înscrie-te la newsletter și primești lunar gânduri, programul slujbelor și momente
-              importante din viața parohiei.
+      {/* ============= 11. BLOG NOUTĂȚI ============= */}
+      <section className="bg-cream py-16 sm:py-24">
+        <div className="container">
+          <FadeIn>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+              <div>
+                <SectionEyebrow>
+                  Articole duhovnicești, vești din parohie și cuvinte de folos
+                </SectionEyebrow>
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+                  Noutăți din viața parohiei <br />
+                  și <em className="italic text-burgundy">gânduri pentru suflet</em>
+                </h2>
+              </div>
+              <Link href="/blog">
+                <Button variant="default" size="lg">
+                  Citește toate articolele
+                </Button>
+              </Link>
+            </div>
+          </FadeIn>
+
+          {posts.length === 0 ? (
+            <p className="text-center text-ink-muted">
+              Rulează scriptul de import:{' '}
+              <code className="bg-cream-card px-2 py-0.5 rounded">npm run import:wp</code>
             </p>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {posts.slice(0, 3).map((p, i) => (
+                <FadeIn key={p.id} delay={i * 0.05}>
+                  <PostCard
+                    slug={p.slug}
+                    title={p.title}
+                    excerpt={p.excerpt}
+                    publishedAt={p.publishedAt}
+                    featuredUrl={p.featured?.url}
+                    featuredAlt={p.featured?.alt}
+                    categories={p.categories}
+                  />
+                </FadeIn>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ============= 12. NEWSLETTER ============= */}
+      <section
+        className="relative py-20 sm:py-24 text-white"
+        style={{
+          backgroundImage: `linear-gradient(rgba(19, 31, 51, 0.75), rgba(19, 31, 51, 0.85)), url(${IMG.newsletterBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="container max-w-2xl text-center">
+          <FadeIn>
+            <BookOpen className="h-10 w-10 text-gold mx-auto mb-4" />
+            <p className="font-ceremonial uppercase tracking-[0.22em] text-sm text-gold mb-4">
+              Rămâi aproape de viața parohiei
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-8 !text-white">
+              Primește vești, rugăciuni și cuvinte de folos <br />
+              în <em className="italic text-gold">căsuța ta de e-mail</em>
+            </h2>
             <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
               <input
                 type="email"
                 required
-                placeholder="adresa.ta@email.ro"
-                className="flex-1 px-4 py-3 rounded-full border border-border bg-white text-ink placeholder:text-ink-soft focus:outline-none focus:ring-2 focus:ring-burgundy"
+                placeholder="Email"
+                className="flex-1 px-5 py-3 rounded-full bg-white/15 border border-white/30 backdrop-blur text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-gold"
               />
               <Button type="submit" size="lg">
-                Abonează-mă
+                Subscribe
               </Button>
             </form>
-          </Card>
-        </FadeIn>
+          </FadeIn>
+        </div>
       </section>
     </>
   );
