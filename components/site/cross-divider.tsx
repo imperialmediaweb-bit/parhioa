@@ -38,12 +38,9 @@ export function CrossDivider({
 }
 
 /**
- * Romanian Orthodox cross with budded/clover ends.
- *
- * Drawn as a single carved silhouette: vertical stem + single horizontal
- * bar, each of the 4 arms flowering into a three-lobe clover (top center
- * lobe + two side lobes). The bottom trefoil is slightly larger because
- * the lower arm is the longest one, matching the wooden reference cross.
+ * Romanian Orthodox cross — carved-wood silhouette with three equal-size
+ * lobes at every arm tip, matching the reference cross the user keeps
+ * sending. Bottom arm is longer + its trefoil is one notch bigger.
  */
 export function OrthodoxCross({
   height = 86,
@@ -56,65 +53,58 @@ export function OrthodoxCross({
   accent?: string;
   className?: string;
 }) {
+  // All trefoil lobes are radius R (same circle for all 3 in a cluster)
+  const R = 22;
   return (
     <svg
-      viewBox="0 0 240 320"
-      width={(height * 240) / 320}
+      viewBox="0 0 280 380"
+      width={(height * 280) / 380}
       height={height}
       className={className}
       aria-hidden
     >
       <g fill={fill}>
-        {/* Vertical stem */}
-        <rect x="106" y="36" width="28" height="252" rx="4" />
+        {/* Vertical stem — runs from below the top trefoil neck down to the bottom trefoil */}
+        <rect x="118" y="46" width="44" height="304" rx="4" />
         {/* Horizontal bar */}
-        <rect x="38" y="140" width="164" height="32" rx="4" />
+        <rect x="32" y="158" width="216" height="44" rx="4" />
 
-        {/* TOP trefoil — three lobes around the top of the stem */}
-        <circle cx="120" cy="22" r="18" />
-        <circle cx="100" cy="36" r="17" />
-        <circle cx="140" cy="36" r="17" />
+        {/* TOP TREFOIL — 3 equal lobes forming a clover */}
+        <circle cx="140" cy="24" r={R} />
+        <circle cx={140 - R} cy={24 + R * 0.95} r={R} />
+        <circle cx={140 + R} cy={24 + R * 0.95} r={R} />
 
-        {/* LEFT trefoil — clover sticking out left */}
-        <circle cx="24" cy="156" r="18" />
-        <circle cx="40" cy="138" r="17" />
-        <circle cx="40" cy="174" r="17" />
+        {/* LEFT TREFOIL */}
+        <circle cx="22" cy="180" r={R} />
+        <circle cx={22 + R * 0.95} cy={180 - R} r={R} />
+        <circle cx={22 + R * 0.95} cy={180 + R} r={R} />
 
-        {/* RIGHT trefoil — clover sticking out right */}
-        <circle cx="216" cy="156" r="18" />
-        <circle cx="200" cy="138" r="17" />
-        <circle cx="200" cy="174" r="17" />
+        {/* RIGHT TREFOIL (mirror of left) */}
+        <circle cx="258" cy="180" r={R} />
+        <circle cx={258 - R * 0.95} cy={180 - R} r={R} />
+        <circle cx={258 - R * 0.95} cy={180 + R} r={R} />
 
-        {/* BOTTOM trefoil — slightly bigger, longest arm */}
-        <circle cx="120" cy="296" r="20" />
-        <circle cx="98" cy="280" r="18" />
-        <circle cx="142" cy="280" r="18" />
+        {/* BOTTOM TREFOIL — slightly bigger because the bottom arm is the longest */}
+        <circle cx="140" cy="358" r={R + 4} />
+        <circle cx={140 - (R + 2)} cy={358 - (R + 2) * 0.85} r={R + 2} />
+        <circle cx={140 + (R + 2)} cy={358 - (R + 2) * 0.85} r={R + 2} />
       </g>
 
-      {/* Inner gold accent following the silhouette */}
-      <g
-        fill="none"
-        stroke={accent}
-        strokeWidth="2"
-        opacity="0.5"
-        strokeLinejoin="round"
-      >
-        <rect x="112" y="42" width="16" height="240" rx="2" />
-        <rect x="44" y="146" width="152" height="20" rx="2" />
+      {/* Inner carved outline — slightly inset from the body */}
+      <g fill="none" stroke={accent} strokeWidth="2.5" opacity="0.55" strokeLinejoin="round">
+        <rect x="124" y="52" width="32" height="292" rx="3" />
+        <rect x="38" y="164" width="204" height="32" rx="3" />
       </g>
 
-      {/* Small gold cross at the centre of the crossing */}
-      <g fill={accent} opacity="0.85">
-        <rect x="117" y="148" width="6" height="16" rx="1" />
-        <rect x="112" y="153" width="16" height="6" rx="1" />
-      </g>
+      {/* Tiny accent square at the crossing */}
+      <rect x="135" y="175" width="10" height="10" rx="1.5" fill={accent} opacity="0.85" />
     </svg>
   );
 }
 
-function Diamond({ className }: { className?: string }) {
+function Diamond({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 12 12" className={className} fill="currentColor" aria-hidden>
+    <svg viewBox="0 0 12 12" className={className} style={style} fill="currentColor" aria-hidden>
       <path d="M6 0 L12 6 L6 12 L0 6 Z" />
     </svg>
   );
