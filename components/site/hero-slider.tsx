@@ -145,15 +145,14 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
         />
       )}
 
-      {/* Deep cinematic burgundy/black overlay for legibility */}
-      <div className="absolute inset-0 bg-[#1a0604]/55" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a0604]/40 via-[#3d0f0a]/45 to-[#1a0604]/85" />
-      {/* Golden vignette glow at top — like candlelight from above */}
+      {/* Cinematic but readable overlay — keeps icons visible */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-[#3d0f0a]/30 to-black/70" />
+      {/* Golden vignette glow at top + soft floor */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(234, 199, 132, 0.28), transparent 60%), radial-gradient(ellipse 90% 60% at 50% 110%, rgba(0, 0, 0, 0.6), transparent 60%)',
+            'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(234, 199, 132, 0.28), transparent 60%), radial-gradient(ellipse 90% 60% at 50% 110%, rgba(0, 0, 0, 0.55), transparent 60%)',
         }}
       />
       {/* Subtle incense / mist haze */}
@@ -162,6 +161,15 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='m'><feTurbulence baseFrequency='0.012' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0 0.6 0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>\")",
+        }}
+      />
+
+      {/* Subtle dark vignette focused under the text block, so icons stay visible */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 50% 45% at 50% 55%, rgba(0,0,0,0.55), transparent 70%)',
         }}
       />
 

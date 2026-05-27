@@ -112,7 +112,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 2b. STICKY SUB-NAV ============= */}
-      <nav className="border-y border-gold/30 bg-cream/80 backdrop-blur sticky top-24 sm:top-28 lg:top-32 z-30">
+      <nav className="border-y border-gold/30 bg-cream/80 backdrop-blur sticky top-20 sm:top-22 lg:top-24 z-30">
         <div className="container flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 py-3 sm:py-4 overflow-x-auto">
           <a
             href="#parohul"
