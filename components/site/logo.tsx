@@ -12,7 +12,7 @@ export function Logo({
   className,
   showText = true,
   size = 'default',
-  iconSrc = '/logo.png',
+  iconSrc = 'https://res.cloudinary.com/dghmoelly/image/upload/v1779891768/Screenshot_101-removebg-preview_yxrjmd.png',
 }: LogoProps) {
   const dim = size === 'sm' ? 56 : size === 'lg' ? 96 : size === 'xl' ? 128 : 76;
 
