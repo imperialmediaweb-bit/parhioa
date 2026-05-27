@@ -6,48 +6,20 @@ import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FadeIn } from '@/components/magicui/fade-in';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { DonateForm } from '@/components/site/donate-form';
-import { Quote, Heart, ShieldCheck } from 'lucide-react';
-import { getImages, type ImageKey } from '@/lib/images';
+import { DonateForm, type PresetTier } from '@/components/site/donate-form';
+import { Quote, Heart, ShieldCheck, Copy, Building2, Landmark, User } from 'lucide-react';
+import { getImages } from '@/lib/images';
 import { isStripeConfigured } from '@/lib/stripe';
+import { findCampaign } from '@/lib/campaigns';
 
-// =============================================================
-// Campaign registry. Add new fundraisers here. The slug becomes
-// /donations/<slug> AND /campanii links.
-// =============================================================
-const CAMPAIGNS: Record<
-  string,
-  {
-    title: string;
-    image: ImageKey;
-    quote: string;
-    description: string[];
-    defaultAmount?: number;
-  }
-> = {
-  'strangere-de-fonduri-pentru-construirea-bisericii': {
-    title: 'Strângere de fonduri pentru construirea bisericii',
-    image: 'campaignPoster',
-    quote: '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
-    description: [
-      'Parohia „Sfânta Cuvioasă Teodora de la Sihla" din Botoșani își caută încă lăcașul de închinare. Pentru a putea zidi prima biserică a parohiei, avem nevoie de ajutorul tău.',
-      'Fiecare dar este o cărămidă vie. Donația ta — fie ea o singură dată sau lunară — devine parte din temelia unui loc unde generații întregi se vor ruga, se vor boteza, se vor cununa și vor primi binecuvântarea lui Dumnezeu.',
-      'Mulțumim din inimă. Numele tău va fi pomenit la Sfânta Liturghie.',
-    ],
-    defaultAmount: 50,
-  },
-  // Alias for shorter URL
-  'zidirea-bisericii': {
-    title: 'Strângere de fonduri pentru construirea bisericii',
-    image: 'campaignPoster',
-    quote: '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
-    description: [
-      'Parohia „Sfânta Cuvioasă Teodora de la Sihla" din Botoșani își caută încă lăcașul de închinare. Pentru a putea zidi prima biserică a parohiei, avem nevoie de ajutorul tău.',
-      'Fiecare dar este o cărămidă vie. Donația ta — fie ea o singură dată sau lunară — devine parte din temelia unui loc unde generații întregi se vor ruga, se vor boteza, se vor cununa și vor primi binecuvântarea lui Dumnezeu.',
-      'Mulțumim din inimă. Numele tău va fi pomenit la Sfânta Liturghie.',
-    ],
-    defaultAmount: 50,
-  },
+// Mapping amounts → symbolic church elements (bricks, stones, etc.)
+const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }> = {
+  10: { symbol: '1 cărămidă', icon: '🧱', subtitle: 'fundația' },
+  25: { symbol: '3 cărămizi', icon: '🧱', subtitle: 'pereții' },
+  50: { symbol: 'O piatră', icon: '🪨', subtitle: 'temelia' },
+  100: { symbol: 'O grindă', icon: '🪵', subtitle: 'acoperișul' },
+  250: { symbol: 'Un vitraliu', icon: '🪟', subtitle: 'lumina' },
+  500: { symbol: 'O icoană', icon: '🕯️', subtitle: 'altarul' },
 };
 
 export async function generateMetadata({
@@ -55,7 +27,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const c = CAMPAIGNS[params.slug];
+  const c = findCampaign(params.slug);
   return c
     ? { title: c.title, description: c.description[0] }
     : { title: 'Campanie inexistentă' };
@@ -66,75 +38,147 @@ export default async function DonationCampaignPage({
 }: {
   params: { slug: string };
 }) {
-  const campaign = CAMPAIGNS[params.slug];
+  const campaign = findCampaign(params.slug);
   if (!campaign) notFound();
 
   const IMG = await getImages();
   const imageUrl = IMG[campaign.image];
 
+  // Build tiers from campaign's preset amounts using the SYMBOLS map
+  const tiers: PresetTier[] = campaign.presetAmounts.map((amount) => ({
+    amount,
+    symbol: SYMBOLS[amount]?.symbol || `${amount} RON`,
+    icon: SYMBOLS[amount]?.icon || '🙏',
+    subtitle: SYMBOLS[amount]?.subtitle || 'biserică',
+  }));
+
   return (
     <>
       <Hero
         title={campaign.title}
-        subtitle={campaign.quote}
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Campanii', href: '/campanii' },
-          { label: campaign.title },
+          { label: campaign.shortTitle },
         ]}
       />
 
       <section className="container py-16">
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 max-w-6xl mx-auto">
-          {/* Left: image + story */}
-          <div className="lg:col-span-3 space-y-6">
+          {/* LEFT: poster + body content */}
+          <div className="lg:col-span-3 space-y-8">
             <FadeIn>
               <div className="aspect-[4/5] sm:aspect-[16/10] rounded-3xl overflow-hidden shadow-xl">
-                <img
-                  src={imageUrl}
-                  alt={campaign.title}
-                  className="w-full h-full object-cover"
-                />
+                <img src={imageUrl} alt={campaign.title} className="w-full h-full object-cover" />
               </div>
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <SectionEyebrow>Despre campanie</SectionEyebrow>
-              <h2 className="font-display text-3xl sm:text-4xl font-semibold leading-tight mb-5">
-                Devino <em className="italic text-burgundy">ctitor</em>
-              </h2>
-              {campaign.description.map((p, i) => (
-                <p key={i} className="text-ink-muted leading-relaxed text-[17px] mb-4">
-                  {p}
+              {/* Body quote */}
+              <div className="border-l-4 border-burgundy bg-cream-card/60 rounded-r-2xl p-6">
+                <p className="text-2xl mb-2">📜</p>
+                <p className="font-serif italic text-ink leading-relaxed text-lg">
+                  „{campaign.bodyQuote.text}"
                 </p>
-              ))}
+                <p className="font-ceremonial text-sm uppercase tracking-[0.18em] text-burgundy mt-3">
+                  — {campaign.bodyQuote.author}
+                </p>
+              </div>
+            </FadeIn>
 
-              <Card className="bg-cream-card border-0 p-6 mt-6">
-                <Quote className="h-8 w-8 text-burgundy/30 mb-3" />
-                <p className="font-serif italic text-ink leading-relaxed">{campaign.quote}</p>
+            <FadeIn delay={0.15}>
+              <div className="space-y-4">
+                {campaign.description.map((p, i) => (
+                  <p
+                    key={i}
+                    className={
+                      i === campaign.description.length - 1
+                        ? 'font-display italic text-2xl text-burgundy text-center mt-6'
+                        : 'text-ink-muted leading-relaxed text-[17px]'
+                    }
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </FadeIn>
+
+            {/* Bank details (offline donation) */}
+            <FadeIn delay={0.2}>
+              <Card className="bg-gradient-to-br from-cream-card via-cream-deep/40 to-cream-card border border-gold/30 p-6 sm:p-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <Landmark className="h-6 w-6 text-burgundy" />
+                  <h3 className="font-display text-xl font-semibold text-navy">
+                    Donații prin <em className="italic text-burgundy">transfer bancar</em>
+                  </h3>
+                </div>
+                <p className="text-sm text-ink-muted mb-5">
+                  Pentru cei ce preferă viramentul direct, datele contului parohiei sunt:
+                </p>
+                <dl className="grid sm:grid-cols-1 gap-3">
+                  <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border">
+                    <User className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <dt className="text-xs uppercase font-bold tracking-wider text-ink-soft">
+                        Titular
+                      </dt>
+                      <dd className="font-medium text-ink mt-0.5 break-words">
+                        {campaign.bankDetails.holder}
+                      </dd>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border">
+                    <Copy className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <dt className="text-xs uppercase font-bold tracking-wider text-ink-soft">
+                        IBAN
+                      </dt>
+                      <dd className="font-mono font-bold text-ink mt-0.5 break-all">
+                        {campaign.bankDetails.iban}
+                      </dd>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border">
+                    <Building2 className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <dt className="text-xs uppercase font-bold tracking-wider text-ink-soft">
+                        Banca
+                      </dt>
+                      <dd className="font-medium text-ink mt-0.5">{campaign.bankDetails.bank}</dd>
+                    </div>
+                  </div>
+                </dl>
+                <p className="text-xs text-ink-soft italic text-center mt-5">
+                  sau prin metodele de mai jos (card · SEPA · recurent) →
+                </p>
               </Card>
             </FadeIn>
           </div>
 
-          {/* Right: sticky donate form */}
+          {/* RIGHT: sticky Stripe donate form */}
           <div className="lg:col-span-2">
-            <div className="sticky top-32 space-y-4">
+            <div className="lg:sticky lg:top-32 space-y-4">
               <FadeIn delay={0.15}>
-                <Card className="p-6 sm:p-8 bg-white border border-border shadow-lg">
+                <Card className="p-6 sm:p-8 bg-white border border-border shadow-2xl">
                   {!isStripeConfigured && (
                     <div className="mb-5 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
-                      ⚠️ Stripe nu e configurat încă. Plățile vor funcționa după ce admin-ul adaugă{' '}
-                      <code>STRIPE_SECRET_KEY</code> în setări.
+                      ⚠️ Stripe nu e configurat încă. Plățile vor funcționa după ce admin-ul
+                      adaugă <code>STRIPE_SECRET_KEY</code> în setări Railway.
                     </div>
                   )}
-                  <DonateForm campaign={params.slug} campaignTitle={campaign.title} />
+                  <DonateForm
+                    campaign={campaign.slug}
+                    campaignTitle={campaign.shortTitle}
+                    presets={tiers}
+                    defaultAmount={campaign.defaultAmount}
+                  />
                 </Card>
               </FadeIn>
 
               <FadeIn delay={0.2}>
                 <div className="flex items-center justify-center gap-2 text-xs text-ink-soft">
                   <ShieldCheck className="h-4 w-4" />
-                  Plăți securizate prin Stripe · PCI-DSS
+                  Plată securizată SSL · procesare prin Stripe
                 </div>
               </FadeIn>
             </div>
@@ -151,20 +195,22 @@ export default async function DonationCampaignPage({
               Mulțumim pentru darul tău
             </h2>
             <p className="text-white/85 mb-6 leading-relaxed">
-              Dacă preferi alte metode de plată, vezi pagina cu opțiuni — transfer bancar,
-              redirecționare 3,5% din impozit sau voluntariat.
+              Dacă preferi să redirecționezi 3,5% din impozitul pe venit (fără cost), vezi pagina
+              dedicată. Sau implică-te ca voluntar — toate căile sunt o cărămidă vie în zidire.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/doneaza">
-                <Button variant="cream" size="lg">Alte moduri de a dărui</Button>
-              </Link>
               <Link href="/redirectioneaza-3-5">
+                <Button variant="cream" size="lg">
+                  Redirecționează 3,5%
+                </Button>
+              </Link>
+              <Link href="/contact">
                 <Button
                   variant="outline"
                   size="lg"
                   className="border-white/30 text-white hover:bg-white hover:text-burgundy"
                 >
-                  Redirecționează 3,5%
+                  Voluntariat
                 </Button>
               </Link>
             </div>
