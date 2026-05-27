@@ -86,108 +86,63 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
 
 function ManuscriptCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <article
-      className="relative h-full p-8 sm:p-9 text-ink overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(180deg, #fbf4e3 0%, #f4ead2 100%), url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.75' numOctaves='2' seed='2'/><feColorMatrix values='0 0 0 0 0.7 0 0 0 0 0.5 0 0 0 0 0.2 0 0 0 0.1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-        backgroundBlendMode: 'multiply',
-        boxShadow:
-          '0 1px 3px rgba(60,30,10,0.1), 0 10px 30px -10px rgba(124,93,29,0.18), inset 0 1px 0 rgba(255,250,235,0.7)',
-        borderRadius: '6px',
-      }}
-    >
-      {/* Manuscript corner ornaments */}
-      <svg className="absolute top-2 left-2 text-gold-dark/55" width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path
-          d="M 4 12 Q 4 4, 12 4 M 4 18 Q 4 4, 18 4"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-        <circle cx="4" cy="4" r="2" fill="currentColor" />
-        <path
-          d="M 10 8 Q 12 8, 12 10 Q 10 10, 10 8 Z"
-          fill="currentColor"
-        />
-      </svg>
-      <svg
-        className="absolute top-2 right-2 text-gold-dark/55"
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        style={{ transform: 'scaleX(-1)' }}
-      >
-        <path
-          d="M 4 12 Q 4 4, 12 4 M 4 18 Q 4 4, 18 4"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-        <circle cx="4" cy="4" r="2" fill="currentColor" />
-        <path
-          d="M 10 8 Q 12 8, 12 10 Q 10 10, 10 8 Z"
-          fill="currentColor"
-        />
-      </svg>
-      <svg
-        className="absolute bottom-2 left-2 text-gold-dark/55"
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        style={{ transform: 'scaleY(-1)' }}
-      >
-        <path
-          d="M 4 12 Q 4 4, 12 4 M 4 18 Q 4 4, 18 4"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-        <circle cx="4" cy="4" r="2" fill="currentColor" />
-      </svg>
-      <svg
-        className="absolute bottom-2 right-2 text-gold-dark/55"
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        style={{ transform: 'scale(-1, -1)' }}
-      >
-        <path
-          d="M 4 12 Q 4 4, 12 4 M 4 18 Q 4 4, 18 4"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-        <circle cx="4" cy="4" r="2" fill="currentColor" />
-      </svg>
+    <article className="relative h-full pt-8">
+      {/* Small floating cross above */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-gold-dark text-2xl drop-shadow-[0_2px_4px_rgba(101,26,20,0.35)] leading-none">
+        ☩
+      </div>
 
-      {/* Burgundy initial drop-cap */}
-      <span
-        className="absolute top-6 left-7 font-display text-7xl text-burgundy/15 leading-none select-none"
-        aria-hidden
+      <div
+        className="relative h-full px-7 pt-8 pb-7 rounded-[20px] overflow-hidden shadow-[0_18px_40px_-20px_rgba(101,26,20,0.4)]"
+        style={{
+          background: 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
+        }}
       >
-        „
-      </span>
+        {/* Parchment grain */}
+        <div
+          className="absolute inset-0 opacity-25 mix-blend-multiply pointer-events-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.18 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+          }}
+        />
+        {/* Inner double border */}
+        <div className="absolute inset-2 rounded-[15px] border border-gold/55 pointer-events-none" />
+        <div className="absolute inset-3 rounded-[12px] border border-burgundy/20 pointer-events-none" />
 
-      <blockquote className="relative pt-5">
-        <p className="font-serif italic text-[15.5px] text-ink/90 leading-[1.85] mb-6">
-          {testimonial.text}
-        </p>
-        <footer className="border-t border-gold-dark/30 pt-4 flex items-center gap-3">
-          <span className="inline-block h-7 w-7 rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark text-cream flex items-center justify-center font-display text-xs font-bold shadow-warm">
-            {testimonial.author.charAt(0)}
-          </span>
-          <div className="flex-1 min-w-0">
-            <p className="font-display text-base font-semibold text-burgundy leading-tight">
-              {testimonial.author}
-            </p>
-            {testimonial.role && (
-              <p className="text-[11px] uppercase tracking-[0.18em] text-ink/55 mt-0.5">
-                {testimonial.role}
+        {/* Drop-cap quote */}
+        <span
+          className="absolute top-3 left-5 font-display text-[80px] text-burgundy/22 leading-none select-none pointer-events-none"
+          aria-hidden
+        >
+          „
+        </span>
+
+        <blockquote className="relative pt-3 h-full flex flex-col">
+          <p className="font-serif italic text-[15.5px] text-burgundy-dark/85 leading-[1.85] mb-6 flex-1">
+            {testimonial.text}
+          </p>
+          <footer className="border-t border-gold/40 pt-4 flex items-center gap-3">
+            <span className="inline-flex h-9 w-9 rounded-full items-center justify-center font-ceremonial text-sm text-cream shadow-[0_4px_10px_-3px_rgba(101,26,20,0.5)]"
+              style={{
+                background: 'linear-gradient(180deg, #7a201a 0%, #4f120d 100%)',
+              }}
+            >
+              {testimonial.author.charAt(0)}
+            </span>
+            <div className="flex-1 min-w-0">
+              <p className="font-display text-[15px] text-burgundy-dark leading-tight">
+                {testimonial.author}
               </p>
-            )}
-          </div>
-        </footer>
-      </blockquote>
+              {testimonial.role && (
+                <p className="font-ceremonial text-[10px] uppercase tracking-[0.22em] text-burgundy/55 mt-1">
+                  {testimonial.role}
+                </p>
+              )}
+            </div>
+          </footer>
+        </blockquote>
+      </div>
     </article>
   );
 }

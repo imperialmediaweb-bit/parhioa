@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { Search, Heart } from 'lucide-react';
 import { Logo } from './logo';
 import { Button } from '@/components/ui/button';
 import { MobileMenu } from './mobile-menu';
@@ -15,18 +15,20 @@ const NAV = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white shadow-sm">
-      <div className="container flex h-24 sm:h-28 lg:h-32 items-center justify-between gap-3 sm:gap-4">
-        {/* Logo — bigger now */}
+    <header className="sticky top-0 z-50 w-full bg-white shadow-[0_2px_18px_-10px_rgba(101,26,20,0.25)]">
+      {/* Top gold hairline */}
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent" />
+
+      <div className="container flex h-24 sm:h-28 lg:h-32 items-center justify-between gap-3 sm:gap-6">
         <Logo size="lg" className="shrink min-w-0" />
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
+        <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="font-serif text-[15px] font-medium text-navy transition-colors hover:text-burgundy whitespace-nowrap relative after:absolute after:left-0 after:bottom-[-6px] after:h-[2px] after:w-0 after:bg-burgundy after:transition-all hover:after:w-full"
+              className="font-ceremonial uppercase text-[12px] tracking-[0.18em] text-burgundy-dark/85 transition-colors hover:text-burgundy whitespace-nowrap relative after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-0 after:bg-gold after:transition-all hover:after:w-full"
             >
               {item.label}
             </Link>
@@ -37,24 +39,27 @@ export function SiteHeader() {
         <div className="flex items-center gap-2 shrink-0">
           <button
             aria-label="Caută"
-            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full text-navy hover:bg-cream-card transition-colors"
+            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full text-burgundy hover:bg-cream-card transition-colors"
           >
             <Search className="h-5 w-5" />
           </button>
           <Link
-            href="/donations/strangere-de-fonduri-pentru-construirea-bisericii"
-            className="hidden md:inline-block"
+            href="/doneaza"
+            className="hidden md:inline-flex"
           >
-            <Button variant="cream" size="sm">Donează</Button>
-          </Link>
-          <Link href="/contact" className="hidden md:inline-block">
-            <Button variant="default" size="sm">Mesaj</Button>
+            <Button size="sm" className="!gap-1.5">
+              <Heart className="h-3.5 w-3.5 text-gold" fill="currentColor" />
+              Dăruiește
+            </Button>
           </Link>
 
           {/* Mobile hamburger */}
           <MobileMenu items={NAV} />
         </div>
       </div>
+
+      {/* Bottom gold hairline */}
+      <div className="h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
     </header>
   );
 }

@@ -32,12 +32,16 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-playfair)', 'Georgia', 'serif'],
-        serif: ['var(--font-lora)', 'Georgia', 'serif'],
-        body: ['var(--font-merriweather)', 'Georgia', 'serif'],
-        sans: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
+        // Only 3 typefaces total:
+        // 1) Cinzel Decorative — ecclesia / display, for grand titles
+        // 2) Marcellus SC — ceremonial, for eyebrows, CTAs, captions
+        // 3) Lora — serif / body / sans fallback, for everything else
+        display: ['var(--font-cinzel-decorative)', 'Georgia', 'serif'],
         ecclesia: ['var(--font-cinzel-decorative)', 'Georgia', 'serif'],
         ceremonial: ['var(--font-marcellus-sc)', 'Georgia', 'serif'],
+        serif: ['var(--font-lora)', 'Georgia', 'serif'],
+        body: ['var(--font-lora)', 'Georgia', 'serif'],
+        sans: ['var(--font-lora)', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         // Warm, candlelight-inspired shadows (browns and ambers, not cold grays)

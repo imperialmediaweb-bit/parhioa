@@ -8,6 +8,7 @@ import { Testimonials, type Testimonial } from '@/components/site/testimonials';
 import { VideoSection } from '@/components/site/video-section';
 import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
+import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import {
   CandleIcon,
   CenserIcon,
@@ -21,7 +22,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { FadeIn } from '@/components/magicui/fade-in';
-import { BookOpen } from 'lucide-react';
 
 export const revalidate = 60;
 
@@ -105,28 +105,33 @@ export default async function HomePage() {
       {/* ============= 1. HERO SLIDER ============= */}
       <HeroSlider slides={HERO_SLIDES} />
 
-      {/* ============= 2. STICKY SUB-NAV ============= */}
-      <nav className="border-y border-border bg-white sticky top-24 sm:top-28 lg:top-32 z-30">
-        <div className="container flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 py-3 sm:py-4 text-sm overflow-x-auto">
+      {/* ============= 2. PROGRAM SLUJBE ============= */}
+      <section className="container py-10 sm:py-14">
+        <ProgramSlujbe />
+      </section>
+
+      {/* ============= 2b. STICKY SUB-NAV ============= */}
+      <nav className="border-y border-gold/30 bg-cream/80 backdrop-blur sticky top-24 sm:top-28 lg:top-32 z-30">
+        <div className="container flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 py-3 sm:py-4 overflow-x-auto">
           <a
             href="#parohul"
-            className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
+            className="flex items-center gap-2 font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy-dark hover:text-burgundy transition whitespace-nowrap"
           >
-            <span className="font-display text-base">→</span>
+            <span className="text-gold">☩</span>
             <span>Parohul bisericii</span>
           </a>
           <a
             href="#despre-parohia"
-            className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
+            className="flex items-center gap-2 font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy-dark hover:text-burgundy transition whitespace-nowrap"
           >
-            <span className="font-display text-base">→</span>
-            <span>Despre</span>
+            <span className="text-gold">☩</span>
+            <span>Despre parohie</span>
           </a>
           <a
             href="#daruieste"
-            className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
+            className="flex items-center gap-2 font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy-dark hover:text-burgundy transition whitespace-nowrap"
           >
-            <span className="font-display text-base">→</span>
+            <span className="text-gold">☩</span>
             <span>Dăruiește pentru zidire</span>
           </a>
         </div>
@@ -573,50 +578,78 @@ export default async function HomePage() {
 
       {/* ============= 12. NEWSLETTER ============= */}
       <section
-        className="relative py-14 sm:py-20 text-white"
+        className="relative py-16 sm:py-24"
         style={{
-          backgroundImage: `linear-gradient(rgba(19, 31, 51, 0.75), rgba(19, 31, 51, 0.85)), url(${IMG.newsletterBg})`,
+          backgroundImage: `linear-gradient(rgba(26, 6, 4, 0.85), rgba(26, 6, 4, 0.92)), url(${IMG.newsletterBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="container max-w-2xl text-center">
+        <div className="container max-w-2xl">
           <FadeIn>
-            <BookOpen className="h-10 w-10 text-gold mx-auto mb-4" />
-            <p className="font-ceremonial uppercase tracking-[0.22em] text-sm text-gold mb-4">
-              Rămâi aproape de viața parohiei
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-6 !text-white">
-              Primește vești, rugăciuni și cuvinte de folos <br />
-              în <em className="italic text-gold">căsuța ta de e-mail</em>
-            </h2>
+            <div className="relative mx-auto pt-12">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
+                <OrthodoxCross height={64} />
+              </div>
+              <div
+                className="relative rounded-[28px] px-6 pt-10 pb-9 sm:px-12 sm:pt-12 sm:pb-12 text-center shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] overflow-hidden"
+                style={{
+                  background: 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-30 mix-blend-multiply pointer-events-none"
+                  style={{
+                    backgroundImage:
+                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.18 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+                  }}
+                />
+                <div className="absolute inset-2 rounded-[22px] border border-gold/60 pointer-events-none" />
+                <div className="absolute inset-3 rounded-[19px] border border-burgundy/25 pointer-events-none" />
 
-            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-sm text-cream/85">
-              <li className="flex items-center gap-2">
-                <span className="text-gold text-base">☩</span> Pomelnice și pomeniri
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-gold text-base">☩</span> Programul slujbelor
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-gold text-base">☩</span> Cuvinte de la părintele paroh
-              </li>
-            </ul>
+                <div className="relative">
+                  <p className="font-ceremonial uppercase tracking-[0.32em] text-[11px] text-gold-dark mb-3 flex items-center justify-center gap-3">
+                    <span className="h-px w-8 bg-gold/70" />
+                    Foaia parohiei
+                    <span className="h-px w-8 bg-gold/70" />
+                  </p>
+                  <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl leading-tight mb-5 text-burgundy-dark">
+                    Rămâi aproape de viața parohiei
+                  </h2>
+                  <p className="font-serif italic text-burgundy/75 mb-7 max-w-md mx-auto">
+                    Primește în căsuța ta vești despre slujbe, pomelnice și cuvinte de folos de la
+                    părintele paroh.
+                  </p>
 
-            <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-              <input
-                type="email"
-                required
-                placeholder="adresa.ta@email.ro"
-                className="flex-1 px-5 py-3.5 rounded-full bg-white/12 border border-gold/40 backdrop-blur text-white placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-gold"
-              />
-              <Button type="submit" variant="gold" size="lg">
-                Abonează-mă
-              </Button>
-            </form>
-            <p className="text-xs text-cream/55 mt-4 italic">
-              Niciun spam. Doar gânduri bune. Te poți dezabona oricând.
-            </p>
+                  <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-7 text-sm text-burgundy-dark/80">
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">☩</span> Pomelnice
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">☩</span> Programul slujbelor
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">☩</span> Cuvinte de la părinte
+                    </li>
+                  </ul>
+
+                  <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+                    <input
+                      type="email"
+                      required
+                      placeholder="adresa.ta@email.ro"
+                      className="flex-1 px-5 py-3.5 rounded-full bg-white/70 border border-gold/50 text-burgundy-dark placeholder:text-burgundy/50 focus:outline-none focus:ring-2 focus:ring-burgundy/40"
+                    />
+                    <Button type="submit" size="lg">
+                      Abonează-mă
+                    </Button>
+                  </form>
+                  <p className="text-xs text-burgundy/55 mt-4 italic">
+                    Niciun spam. Doar gânduri bune. Te poți dezabona oricând.
+                  </p>
+                </div>
+              </div>
+            </div>
           </FadeIn>
         </div>
       </section>
