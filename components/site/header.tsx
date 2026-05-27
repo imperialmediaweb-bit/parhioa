@@ -12,10 +12,11 @@ const NAV = [
   { label: 'Redirecționează', href: '/redirectioneaza-3-5' },
 ];
 
-export function SiteHeader() {
+export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="container flex h-20 items-center justify-between gap-6">
+      <div className="container flex h-24 sm:h-28 items-center justify-between gap-6">
+        {/* @ts-expect-error Async Server Component */}
         <Logo />
 
         <nav className="hidden lg:flex items-center gap-7">
