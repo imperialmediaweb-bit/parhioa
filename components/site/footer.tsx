@@ -113,7 +113,7 @@ export function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-14 pt-6 border-t border-gold/25 flex flex-wrap items-center justify-between gap-3 text-xs text-cream/65">
           <span className="flex items-center gap-2">
-            <span className="text-gold">✦</span>
+            <span className="text-gold text-base">☩</span>
             Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; · {new Date().getFullYear()}
           </span>
           <div className="flex gap-5">
@@ -153,6 +153,15 @@ function FooterLogo() {
   );
 }
 
+function CrossBullet() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" className="text-gold" fill="currentColor" aria-hidden>
+      <rect x="5" y="1" width="2" height="10" />
+      <rect x="1" y="5" width="10" height="2" />
+    </svg>
+  );
+}
+
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-5">
@@ -161,7 +170,7 @@ function FooterHeading({ children }: { children: React.ReactNode }) {
       </h4>
       <div className="flex items-center gap-2">
         <span className="h-px w-6 bg-gold" />
-        <span className="h-1.5 w-1.5 rotate-45 bg-gold" />
+        <CrossBullet />
       </div>
     </div>
   );

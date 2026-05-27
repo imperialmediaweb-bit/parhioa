@@ -5,7 +5,7 @@ import { FadeIn } from '@/components/magicui/fade-in';
 import { BorderBeam } from '@/components/magicui/border-beam';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Heart, HandHeart, Sparkles, Users, Gift, Building2, Check } from 'lucide-react';
+import { Heart, HandHeart, Plus, Users, Gift, Building2, Check } from 'lucide-react';
 import { getImages } from '@/lib/images';
 import { CrossDivider } from '@/components/site/cross-divider';
 
@@ -185,7 +185,7 @@ export default async function MisiunePage() {
                 cta: { label: 'Donează', href: '/doneaza' },
               },
               {
-                icon: Sparkles,
+                icon: Plus,
                 title: 'Redirecționează 3,5%',
                 text: 'Nu te costă nimic, dar poate schimba vieți. Redirecționează o parte din impozitul tău și contribuie la zidirea bisericii și la sprijinirea celor în suferință.',
                 cta: { label: 'Redirecționează', href: '/redirectioneaza-3-5' },

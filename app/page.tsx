@@ -689,13 +689,13 @@ export default async function HomePage() {
 
             <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-sm text-cream/85">
               <li className="flex items-center gap-2">
-                <span className="text-gold">✦</span> Pomelnice și pomeniri
+                <span className="text-gold text-base">☩</span> Pomelnice și pomeniri
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-gold">✦</span> Programul slujbelor
+                <span className="text-gold text-base">☩</span> Programul slujbelor
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-gold">✦</span> Cuvinte de la părintele paroh
+                <span className="text-gold text-base">☩</span> Cuvinte de la părintele paroh
               </li>
             </ul>
 
