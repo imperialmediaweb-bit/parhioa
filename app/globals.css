@@ -11,6 +11,15 @@
   h1, h2, h3, h4 { @apply font-display text-navy; }
 }
 
+@layer base {
+  /* Gentle harmonization for all photos site-wide.
+     Slight saturation/contrast lift so images don't feel washed out
+     against the cream backgrounds. Logos and SVGs aren't affected. */
+  img:not([src$=".svg"]):not([src*="logo"]):not([src*="ornament"]) {
+    filter: saturate(1.05) contrast(1.03);
+  }
+}
+
 @layer components {
   .wp-content {
     @apply text-[17px] leading-[1.8] text-ink;
