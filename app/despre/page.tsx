@@ -6,11 +6,12 @@ import { BorderBeam } from '@/components/magicui/border-beam';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Quote, Cross } from 'lucide-react';
-import { IMG } from '@/lib/images';
+import { getImages } from '@/lib/images';
 
 export const metadata = { title: 'Despre' };
 
-export default function DesprePage() {
+export default async function DesprePage() {
+  const IMG = await getImages();
   return (
     <>
       <Hero

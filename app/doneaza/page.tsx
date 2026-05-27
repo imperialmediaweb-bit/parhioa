@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ShimmerButton } from '@/components/magicui/shimmer-button';
 import { Heart, CreditCard, Building, FileText } from 'lucide-react';
-import { IMG } from '@/lib/images';
+import { getImages } from '@/lib/images';
 
 export const metadata = { title: 'Donează' };
 
-export default function DoneazaPage() {
+export default async function DoneazaPage() {
+  const IMG = await getImages();
   return (
     <>
       <Hero

@@ -4,11 +4,12 @@ import { FadeIn } from '@/components/magicui/fade-in';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, HandHeart, HeartPulse, Mail, Phone, User } from 'lucide-react';
-import { IMG } from '@/lib/images';
+import { getImages } from '@/lib/images';
 
 export const metadata = { title: 'Contact' };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const IMG = await getImages();
   return (
     <>
       <Hero

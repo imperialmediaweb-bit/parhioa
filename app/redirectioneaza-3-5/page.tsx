@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ShimmerButton } from '@/components/magicui/shimmer-button';
 import { CheckCircle2, Mail, Pin, Calendar, Building2 } from 'lucide-react';
-import { IMG } from '@/lib/images';
+import { getImages } from '@/lib/images';
 
 export const metadata = { title: 'Redirecționează 3,5%' };
 
-export default function Redirect35Page() {
+export default async function Redirect35Page() {
+  const IMG = await getImages();
   return (
     <>
       <Hero

@@ -6,24 +6,24 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { NumberTicker } from '@/components/magicui/number-ticker';
 import { Quote } from 'lucide-react';
-import { IMG } from '@/lib/images';
+import { getImages } from '@/lib/images';
 
 export const metadata = { title: 'Campanii' };
 
-const CAMPAIGNS = [
-  {
-    image: IMG.campaignPoster,
-    title: 'Strângere de fonduri pentru construirea bisericii',
-    quote:
-      '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
-    excerpt:
-      'Devino ctitor al bisericii noi a Parohiei Sfânta Cuvioasă Teodora de la Sihla. Fiecare cărămidă spune o rugăciune. Susține construcția lăcașului de cult.',
-    href: '/doneaza',
-    cta: 'Devino ctitor',
-  },
-];
-
-export default function CampaniiPage() {
+export default async function CampaniiPage() {
+  const IMG = await getImages();
+  const CAMPAIGNS = [
+    {
+      image: IMG.campaignPoster,
+      title: 'Strângere de fonduri pentru construirea bisericii',
+      quote:
+        '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
+      excerpt:
+        'Devino ctitor al bisericii noi a Parohiei Sfânta Cuvioasă Teodora de la Sihla. Fiecare cărămidă spune o rugăciune. Susține construcția lăcașului de cult.',
+      href: '/doneaza',
+      cta: 'Devino ctitor',
+    },
+  ];
   return (
     <>
       <Hero
