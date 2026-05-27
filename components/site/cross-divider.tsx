@@ -9,7 +9,7 @@ export function CrossDivider({
   size?: 'sm' | 'default' | 'lg';
   variant?: 'light' | 'dark' | 'gold';
 }) {
-  const h = size === 'sm' ? 56 : size === 'lg' ? 110 : 80;
+  const h = size === 'sm' ? 60 : size === 'lg' ? 120 : 86;
 
   const palette = {
     light: { cross: '#81231B', inner: '#EAC784', rule: 'from-burgundy/40', dot: 'text-gold-dark' },
@@ -35,12 +35,15 @@ export function CrossDivider({
 }
 
 /**
- * Romanian Orthodox cross with budded / trefoil ends — modelled after
- * the carved-wood cross the user wants. Single horizontal bar, longer
- * lower stem, each of the 4 arm tips flowering into 3 lobes.
+ * Romanian Orthodox cross with budded/clover ends.
+ *
+ * Drawn as a single carved silhouette: vertical stem + single horizontal
+ * bar, each of the 4 arms flowering into a three-lobe clover (top center
+ * lobe + two side lobes). The bottom trefoil is slightly larger because
+ * the lower arm is the longest one, matching the wooden reference cross.
  */
 export function OrthodoxCross({
-  height = 80,
+  height = 86,
   fill = '#81231B',
   accent = '#EAC784',
   className,
@@ -52,70 +55,56 @@ export function OrthodoxCross({
 }) {
   return (
     <svg
-      viewBox="0 0 220 320"
-      width={(height * 220) / 320}
+      viewBox="0 0 240 320"
+      width={(height * 240) / 320}
       height={height}
       className={className}
       aria-hidden
     >
-      <defs>
-        {/* The trefoil "bud" — three overlapping circles forming a clover */}
-        <g id="bud-h">
-          {/* Horizontal: lobe sticks out to the right (rotate as needed) */}
-          <circle cx="0" cy="0" r="22" />
-          <circle cx="14" cy="-18" r="18" />
-          <circle cx="14" cy="18" r="18" />
-        </g>
-      </defs>
+      <g fill={fill}>
+        {/* Vertical stem */}
+        <rect x="106" y="36" width="28" height="252" rx="4" />
+        {/* Horizontal bar */}
+        <rect x="38" y="140" width="164" height="32" rx="4" />
 
-      {/* Vertical stem */}
-      <rect x="92" y="42" width="36" height="240" rx="3" fill={fill} />
+        {/* TOP trefoil — three lobes around the top of the stem */}
+        <circle cx="120" cy="22" r="18" />
+        <circle cx="100" cy="36" r="17" />
+        <circle cx="140" cy="36" r="17" />
 
-      {/* Horizontal bar — single, like the wooden reference */}
-      <rect x="38" y="138" width="144" height="40" rx="3" fill={fill} />
+        {/* LEFT trefoil — clover sticking out left */}
+        <circle cx="24" cy="156" r="18" />
+        <circle cx="40" cy="138" r="17" />
+        <circle cx="40" cy="174" r="17" />
 
-      {/* TOP trefoil — bud rotated so it opens upward */}
-      <g transform="translate(110 42) rotate(-90)" fill={fill}>
-        <circle cx="0" cy="0" r="22" />
-        <circle cx="14" cy="-18" r="18" />
-        <circle cx="14" cy="18" r="18" />
+        {/* RIGHT trefoil — clover sticking out right */}
+        <circle cx="216" cy="156" r="18" />
+        <circle cx="200" cy="138" r="17" />
+        <circle cx="200" cy="174" r="17" />
+
+        {/* BOTTOM trefoil — slightly bigger, longest arm */}
+        <circle cx="120" cy="296" r="20" />
+        <circle cx="98" cy="280" r="18" />
+        <circle cx="142" cy="280" r="18" />
       </g>
 
-      {/* LEFT trefoil — bud opens to the left */}
-      <g transform="translate(38 158) rotate(180)" fill={fill}>
-        <circle cx="0" cy="0" r="22" />
-        <circle cx="14" cy="-18" r="18" />
-        <circle cx="14" cy="18" r="18" />
-      </g>
-
-      {/* RIGHT trefoil — bud opens to the right */}
-      <g transform="translate(182 158)" fill={fill}>
-        <circle cx="0" cy="0" r="22" />
-        <circle cx="14" cy="-18" r="18" />
-        <circle cx="14" cy="18" r="18" />
-      </g>
-
-      {/* BOTTOM trefoil — bud opens downward, larger than the top one */}
-      <g transform="translate(110 282) rotate(90) scale(1.15)" fill={fill}>
-        <circle cx="0" cy="0" r="22" />
-        <circle cx="14" cy="-18" r="18" />
-        <circle cx="14" cy="18" r="18" />
-      </g>
-
-      {/* Inner gold accent following the silhouette — like the inset line on the wooden cross */}
+      {/* Inner gold accent following the silhouette */}
       <g
         fill="none"
         stroke={accent}
         strokeWidth="2"
-        opacity="0.55"
+        opacity="0.5"
         strokeLinejoin="round"
       >
-        <rect x="98" y="48" width="24" height="228" rx="2" />
-        <rect x="44" y="144" width="132" height="28" rx="2" />
+        <rect x="112" y="42" width="16" height="240" rx="2" />
+        <rect x="44" y="146" width="152" height="20" rx="2" />
       </g>
 
-      {/* Center accent — small gold square at the crossing */}
-      <rect x="105" y="153" width="10" height="10" rx="1.5" fill={accent} opacity="0.85" />
+      {/* Small gold cross at the centre of the crossing */}
+      <g fill={accent} opacity="0.85">
+        <rect x="117" y="148" width="6" height="16" rx="1" />
+        <rect x="112" y="153" width="16" height="6" rx="1" />
+      </g>
     </svg>
   );
 }
