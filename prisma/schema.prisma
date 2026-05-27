@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Page {
+  id          Int       @id @default(autoincrement())
+  wpId        Int?      @unique
+  slug        String    @unique
+  title       String
+  content     String    @db.Text
+  excerpt     String?   @db.Text
+  status      String    @default("publish")
+  parentId    Int?
+  menuOrder   Int       @default(0)
+  featuredId  Int?
+  featured    Media?    @relation(fields: [featuredId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([status])
+}
+
+model Post {
+  id          Int        @id @default(autoincrement())
+  wpId        Int?       @unique
+  slug        String     @unique
+  title       String
+  content     String     @db.Text
+  excerpt     String?    @db.Text
+  status      String     @default("publish")
+  featuredId  Int?
+  featured    Media?     @relation(fields: [featuredId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  categories  Category[] @relation("PostCategories")
+  tags        Tag[]      @relation("PostTags")
+
+  @@index([slug])
+  @@index([status])
+}
+
+model Media {
+  id           Int      @id @default(autoincrement())
+  wpId         Int?     @unique
+  filename     String
+  mimeType     String?
+  url          String
+  cloudinaryId String?  @unique
+  alt          String?
+  caption      String?
+  width        Int?
+  height       Int?
+  createdAt    DateTime @default(now())
+  pages        Page[]
+  posts        Post[]
+}
+
+model Category {
+  id          Int    @id @default(autoincrement())
+  wpId        Int?   @unique
+  slug        String @unique
+  name        String
+  description String?
+  parentId    Int?
+  posts       Post[] @relation("PostCategories")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  wpId  Int?   @unique
+  slug  String @unique
+  name  String
+  posts Post[] @relation("PostTags")
+}
+
+model Menu {
+  id    Int        @id @default(autoincrement())
+  wpId  Int?       @unique
+  name  String
+  slug  String     @unique
+  items MenuItem[]
+}
+
+model MenuItem {
+  id        Int      @id @default(autoincrement())
+  wpId      Int?     @unique
+  menuId    Int
+  menu      Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parentId  Int?
+  label     String
+  url       String
+  order     Int      @default(0)
+  target    String?
+}
