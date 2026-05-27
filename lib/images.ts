@@ -40,8 +40,9 @@ const IMAGE_MAP = {
 
   // ===== Section: Fii ctitor al unei lucrări sfinte (REAL parish icon) =====
   parishIcon: {
-    matches: ['par.png', '2025/10/par', 'par-300x237', 'par.'],
-    fallback: `${WP_BASE}/2025/10/par.png`,
+    // No DB lookup — pin to the Cloudinary image the user wants used for the parish icon.
+    matches: ['__never_match__'],
+    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909922/Screenshot_98_uqff8q.png',
   },
 
   // ===== Header / general logo =====
