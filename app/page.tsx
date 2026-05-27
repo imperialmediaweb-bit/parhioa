@@ -6,7 +6,7 @@ import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { Testimonials, type Testimonial } from '@/components/site/testimonials';
 import { VideoSection } from '@/components/site/video-section';
-import { CrossDivider } from '@/components/site/cross-divider';
+import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { NumberTicker } from '@/components/magicui/number-ticker';
 import {
   CandleIcon,
@@ -254,13 +254,91 @@ export default async function HomePage() {
           <CrossDivider className="mb-8" />
           <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
             <FadeIn className="lg:col-span-2">
-              <div className="relative aspect-square max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg">
-                <img
-                  src={IMG.ctitorPhoto}
-                  alt="Comunitatea parohiei adunată în rugăciune"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <BorderBeam size={300} duration={12} colorFrom="#EAC784" colorTo="#81231B" />
+              <div className="relative mx-auto max-w-[400px] pt-12">
+                {/* Floating Orthodox cross above the frame */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.35)]">
+                  <OrthodoxCross height={64} />
+                </div>
+
+                {/* Parchment frame */}
+                <div
+                  className="relative rounded-[28px] px-5 pt-6 pb-5 shadow-warm-lg overflow-hidden"
+                  style={{
+                    background:
+                      'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
+                  }}
+                >
+                  {/* Subtle parchment grain */}
+                  <div
+                    className="absolute inset-0 opacity-30 mix-blend-multiply pointer-events-none"
+                    style={{
+                      backgroundImage:
+                        "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.18 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+                    }}
+                  />
+
+                  {/* Double gold/burgundy inner border */}
+                  <div className="absolute inset-2 rounded-[22px] border border-gold/60 pointer-events-none" />
+                  <div className="absolute inset-3 rounded-[19px] border border-burgundy/25 pointer-events-none" />
+
+                  {/* Gold corner ornaments */}
+                  {([
+                    'top-2 left-2 rotate-0',
+                    'top-2 right-2 rotate-90',
+                    'bottom-2 right-2 rotate-180',
+                    'bottom-2 left-2 -rotate-90',
+                  ] as const).map((pos) => (
+                    <svg
+                      key={pos}
+                      viewBox="0 0 24 24"
+                      className={`absolute ${pos} h-5 w-5 text-gold pointer-events-none`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.3"
+                      aria-hidden
+                    >
+                      <path d="M2 10 V4 H10" />
+                      <circle cx="4" cy="4" r="0.8" fill="currentColor" />
+                    </svg>
+                  ))}
+
+                  {/* Photo with Byzantine arched top */}
+                  <div
+                    className="relative aspect-[4/5] overflow-hidden bg-burgundy/5"
+                    style={{
+                      borderTopLeftRadius: '50% 18%',
+                      borderTopRightRadius: '50% 18%',
+                      borderBottomLeftRadius: '10px',
+                      borderBottomRightRadius: '10px',
+                    }}
+                  >
+                    <img
+                      src={IMG.ctitorPhoto}
+                      alt="Comunitatea parohiei adunată în rugăciune"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    {/* Subtle inner vignette */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        boxShadow: 'inset 0 0 60px 6px rgba(61,15,10,0.45)',
+                      }}
+                    />
+                  </div>
+
+                  {/* Inscribed caption */}
+                  <div className="relative mt-4 flex items-center justify-center gap-3">
+                    <span className="h-px w-8 bg-gold/70" />
+                    <span className="text-gold text-base leading-none">☩</span>
+                    <p className="font-ceremonial uppercase text-[11px] sm:text-xs tracking-[0.28em] text-burgundy">
+                      Comunitatea parohiei
+                    </p>
+                    <span className="text-gold text-base leading-none">☩</span>
+                    <span className="h-px w-8 bg-gold/70" />
+                  </div>
+                </div>
+
+                <BorderBeam size={300} duration={14} colorFrom="#EAC784" colorTo="#81231B" />
               </div>
             </FadeIn>
             <FadeIn delay={0.15} className="lg:col-span-3">
