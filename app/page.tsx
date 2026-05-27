@@ -7,6 +7,7 @@ import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { Testimonials, type Testimonial } from '@/components/site/testimonials';
 import { VideoSection } from '@/components/site/video-section';
 import { CrossDivider } from '@/components/site/cross-divider';
+import { NumberTicker } from '@/components/magicui/number-ticker';
 import {
   CandleIcon,
   CenserIcon,
@@ -104,6 +105,55 @@ export default async function HomePage() {
     <>
       {/* ============= 1. HERO SLIDER ============= */}
       <HeroSlider slides={HERO_SLIDES} />
+
+      {/* ============= 1b. STATS STRIP — premium impact band ============= */}
+      <section className="relative bg-gradient-to-r from-burgundy via-burgundy-dark to-burgundy text-cream py-10 sm:py-12 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='none' stroke='%23EAC784' stroke-width='0.5' opacity='0.6'><path d='M30 6 L34 16 L44 16 L36 22 L39 32 L30 26 L21 32 L24 22 L16 16 L26 16 Z'/></g></svg>\")",
+          }}
+        />
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+        <div className="relative container">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 text-center max-w-5xl mx-auto">
+            <div>
+              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
+                <NumberTicker value={2022} />
+              </div>
+              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
+                An înființare
+              </p>
+            </div>
+            <div>
+              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
+                <NumberTicker value={3.5} decimalPlaces={1} />%
+              </div>
+              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
+                Din impozit
+              </p>
+            </div>
+            <div>
+              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
+                <NumberTicker value={1} />
+              </div>
+              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
+                Biserică în zidire
+              </p>
+            </div>
+            <div>
+              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
+                ∞
+              </div>
+              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
+                Rugăciuni
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ============= 2. STICKY SUB-NAV ============= */}
       <nav className="border-y border-border bg-white sticky top-24 sm:top-28 lg:top-32 z-30">
@@ -366,16 +416,20 @@ export default async function HomePage() {
               href="https://www.youtube.com/watch?v=w03-ddqY-AE"
               target="_blank"
               rel="noopener"
-              className="inline-flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border-2 border-white/40 hover:bg-white hover:text-burgundy transition group"
+              className="inline-flex flex-col items-center gap-4 group"
               aria-label="Vezi pe YouTube"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-10 w-10 ml-1 text-white group-hover:text-burgundy transition-colors"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
+              <span className="relative flex items-center justify-center">
+                <span className="absolute h-32 w-32 rounded-full bg-gold/30 animate-ping" />
+                <span className="relative flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-dark text-burgundy-dark shadow-candlelight transition-transform group-hover:scale-110">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-12 w-12 ml-1">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              </span>
+              <span className="font-ceremonial uppercase text-xs tracking-[0.28em] text-gold">
+                Vezi pe YouTube
+              </span>
             </a>
           </FadeIn>
         </div>
@@ -628,21 +682,37 @@ export default async function HomePage() {
             <p className="font-ceremonial uppercase tracking-[0.22em] text-sm text-gold mb-4">
               Rămâi aproape de viața parohiei
             </p>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-8 !text-white">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-6 !text-white">
               Primește vești, rugăciuni și cuvinte de folos <br />
               în <em className="italic text-gold">căsuța ta de e-mail</em>
             </h2>
+
+            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-sm text-cream/85">
+              <li className="flex items-center gap-2">
+                <span className="text-gold">✦</span> Pomelnice și pomeniri
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-gold">✦</span> Programul slujbelor
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-gold">✦</span> Cuvinte de la părintele paroh
+              </li>
+            </ul>
+
             <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
               <input
                 type="email"
                 required
-                placeholder="Email"
-                className="flex-1 px-5 py-3 rounded-full bg-white/15 border border-white/30 backdrop-blur text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-gold"
+                placeholder="adresa.ta@email.ro"
+                className="flex-1 px-5 py-3.5 rounded-full bg-white/12 border border-gold/40 backdrop-blur text-white placeholder:text-white/55 focus:outline-none focus:ring-2 focus:ring-gold"
               />
-              <Button type="submit" size="lg">
-                Subscribe
+              <Button type="submit" variant="gold" size="lg">
+                Abonează-mă
               </Button>
             </form>
+            <p className="text-xs text-cream/55 mt-4 italic">
+              Niciun spam. Doar gânduri bune. Te poți dezabona oricând.
+            </p>
           </FadeIn>
         </div>
       </section>
