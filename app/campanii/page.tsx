@@ -5,8 +5,10 @@ import { FadeIn } from '@/components/magicui/fade-in';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { NumberTicker } from '@/components/magicui/number-ticker';
-import { Quote } from 'lucide-react';
+import { DonateForm } from '@/components/site/donate-form';
+import { Quote, Building2 } from 'lucide-react';
 import { getImages } from '@/lib/images';
+import { isStripeConfigured } from '@/lib/stripe';
 
 export const metadata = { title: 'Campanii' };
 
@@ -14,16 +16,15 @@ export default async function CampaniiPage() {
   const IMG = await getImages();
   const CAMPAIGNS = [
     {
+      slug: 'zidirea-bisericii',
       image: IMG.campaignPoster,
       title: 'Strângere de fonduri pentru construirea bisericii',
-      quote:
-        '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
+      quote: '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
       excerpt:
         'Devino ctitor al bisericii noi a Parohiei Sfânta Cuvioasă Teodora de la Sihla. Fiecare cărămidă spune o rugăciune. Susține construcția lăcașului de cult.',
-      href: '/doneaza',
-      cta: 'Devino ctitor',
     },
   ];
+
   return (
     <>
       <Hero
@@ -32,28 +33,30 @@ export default async function CampaniiPage() {
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Campanii' }]}
       />
 
+      {/* Campaign card with image */}
       <section className="container py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {CAMPAIGNS.map((c, i) => (
-            <FadeIn key={c.title} delay={i * 0.1}>
-              <Card className="h-full overflow-hidden bg-cream-card border-0">
-                <div className="aspect-[4/5] overflow-hidden">
+        <FadeIn>
+          {CAMPAIGNS.map((c) => (
+            <Card key={c.slug} className="overflow-hidden bg-cream-card border-0 max-w-3xl mx-auto">
+              <div className="grid md:grid-cols-2">
+                <div className="aspect-[4/5] md:aspect-auto overflow-hidden">
                   <img src={c.image} alt={c.title} className="w-full h-full object-cover" />
                 </div>
-                <div className="p-6">
-                  <h3 className="font-display text-2xl font-semibold text-burgundy mb-3 leading-snug">
+                <div className="p-8 self-center">
+                  <Building2 className="h-8 w-8 text-burgundy mb-4" />
+                  <h3 className="font-display text-2xl sm:text-3xl font-semibold text-burgundy leading-snug mb-3">
                     {c.title}
                   </h3>
-                  <p className="font-serif italic text-ink-muted mb-3 text-[15px]">{c.quote}</p>
-                  <p className="text-sm text-ink-muted leading-relaxed mb-5">{c.excerpt}</p>
-                  <Link href={c.href}>
-                    <Button size="sm">{c.cta}</Button>
-                  </Link>
+                  <p className="font-serif italic text-ink-muted mb-4 text-[15px]">{c.quote}</p>
+                  <p className="text-sm text-ink-muted leading-relaxed mb-6">{c.excerpt}</p>
+                  <a href={`#donate-${c.slug}`}>
+                    <Button size="lg">Donează acum</Button>
+                  </a>
                 </div>
-              </Card>
-            </FadeIn>
+              </div>
+            </Card>
           ))}
-        </div>
+        </FadeIn>
       </section>
 
       {/* Stats / impact */}
@@ -92,6 +95,37 @@ export default async function CampaniiPage() {
         </div>
       </section>
 
+      {/* Per-campaign donate forms */}
+      {CAMPAIGNS.map((c) => (
+        <section
+          key={c.slug}
+          id={`donate-${c.slug}`}
+          className="container py-16 scroll-mt-24"
+        >
+          <FadeIn>
+            <div className="grid lg:grid-cols-2 gap-10 items-start max-w-5xl mx-auto">
+              <div>
+                <SectionEyebrow>Devino ctitor</SectionEyebrow>
+                <h3 className="font-display text-3xl sm:text-4xl font-semibold leading-tight mb-4">
+                  Susține: <em className="italic text-burgundy">{c.title}</em>
+                </h3>
+                <p className="text-ink-muted leading-relaxed mb-4">{c.excerpt}</p>
+                <p className="font-serif italic text-burgundy">{c.quote}</p>
+              </div>
+              <Card className="p-6 sm:p-8 bg-white border border-border">
+                {!isStripeConfigured && (
+                  <div className="mb-5 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+                    ⚠️ Stripe nu e configurat. Setează <code>STRIPE_SECRET_KEY</code> în Railway →
+                    Variables pentru ca plățile să funcționeze.
+                  </div>
+                )}
+                <DonateForm campaign={c.slug} campaignTitle={c.title} />
+              </Card>
+            </div>
+          </FadeIn>
+        </section>
+      ))}
+
       {/* CTA */}
       <section className="bg-burgundy text-white py-20">
         <div className="container text-center max-w-2xl">
@@ -104,8 +138,9 @@ export default async function CampaniiPage() {
               Sfântul Ioan Damaschin
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/doneaza"><Button variant="cream" size="lg">Donează acum</Button></Link>
-              <Link href="/redirectioneaza-3-5"><Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white hover:text-burgundy">Redirecționează 3,5%</Button></Link>
+              <Link href="/redirectioneaza-3-5">
+                <Button variant="cream" size="lg">Redirecționează 3,5%</Button>
+              </Link>
             </div>
           </FadeIn>
         </div>

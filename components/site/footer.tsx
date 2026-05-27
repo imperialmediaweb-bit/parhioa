@@ -25,7 +25,7 @@ export async function SiteFooter() {
       <div className="container py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4 space-y-4">
-            <Logo size="lg" iconSrc={IMG.parishLogo} />
+            <Logo size="lg" iconSrc={IMG.parishIcon} />
             <p className="text-sm text-ink-muted leading-relaxed max-w-xs">
               Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; din Botoșani este o comunitate în
               formare, zidită cu credință, rugăciune și dragoste frățească.

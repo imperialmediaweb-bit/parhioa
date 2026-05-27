@@ -67,6 +67,12 @@ const IMAGE_MAP = {
     fallback: `${WP_BASE}/2025/06/image-6.webp`,
   },
 
+  // ===== Background for redirect-3-5 hero =====
+  redirectHeroBg: {
+    matches: ['image-7.webp', '2025/06/image-7'],
+    fallback: `${WP_BASE}/2025/06/image-7.webp`,
+  },
+
   // ===== Donate section: 4 small icon images (left grid) =====
   iconBox1: {
     matches: ['screenshot_73'],

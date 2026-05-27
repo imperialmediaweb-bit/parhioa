@@ -158,7 +158,7 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
               {slide.eyebrow}
             </p>
           )}
-          <h1 className="font-ecclesia text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.15] tracking-wide mb-6 uppercase">
+          <h1 className="font-ecclesia text-3xl sm:text-4xl lg:text-5xl xl:text-6xl !text-white font-bold leading-[1.15] tracking-wide mb-6 uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
             {slide.title}
           </h1>
           {slide.subtitle && (

@@ -18,7 +18,7 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="container flex h-24 sm:h-28 items-center justify-between gap-6">
-        <Logo iconSrc={IMG.parishLogo} />
+        <Logo iconSrc={IMG.parishIcon} />
 
         <nav className="hidden lg:flex items-center gap-7">
           {NAV.map((item) => (
