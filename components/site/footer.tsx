@@ -56,14 +56,14 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="relative container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+      <div className="relative container py-14 pb-24 lg:pb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
           {/* About + logo */}
-          <div className="lg:col-span-4 space-y-5">
+          <div className="space-y-5">
             <FooterLogo />
             <p className="text-[15px] text-cream/80 leading-relaxed max-w-sm font-serif">
-              Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; din Botoșani este o comunitate în
-              formare, zidită cu credință, rugăciune și dragoste frățească.
+              O comunitate creștin-ortodoxă în formare, zidită cu credință,
+              rugăciune și dragoste frățească, sub ocrotirea Sfintei Cuvioase Teodora.
             </p>
             <div className="flex gap-2.5 pt-1">
               <SocialLink href="#" label="Facebook"><Facebook className="h-4 w-4" /></SocialLink>
@@ -72,46 +72,38 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Info column */}
-          <div className="lg:col-span-2">
-            <FooterHeading>Info</FooterHeading>
-            <ul className="space-y-2.5">
-              {INFO.map((item) => <FooterLink key={item.href} {...item} />)}
-            </ul>
-          </div>
-
-          {/* Resurse column */}
-          <div className="lg:col-span-2">
-            <FooterHeading>Resurse</FooterHeading>
-            <ul className="space-y-2.5">
-              {RESURSE.map((item) => <FooterLink key={item.href} {...item} />)}
+          {/* Navigation — single merged column */}
+          <div>
+            <FooterHeading>Parohia</FooterHeading>
+            <ul className="grid grid-cols-2 gap-y-2.5 gap-x-6">
+              {[...INFO, ...RESURSE].map((item) => <FooterLink key={item.href} {...item} />)}
             </ul>
           </div>
 
           {/* Contact column */}
-          <div className="lg:col-span-4">
+          <div>
             <FooterHeading>Contact</FooterHeading>
-            <p className="text-sm text-cream/85 mb-4 flex items-center gap-2">
-              <span className="text-gold">CIF</span>
-              <span className="font-mono font-bold text-gold-light">48801453</span>
-            </p>
             <div className="space-y-3">
-              <ContactRow icon={MapPin}>Strada Pacea, Nr. 45B, Botoșani, România</ContactRow>
+              <ContactRow icon={MapPin}>Strada Pacea, Nr. 45B, Botoșani</ContactRow>
               <ContactRow icon={Mail}>
-                <a href="mailto:contact@parohiasfteodoradelasihla.ro" className="hover:text-gold transition">
+                <a href="mailto:contact@parohiasfteodoradelasihla.ro" className="hover:text-gold transition break-all">
                   contact@parohiasfteodoradelasihla.ro
                 </a>
               </ContactRow>
               <ContactRow icon={Phone}>
                 <a href="tel:+40754857903" className="hover:text-gold transition">+40 754 857 903</a>
               </ContactRow>
-              <ContactRow icon={User}>Preot paroh: Pr. Cătălin Ailenei</ContactRow>
+              <ContactRow icon={User}>Pr. Cătălin Ailenei</ContactRow>
             </div>
+            <p className="mt-5 text-xs text-cream/60 flex items-center gap-2">
+              <span className="text-gold/80">CIF</span>
+              <span className="font-mono text-gold-light/90">48801453</span>
+            </p>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-6 border-t border-gold/25 flex flex-wrap items-center justify-between gap-3 text-xs text-cream/65">
+        <div className="mt-12 pt-6 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-cream/55">
           <span className="flex items-center gap-2">
             <span className="text-gold text-base">☩</span>
             Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; · {new Date().getFullYear()}

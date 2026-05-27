@@ -145,14 +145,15 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
         />
       )}
 
-      {/* Warm candlelight + sacred-atmosphere overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/30 via-burgundy/20 to-navy-dark/80" />
+      {/* Deep cinematic burgundy/black overlay for legibility */}
+      <div className="absolute inset-0 bg-[#1a0604]/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a0604]/40 via-[#3d0f0a]/45 to-[#1a0604]/85" />
       {/* Golden vignette glow at top — like candlelight from above */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(234, 199, 132, 0.35), transparent 60%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(129, 35, 27, 0.25), transparent 70%)',
+            'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(234, 199, 132, 0.28), transparent 60%), radial-gradient(ellipse 90% 60% at 50% 110%, rgba(0, 0, 0, 0.6), transparent 60%)',
         }}
       />
       {/* Subtle incense / mist haze */}
@@ -183,7 +184,7 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
             {slide.title}
           </h1>
           {slide.subtitle && (
-            <p className="font-serif italic text-lg sm:text-xl text-cream/95 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+            <p className="font-serif italic text-[17px] sm:text-xl lg:text-2xl text-cream max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
               {slide.subtitle}
             </p>
           )}

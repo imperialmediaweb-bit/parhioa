@@ -3,27 +3,32 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold tracking-wide transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-ceremonial uppercase tracking-[0.18em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
+        // Primary church CTA: deep burgundy with gold hairline
         default:
-          'bg-coral text-white hover:bg-coral-dark shadow-warm hover:shadow-candlelight border border-coral-dark/40',
-        cream:
-          'bg-gradient-to-b from-cream to-cream-card text-navy hover:from-cream-card hover:to-cream-deep border border-gold/50 shadow-warm hover:shadow-warm-md',
-        outline:
-          'border-2 border-burgundy/40 bg-transparent text-burgundy hover:bg-burgundy hover:text-white shadow-sm',
-        ghost: 'hover:bg-cream-card text-navy',
-        navy: 'bg-navy text-cream hover:bg-navy-dark shadow-warm-md',
+          'text-cream bg-gradient-to-b from-[#7a201a] to-[#4f120d] hover:from-[#651a14] hover:to-[#3a0d09] shadow-[0_8px_22px_-10px_rgba(101,26,20,0.65)] hover:shadow-[0_12px_28px_-10px_rgba(101,26,20,0.85)] ring-1 ring-gold/40 hover:ring-gold/70',
+        // Matte gold — secondary, for "ctitor" highlight
         gold:
-          'bg-gradient-to-b from-gold to-gold-dark text-navy-dark hover:shadow-candlelight border border-gold-dark/50',
-        link: 'text-coral underline-offset-4 hover:underline',
+          'text-burgundy-dark bg-gradient-to-b from-[#EAC784] to-[#c9a361] hover:from-[#f0d29a] hover:to-[#b8923f] shadow-[0_8px_22px_-10px_rgba(184,138,46,0.55)] ring-1 ring-burgundy/30',
+        // Outline — for tertiary actions on cream backgrounds
+        outline:
+          'bg-transparent text-burgundy ring-1 ring-burgundy/40 hover:bg-burgundy hover:text-cream hover:ring-burgundy',
+        // Ghost — for cards / inline links
+        ghost:
+          'bg-transparent text-burgundy hover:bg-burgundy/8 hover:text-burgundy-dark',
+        // Cream button — for dark backgrounds (hero, footer)
+        cream:
+          'text-burgundy-dark bg-gradient-to-b from-cream to-[#f0e4c8] hover:from-white hover:to-cream-card ring-1 ring-gold/50 hover:ring-gold shadow-warm',
+        link: 'text-burgundy underline-offset-4 hover:underline normal-case tracking-normal',
       },
       size: {
-        default: 'h-11 px-6 py-2',
-        sm: 'h-9 px-4 text-xs',
-        lg: 'h-13 px-8 text-base',
-        icon: 'h-10 w-10',
+        default: 'h-11 px-7 text-[12px]',
+        sm: 'h-9 px-5 text-[11px]',
+        lg: 'h-13 px-9 text-[13px]',
+        icon: 'h-11 w-11',
       },
     },
     defaultVariants: { variant: 'default', size: 'default' },

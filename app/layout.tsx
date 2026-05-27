@@ -9,6 +9,7 @@ import {
 } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
+import { MobileDonateCta } from '@/components/site/mobile-donate-cta';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main className="min-h-[60vh]">{children}</main>
         <SiteFooter />
+        <MobileDonateCta />
       </body>
     </html>
   );
