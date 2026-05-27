@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import { getImages } from '@/lib/images';
 import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
@@ -17,55 +18,6 @@ import { Heart, HandHeart, Users, Church, BookOpen, Sparkles } from 'lucide-reac
 
 export const revalidate = 60;
 
-// =====================================================================
-//  Hero slides — first one is a video, the rest are images.
-//  Replace media.src with your real assets (public/hero/* or Cloudinary).
-// =====================================================================
-const HERO_SLIDES: HeroSlide[] = [
-  {
-    media: {
-      type: 'video',
-      src: '/hero/intro.mp4',
-      poster:
-        'https://images.unsplash.com/photo-1548407260-da850faa41e3?auto=format&fit=crop&w=2000&q=80',
-    },
-    eyebrow: 'Parohia Sf. Cuv. Teodora de la Sihla · Botoșani',
-    title: <>Într-o inimă, o credință, o familie duhovnicească</>,
-    subtitle:
-      'Vino să te rogi cu noi, să te împărtășești din harul lui Dumnezeu și să fii parte dintr-o comunitate vie.',
-    primaryCta: { label: 'Implică-te', href: '/misiune' },
-    secondaryCta: { label: 'Despre noi', href: '/despre' },
-  },
-  {
-    media: {
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1548407260-da850faa41e3?auto=format&fit=crop&w=2000&q=80',
-      alt: 'Lumânări aprinse',
-    },
-    eyebrow: 'Zidirea bisericii',
-    title: <>Zidim cu credință, <em className="font-serif italic">cărămidă cu cărămidă</em></>,
-    subtitle:
-      'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul tău, putem pune piatra de temelie.',
-    primaryCta: { label: 'Devino ctitor', href: '/campanii' },
-    secondaryCta: { label: 'Redirecționează 3,5%', href: '/redirectioneaza-3-5' },
-  },
-  {
-    media: {
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1601925268875-c5b0c5e3a1bc?auto=format&fit=crop&w=2000&q=80',
-      alt: 'Biserica ortodoxă',
-    },
-    eyebrow: 'Rugăciune · Milostenie · Iubire',
-    title: <>Zidim credința, slujim cu dragoste</>,
-    subtitle:
-      'Trei stâlpi care țin viața parohiei și prin care creștem împreună întru Hristos.',
-    primaryCta: { label: 'Vezi misiunea', href: '/misiune' },
-  },
-];
-
-// =====================================================================
-//  Real testimonials extracted from the live site
-// =====================================================================
 const TESTIMONIALS: Testimonial[] = [
   {
     text:
@@ -87,61 +39,89 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-// =====================================================================
-//  Gallery — replace with your real images (Cloudinary URLs after import)
-// =====================================================================
-const GALLERY: GalleryImage[] = [
-  {
-    src: 'https://images.unsplash.com/photo-1548407260-da850faa41e3?auto=format&fit=crop&w=900&q=80',
-    alt: 'Lumânări',
-    caption: 'Slujbă de seară',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1601925268875-c5b0c5e3a1bc?auto=format&fit=crop&w=900&q=80',
-    alt: 'Biserica',
-    caption: 'Locul viitoarei biserici',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80',
-    alt: 'Iconă',
-    caption: 'Sfânta Liturghie',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1543525238-7f7c0adbd1c0?auto=format&fit=crop&w=900&q=80',
-    alt: 'Cruce',
-    caption: 'Troița credinței',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1490127252417-7c393f993ee4?auto=format&fit=crop&w=900&q=80',
-    alt: 'Rugăciune',
-    caption: 'Părintele Cătălin Ailenei',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=900&q=80',
-    alt: 'Lumini',
-    caption: 'Bucurie creștină',
-  },
-];
-
-async function getData() {
+async function getHomeData() {
   try {
-    const [home, posts] = await Promise.all([
-      prisma.page.findUnique({ where: { slug: 'acasa' }, include: { featured: true } }).catch(() => null),
-      prisma.post.findMany({
-        where: { status: 'publish' },
-        take: 6,
-        orderBy: { publishedAt: 'desc' },
-        include: { featured: true, categories: true },
-      }).catch(() => []),
+    const [posts, galleryItems] = await Promise.all([
+      prisma.post
+        .findMany({
+          where: { status: 'publish' },
+          take: 6,
+          orderBy: { publishedAt: 'desc' },
+          include: { featured: true, categories: true },
+        })
+        .catch(() => []),
+      // Gallery: pick 9 representative images from the Media table
+      prisma.media
+        .findMany({
+          where: { url: { contains: 'cloudinary', mode: 'insensitive' } },
+          take: 12,
+          orderBy: { wpId: 'desc' },
+        })
+        .catch(() => []),
     ]);
-    return { home, posts };
+    return { posts, galleryItems };
   } catch {
-    return { home: null, posts: [] };
+    return { posts: [], galleryItems: [] };
   }
 }
 
 export default async function HomePage() {
-  const { posts } = await getData();
+  const [{ posts, galleryItems }, IMG] = await Promise.all([getHomeData(), getImages()]);
+
+  // Build hero slides from real Cloudinary images
+  const HERO_SLIDES: HeroSlide[] = [
+    {
+      media: {
+        type: 'video',
+        src: '/hero/intro.mp4',
+        poster: IMG.parishLogoBotosani,
+      },
+      eyebrow: 'Parohia Sf. Cuv. Teodora de la Sihla · Botoșani',
+      title: <>Într-o inimă, o credință, o familie duhovnicească</>,
+      subtitle:
+        'Vino să te rogi cu noi, să te împărtășești din harul lui Dumnezeu și să fii parte dintr-o comunitate vie.',
+      primaryCta: { label: 'Implică-te', href: '/misiune' },
+      secondaryCta: { label: 'Despre noi', href: '/despre' },
+    },
+    {
+      media: { type: 'image', src: IMG.handsBranch, alt: 'Mâini cu ramură — credință vie' },
+      eyebrow: 'Zidirea bisericii',
+      title: (
+        <>
+          Zidim cu credință, <em className="font-serif italic">cărămidă cu cărămidă</em>
+        </>
+      ),
+      subtitle:
+        'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul tău, putem pune piatra de temelie.',
+      primaryCta: { label: 'Devino ctitor', href: '/campanii' },
+      secondaryCta: { label: 'Redirecționează 3,5%', href: '/redirectioneaza-3-5' },
+    },
+    {
+      media: { type: 'image', src: IMG.handsChurch, alt: 'Mâini ce țin o biserică' },
+      eyebrow: 'Rugăciune · Milostenie · Iubire',
+      title: <>Zidim credința, slujim cu dragoste</>,
+      subtitle:
+        'Trei stâlpi care țin viața parohiei și prin care creștem împreună întru Hristos.',
+      primaryCta: { label: 'Vezi misiunea', href: '/misiune' },
+    },
+  ];
+
+  // Build gallery from real DB images, fall back to a curated set if DB is empty
+  const GALLERY: GalleryImage[] =
+    galleryItems.length > 0
+      ? galleryItems.slice(0, 9).map((m) => ({
+          src: m.url,
+          alt: m.alt || m.filename,
+          caption: m.caption || undefined,
+        }))
+      : [
+          { src: IMG.liturghie, alt: 'Liturghie', caption: 'Sfânta Liturghie' },
+          { src: IMG.handsBranch, alt: 'Credință vie', caption: 'Credință vie și ajutor' },
+          { src: IMG.iconTeodora, alt: 'Sf. Teodora', caption: 'Icoana ocrotitoarei' },
+          { src: IMG.handsChurch, alt: 'Biserica', caption: 'Sprijin și solidaritate' },
+          { src: IMG.priestPraying, alt: 'Părintele în rugăciune', caption: 'Părintele Cătălin' },
+          { src: IMG.campaignPoster, alt: 'Devino ctitor', caption: 'Campania de zidire' },
+        ];
 
   return (
     <>
@@ -166,15 +146,23 @@ export default async function HomePage() {
               unde harul lui Dumnezeu să odihnească peste comunitatea noastră.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link href="/despre"><Button variant="default" size="lg">Despre părintele paroh</Button></Link>
-              <Link href="/misiune"><Button variant="outline" size="lg">Misiunea parohiei</Button></Link>
+              <Link href="/despre">
+                <Button variant="default" size="lg">
+                  Despre părintele paroh
+                </Button>
+              </Link>
+              <Link href="/misiune">
+                <Button variant="outline" size="lg">
+                  Misiunea parohiei
+                </Button>
+              </Link>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.15}>
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
               <img
-                src="https://images.unsplash.com/photo-1490127252417-7c393f993ee4?auto=format&fit=crop&w=900&q=80"
+                src={IMG.priestPortrait}
                 alt="Părintele Cătălin Ailenei"
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -191,7 +179,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== 3. THE 3 PILLARS: RUGĂCIUNE, MILOSTENIE, IUBIRE ===== */}
+      {/* ===== 3. THE 3 PILLARS ===== */}
       <section className="bg-cream py-16 sm:py-24">
         <div className="container">
           <FadeIn>
@@ -241,7 +229,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== 4. VIDEO SECTION (YouTube embed or MP4) ===== */}
+      {/* ===== 4. VIDEO SECTION ===== */}
       <section className="container py-16 sm:py-24">
         <FadeIn>
           <div className="text-center mb-10 max-w-2xl mx-auto">
@@ -258,7 +246,7 @@ export default async function HomePage() {
         </FadeIn>
         <FadeIn delay={0.1}>
           <VideoSection
-            poster="https://images.unsplash.com/photo-1543525238-7f7c0adbd1c0?auto=format&fit=crop&w=1600&q=80"
+            poster={IMG.liturghie}
             youtubeId="dQw4w9WgXcQ"
             className="max-w-4xl mx-auto"
           />
@@ -268,7 +256,7 @@ export default async function HomePage() {
         </FadeIn>
       </section>
 
-      {/* ===== 5. TESTIMONIALS (slider) ===== */}
+      {/* ===== 5. TESTIMONIALS ===== */}
       <section className="bg-lavender-soft/50 py-16 sm:py-24">
         <div className="container">
           <FadeIn>
@@ -289,9 +277,12 @@ export default async function HomePage() {
       <section className="bg-gradient-to-br from-burgundy via-burgundy-dark to-burgundy text-white py-20 relative overflow-hidden">
         <div className="container text-center max-w-3xl relative z-10">
           <FadeIn>
-            <SectionEyebrow align="center" className="!text-gold">Fii alături</SectionEyebrow>
+            <SectionEyebrow align="center" className="!text-gold">
+              Fii alături
+            </SectionEyebrow>
             <h2 className="font-ecclesia text-3xl sm:text-5xl font-bold mb-5 text-white uppercase tracking-wide leading-tight">
-              Fii alături de parohie cu <em className="text-gold font-serif italic normal-case">rugăciunea și darul</em>
+              Fii alături de parohie cu{' '}
+              <em className="text-gold font-serif italic normal-case">rugăciunea și darul</em>
             </h2>
             <p className="text-white/85 mb-8 max-w-xl mx-auto text-[17px] leading-relaxed">
               Fiecare dar adus cu inimă curată devine o cărămidă vie în acest lăcaș al harului.
@@ -304,7 +295,9 @@ export default async function HomePage() {
                 </ShimmerButton>
               </Link>
               <Link href="/doneaza">
-                <Button variant="cream" size="lg">Donează acum</Button>
+                <Button variant="cream" size="lg">
+                  Donează acum
+                </Button>
               </Link>
             </div>
 
@@ -329,7 +322,6 @@ export default async function HomePage() {
           </FadeIn>
         </div>
 
-        {/* Decorative ornament */}
         <Sparkles className="absolute top-10 left-10 h-8 w-8 text-gold/20" />
         <Sparkles className="absolute bottom-10 right-10 h-8 w-8 text-gold/20" />
       </section>
@@ -371,13 +363,15 @@ export default async function HomePage() {
         <FadeIn delay={0.2}>
           <div className="text-center mt-12">
             <Link href="/blog">
-              <Button variant="outline" size="lg">Vezi toate noutățile</Button>
+              <Button variant="outline" size="lg">
+                Vezi toate noutățile
+              </Button>
             </Link>
           </div>
         </FadeIn>
       </section>
 
-      {/* ===== 8. PHOTO GALLERY (la sfârșit, cum ai cerut) ===== */}
+      {/* ===== 8. PHOTO GALLERY (real DB images) ===== */}
       <section className="bg-cream py-16 sm:py-24">
         <div className="container">
           <FadeIn>
@@ -418,7 +412,9 @@ export default async function HomePage() {
                 placeholder="adresa.ta@email.ro"
                 className="flex-1 px-4 py-3 rounded-full border border-border bg-white text-ink placeholder:text-ink-soft focus:outline-none focus:ring-2 focus:ring-burgundy"
               />
-              <Button type="submit" size="lg">Abonează-mă</Button>
+              <Button type="submit" size="lg">
+                Abonează-mă
+              </Button>
             </form>
           </Card>
         </FadeIn>

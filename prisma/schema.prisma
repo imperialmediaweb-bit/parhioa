@@ -51,6 +51,7 @@ model Media {
   id           Int      @id @default(autoincrement())
   wpId         Int?     @unique
   filename     String
+  wpUrl        String?
   mimeType     String?
   url          String
   cloudinaryId String?  @unique

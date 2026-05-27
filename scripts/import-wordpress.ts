@@ -62,19 +62,18 @@ async function importMedia() {
 
   for (const m of items) {
     const existing = await prisma.media.findUnique({ where: { wpId: m.id } });
-    if (existing?.cloudinaryId) {
-      console.log(`  skip ${m.id} (already uploaded)`);
-      continue;
-    }
 
-    let cloudUrl = m.source_url;
-    let publicId: string | null = null;
-    try {
-      const uploaded = await uploadToCloudinary(m.source_url, m.id);
-      cloudUrl = uploaded.url;
-      publicId = uploaded.publicId;
-    } catch (err: any) {
-      console.warn(`  upload failed for ${m.source_url}: ${err.message}`);
+    let cloudUrl = existing?.url || m.source_url;
+    let publicId: string | null = existing?.cloudinaryId || null;
+
+    if (!existing?.cloudinaryId) {
+      try {
+        const uploaded = await uploadToCloudinary(m.source_url, m.id);
+        cloudUrl = uploaded.url;
+        publicId = uploaded.publicId;
+      } catch (err: any) {
+        console.warn(`  upload failed for ${m.source_url}: ${err.message}`);
+      }
     }
 
     await prisma.media.upsert({
@@ -82,6 +81,7 @@ async function importMedia() {
       create: {
         wpId: m.id,
         filename: m.slug,
+        wpUrl: m.source_url,
         mimeType: m.mime_type,
         url: cloudUrl,
         cloudinaryId: publicId,
@@ -90,9 +90,14 @@ async function importMedia() {
         width: m.media_details?.width || null,
         height: m.media_details?.height || null,
       },
-      update: { url: cloudUrl, cloudinaryId: publicId },
+      update: {
+        wpUrl: m.source_url,
+        url: cloudUrl,
+        cloudinaryId: publicId,
+        alt: m.alt_text || existing?.alt,
+      },
     });
-    console.log(`  imported media ${m.id}`);
+    console.log(`  ${existing?.cloudinaryId ? 'updated' : 'imported'} media ${m.id}`);
   }
 }
 
@@ -221,11 +226,25 @@ async function importMenus() {
 
 async function rewriteImages(html: string): Promise<string> {
   let out = html;
-  const all = await prisma.media.findMany();
+  const all = await prisma.media.findMany({
+    where: { wpUrl: { not: null } },
+  });
   for (const m of all) {
-    if (!m.filename) continue;
-    const regex = new RegExp(`https?:[^"' ]*${escapeRegex(m.filename)}[^"' ]*`, 'g');
-    out = out.replace(regex, m.url);
+    if (!m.wpUrl) continue;
+    // Replace the exact WP URL with the Cloudinary URL
+    out = out.split(m.wpUrl).join(m.url);
+
+    // Also replace WordPress size variants like -300x300, -1024x768
+    const lastDot = m.wpUrl.lastIndexOf('.');
+    if (lastDot > 0) {
+      const base = m.wpUrl.slice(0, lastDot);
+      const ext = m.wpUrl.slice(lastDot);
+      const sizeRegex = new RegExp(
+        `${escapeRegex(base)}-\\d+x\\d+${escapeRegex(ext)}`,
+        'g',
+      );
+      out = out.replace(sizeRegex, m.url);
+    }
   }
   return out;
 }
