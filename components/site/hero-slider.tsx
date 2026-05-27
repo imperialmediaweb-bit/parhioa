@@ -144,8 +144,24 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
         />
       )}
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/40 via-navy-dark/55 to-navy-dark/80" />
+      {/* Warm candlelight + sacred-atmosphere overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/30 via-burgundy/20 to-navy-dark/80" />
+      {/* Golden vignette glow at top — like candlelight from above */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(234, 199, 132, 0.35), transparent 60%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(129, 35, 27, 0.25), transparent 70%)',
+        }}
+      />
+      {/* Subtle incense / mist haze */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40 mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='m'><feTurbulence baseFrequency='0.012' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0 0.6 0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>\")",
+        }}
+      />
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center justify-center px-6 z-10">

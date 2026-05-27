@@ -164,7 +164,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 4. IMPLICĂ-TE + DEVINO CTITOR CARD ============= */}
-      <section className="bg-cream py-16 sm:py-24">
+      <section className="relative bg-cream bg-byzantine-pattern py-16 sm:py-24">
         <div className="container">
           <CrossDivider className="mb-8" />
           <FadeIn>
@@ -245,7 +245,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
-      <section id="daruieste" className="bg-cream py-16 sm:py-24 scroll-mt-44">
+      <section id="daruieste" className="relative iconostasis py-16 sm:py-24 scroll-mt-44">
         <div className="container">
           <CrossDivider className="mb-8" />
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -557,7 +557,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 11. BLOG NOUTĂȚI ============= */}
-      <section className="bg-cream py-16 sm:py-24">
+      <section className="relative bg-parchment py-16 sm:py-24">
         <div className="container">
           <FadeIn>
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
