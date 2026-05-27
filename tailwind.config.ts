@@ -11,15 +11,16 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Exact palette extracted from the live WordPress site (Elementor globals)
+        // Palette pulled from the live site (Elementor globals) + parish logo
         burgundy: { DEFAULT: '#81231B', dark: '#651a14', light: '#a02e23' },
         ink: { DEFAULT: '#101840', muted: '#4a5275', soft: '#6f7693' },
         cream: { DEFAULT: '#FBF6EE', card: '#f4ead8', deep: '#ead8b8' },
         gold: { DEFAULT: '#EAC784', light: '#f4dfb3', dark: '#c9a361' },
+        // New: lavender/lilac from the parish logo (the "Parohia" text colour)
+        lavender: { DEFAULT: '#9b8caa', dark: '#7a6c8c', light: '#bcb0c8', soft: '#ebe5f0' },
         // Aliases for backwards compat in components
         navy: { DEFAULT: '#101840', dark: '#0a0e2d', soft: '#1c2454' },
         coral: { DEFAULT: '#81231B', dark: '#651a14', light: '#a02e23' },
-        lavender: '#ebe5f0',
         border: '#e5dfd7',
       },
       fontFamily: {
@@ -27,6 +28,9 @@ const config: Config = {
         serif: ['var(--font-lora)', 'Georgia', 'serif'],
         body: ['var(--font-merriweather)', 'Georgia', 'serif'],
         sans: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
+        // Ecclesiastical / Byzantine accent fonts — use sparingly
+        ecclesia: ['var(--font-cinzel-decorative)', 'Georgia', 'serif'],
+        ceremonial: ['var(--font-marcellus-sc)', 'Georgia', 'serif'],
       },
       keyframes: {
         'shimmer-slide': {

@@ -36,7 +36,7 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-navy">Info</h4>
+            <h4 className="mb-4 font-ceremonial text-sm uppercase tracking-[0.22em] text-burgundy">Info</h4>
             <ul className="space-y-2.5">
               {INFO.map((item) => (
                 <li key={item.href}>
@@ -49,7 +49,7 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-navy">Resurse</h4>
+            <h4 className="mb-4 font-ceremonial text-sm uppercase tracking-[0.22em] text-burgundy">Resurse</h4>
             <ul className="space-y-2.5">
               {RESURSE.map((item) => (
                 <li key={item.href}>
@@ -62,7 +62,7 @@ export function SiteFooter() {
           </div>
 
           <div className="lg:col-span-4">
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-navy">Contact</h4>
+            <h4 className="mb-4 font-ceremonial text-sm uppercase tracking-[0.22em] text-burgundy">Contact</h4>
             <p className="text-sm text-ink mb-3">Cod fiscal (CIF): 48801453</p>
             <ContactRow>Adresă: Strada Pacea, Nr. 45B, Botoșani, România</ContactRow>
             <ContactRow>Email: contact@parohiasfteodoradelasihla.ro</ContactRow>

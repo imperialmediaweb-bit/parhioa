@@ -12,7 +12,7 @@ export function SectionEyebrow({
   return (
     <p
       className={cn(
-        'font-serif italic uppercase tracking-[0.18em] text-xs text-coral mb-3',
+        'font-ceremonial uppercase tracking-[0.22em] text-xs text-burgundy mb-3',
         align === 'center' && 'text-center',
         className,
       )}

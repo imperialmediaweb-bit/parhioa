@@ -154,11 +154,11 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
           )}
         >
           {slide.eyebrow && (
-            <p className="font-serif italic uppercase tracking-[0.22em] text-xs sm:text-sm text-gold mb-4">
+            <p className="font-ceremonial uppercase tracking-[0.24em] text-xs sm:text-sm text-gold mb-4">
               {slide.eyebrow}
             </p>
           )}
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.1] tracking-tight mb-6">
+          <h1 className="font-ecclesia text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.15] tracking-wide mb-6 uppercase">
             {slide.title}
           </h1>
           {slide.subtitle && (
