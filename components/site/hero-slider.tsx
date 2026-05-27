@@ -138,9 +138,10 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
           src={slide.media.src}
           alt={slide.media.alt || ''}
           className={cn(
-            'absolute inset-0 h-full w-full object-cover transition-transform duration-[8000ms] ease-out',
+            'absolute inset-0 h-full w-full object-cover transition-transform ease-out',
             active ? 'scale-110' : 'scale-100',
           )}
+          style={{ transitionDuration: '8000ms' }}
         />
       )}
 
