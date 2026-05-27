@@ -136,7 +136,7 @@ export default async function HomePage() {
       <section id="parohul" className="container py-12 sm:py-20 scroll-mt-44">
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn className="lg:col-span-2">
-            <div className="relative aspect-[4/5] max-w-[360px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg bg-cream-card">
+            <div className="relative aspect-[4/5] max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg bg-cream-card">
               <img
                 src={IMG.priestPortrait}
                 alt="Părintele Cătălin Ailenei"
@@ -145,6 +145,7 @@ export default async function HomePage() {
             </div>
           </FadeIn>
           <FadeIn delay={0.15} className="lg:col-span-3">
+            <SectionEyebrow>Părintele paroh</SectionEyebrow>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Părintele Cătălin Ailenei – <em className="italic text-burgundy">păstor cu inimă de rugăciune</em>
             </h2>
@@ -225,6 +226,7 @@ export default async function HomePage() {
             </div>
           </FadeIn>
           <FadeIn className="lg:col-span-3 lg:order-1">
+            <SectionEyebrow>Ocrotitoarea parohiei</SectionEyebrow>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Sub ocrotirea <em className="italic text-burgundy">Sfintei Cuvioase Teodora</em> de la Sihla
             </h2>
@@ -261,6 +263,7 @@ export default async function HomePage() {
               </div>
             </FadeIn>
             <FadeIn delay={0.15} className="lg:col-span-3">
+              <SectionEyebrow>Devino ctitor</SectionEyebrow>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
                 Fii ctitor al unei <em className="italic text-burgundy">lucrări sfinte</em>
               </h2>
