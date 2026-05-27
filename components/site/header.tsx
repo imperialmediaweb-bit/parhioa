@@ -39,7 +39,7 @@ export async function SiteHeader() {
           >
             <Search className="h-5 w-5" />
           </button>
-          <Link href="/doneaza">
+          <Link href="/donations/strangere-de-fonduri-pentru-construirea-bisericii">
             <Button variant="cream" size="sm">Donează</Button>
           </Link>
           <Link href="/contact">
