@@ -254,11 +254,11 @@ export default async function HomePage() {
           <CrossDivider className="mb-8" />
           <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
             <FadeIn className="lg:col-span-2">
-              <div className="relative aspect-square max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg bg-white p-2">
+              <div className="relative aspect-square max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg">
                 <img
-                  src={IMG.parishIcon}
-                  alt="Icoană Sfânta Cuvioasă Teodora"
-                  className="absolute inset-2 w-[calc(100%-1rem)] h-[calc(100%-1rem)] object-contain rounded-2xl"
+                  src={IMG.ctitorPhoto}
+                  alt="Comunitatea parohiei adunată în rugăciune"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
                 <BorderBeam size={300} duration={12} colorFrom="#EAC784" colorTo="#81231B" />
               </div>

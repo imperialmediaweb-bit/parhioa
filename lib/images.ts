@@ -45,6 +45,12 @@ const IMAGE_MAP = {
     fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909922/Screenshot_98_uqff8q.png',
   },
 
+  // ===== Section: Fii ctitor — community photo =====
+  ctitorPhoto: {
+    matches: ['__never_match__'],
+    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779910523/594401053_122229437516091213_3614555738436750498_n_yn7qvr.jpg',
+  },
+
   // ===== Header / general logo =====
   parishLogo: {
     matches: ['parohia-sfanta-cuvioasa-teodora-de-la-sihla.png', '2024/03/parohia-sfanta'],
