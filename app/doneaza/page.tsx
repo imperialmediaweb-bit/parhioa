@@ -22,7 +22,7 @@ export default async function DoneazaPage() {
       />
 
       {/* Donate form (Stripe Checkout) */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-start">
           <FadeIn>
             <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
@@ -50,7 +50,7 @@ export default async function DoneazaPage() {
       </section>
 
       {/* Other ways to give */}
-      <section className="bg-cream py-16">
+      <section className="bg-cream py-12">
         <div className="container">
           <FadeIn>
             <div className="text-center mb-12 max-w-2xl mx-auto">
@@ -108,7 +108,7 @@ export default async function DoneazaPage() {
       </section>
 
       {/* Trust badge / thanks */}
-      <section className="bg-burgundy text-white py-16">
+      <section className="bg-burgundy text-white py-12">
         <div className="container max-w-2xl text-center">
           <FadeIn>
             <ShieldCheck className="h-12 w-12 text-gold mx-auto mb-4" />

@@ -131,7 +131,7 @@ export default async function HomePage() {
       </nav>
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
-      <section id="parohul" className="container py-16 sm:py-24 scroll-mt-44">
+      <section id="parohul" className="container py-12 sm:py-20 scroll-mt-44">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <div className="relative aspect-[5/6] rounded-3xl overflow-hidden shadow-xl bg-cream-card">
@@ -163,7 +163,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 4. IMPLICĂ-TE + DEVINO CTITOR CARD ============= */}
-      <section className="relative bg-cream bg-byzantine-pattern py-16 sm:py-24">
+      <section className="relative bg-cream bg-byzantine-pattern py-12 sm:py-20">
         <div className="container">
           <CrossDivider className="mb-8" />
           <FadeIn>
@@ -210,7 +210,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 5. SUB OCROTIREA SF. CUVIOASE TEODORA ============= */}
-      <section id="despre-parohia" className="container py-16 sm:py-24 scroll-mt-44">
+      <section id="despre-parohia" className="container py-12 sm:py-20 scroll-mt-44">
         <CrossDivider className="mb-12" />
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn delay={0.15} className="lg:order-2">
@@ -244,7 +244,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
-      <section id="daruieste" className="relative iconostasis py-16 sm:py-24 scroll-mt-44">
+      <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
           <CrossDivider className="mb-8" />
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -287,7 +287,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 7. 3 STÂLPI – MISIUNEA PAROHIEI ============= */}
-      <section className="container py-16 sm:py-24">
+      <section className="container py-12 sm:py-20">
         <CrossDivider className="mb-10" />
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
@@ -336,7 +336,7 @@ export default async function HomePage() {
 
       {/* ============= 8. VIDEO YOUTUBE ============= */}
       <section
-        className="relative py-20 sm:py-24 text-white"
+        className="relative py-14 sm:py-20 text-white"
         style={{
           backgroundImage: `linear-gradient(rgba(19, 31, 51, 0.7), rgba(19, 31, 51, 0.85)), url(${IMG.videoSectionBg})`,
           backgroundSize: 'cover',
@@ -377,7 +377,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 8b. SCHEȚE / VIAȚA PAROHIEI – cards with Orthodox motifs ============= */}
-      <section className="container py-16 sm:py-24">
+      <section className="container py-12 sm:py-20">
         <FadeIn>
           <CrossDivider size="lg" className="mb-10" />
           <div className="text-center mb-12 max-w-3xl mx-auto">
@@ -452,7 +452,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 9. TESTIMONIALE ============= */}
-      <section className="bg-lavender-soft/50 py-16 sm:py-24">
+      <section className="bg-lavender-soft/50 py-12 sm:py-20">
         <div className="container">
           <FadeIn>
             <div className="text-center mb-12 max-w-2xl mx-auto">
@@ -474,7 +474,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 10. FII ALĂTURI DE PAROHIE – 4 IMG GRID + 3 ICON BOXES ============= */}
-      <section className="container py-16 sm:py-24">
+      <section className="container py-12 sm:py-20">
         <CrossDivider className="mb-10" />
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
@@ -562,7 +562,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 11. BLOG NOUTĂȚI ============= */}
-      <section className="relative bg-parchment py-16 sm:py-24">
+      <section className="relative bg-parchment py-12 sm:py-20">
         <div className="container">
           <FadeIn>
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
@@ -610,7 +610,7 @@ export default async function HomePage() {
 
       {/* ============= 12. NEWSLETTER ============= */}
       <section
-        className="relative py-20 sm:py-24 text-white"
+        className="relative py-14 sm:py-20 text-white"
         style={{
           backgroundImage: `linear-gradient(rgba(19, 31, 51, 0.75), rgba(19, 31, 51, 0.85)), url(${IMG.newsletterBg})`,
           backgroundSize: 'cover',

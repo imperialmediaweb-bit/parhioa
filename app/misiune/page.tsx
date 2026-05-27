@@ -22,7 +22,7 @@ export default async function MisiunePage() {
       />
 
       {/* Intro */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <SectionEyebrow>Credință vie și ajutor</SectionEyebrow>
@@ -56,7 +56,7 @@ export default async function MisiunePage() {
       </section>
 
       {/* Mission inspiration */}
-      <section className="bg-cream py-16">
+      <section className="bg-cream py-12">
         <CrossDivider className="container mb-10" />
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
@@ -92,7 +92,7 @@ export default async function MisiunePage() {
       </section>
 
       {/* Programs */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <SectionEyebrow>Programe ale parohiei</SectionEyebrow>
@@ -130,7 +130,7 @@ export default async function MisiunePage() {
       </section>
 
       {/* Partnership */}
-      <section className="bg-cream py-16">
+      <section className="bg-cream py-12">
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <div className="relative aspect-square rounded-3xl overflow-hidden shadow-xl">
@@ -215,7 +215,7 @@ export default async function MisiunePage() {
       </section>
 
       {/* Sponsorship 20% */}
-      <section className="container py-16 text-center">
+      <section className="container py-12 text-center">
         <FadeIn>
           <SectionEyebrow align="center">Direcționează 20% din impozit. Nu te costă nimic.</SectionEyebrow>
           <h2 className="font-display text-3xl sm:text-4xl font-semibold leading-tight mb-5 max-w-2xl mx-auto">

@@ -22,7 +22,7 @@ export default async function DesprePage() {
       />
 
       {/* Intro */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <SectionEyebrow>Parohia</SectionEyebrow>
@@ -55,7 +55,7 @@ export default async function DesprePage() {
       </section>
 
       {/* Pr. Cătălin Ailenei */}
-      <section className="bg-cream py-16">
+      <section className="bg-cream py-12">
         <CrossDivider className="container mb-10" />
         <div className="container grid lg:grid-cols-5 gap-10 lg:gap-12 items-center">
           <FadeIn className="lg:col-span-2">
@@ -84,7 +84,7 @@ export default async function DesprePage() {
       </section>
 
       {/* Sfânta Cuvioasă Teodora */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <SectionEyebrow>Ocrotitoarea parohiei</SectionEyebrow>
@@ -132,7 +132,7 @@ export default async function DesprePage() {
       </section>
 
       {/* Domnul a zidit casa aceasta */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn delay={0.15} className="order-2 lg:order-1">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
@@ -164,7 +164,7 @@ export default async function DesprePage() {
       </section>
 
       {/* Împreună slujitori */}
-      <section className="bg-cream-card py-16">
+      <section className="bg-cream-card py-12">
         <div className="container max-w-3xl text-center">
           <FadeIn>
             <Cross className="h-10 w-10 text-burgundy mx-auto mb-4" />

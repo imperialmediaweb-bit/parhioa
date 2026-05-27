@@ -37,7 +37,7 @@ export default async function Redirect35Page() {
       />
 
       {/* Intro card with photo */}
-      <section className="container py-16">
+      <section className="container py-12">
         <FadeIn>
           <Card className="bg-cream-card border-0 p-2 rounded-3xl overflow-hidden">
             <div className="grid lg:grid-cols-2">
@@ -68,7 +68,7 @@ export default async function Redirect35Page() {
       </section>
 
       {/* How money is used */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <FadeIn>
             <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-lg">
@@ -106,7 +106,7 @@ export default async function Redirect35Page() {
       </section>
 
       {/* Why */}
-      <section className="bg-cream py-16">
+      <section className="bg-cream py-12">
         <div className="container max-w-3xl text-center">
           <FadeIn>
             <SectionEyebrow align="center">Implică-te</SectionEyebrow>
@@ -148,7 +148,7 @@ export default async function Redirect35Page() {
       </section>
 
       {/* Steps (4 steps, exactly as on the live site) + download form */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-start">
           <FadeIn>
             <SectionEyebrow>Pașii</SectionEyebrow>
@@ -246,7 +246,7 @@ export default async function Redirect35Page() {
       </section>
 
       {/* Online form embed (e.g., redirectioneaza.ro / formular230.ro iframe) */}
-      <section id="completeaza" className="bg-cream-card py-16 scroll-mt-24">
+      <section id="completeaza" className="bg-cream-card py-12 scroll-mt-24">
         <div className="container max-w-4xl">
           <FadeIn>
             <div className="text-center mb-8">
@@ -312,7 +312,7 @@ export default async function Redirect35Page() {
       </section>
 
       {/* Parish info */}
-      <section className="container py-16">
+      <section className="container py-12">
         <FadeIn>
           <Card className="bg-lavender-soft border-0 p-8 sm:p-12 rounded-3xl">
             <SectionEyebrow align="center">Implică-te</SectionEyebrow>

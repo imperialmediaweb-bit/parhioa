@@ -28,7 +28,7 @@ export default async function BlogPage() {
         subtitle="Vești din parohie și din viața bisericii — gânduri, slujbe și momente împărtășite."
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
       />
-      <section className="container py-16">
+      <section className="container py-12">
         {posts.length === 0 ? (
           <p className="text-center text-ink-muted">Nu există articole publicate.</p>
         ) : (

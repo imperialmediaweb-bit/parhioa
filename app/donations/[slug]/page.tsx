@@ -63,7 +63,7 @@ export default async function DonationCampaignPage({
         ]}
       />
 
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 max-w-6xl mx-auto">
           {/* LEFT: poster + body content */}
           <div className="lg:col-span-3 space-y-8">
@@ -187,7 +187,7 @@ export default async function DonationCampaignPage({
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-burgundy text-white py-16">
+      <section className="bg-burgundy text-white py-12">
         <div className="container max-w-2xl text-center">
           <FadeIn>
             <Heart className="h-10 w-10 text-gold mx-auto mb-4" />

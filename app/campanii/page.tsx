@@ -34,7 +34,7 @@ export default async function CampaniiPage() {
       />
 
       {/* Campaign card with image */}
-      <section className="container py-16">
+      <section className="container py-12">
         <FadeIn>
           {CAMPAIGNS.map((c) => (
             <Card key={c.slug} className="overflow-hidden bg-cream-card border-0 max-w-3xl mx-auto">
@@ -60,7 +60,7 @@ export default async function CampaniiPage() {
       </section>
 
       {/* Stats / impact */}
-      <section className="bg-cream py-16">
+      <section className="bg-cream py-12">
         <div className="container max-w-4xl text-center">
           <FadeIn>
             <SectionEyebrow align="center">Împreună putem mai mult</SectionEyebrow>
@@ -100,7 +100,7 @@ export default async function CampaniiPage() {
         <section
           key={c.slug}
           id={`donate-${c.slug}`}
-          className="container py-16 scroll-mt-24"
+          className="container py-12 scroll-mt-24"
         >
           <FadeIn>
             <div className="grid lg:grid-cols-2 gap-10 items-start max-w-5xl mx-auto">

@@ -19,7 +19,7 @@ export default async function ContactPage() {
       />
 
       {/* Form + photo */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-stretch">
           <FadeIn>
             <Card className="h-full bg-lavender-soft border-0 p-8 sm:p-10">
@@ -55,7 +55,7 @@ export default async function ContactPage() {
       </section>
 
       {/* 3 ways to connect */}
-      <section className="container py-16">
+      <section className="container py-12">
         <div className="grid sm:grid-cols-3 gap-6">
           {[
             { icon: MapPin, title: 'Vizitează-ne', text: 'Vino la slujbe, rugăciuni și întâlniri duhovnicești. Parohia este deschisă tuturor celor care caută liniște, lumină și comuniune cu Dumnezeu.' },
@@ -76,7 +76,7 @@ export default async function ContactPage() {
       </section>
 
       {/* Map + address */}
-      <section className="bg-lavender-soft py-16">
+      <section className="bg-lavender-soft py-12">
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <FadeIn>
             <div className="aspect-square rounded-3xl overflow-hidden shadow-xl bg-white">
