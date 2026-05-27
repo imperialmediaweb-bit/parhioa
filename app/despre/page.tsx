@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Quote, Cross } from 'lucide-react';
 import { getImages } from '@/lib/images';
+import { CrossDivider } from '@/components/site/cross-divider';
 
 export const metadata = { title: 'Despre' };
 
@@ -55,6 +56,7 @@ export default async function DesprePage() {
 
       {/* Pr. Cătălin Ailenei */}
       <section className="bg-cream py-16">
+        <CrossDivider className="container mb-10" />
         <div className="container grid lg:grid-cols-5 gap-10 lg:gap-12 items-center">
           <FadeIn className="lg:col-span-2">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">

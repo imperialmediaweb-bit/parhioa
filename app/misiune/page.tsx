@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heart, HandHeart, Sparkles, Users, Gift, Building2, Check } from 'lucide-react';
 import { getImages } from '@/lib/images';
+import { CrossDivider } from '@/components/site/cross-divider';
 
 export const metadata = { title: 'Misiune' };
 
@@ -56,6 +57,7 @@ export default async function MisiunePage() {
 
       {/* Mission inspiration */}
       <section className="bg-cream py-16">
+        <CrossDivider className="container mb-10" />
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
             <div className="relative aspect-square rounded-3xl overflow-hidden shadow-xl">

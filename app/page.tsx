@@ -166,6 +166,7 @@ export default async function HomePage() {
       {/* ============= 4. IMPLICĂ-TE + DEVINO CTITOR CARD ============= */}
       <section className="bg-cream py-16 sm:py-24">
         <div className="container">
+          <CrossDivider className="mb-8" />
           <FadeIn>
             <div className="text-center mb-12 max-w-3xl mx-auto">
               <SectionEyebrow align="center">
@@ -246,6 +247,7 @@ export default async function HomePage() {
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
       <section id="daruieste" className="bg-cream py-16 sm:py-24 scroll-mt-44">
         <div className="container">
+          <CrossDivider className="mb-8" />
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <FadeIn>
               <div className="relative aspect-[4/5] sm:aspect-[5/6] rounded-3xl overflow-hidden shadow-xl bg-white p-2">
@@ -287,6 +289,7 @@ export default async function HomePage() {
 
       {/* ============= 7. 3 STÂLPI – MISIUNEA PAROHIEI ============= */}
       <section className="container py-16 sm:py-24">
+        <CrossDivider className="mb-10" />
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">
@@ -469,6 +472,7 @@ export default async function HomePage() {
 
       {/* ============= 10. FII ALĂTURI DE PAROHIE – 4 IMG GRID + 3 ICON BOXES ============= */}
       <section className="container py-16 sm:py-24">
+        <CrossDivider className="mb-10" />
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Sprijină lucrarea parohiei</SectionEyebrow>

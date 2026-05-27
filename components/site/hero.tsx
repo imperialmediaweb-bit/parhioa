@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { CrossDivider } from './cross-divider';
 
 interface HeroProps {
   title: React.ReactNode;
@@ -26,6 +27,7 @@ export function Hero({ title, subtitle, breadcrumb, className }: HeroProps) {
         }}
       >
         <div className="mx-auto max-w-3xl space-y-5 animate-fade-up">
+          <CrossDivider size="sm" variant="dark" className="my-0 mb-4" />
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl !text-white font-semibold leading-[1.1] tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
             {title}
           </h1>
