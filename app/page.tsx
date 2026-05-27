@@ -7,22 +7,21 @@ import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { Testimonials, type Testimonial } from '@/components/site/testimonials';
 import { VideoSection } from '@/components/site/video-section';
 import { CrossDivider } from '@/components/site/cross-divider';
+import {
+  CandleIcon,
+  CenserIcon,
+  ChurchIcon,
+  GospelIcon,
+  KandilaIcon,
+  HandsHeartIcon,
+  PrayingHandsIcon,
+  MandorlaIcon,
+} from '@/components/site/orthodox-icons';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BorderBeam } from '@/components/magicui/border-beam';
 import { FadeIn } from '@/components/magicui/fade-in';
-import {
-  Heart,
-  HandHeart,
-  Church,
-  BookOpen,
-  Percent,
-  Users,
-  Flame,
-  CrossIcon,
-  Sparkles,
-  Quote as QuoteIcon,
-} from 'lucide-react';
+import { Percent, Users, BookOpen, HandHeart } from 'lucide-react';
 
 export const revalidate = 60;
 
@@ -304,31 +303,31 @@ export default async function HomePage() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
-              icon: Church,
+              Icon: ChurchIcon,
               title: 'Slujire liturgică',
               text:
                 'Ne adunăm cu evlavie la Sfânta Liturghie și la toate rânduielile Bisericii, căutând întărirea sufletelor și luminarea vieții noastre în Hristos.',
             },
             {
-              icon: Heart,
+              Icon: HandsHeartIcon,
               title: 'Milostenie și grijă',
               text:
                 'Ne străduim să fim aproape de cei în suferință – bolnavi, bătrâni, copii lipsiți – cu ce putem, din dragoste pentru Dumnezeu și pentru aproapele.',
             },
             {
-              icon: HandHeart,
+              Icon: PrayingHandsIcon,
               title: 'Rugăciune împreună',
               text:
                 'Rugăciunea este temelia parohiei noastre. Ne unim inimile înaintea Domnului, în unitate și pace, cu nădejde că El primește și osteneala, și tăcerea.',
             },
           ].map((p, i) => (
             <FadeIn key={p.title} delay={i * 0.1}>
-              <Card className="h-full p-8 bg-cream text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-burgundy text-white mb-5 shadow-lg">
-                  <p.icon className="h-9 w-9" />
+              <Card className="h-full p-8 bg-cream text-center ornament-frame">
+                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark text-cream mb-5 shadow-candlelight candlelight-halo">
+                  <p.Icon size={44} />
                 </div>
                 <h3 className="font-display text-2xl font-semibold mb-3 text-burgundy">{p.title}</h3>
-                <p className="text-ink-muted leading-relaxed">{p.text}</p>
+                <p className="text-ink-muted leading-relaxed font-serif">{p.text}</p>
               </Card>
             </FadeIn>
           ))}
@@ -393,56 +392,58 @@ export default async function HomePage() {
           </div>
         </FadeIn>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
             {
               img: IMG.liturghie,
-              icon: Church,
+              Icon: ChurchIcon,
               eyebrow: 'Sfânta Liturghie',
               title: 'Slujbe vii',
               text: 'Liturghie, vecernii și paraclise în rânduiala bisericească.',
             },
             {
               img: IMG.iconTeodora,
-              icon: Sparkles,
+              Icon: MandorlaIcon,
               eyebrow: 'Icoane',
               title: 'Acoperământul sfinților',
               text: 'Sub ocrotirea Sfintei Cuvioase Teodora de la Sihla.',
             },
             {
               img: IMG.handsBranch,
-              icon: Flame,
-              eyebrow: 'Lumânări și rugăciuni',
+              Icon: CandleIcon,
+              eyebrow: 'Lumânări',
               title: 'Pomelnice și sfeștanii',
               text: 'Pomeniri la Sfânta Liturghie pentru cei vii și adormiți.',
             },
             {
               img: IMG.handsChurch,
-              icon: Heart,
+              Icon: CenserIcon,
               eyebrow: 'Pelerinaje',
               title: 'Drumuri spre lumină',
               text: 'Drumuri la mănăstiri, întâlniri duhovnicești și clipe de bucurie creștină.',
             },
           ].map((s, i) => (
             <FadeIn key={s.title} delay={i * 0.08}>
-              <Card className="h-full overflow-hidden bg-white border border-border group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <Card className="h-full overflow-hidden bg-cream group transition-all duration-300 hover:-translate-y-1 hover:shadow-warm-lg">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={s.img}
                     alt={s.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/60 via-transparent to-transparent" />
-                  <div className="absolute top-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-burgundy shadow-md">
-                    <s.icon className="h-5 w-5" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/65 via-burgundy-dark/15 to-transparent" />
+                  <div className="absolute top-3 left-3 flex h-12 w-12 items-center justify-center rounded-full bg-cream text-burgundy border-2 border-gold/60 shadow-warm-md">
+                    <s.Icon size={24} />
                   </div>
                 </div>
-                <div className="p-5">
-                  <p className="font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy mb-2">
-                    {s.eyebrow}
+                <div className="p-5 border-t border-gold/30">
+                  <p className="font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy mb-2 flex items-center gap-2">
+                    <span className="h-px w-3 bg-gold-dark" /> {s.eyebrow}
                   </p>
-                  <h3 className="font-display text-xl font-semibold text-navy mb-2">{s.title}</h3>
-                  <p className="text-sm text-ink-muted leading-relaxed">{s.text}</p>
+                  <h3 className="font-display text-xl font-semibold text-navy mb-2 leading-tight">
+                    {s.title}
+                  </h3>
+                  <p className="text-sm text-ink-muted leading-relaxed font-serif">{s.text}</p>
                 </div>
               </Card>
             </FadeIn>
@@ -459,9 +460,11 @@ export default async function HomePage() {
                 Milostenia zidește și suflete, nu doar ziduri
               </SectionEyebrow>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-                Glasul comunității – despre credință, rugăciune și{' '}
-                <em className="italic text-burgundy">nădejde</em>
+                Mărturii ale <em className="italic text-burgundy">comunității</em>
               </h2>
+              <p className="font-serif italic text-ink-muted mt-3">
+                Glasul celor ce zidesc împreună, despre credință, rugăciune și nădejde.
+              </p>
             </div>
           </FadeIn>
           <FadeIn delay={0.1}>
@@ -508,7 +511,7 @@ export default async function HomePage() {
           <div className="lg:col-span-7 space-y-5">
             {[
               {
-                icon: Percent,
+                Icon: GospelIcon,
                 title: 'Redirecționează din impozit',
                 text:
                   'Atât persoanele fizice (3,5%) cât și firmele (20% din impozitul pe profit sau venit) pot susține parohia fără costuri suplimentare. Sprijină zidirea bisericii printr-un gest simplu.',
@@ -516,7 +519,7 @@ export default async function HomePage() {
                 cta: 'Vezi cum',
               },
               {
-                icon: HandHeart,
+                Icon: HandsHeartIcon,
                 title: 'Dăruiește cu inimă',
                 text:
                   'Prin darul tău, biserica prinde viață, iar cei aflați în nevoi simt mâna lui Dumnezeu. Dăruiește cu credință și nădejde.',
@@ -524,7 +527,7 @@ export default async function HomePage() {
                 cta: 'Donează',
               },
               {
-                icon: Users,
+                Icon: KandilaIcon,
                 title: 'Implică-te ca voluntar',
                 text:
                   'Biserica are nevoie și de oameni, nu doar de bani. Fie că ajuți la curățenie, organizare sau distribuirea unor ajutoare, prezența ta contează.',
@@ -533,18 +536,20 @@ export default async function HomePage() {
               },
             ].map((p, i) => (
               <FadeIn key={p.title} delay={i * 0.1}>
-                <div className="flex gap-4 sm:gap-5">
-                  <div className="flex-shrink-0 flex h-14 w-14 items-center justify-center rounded-full bg-burgundy text-white shadow-lg">
-                    <p.icon className="h-7 w-7" />
+                <div className="flex gap-4 sm:gap-5 p-5 rounded-2xl bg-cream border border-gold/30 shadow-warm hover:shadow-warm-md transition-shadow">
+                  <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark text-cream shadow-candlelight">
+                    <p.Icon size={32} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-display text-xl font-semibold text-navy mb-1.5">
+                    <h3 className="font-display text-xl font-semibold text-burgundy mb-1.5">
                       {p.title}
                     </h3>
-                    <p className="text-sm text-ink-muted leading-relaxed mb-2">{p.text}</p>
+                    <p className="text-sm text-ink-muted leading-relaxed mb-2 font-serif">
+                      {p.text}
+                    </p>
                     <Link
                       href={p.href}
-                      className="text-sm font-medium text-burgundy hover:underline"
+                      className="text-sm font-semibold text-burgundy hover:text-burgundy-dark inline-flex items-center gap-1"
                     >
                       {p.cta} →
                     </Link>

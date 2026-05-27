@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils';
 
 /**
- * Authentic Eastern Orthodox cross with budded/trefoil ends —
- * each arm terminates in three rounded lobes (the classic shape
- * carved into wooden icon crosses).
+ * Authentic Romanian Orthodox cross — modelled after a carved-wood
+ * Russian/Greek style cross with cloverleaf (trefoil) ends. Each arm
+ * terminates in three large rounded lobes meeting at a slim neck.
  */
 export function CrossDivider({
   className,
@@ -14,27 +14,12 @@ export function CrossDivider({
   size?: 'sm' | 'default' | 'lg';
   variant?: 'light' | 'dark' | 'gold';
 }) {
-  const h = size === 'sm' ? 44 : size === 'lg' ? 88 : 64;
+  const h = size === 'sm' ? 48 : size === 'lg' ? 96 : 68;
 
-  const colors = {
-    light: {
-      cross: '#81231B',
-      inner: '#EAC784',
-      line: 'from-burgundy/40',
-      dot: 'text-gold-dark',
-    },
-    dark: {
-      cross: '#EAC784',
-      inner: '#FBF6EE',
-      line: 'from-white/35',
-      dot: 'text-gold',
-    },
-    gold: {
-      cross: '#c9a361',
-      inner: '#FBF6EE',
-      line: 'from-gold/50',
-      dot: 'text-burgundy',
-    },
+  const palette = {
+    light: { cross: '#81231B', inner: '#EAC784', rule: 'from-burgundy/40', dot: 'text-gold-dark' },
+    dark: { cross: '#EAC784', inner: '#FBF6EE', rule: 'from-gold/40', dot: 'text-gold' },
+    gold: { cross: '#c9a361', inner: '#FBF6EE', rule: 'from-gold/50', dot: 'text-burgundy' },
   }[variant];
 
   return (
@@ -42,24 +27,26 @@ export function CrossDivider({
       className={cn('flex items-center justify-center gap-4 my-10 select-none', className)}
       aria-hidden
     >
-      {/* Left rule */}
-      <span className="flex items-center gap-2 flex-1 max-w-[160px] justify-end">
-        <span className={cn('h-px flex-1 bg-gradient-to-r from-transparent', colors.line)} />
-        <Diamond className={cn('h-2 w-2', colors.dot)} />
+      <span className="flex items-center gap-2 flex-1 max-w-[140px] justify-end">
+        <span className={cn('h-px flex-1 bg-gradient-to-r from-transparent', palette.rule)} />
+        <Diamond className={cn('h-2 w-2', palette.dot)} />
       </span>
 
-      {/* The Orthodox cross — three-bar with budded ends */}
-      <OrthodoxCross height={h} fill={colors.cross} accent={colors.inner} />
+      <OrthodoxCross height={h} fill={palette.cross} accent={palette.inner} />
 
-      {/* Right rule */}
-      <span className="flex items-center gap-2 flex-1 max-w-[160px]">
-        <Diamond className={cn('h-2 w-2', colors.dot)} />
-        <span className={cn('h-px flex-1 bg-gradient-to-l from-transparent', colors.line)} />
+      <span className="flex items-center gap-2 flex-1 max-w-[140px]">
+        <Diamond className={cn('h-2 w-2', palette.dot)} />
+        <span className={cn('h-px flex-1 bg-gradient-to-l from-transparent', palette.rule)} />
       </span>
     </div>
   );
 }
 
+/**
+ * Romanian Orthodox cross SVG — carved-wood style with trefoil ends.
+ * The path describes the full silhouette: each arm flares into three
+ * round lobes, then a slim neck, then thickens into the cross body.
+ */
 export function OrthodoxCross({
   height = 80,
   fill = '#81231B',
@@ -71,94 +58,109 @@ export function OrthodoxCross({
   accent?: string;
   className?: string;
 }) {
-  // Viewbox: 120 wide × 180 tall — matches the long-stemmed Eastern Orthodox cross
   return (
     <svg
-      viewBox="0 0 120 180"
+      viewBox="0 0 200 280"
       height={height}
+      width={(height * 200) / 280}
       className={className}
-      fill={fill}
       aria-hidden
     >
-      <defs>
-        {/* Reusable trefoil cluster (one lobe of the budded end) */}
-        <symbol id="trefoil-end" viewBox="-26 -16 52 32">
-          <circle cx="-14" cy="0" r="10" />
-          <circle cx="14" cy="0" r="10" />
-          <circle cx="0" cy="-10" r="10" />
-        </symbol>
-      </defs>
-
-      {/* Vertical post (longer below the main bar) */}
-      <rect x="54" y="26" width="12" height="138" rx="2" />
-
-      {/* Main horizontal bar */}
-      <rect x="26" y="78" width="68" height="14" rx="2" />
-
-      {/* Top short bar (INRI titulus) */}
-      <rect x="46" y="44" width="28" height="8" rx="1" />
-
-      {/* Slanted suppedaneum (footrest) */}
-      <g transform="rotate(18 60 142)">
-        <rect x="32" y="138" width="56" height="9" rx="1.5" />
-      </g>
-
-      {/* Budded ends — top of post */}
-      <g transform="translate(60 18)">
-        <circle r="11" />
-        <circle cx="-11" cy="6" r="8.5" />
-        <circle cx="11" cy="6" r="8.5" />
-      </g>
-
-      {/* Budded ends — left of main bar */}
-      <g transform="translate(22 85)">
-        <circle r="11" />
-        <circle cx="-6" cy="-11" r="8.5" />
-        <circle cx="-6" cy="11" r="8.5" />
-      </g>
-
-      {/* Budded ends — right of main bar */}
-      <g transform="translate(98 85)">
-        <circle r="11" />
-        <circle cx="6" cy="-11" r="8.5" />
-        <circle cx="6" cy="11" r="8.5" />
-      </g>
-
-      {/* Budded ends — left of suppedaneum (rotated) */}
-      <g transform="rotate(18 60 142) translate(28 142.5)">
-        <circle r="8" />
-        <circle cx="-5" cy="-7" r="6.5" />
-        <circle cx="-5" cy="7" r="6.5" />
-      </g>
-
-      {/* Budded ends — right of suppedaneum (rotated) */}
-      <g transform="rotate(18 60 142) translate(92 142.5)">
-        <circle r="8" />
-        <circle cx="5" cy="-7" r="6.5" />
-        <circle cx="5" cy="7" r="6.5" />
-      </g>
-
-      {/* Budded end — bottom of post */}
-      <g transform="translate(60 168)">
-        <circle r="11" />
-        <circle cx="-11" cy="-6" r="8.5" />
-        <circle cx="11" cy="-6" r="8.5" />
-      </g>
-
-      {/* Gold accent at the centre crossing */}
-      <circle cx="60" cy="85" r="4.5" fill={accent} />
-
-      {/* Inner outline accent on the main bar (subtle) */}
-      <rect
-        x="29"
-        y="81"
-        width="62"
-        height="8"
-        rx="1.5"
+      {/* Main silhouette — single filled path so it reads as one carved object */}
+      <path
+        fill={fill}
+        d="
+          M 100 8
+          C 92 8, 86 14, 86 22
+          C 86 28, 88 32, 90 35
+          C 82 35, 76 41, 76 49
+          C 76 57, 82 63, 90 63
+          C 92 63, 94 63, 96 62
+          L 96 80
+          L 60 80
+          C 60 72, 54 66, 46 66
+          C 38 66, 32 72, 32 80
+          C 32 86, 35 90, 39 92
+          C 32 92, 26 98, 26 106
+          C 26 114, 32 120, 40 120
+          C 48 120, 54 114, 54 106
+          C 56 106, 58 105, 60 105
+          L 96 105
+          L 96 200
+          L 78 200
+          C 78 192, 72 186, 64 186
+          C 56 186, 50 192, 50 200
+          C 50 206, 53 211, 57 213
+          C 49 213, 43 219, 43 227
+          C 43 235, 49 241, 57 241
+          C 65 241, 71 235, 71 227
+          C 71 226, 71 225, 70 224
+          L 90 220
+          L 92 248
+          C 84 248, 78 254, 78 262
+          C 78 270, 84 276, 92 276
+          L 108 276
+          C 116 276, 122 270, 122 262
+          C 122 254, 116 248, 108 248
+          L 110 220
+          L 130 224
+          C 129 225, 129 226, 129 227
+          C 129 235, 135 241, 143 241
+          C 151 241, 157 235, 157 227
+          C 157 219, 151 213, 143 213
+          C 147 211, 150 206, 150 200
+          C 150 192, 144 186, 136 186
+          C 128 186, 122 192, 122 200
+          L 104 200
+          L 104 105
+          L 140 105
+          C 142 105, 144 106, 146 106
+          C 146 114, 152 120, 160 120
+          C 168 120, 174 114, 174 106
+          C 174 98, 168 92, 161 92
+          C 165 90, 168 86, 168 80
+          C 168 72, 162 66, 154 66
+          C 146 66, 140 72, 140 80
+          L 104 80
+          L 104 62
+          C 106 63, 108 63, 110 63
+          C 118 63, 124 57, 124 49
+          C 124 41, 118 35, 110 35
+          C 112 32, 114 28, 114 22
+          C 114 14, 108 8, 100 8
+          Z
+        "
+      />
+      {/* Inner outline — subtle gold accent following the silhouette */}
+      <path
         fill="none"
         stroke={accent}
-        strokeWidth="1"
-        opacity="0.4"
+        strokeWidth="1.2"
+        opacity="0.55"
+        d="
+          M 96 80 L 60 80
+          M 96 105 L 60 105
+          M 96 200 L 78 200
+          M 104 200 L 122 200
+          M 104 80 L 140 80
+          M 104 105 L 140 105
+        "
+      />
+      {/* Gold dot at the crossing */}
+      <circle cx="100" cy="92" r="4" fill={accent} />
+      {/* Inner highlight stroke for depth */}
+      <path
+        fill="none"
+        stroke={accent}
+        strokeWidth="1.5"
+        opacity="0.35"
+        d="
+          M 96 18 L 96 65
+          M 96 105 L 96 195
+          M 96 245 L 96 268
+          M 32 92 L 60 92
+          M 140 92 L 168 92
+        "
       />
     </svg>
   );

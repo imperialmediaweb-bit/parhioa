@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, Linkedin, Music2, Check, MapPin, Mail, Phone } from 'lucide-react';
+import { Facebook, Linkedin, Music2, MapPin, Mail, Phone, User } from 'lucide-react';
 import { Logo } from './logo';
 import { OrthodoxCross } from './cross-divider';
 
@@ -20,108 +20,105 @@ const RESURSE = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative bg-navy-dark text-cream/90 mt-20 overflow-hidden">
-      {/* Decorative Byzantine pattern overlay */}
+    <footer className="relative mt-20 overflow-hidden text-cream/90">
+      {/* Deep burgundy → wine gradient — matches the logo, not navy */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-30"
+        className="absolute inset-0 -z-10"
         style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='%23EAC784' stroke-width='0.6' opacity='0.55'><path d='M40 8 L46 22 L62 22 L50 32 L54 48 L40 38 L26 48 L30 32 L18 22 L34 22 Z'/><circle cx='40' cy='40' r='3' fill='%23EAC784'/></g></svg>\")",
+          background:
+            'linear-gradient(180deg, #5a1813 0%, #3d0f0a 70%, #2a0907 100%)',
         }}
       />
-      {/* Golden top edge accent */}
-      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent" />
+      {/* Subtle gold ornamental wash (carved-wood-like) */}
+      <div
+        className="absolute inset-0 -z-10 opacity-25 mix-blend-overlay pointer-events-none"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.6' numOctaves='2' seed='8'/><feColorMatrix values='0 0 0 0 0.92 0 0 0 0 0.78 0 0 0 0 0.52 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+        }}
+      />
+
+      {/* Top golden edge */}
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent" />
+      <div className="absolute top-[3px] inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
       {/* Sacred quote band */}
-      <div className="relative border-b border-gold/20 py-10">
+      <div className="relative border-b border-gold/25 py-12">
         <div className="container max-w-3xl text-center">
-          <div className="flex justify-center mb-4 opacity-80">
-            <OrthodoxCross height={56} fill="#EAC784" accent="#FBF6EE" />
+          <div className="flex justify-center mb-5">
+            <OrthodoxCross height={72} fill="#EAC784" accent="#FBF6EE" />
           </div>
-          <p className="font-display text-xl sm:text-2xl italic text-cream leading-relaxed">
+          <p className="font-display text-2xl sm:text-3xl italic text-cream leading-relaxed">
             „Casa Mea, casă de rugăciune se va chema, pentru toate neamurile."
           </p>
-          <p className="mt-3 font-ceremonial uppercase text-xs tracking-[0.22em] text-gold">
-            Isaia 56:7
+          <p className="mt-4 font-ceremonial uppercase text-xs tracking-[0.28em] text-gold">
+            — Isaia 56:7
           </p>
         </div>
       </div>
 
-      <div className="relative container py-14">
+      <div className="relative container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+          {/* About + logo */}
           <div className="lg:col-span-4 space-y-5">
-            <div className="bg-white rounded-2xl p-4 inline-block shadow-warm-lg">
+            <div className="bg-cream rounded-2xl p-5 inline-block shadow-warm-lg">
               <Logo size="lg" />
             </div>
-            <p className="text-sm text-cream/75 leading-relaxed max-w-xs">
+            <p className="text-[15px] text-cream/80 leading-relaxed max-w-sm font-serif">
               Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; din Botoșani este o comunitate în
               formare, zidită cu credință, rugăciune și dragoste frățească.
             </p>
-            <div className="flex gap-2 pt-2">
+            <div className="flex gap-2.5 pt-1">
               <SocialLink href="#" label="Facebook"><Facebook className="h-4 w-4" /></SocialLink>
               <SocialLink href="#" label="TikTok"><Music2 className="h-4 w-4" /></SocialLink>
               <SocialLink href="#" label="LinkedIn"><Linkedin className="h-4 w-4" /></SocialLink>
             </div>
           </div>
 
+          {/* Info column */}
           <div className="lg:col-span-2">
-            <h4 className="mb-4 font-ceremonial text-sm uppercase tracking-[0.22em] text-gold flex items-center gap-2">
-              <span className="inline-block h-px w-4 bg-gold" /> Info
-            </h4>
+            <FooterHeading>Info</FooterHeading>
             <ul className="space-y-2.5">
-              {INFO.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-cream/80 hover:text-gold transition-colors flex items-center gap-2 group"
-                  >
-                    <span className="text-gold/60 group-hover:text-gold transition-colors">✦</span>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {INFO.map((item) => <FooterLink key={item.href} {...item} />)}
             </ul>
           </div>
 
+          {/* Resurse column */}
           <div className="lg:col-span-2">
-            <h4 className="mb-4 font-ceremonial text-sm uppercase tracking-[0.22em] text-gold flex items-center gap-2">
-              <span className="inline-block h-px w-4 bg-gold" /> Resurse
-            </h4>
+            <FooterHeading>Resurse</FooterHeading>
             <ul className="space-y-2.5">
-              {RESURSE.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-cream/80 hover:text-gold transition-colors flex items-center gap-2 group"
-                  >
-                    <span className="text-gold/60 group-hover:text-gold transition-colors">✦</span>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {RESURSE.map((item) => <FooterLink key={item.href} {...item} />)}
             </ul>
           </div>
 
+          {/* Contact column */}
           <div className="lg:col-span-4">
-            <h4 className="mb-4 font-ceremonial text-sm uppercase tracking-[0.22em] text-gold flex items-center gap-2">
-              <span className="inline-block h-px w-4 bg-gold" /> Contact
-            </h4>
-            <p className="text-sm text-cream/80 mb-3">Cod fiscal (CIF): <strong className="text-gold">48801453</strong></p>
-            <ContactRow icon={MapPin}>Strada Pacea, Nr. 45B, Botoșani, România</ContactRow>
-            <ContactRow icon={Mail}>
-              <a href="mailto:contact@parohiasfteodoradelasihla.ro" className="hover:text-gold transition">
-                contact@parohiasfteodoradelasihla.ro
-              </a>
-            </ContactRow>
-            <ContactRow icon={Phone}>
-              <a href="tel:+40754857903" className="hover:text-gold transition">+40 754 857 903</a>
-            </ContactRow>
-            <ContactRow icon={Check}>Preot paroh: Pr. Cătălin Ailenei</ContactRow>
+            <FooterHeading>Contact</FooterHeading>
+            <p className="text-sm text-cream/85 mb-4 flex items-center gap-2">
+              <span className="text-gold">CIF</span>
+              <span className="font-mono font-bold text-gold-light">48801453</span>
+            </p>
+            <div className="space-y-3">
+              <ContactRow icon={MapPin}>Strada Pacea, Nr. 45B, Botoșani, România</ContactRow>
+              <ContactRow icon={Mail}>
+                <a href="mailto:contact@parohiasfteodoradelasihla.ro" className="hover:text-gold transition">
+                  contact@parohiasfteodoradelasihla.ro
+                </a>
+              </ContactRow>
+              <ContactRow icon={Phone}>
+                <a href="tel:+40754857903" className="hover:text-gold transition">+40 754 857 903</a>
+              </ContactRow>
+              <ContactRow icon={User}>Preot paroh: Pr. Cătălin Ailenei</ContactRow>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-gold/20 flex flex-wrap items-center justify-between gap-3 text-xs text-cream/60">
-          <span>© Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; · {new Date().getFullYear()}</span>
+        {/* Bottom bar */}
+        <div className="mt-14 pt-6 border-t border-gold/25 flex flex-wrap items-center justify-between gap-3 text-xs text-cream/65">
+          <span className="flex items-center gap-2">
+            <span className="text-gold">✦</span>
+            Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; · {new Date().getFullYear()}
+          </span>
           <div className="flex gap-5">
             <Link href="/termeni-si-conditii" className="hover:text-gold transition-colors">
               Termeni și Condiții
@@ -136,12 +133,40 @@ export function SiteFooter() {
   );
 }
 
+function FooterHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mb-5">
+      <h4 className="font-ceremonial text-sm uppercase tracking-[0.22em] text-gold mb-2">
+        {children}
+      </h4>
+      <div className="flex items-center gap-2">
+        <span className="h-px w-6 bg-gold" />
+        <span className="h-1.5 w-1.5 rotate-45 bg-gold" />
+      </div>
+    </div>
+  );
+}
+
+function FooterLink({ label, href }: { label: string; href: string }) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="text-[15px] text-cream/80 hover:text-gold transition-colors flex items-center gap-2 group font-serif"
+      >
+        <span className="text-gold/50 group-hover:text-gold transition-colors text-xs">›</span>
+        {label}
+      </Link>
+    </li>
+  );
+}
+
 function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
       aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-navy-dark transition-all hover:shadow-candlelight"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-burgundy-dark transition-all hover:shadow-candlelight"
     >
       {children}
     </a>
@@ -156,7 +181,7 @@ function ContactRow({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="flex items-start gap-2.5 text-sm text-cream/80 mb-2.5">
+    <div className="flex items-start gap-3 text-[15px] text-cream/80 font-serif">
       <Icon className="h-4 w-4 text-gold flex-shrink-0 mt-1" />
       <span className="flex-1">{children}</span>
     </div>
