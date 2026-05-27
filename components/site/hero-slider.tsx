@@ -173,15 +173,17 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
           )}
         >
           {slide.eyebrow && (
-            <p className="font-ceremonial uppercase tracking-[0.24em] text-xs sm:text-sm text-gold mb-4">
-              {slide.eyebrow}
+            <p className="font-ceremonial uppercase tracking-[0.32em] text-xs sm:text-sm text-gold mb-6 flex items-center justify-center gap-3">
+              <span className="inline-block h-px w-8 bg-gold/70" />
+              <span>{slide.eyebrow}</span>
+              <span className="inline-block h-px w-8 bg-gold/70" />
             </p>
           )}
-          <h1 className="font-ecclesia text-3xl sm:text-4xl lg:text-5xl xl:text-6xl !text-white font-bold leading-[1.15] tracking-wide mb-6 uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+          <h1 className="font-ecclesia text-[34px] sm:text-5xl lg:text-6xl xl:text-7xl !text-white font-bold leading-[1.08] tracking-wide mb-7 uppercase drop-shadow-[0_3px_18px_rgba(0,0,0,0.6)]">
             {slide.title}
           </h1>
           {slide.subtitle && (
-            <p className="font-body text-base sm:text-lg text-white/90 max-w-2xl mx-auto mb-8 leading-relaxed">
+            <p className="font-serif italic text-lg sm:text-xl text-cream/95 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
               {slide.subtitle}
             </p>
           )}

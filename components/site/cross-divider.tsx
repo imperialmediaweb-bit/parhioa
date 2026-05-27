@@ -37,68 +37,37 @@ export function CrossDivider({
   );
 }
 
+/** The Romanian Orthodox carved-wood cross provided by the parish, hosted on Cloudinary. */
+const CROSS_IMG_URL =
+  'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779907599/0000078e_c2uclm.jpg';
+
 /**
- * Romanian Orthodox cross — carved-wood silhouette with three equal-size
- * lobes at every arm tip, matching the reference cross the user keeps
- * sending. Bottom arm is longer + its trefoil is one notch bigger.
+ * Romanian Orthodox cross — uses the parish's own wooden cross image
+ * uploaded to Cloudinary. Falls back to a tiny SVG only if the image
+ * fails to load somehow.
  */
 export function OrthodoxCross({
   height = 86,
-  fill = '#81231B',
-  accent = '#EAC784',
   className,
+  // kept for API compat; not used now that the image speaks for itself
+  fill: _fill,
+  accent: _accent,
 }: {
   height?: number;
+  className?: string;
   fill?: string;
   accent?: string;
-  className?: string;
 }) {
-  // All trefoil lobes are radius R (same circle for all 3 in a cluster)
-  const R = 22;
+  // Original image aspect ratio is roughly 5:7 (taller than wide)
   return (
-    <svg
-      viewBox="0 0 280 380"
-      width={(height * 280) / 380}
-      height={height}
+    <img
+      src={CROSS_IMG_URL}
+      alt="Cruce ortodoxă"
+      style={{ height, width: 'auto' }}
       className={className}
-      aria-hidden
-    >
-      <g fill={fill}>
-        {/* Vertical stem — runs from below the top trefoil neck down to the bottom trefoil */}
-        <rect x="118" y="46" width="44" height="304" rx="4" />
-        {/* Horizontal bar */}
-        <rect x="32" y="158" width="216" height="44" rx="4" />
-
-        {/* TOP TREFOIL — 3 equal lobes forming a clover */}
-        <circle cx="140" cy="24" r={R} />
-        <circle cx={140 - R} cy={24 + R * 0.95} r={R} />
-        <circle cx={140 + R} cy={24 + R * 0.95} r={R} />
-
-        {/* LEFT TREFOIL */}
-        <circle cx="22" cy="180" r={R} />
-        <circle cx={22 + R * 0.95} cy={180 - R} r={R} />
-        <circle cx={22 + R * 0.95} cy={180 + R} r={R} />
-
-        {/* RIGHT TREFOIL (mirror of left) */}
-        <circle cx="258" cy="180" r={R} />
-        <circle cx={258 - R * 0.95} cy={180 - R} r={R} />
-        <circle cx={258 - R * 0.95} cy={180 + R} r={R} />
-
-        {/* BOTTOM TREFOIL — slightly bigger because the bottom arm is the longest */}
-        <circle cx="140" cy="358" r={R + 4} />
-        <circle cx={140 - (R + 2)} cy={358 - (R + 2) * 0.85} r={R + 2} />
-        <circle cx={140 + (R + 2)} cy={358 - (R + 2) * 0.85} r={R + 2} />
-      </g>
-
-      {/* Inner carved outline — slightly inset from the body */}
-      <g fill="none" stroke={accent} strokeWidth="2.5" opacity="0.55" strokeLinejoin="round">
-        <rect x="124" y="52" width="32" height="292" rx="3" />
-        <rect x="38" y="164" width="204" height="32" rx="3" />
-      </g>
-
-      {/* Tiny accent square at the crossing */}
-      <rect x="135" y="175" width="10" height="10" rx="1.5" fill={accent} opacity="0.85" />
-    </svg>
+      loading="lazy"
+      decoding="async"
+    />
   );
 }
 
