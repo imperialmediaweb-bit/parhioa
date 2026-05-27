@@ -9,27 +9,30 @@ export function CrossDivider({
   size?: 'sm' | 'default' | 'lg';
   variant?: 'light' | 'dark' | 'gold';
 }) {
-  const h = size === 'sm' ? 60 : size === 'lg' ? 120 : 86;
+  const h = size === 'sm' ? 56 : size === 'lg' ? 110 : 78;
 
   const palette = {
-    light: { cross: '#81231B', inner: '#EAC784', rule: 'from-burgundy/40', dot: 'text-gold-dark' },
-    dark: { cross: '#EAC784', inner: '#FBF6EE', rule: 'from-gold/40', dot: 'text-gold' },
-    gold: { cross: '#c9a361', inner: '#FBF6EE', rule: 'from-gold/50', dot: 'text-burgundy' },
+    light: { cross: '#81231B', inner: '#EAC784' },
+    dark: { cross: '#EAC784', inner: '#FBF6EE' },
+    gold: { cross: '#c9a361', inner: '#FBF6EE' },
   }[variant];
 
+  // Cross stands alone at the top of a section — no horizontal rule lines.
+  // Two tiny gold diamonds underneath act as a subtle "footer" instead.
   return (
-    <div className={cn('flex items-center justify-center gap-4 my-10 select-none', className)} aria-hidden>
-      <span className="flex items-center gap-2 flex-1 max-w-[140px] justify-end">
-        <span className={cn('h-px flex-1 bg-gradient-to-r from-transparent', palette.rule)} />
-        <Diamond className={cn('h-2 w-2', palette.dot)} />
-      </span>
-
+    <div
+      className={cn('flex flex-col items-center select-none mt-2 mb-10 sm:mb-14', className)}
+      aria-hidden
+    >
       <OrthodoxCross height={h} fill={palette.cross} accent={palette.inner} />
-
-      <span className="flex items-center gap-2 flex-1 max-w-[140px]">
-        <Diamond className={cn('h-2 w-2', palette.dot)} />
-        <span className={cn('h-px flex-1 bg-gradient-to-l from-transparent', palette.rule)} />
-      </span>
+      <div className="mt-3 flex items-center gap-2 opacity-70">
+        <Diamond className="h-1.5 w-1.5" style={{ color: palette.inner }} />
+        <span
+          className="h-px w-12 bg-current opacity-50"
+          style={{ color: palette.cross }}
+        />
+        <Diamond className="h-1.5 w-1.5" style={{ color: palette.inner }} />
+      </div>
     </div>
   );
 }
