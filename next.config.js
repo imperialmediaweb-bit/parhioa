@@ -4,7 +4,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
-      { protocol: 'https', hostname: '**.parohiasfteodoradelasihla.ro' },
+      { protocol: 'https', hostname: 'www.parohiasfteodoradelasihla.ro' },
+      { protocol: 'https', hostname: 'parohiasfteodoradelasihla.ro' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },

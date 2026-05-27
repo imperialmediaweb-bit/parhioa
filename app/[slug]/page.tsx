@@ -7,7 +7,10 @@ export const revalidate = 60;
 
 type Props = { params: { slug: string } };
 
-const RESERVED = new Set(['blog', 'api', '_next', 'favicon.ico']);
+const RESERVED = new Set([
+  'blog', 'api', '_next', 'favicon.ico',
+  'despre', 'misiune', 'campanii', 'contact', 'doneaza', 'redirectioneaza-3-5',
+]);
 
 async function getPage(slug: string) {
   try {
