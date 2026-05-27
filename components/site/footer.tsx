@@ -19,7 +19,7 @@ const RESURSE = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-20 overflow-hidden text-cream/90">
+    <footer className="relative overflow-hidden text-cream/90">
       {/* Deep burgundy → wine gradient — matches the logo, not navy */}
       <div
         className="absolute inset-0 -z-10"
