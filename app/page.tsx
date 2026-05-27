@@ -218,11 +218,11 @@ export default async function HomePage() {
         <CrossDivider className="mb-12" />
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2">
-            <div className="relative aspect-[4/5] max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg">
+            <div className="relative aspect-square max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg bg-cream p-3">
               <img
-                src={IMG.parishLogoBotosani}
-                alt="Parohia Sf. Cuvioasă Teodora — Botoșani"
-                className="absolute inset-0 w-full h-full object-cover"
+                src={IMG.parishIcon}
+                alt="Sfânta Cuvioasă Teodora de la Sihla"
+                className="absolute inset-3 w-[calc(100%-1.5rem)] h-[calc(100%-1.5rem)] object-contain"
               />
             </div>
           </FadeIn>
