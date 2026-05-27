@@ -1,30 +1,33 @@
-{{> head title="Acasă" description="Site oficial al Parohiei Sf. Teodora de la Sihla"}}
+{{> head title="Acasă" description="Site oficial al Parohiei Sfânta Cuvioasă Teodora de la Sihla, Botoșani."}}
 
-{{#if page}}
-  <article>
-    <h1>{{page.title}}</h1>
-    <div class="wp-content">{{{page.content}}}</div>
-  </article>
-{{else}}
-  <section class="hero">
-    <h1>Bun venit</h1>
-    <p>Site-ul Parohiei Sf. Teodora de la Sihla. Aici găsiți programul slujbelor, evenimente și articole.</p>
-  </section>
-{{/if}}
+<section class="hero">
+  <h1>Credința care <em>zidește</em> împreună</h1>
+  <p>Parohia Sfânta Cuvioasă Teodora de la Sihla din Botoșani — o comunitate în formare, prin rugăciune, milostenie și iubire creștină.</p>
+</section>
 
-{{#if posts.length}}
-  <section>
-    <h2>Articole recente</h2>
+<main class="container">
+  {{#if page}}
+    <article>
+      <h1>{{page.title}}</h1>
+      <div class="wp-content">{{{page.content}}}</div>
+    </article>
+  {{/if}}
+
+  {{#if posts.length}}
+    <h2 class="section-title">Noutăți din parohie</h2>
     <ul class="post-grid">
       {{#each posts}}
         <li class="card">
-          <a href="/blog/{{slug}}"><h3>{{title}}</h3></a>
-          {{#if publishedAt}}<p class="date">{{date publishedAt}}</p>{{/if}}
-          {{#if excerpt}}<p>{{excerpt}}</p>{{/if}}
+          {{#if featured.url}}<a href="/blog/{{slug}}"><img class="card-img" src="{{featured.url}}" alt="{{featured.alt}}"></a>{{/if}}
+          <div class="card-body">
+            <h3><a href="/blog/{{slug}}">{{title}}</a></h3>
+            {{#if publishedAt}}<p class="date">{{date publishedAt}}</p>{{/if}}
+            {{#if excerpt}}<p class="excerpt">{{excerpt}}</p>{{/if}}
+          </div>
         </li>
       {{/each}}
     </ul>
-  </section>
-{{/if}}
+  {{/if}}
+</main>
 
 {{> foot}}
