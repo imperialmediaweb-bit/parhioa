@@ -69,11 +69,10 @@ export default async function HomePage() {
   const HERO_SLIDES: HeroSlide[] = [
     {
       // ===== VIDEO SLIDE =====
-      // Upload your video to public/hero/intro.mp4 (or paste a Cloudinary URL here).
-      // The poster is shown until the video starts loading.
+      // Hosted on Cloudinary (no need to push the file to the repo).
       media: {
         type: 'video',
-        src: '/hero/intro.mp4',
+        src: 'https://res.cloudinary.com/dghmoelly/video/upload/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
         poster: IMG.heroSlide1, // fallback image while video loads
       },
       eyebrow: 'Binecuvântare și chemare',
