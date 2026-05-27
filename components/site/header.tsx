@@ -15,18 +15,18 @@ const NAV = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-white shadow-sm">
       <div className="container flex h-24 sm:h-28 lg:h-32 items-center justify-between gap-3 sm:gap-4">
         {/* Logo — bigger now */}
         <Logo size="lg" className="shrink min-w-0" />
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-7">
+        <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="font-serif text-[15px] font-medium text-navy transition-colors hover:text-burgundy whitespace-nowrap"
+              className="font-serif text-[15px] font-medium text-navy transition-colors hover:text-burgundy whitespace-nowrap relative after:absolute after:left-0 after:bottom-[-6px] after:h-[2px] after:w-0 after:bg-burgundy after:transition-all hover:after:w-full"
             >
               {item.label}
             </Link>
@@ -37,17 +37,17 @@ export function SiteHeader() {
         <div className="flex items-center gap-2 shrink-0">
           <button
             aria-label="Caută"
-            className="hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full text-navy hover:bg-cream-card transition-colors"
+            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full text-navy hover:bg-cream-card transition-colors"
           >
             <Search className="h-5 w-5" />
           </button>
           <Link
             href="/donations/strangere-de-fonduri-pentru-construirea-bisericii"
-            className="hidden sm:inline-block"
+            className="hidden md:inline-block"
           >
             <Button variant="cream" size="sm">Donează</Button>
           </Link>
-          <Link href="/contact" className="hidden sm:inline-block">
+          <Link href="/contact" className="hidden md:inline-block">
             <Button variant="default" size="sm">Mesaj</Button>
           </Link>
 
