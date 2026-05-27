@@ -126,8 +126,10 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
           muted
           loop
           playsInline
+          preload="metadata"
           poster={slide.media.poster}
           className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden
         >
           <source src={slide.media.src} type="video/mp4" />
         </video>

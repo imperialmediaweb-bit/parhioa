@@ -68,7 +68,14 @@ export default async function HomePage() {
 
   const HERO_SLIDES: HeroSlide[] = [
     {
-      media: { type: 'image', src: IMG.heroSlide1, alt: 'Sfântul altar' },
+      // ===== VIDEO SLIDE =====
+      // Upload your video to public/hero/intro.mp4 (or paste a Cloudinary URL here).
+      // The poster is shown until the video starts loading.
+      media: {
+        type: 'video',
+        src: '/hero/intro.mp4',
+        poster: IMG.heroSlide1, // fallback image while video loads
+      },
       eyebrow: 'Binecuvântare și chemare',
       title: <>Într-o inimă, o credință, o familie duhovnicească</>,
       subtitle:
