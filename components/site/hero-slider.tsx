@@ -118,7 +118,7 @@ export function HeroSlider({
 
 function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) {
   return (
-    <div className="relative h-[600px] sm:h-[680px] lg:h-[760px] w-full overflow-hidden bg-navy-dark">
+    <div className="relative h-[520px] sm:h-[640px] lg:h-[720px] w-full overflow-hidden bg-navy-dark">
       {/* Media */}
       {slide.media.type === 'video' ? (
         <video

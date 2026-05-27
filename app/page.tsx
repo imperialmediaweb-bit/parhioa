@@ -105,8 +105,8 @@ export default async function HomePage() {
       <HeroSlider slides={HERO_SLIDES} />
 
       {/* ============= 2. STICKY SUB-NAV ============= */}
-      <nav className="border-y border-border bg-white sticky top-24 sm:top-28 z-30">
-        <div className="container flex items-center justify-center gap-6 sm:gap-12 py-4 text-sm overflow-x-auto">
+      <nav className="border-y border-border bg-white sticky top-24 sm:top-28 lg:top-32 z-30">
+        <div className="container flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 py-3 sm:py-4 text-sm overflow-x-auto">
           <a
             href="#parohul"
             className="flex items-center gap-2 text-ink hover:text-burgundy transition whitespace-nowrap"
