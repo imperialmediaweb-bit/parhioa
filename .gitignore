@@ -1,5 +1,5 @@
 node_modules
-dist
+.next
 .env
 .env.local
 *.log
@@ -7,3 +7,4 @@ dist
 coverage
 .idea
 .vscode
+dist
