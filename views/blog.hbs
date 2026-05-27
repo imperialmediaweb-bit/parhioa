@@ -1,0 +1,18 @@
+{{> head title="Articole" description="Articole publicate"}}
+
+<h1>Articole</h1>
+{{#if posts.length}}
+  <ul class="post-list">
+    {{#each posts}}
+      <li>
+        <a href="/blog/{{slug}}"><h2>{{title}}</h2></a>
+        {{#if publishedAt}}<p class="date">{{date publishedAt}}</p>{{/if}}
+        {{#if excerpt}}<p>{{excerpt}}</p>{{/if}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>Nu există articole publicate.</p>
+{{/if}}
+
+{{> foot}}

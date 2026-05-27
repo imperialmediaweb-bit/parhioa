@@ -1,0 +1,30 @@
+{{> head title="Acasă" description="Site oficial al Parohiei Sf. Teodora de la Sihla"}}
+
+{{#if page}}
+  <article>
+    <h1>{{page.title}}</h1>
+    <div class="wp-content">{{{page.content}}}</div>
+  </article>
+{{else}}
+  <section class="hero">
+    <h1>Bun venit</h1>
+    <p>Site-ul Parohiei Sf. Teodora de la Sihla. Aici găsiți programul slujbelor, evenimente și articole.</p>
+  </section>
+{{/if}}
+
+{{#if posts.length}}
+  <section>
+    <h2>Articole recente</h2>
+    <ul class="post-grid">
+      {{#each posts}}
+        <li class="card">
+          <a href="/blog/{{slug}}"><h3>{{title}}</h3></a>
+          {{#if publishedAt}}<p class="date">{{date publishedAt}}</p>{{/if}}
+          {{#if excerpt}}<p>{{excerpt}}</p>{{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </section>
+{{/if}}
+
+{{> foot}}

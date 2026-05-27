@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} — Parohia Sf. Teodora de la Sihla</title>
+  <meta name="description" content="{{description}}">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">Parohia Sf. Teodora de la Sihla</a>
+      <nav class="main-nav">
+        {{#if menu.length}}
+          {{#each menu}}<a href="{{url}}">{{label}}</a>{{/each}}
+        {{else}}
+          <a href="/">Acasă</a>
+          <a href="/blog">Articole</a>
+        {{/if}}
+      </nav>
+    </div>
+  </header>
+  <main class="container">

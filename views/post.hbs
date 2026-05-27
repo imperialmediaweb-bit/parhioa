@@ -1,0 +1,17 @@
+{{> head title=post.title description=post.excerpt}}
+
+<article>
+  <h1>{{post.title}}</h1>
+  {{#if post.publishedAt}}<p class="date">{{date post.publishedAt}}</p>{{/if}}
+  {{#if post.featured.url}}
+    <img src="{{post.featured.url}}" alt="{{post.featured.alt}}" class="featured">
+  {{/if}}
+  <div class="wp-content">{{{post.content}}}</div>
+  {{#if post.categories.length}}
+    <p class="categories">Categorii:
+      {{#each post.categories}}<a href="/blog?category={{slug}}">{{name}}</a>{{/each}}
+    </p>
+  {{/if}}
+</article>
+
+{{> foot}}
