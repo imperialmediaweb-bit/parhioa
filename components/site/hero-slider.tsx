@@ -126,7 +126,7 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={slide.media.poster}
           className="absolute inset-0 h-full w-full object-cover"
           aria-hidden

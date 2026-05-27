@@ -68,11 +68,13 @@ export default async function HomePage() {
   const HERO_SLIDES: HeroSlide[] = [
     {
       // ===== VIDEO SLIDE =====
-      // Hosted on Cloudinary (no need to push the file to the repo).
+      // Cloudinary video with f_auto + q_auto + vc_auto so the browser
+      // gets the lightest codec it supports (AV1/VP9/H.264) at the right
+      // bitrate — no more stuttering.
       media: {
         type: 'video',
-        src: 'https://res.cloudinary.com/dghmoelly/video/upload/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
-        poster: IMG.heroSlide1, // fallback image while video loads
+        src: 'https://res.cloudinary.com/dghmoelly/video/upload/f_auto,q_auto:good,vc_auto,w_1920,c_limit/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
+        poster: IMG.heroSlide1,
       },
       eyebrow: 'Binecuvântare și chemare',
       title: <>Într-o inimă, o credință, o familie duhovnicească</>,

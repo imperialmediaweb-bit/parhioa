@@ -16,10 +16,10 @@
   }
   h1, h2, h3, h4 { @apply font-display text-navy; }
 
-  /* Photos: gentle harmonization (saturated + slight warmth lift) */
-  img:not([src$=".svg"]):not([src*="logo"]):not([src*="Screenshot_101"]):not([alt*="cruce" i]) {
-    filter: saturate(1.08) contrast(1.04);
-  }
+  /* Photos render at native quality — Cloudinary handles enhancement
+     server-side (f_auto + q_auto + e_improve:20). We don't stack a
+     CSS saturation filter on top, since combining the two was making
+     images look slightly oversaturated and soft. */
 }
 
 @layer components {
