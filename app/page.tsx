@@ -41,32 +41,22 @@ const TESTIMONIALS: Testimonial[] = [
 
 async function getHomeData() {
   try {
-    const [posts, galleryItems] = await Promise.all([
-      prisma.post
-        .findMany({
-          where: { status: 'publish' },
-          take: 6,
-          orderBy: { publishedAt: 'desc' },
-          include: { featured: true, categories: true },
-        })
-        .catch(() => []),
-      // Gallery: pick 9 representative images from the Media table
-      prisma.media
-        .findMany({
-          where: { url: { contains: 'cloudinary', mode: 'insensitive' } },
-          take: 12,
-          orderBy: { wpId: 'desc' },
-        })
-        .catch(() => []),
-    ]);
-    return { posts, galleryItems };
+    const posts = await prisma.post
+      .findMany({
+        where: { status: 'publish' },
+        take: 6,
+        orderBy: { publishedAt: 'desc' },
+        include: { featured: true, categories: true },
+      })
+      .catch(() => []);
+    return { posts };
   } catch {
-    return { posts: [], galleryItems: [] };
+    return { posts: [] };
   }
 }
 
 export default async function HomePage() {
-  const [{ posts, galleryItems }, IMG] = await Promise.all([getHomeData(), getImages()]);
+  const [{ posts }, IMG] = await Promise.all([getHomeData(), getImages()]);
 
   // Build hero slides from real Cloudinary images
   const HERO_SLIDES: HeroSlide[] = [
@@ -106,22 +96,17 @@ export default async function HomePage() {
     },
   ];
 
-  // Build gallery from real DB images, fall back to a curated set if DB is empty
-  const GALLERY: GalleryImage[] =
-    galleryItems.length > 0
-      ? galleryItems.slice(0, 9).map((m) => ({
-          src: m.url,
-          alt: m.alt || m.filename,
-          caption: m.caption || undefined,
-        }))
-      : [
-          { src: IMG.liturghie, alt: 'Liturghie', caption: 'Sfânta Liturghie' },
-          { src: IMG.handsBranch, alt: 'Credință vie', caption: 'Credință vie și ajutor' },
-          { src: IMG.iconTeodora, alt: 'Sf. Teodora', caption: 'Icoana ocrotitoarei' },
-          { src: IMG.handsChurch, alt: 'Biserica', caption: 'Sprijin și solidaritate' },
-          { src: IMG.priestPraying, alt: 'Părintele în rugăciune', caption: 'Părintele Cătălin' },
-          { src: IMG.campaignPoster, alt: 'Devino ctitor', caption: 'Campania de zidire' },
-        ];
+  // Curated gallery — uses the same image map as the rest of the site
+  const GALLERY: GalleryImage[] = [
+    { src: IMG.liturghie, alt: 'Liturghie', caption: 'Sfânta Liturghie' },
+    { src: IMG.handsBranch, alt: 'Credință vie', caption: 'Credință vie și ajutor' },
+    { src: IMG.iconTeodora, alt: 'Sf. Teodora', caption: 'Icoana ocrotitoarei' },
+    { src: IMG.handsChurch, alt: 'Biserica', caption: 'Sprijin și solidaritate' },
+    { src: IMG.priestPraying, alt: 'Părintele în rugăciune', caption: 'Părintele Cătălin' },
+    { src: IMG.campaignPoster, alt: 'Devino ctitor', caption: 'Campania de zidire' },
+    { src: IMG.iconTeodora2, alt: 'Icoana Sf. Teodora', caption: 'Ocrotitoarea parohiei' },
+    { src: IMG.donationFamily, alt: 'Cărămizi', caption: 'Zidirea bisericii' },
+  ];
 
   return (
     <>
