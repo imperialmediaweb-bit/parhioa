@@ -9,6 +9,7 @@ import { VideoSection } from '@/components/site/video-section';
 import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
+import { SectionRibbon } from '@/components/site/section-ribbon';
 import {
   CandleIcon,
   CenserIcon,
@@ -139,7 +140,7 @@ export default async function HomePage() {
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
       <section id="parohul" className="container py-12 sm:py-20 scroll-mt-44">
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
           <FadeIn className="lg:col-span-2">
             <ParchmentFrame
               src={IMG.priestPortrait}
@@ -166,12 +167,13 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SectionRibbon />
+
       {/* ============= 5. SUB OCROTIREA SF. CUVIOASE TEODORA ============= */}
       <section id="despre-parohia" className="container py-12 sm:py-20 scroll-mt-44">
-        <CrossDivider className="mb-12" />
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
-          <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2">
-            <div className="relative mx-auto max-w-[400px] pt-10">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
+          <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2 flex items-center">
+            <div className="relative mx-auto w-full max-w-[400px] pt-10">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.4)]">
                 <OrthodoxCross height={54} />
               </div>
@@ -209,11 +211,12 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SectionRibbon />
+
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
       <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
-          <CrossDivider className="mb-8" />
-          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
             <FadeIn className="lg:col-span-2">
               <ParchmentFrame
                 src={IMG.ctitorPhoto}
@@ -250,9 +253,10 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SectionRibbon />
+
       {/* ============= 7. 3 STÂLPI – MISIUNEA PAROHIEI ============= */}
       <section className="container py-12 sm:py-20">
-        <CrossDivider className="mb-10" />
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">
@@ -344,10 +348,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SectionRibbon />
+
       {/* ============= 8b. SCHEȚE / VIAȚA PAROHIEI – cards with Orthodox motifs ============= */}
       <section className="container py-12 sm:py-20">
         <FadeIn>
-          <CrossDivider size="lg" className="mb-10" />
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Viața parohiei în chipuri</SectionEyebrow>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
@@ -471,9 +476,10 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SectionRibbon />
+
       {/* ============= 10. FII ALĂTURI DE PAROHIE – 4 IMG GRID + 3 ICON BOXES ============= */}
       <section className="container py-12 sm:py-20">
-        <CrossDivider className="mb-10" />
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Sprijină lucrarea parohiei</SectionEyebrow>
