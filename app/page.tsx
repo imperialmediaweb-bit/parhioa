@@ -134,9 +134,9 @@ export default async function HomePage() {
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
       <section id="parohul" className="container py-12 sm:py-20 scroll-mt-44">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <FadeIn>
-            <div className="relative aspect-[5/6] rounded-3xl overflow-hidden shadow-xl bg-cream-card">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+          <FadeIn className="lg:col-span-2">
+            <div className="relative aspect-[4/5] max-w-[360px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg bg-cream-card">
               <img
                 src={IMG.priestPortrait}
                 alt="Părintele Cătălin Ailenei"
@@ -144,7 +144,7 @@ export default async function HomePage() {
               />
             </div>
           </FadeIn>
-          <FadeIn delay={0.15}>
+          <FadeIn delay={0.15} className="lg:col-span-3">
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Părintele Cătălin Ailenei – <em className="italic text-burgundy">păstor cu inimă de rugăciune</em>
             </h2>
@@ -181,10 +181,10 @@ export default async function HomePage() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <div className="max-w-md mx-auto">
+            <div className="max-w-sm mx-auto">
               <Link href="/donations/strangere-de-fonduri-pentru-construirea-bisericii">
-                <Card className="overflow-hidden bg-white border-0 hover:shadow-2xl transition-shadow cursor-pointer group">
-                  <div className="aspect-[4/5] overflow-hidden">
+                <Card className="overflow-hidden bg-white border-0 hover:shadow-warm-xl transition-shadow cursor-pointer group">
+                  <div className="aspect-[3/4] overflow-hidden">
                     <img
                       src={IMG.campaignPoster}
                       alt="Devino ctitor — campania de zidire"
@@ -214,9 +214,9 @@ export default async function HomePage() {
       {/* ============= 5. SUB OCROTIREA SF. CUVIOASE TEODORA ============= */}
       <section id="despre-parohia" className="container py-12 sm:py-20 scroll-mt-44">
         <CrossDivider className="mb-12" />
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <FadeIn delay={0.15} className="lg:order-2">
-            <div className="relative aspect-[4/5] sm:aspect-[5/6] rounded-3xl overflow-hidden shadow-xl">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+          <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2">
+            <div className="relative aspect-[4/5] max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg">
               <img
                 src={IMG.parishLogoBotosani}
                 alt="Parohia Sf. Cuvioasă Teodora — Botoșani"
@@ -224,7 +224,7 @@ export default async function HomePage() {
               />
             </div>
           </FadeIn>
-          <FadeIn className="lg:order-1">
+          <FadeIn className="lg:col-span-3 lg:order-1">
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Sub ocrotirea <em className="italic text-burgundy">Sfintei Cuvioase Teodora</em> de la Sihla
             </h2>
@@ -249,9 +249,9 @@ export default async function HomePage() {
       <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
           <CrossDivider className="mb-8" />
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <FadeIn>
-              <div className="relative aspect-[4/5] sm:aspect-[5/6] rounded-3xl overflow-hidden shadow-xl bg-white p-2">
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+            <FadeIn className="lg:col-span-2">
+              <div className="relative aspect-square max-w-[380px] mx-auto rounded-3xl overflow-hidden shadow-warm-lg bg-white p-2">
                 <img
                   src={IMG.parishIcon}
                   alt="Icoană Sfânta Cuvioasă Teodora"
@@ -260,7 +260,7 @@ export default async function HomePage() {
                 <BorderBeam size={300} duration={12} colorFrom="#EAC784" colorTo="#81231B" />
               </div>
             </FadeIn>
-            <FadeIn delay={0.15}>
+            <FadeIn delay={0.15} className="lg:col-span-3">
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
                 Fii ctitor al unei <em className="italic text-burgundy">lucrări sfinte</em>
               </h2>
@@ -427,7 +427,7 @@ export default async function HomePage() {
           ].map((s, i) => (
             <FadeIn key={s.title} delay={i * 0.08}>
               <Card className="h-full overflow-hidden bg-cream group transition-all duration-300 hover:-translate-y-1 hover:shadow-warm-lg">
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   <img
                     src={s.img}
                     alt={s.title}
