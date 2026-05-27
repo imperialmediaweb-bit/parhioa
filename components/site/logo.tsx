@@ -10,10 +10,10 @@ interface LogoProps {
 
 // Responsive sizes: [mobile, sm, lg]
 const SIZE_CLASSES: Record<NonNullable<LogoProps['size']>, string> = {
-  sm: 'w-10 h-10 sm:w-11 sm:h-11',
-  default: 'w-12 h-12 sm:w-14 sm:h-14 lg:w-15 lg:h-15',
-  lg: 'w-13 h-13 sm:w-14 sm:h-14 lg:w-16 lg:h-16',
-  xl: 'w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24',
+  sm: 'w-10 h-10 sm:w-12 sm:h-12',
+  default: 'w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20',
+  lg: 'w-16 h-16 sm:w-18 sm:h-18 lg:w-24 lg:h-24',
+  xl: 'w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28',
 };
 
 export function Logo({

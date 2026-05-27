@@ -26,6 +26,39 @@ import { FadeIn } from '@/components/magicui/fade-in';
 
 export const revalidate = 60;
 
+const PLACEHOLDER_POSTS = [
+  {
+    slug: 'sfanta-cuvioasa-teodora-de-la-sihla',
+    title: 'Sfânta Cuvioasă Teodora de la Sihla — pildă de smerenie',
+    excerpt:
+      'Floare aleasă a pustiei și rugătoare neîncetată înaintea lui Hristos, Cuvioasa Teodora ne învață ce înseamnă răbdarea desăvârșită și viața în post și rugăciune.',
+    publishedAt: new Date(2025, 7, 7),
+    featuredUrl:
+      'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909922/Screenshot_98_uqff8q.png',
+    category: 'Vieți de sfinți',
+  },
+  {
+    slug: 'cum-iti-redirectionezi-3-5-din-impozit',
+    title: 'Cum redirecționezi 3,5% din impozit către parohie',
+    excerpt:
+      'Un gest care nu te costă nimic, dar care zidește. Iată pașii simpli prin care poți alege ca o parte din impozitul tău să sprijine construirea bisericii.',
+    publishedAt: new Date(2025, 5, 20),
+    featuredUrl:
+      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/Screenshot_60-2.webp',
+    category: 'Redirecționează',
+  },
+  {
+    slug: 'zidim-cu-credinta-fiecare-caramida-conteaza',
+    title: 'Zidim cu credință — fiecare cărămidă contează',
+    excerpt:
+      'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul vostru, punem temelia. Fiecare dar adus cu inimă curată devine o cărămidă vie.',
+    publishedAt: new Date(2025, 4, 15),
+    featuredUrl:
+      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/WhatsApp-Image-2025-11-03-at-15.27.15.jpeg',
+    category: 'Campanii',
+  },
+];
+
 const TESTIMONIALS: Testimonial[] = [
   {
     text:
@@ -112,7 +145,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 2b. STICKY SUB-NAV ============= */}
-      <nav className="border-y border-gold/30 bg-cream/80 backdrop-blur sticky top-20 sm:top-22 lg:top-24 z-30">
+      <nav className="border-y border-gold/30 bg-cream/80 backdrop-blur sticky top-22 sm:top-24 lg:top-28 z-30">
         <div className="container flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 py-3 sm:py-4 overflow-x-auto">
           <a
             href="#parohul"
@@ -154,12 +187,39 @@ export default async function HomePage() {
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Părintele Cătălin Ailenei – <em className="italic text-burgundy">păstor cu inimă de rugăciune</em>
             </h2>
-            <p className="text-ink-muted leading-relaxed text-[17px] mb-6">
+            <p className="text-ink-muted leading-relaxed text-[17px] mb-5">
               Cu blândețe și râvnă, părintele Cătălin Ailenei veghează asupra obștii încredințate,
               purtând în rugăciune sufletele celor ce se adună sub acoperământul Sfintei Cuvioase
               Teodora. Piatra cea vie a Bisericii se așază mai întâi în inimile credincioșilor, prin
               harul slujirii și al cuvântului duhovnicesc.
             </p>
+
+            <blockquote className="border-l-4 border-burgundy/60 pl-5 my-6 italic text-burgundy/90 font-serif">
+              „Nu zidim doar biserică de piatră, ci o biserică în inimile noastre — întru care
+              Hristos să poată locui."
+              <span className="block not-italic text-xs uppercase tracking-[0.22em] text-burgundy/60 mt-2 font-ceremonial">
+                — Pr. Cătălin Ailenei
+              </span>
+            </blockquote>
+
+            <ul className="space-y-2.5 mb-7">
+              {[
+                { eyebrow: 'Slujire', text: 'Săvârșirea cu evlavie a Sfintei Liturghii și a rânduielilor bisericești.' },
+                { eyebrow: 'Părintie', text: 'Spovedanie, cuvânt de folos și călăuzire pe drumul mântuirii.' },
+                { eyebrow: 'Apropiere', text: 'Vizite pastorale, sfeștanii și prezență vie în viața enoriașilor.' },
+              ].map((item) => (
+                <li key={item.eyebrow} className="flex gap-3 items-start">
+                  <span className="mt-1.5 flex-shrink-0 text-gold">☩</span>
+                  <span>
+                    <span className="font-ceremonial uppercase text-[11px] tracking-[0.22em] text-burgundy-dark">
+                      {item.eyebrow}
+                    </span>
+                    <span className="text-ink-muted font-serif"> — {item.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+
             <Link href="/despre">
               <Button size="lg" variant="outline">Despre părintele paroh</Button>
             </Link>
@@ -611,10 +671,21 @@ export default async function HomePage() {
           </FadeIn>
 
           {posts.length === 0 ? (
-            <p className="text-center text-ink-muted">
-              Rulează scriptul de import:{' '}
-              <code className="bg-cream-card px-2 py-0.5 rounded">npm run import:wp</code>
-            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {PLACEHOLDER_POSTS.map((p, i) => (
+                <FadeIn key={p.slug} delay={i * 0.05}>
+                  <PostCard
+                    slug={p.slug}
+                    title={p.title}
+                    excerpt={p.excerpt}
+                    publishedAt={p.publishedAt}
+                    featuredUrl={p.featuredUrl}
+                    featuredAlt={p.title}
+                    categories={[{ name: p.category, slug: p.category.toLowerCase() }]}
+                  />
+                </FadeIn>
+              ))}
+            </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.slice(0, 3).map((p, i) => (
