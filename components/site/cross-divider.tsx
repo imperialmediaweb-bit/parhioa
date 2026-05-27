@@ -37,9 +37,9 @@ export function CrossDivider({
   );
 }
 
-/** The Romanian Orthodox carved-wood cross provided by the parish, hosted on Cloudinary. */
+/** Romanian Orthodox carved-wood cross — transparent PNG hosted on Cloudinary. */
 const CROSS_IMG_URL =
-  'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779907599/0000078e_c2uclm.jpg';
+  'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909825/0000078e_c2uclm-removebg-preview_q5jzgo.png';
 
 /**
  * Romanian Orthodox cross — uses the parish's own wooden cross image

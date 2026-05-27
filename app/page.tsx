@@ -106,55 +106,6 @@ export default async function HomePage() {
       {/* ============= 1. HERO SLIDER ============= */}
       <HeroSlider slides={HERO_SLIDES} />
 
-      {/* ============= 1b. STATS STRIP — premium impact band ============= */}
-      <section className="relative bg-gradient-to-r from-burgundy via-burgundy-dark to-burgundy text-cream py-10 sm:py-12 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='none' stroke='%23EAC784' stroke-width='0.5' opacity='0.6'><path d='M30 6 L34 16 L44 16 L36 22 L39 32 L30 26 L21 32 L24 22 L16 16 L26 16 Z'/></g></svg>\")",
-          }}
-        />
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
-        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
-        <div className="relative container">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 text-center max-w-5xl mx-auto">
-            <div>
-              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
-                <NumberTicker value={2022} />
-              </div>
-              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
-                An înființare
-              </p>
-            </div>
-            <div>
-              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
-                <NumberTicker value={3.5} decimalPlaces={1} />%
-              </div>
-              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
-                Din impozit
-              </p>
-            </div>
-            <div>
-              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
-                <NumberTicker value={1} />
-              </div>
-              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
-                Biserică în zidire
-              </p>
-            </div>
-            <div>
-              <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gold">
-                ∞
-              </div>
-              <p className="font-ceremonial text-[10px] sm:text-xs uppercase tracking-[0.22em] text-cream/75 mt-2">
-                Rugăciuni
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ============= 2. STICKY SUB-NAV ============= */}
       <nav className="border-y border-border bg-white sticky top-24 sm:top-28 lg:top-32 z-30">
         <div className="container flex items-center justify-center gap-4 sm:gap-8 lg:gap-12 py-3 sm:py-4 text-sm overflow-x-auto">
