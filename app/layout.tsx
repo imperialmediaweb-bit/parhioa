@@ -1,27 +1,36 @@
 import type { Metadata } from 'next';
-import { Cinzel, Cormorant_Garamond, Inter } from 'next/font/google';
+import { Playfair_Display, Lora, Merriweather, Poppins } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
 import './globals.css';
 
-const cinzel = Cinzel({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-cinzel',
-  weight: ['400', '500', '600', '700'],
+  variable: '--font-playfair',
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
   display: 'swap',
 });
 
-const cormorant = Cormorant_Garamond({
+const lora = Lora({
   subsets: ['latin'],
-  variable: '--font-cormorant',
+  variable: '--font-lora',
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
   display: 'swap',
 });
 
-const inter = Inter({
+const merriweather = Merriweather({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-merriweather',
+  weight: ['300', '400', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  variable: '--font-poppins',
   weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
@@ -37,7 +46,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ro" className={`${cinzel.variable} ${cormorant.variable} ${inter.variable}`}>
+    <html
+      lang="ro"
+      className={`${playfair.variable} ${lora.variable} ${merriweather.variable} ${poppins.variable}`}
+    >
       <body>
         <SiteHeader />
         <main className="min-h-[60vh]">{children}</main>

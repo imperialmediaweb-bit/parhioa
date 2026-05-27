@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { Hero } from '@/components/site/hero';
+import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,57 @@ import { AnimatedGradientText } from '@/components/magicui/animated-gradient-tex
 import { FadeIn } from '@/components/magicui/fade-in';
 import { NumberTicker } from '@/components/magicui/number-ticker';
 import { Heart, HandHeart, Users, Church } from 'lucide-react';
+
+const HERO_SLIDES: HeroSlide[] = [
+  {
+    // First slide: video placeholder (replace src with your real video URL — MP4 from Cloudinary works)
+    media: {
+      type: 'video',
+      src: '/hero/intro.mp4',
+      poster: 'https://images.unsplash.com/photo-1548407260-da850faa41e3?auto=format&fit=crop&w=2000&q=80',
+    },
+    eyebrow: 'Parohia Sf. Cuvioasă Teodora de la Sihla',
+    title: (
+      <>
+        Credința care <AnimatedGradientText>zidește</AnimatedGradientText> împreună
+      </>
+    ),
+    subtitle:
+      'O comunitate creștin-ortodoxă din Botoșani, în formare — prin rugăciune, milostenie și iubire frățească.',
+    primaryCta: { label: 'Redirecționează 3,5%', href: '/redirectioneaza-3-5' },
+    secondaryCta: { label: 'Despre noi', href: '/despre' },
+  },
+  {
+    media: {
+      type: 'image',
+      src: 'https://images.unsplash.com/photo-1548407260-da850faa41e3?auto=format&fit=crop&w=2000&q=80',
+      alt: 'Lumânări aprinse într-o biserică',
+    },
+    eyebrow: 'Misiunea noastră',
+    title: (
+      <em className="font-serif italic">Rugăciune, milostenie, iubire</em>
+    ),
+    subtitle:
+      'Trei stâlpi care țin viața parohiei și prin care creștem împreună întru Hristos.',
+    primaryCta: { label: 'Vezi misiunea', href: '/misiune' },
+  },
+  {
+    media: {
+      type: 'image',
+      src: 'https://images.unsplash.com/photo-1601925268875-c5b0c5e3a1bc?auto=format&fit=crop&w=2000&q=80',
+      alt: 'Biserica ortodoxă',
+    },
+    eyebrow: 'Devino ctitor',
+    title: (
+      <>
+        Zidim împreună o <em className="font-serif italic text-gold">biserică nouă</em>
+      </>
+    ),
+    subtitle: 'Fiecare cărămidă spune o rugăciune. Susține construcția lăcașului de cult.',
+    primaryCta: { label: 'Donează acum', href: '/doneaza' },
+    secondaryCta: { label: 'Vezi campania', href: '/campanii' },
+  },
+];
 
 export const revalidate = 60;
 
@@ -38,14 +89,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero
-        title={
-          <>
-            Credința care <AnimatedGradientText>zidește</AnimatedGradientText> împreună
-          </>
-        }
-        subtitle="Parohia Sfânta Cuvioasă Teodora de la Sihla — o comunitate în formare, prin rugăciune, milostenie și iubire creștină."
-      />
+      <HeroSlider slides={HERO_SLIDES} />
 
       {/* Intro section */}
       <section className="container py-16 sm:py-24">

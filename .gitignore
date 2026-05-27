@@ -8,3 +8,6 @@ coverage
 .idea
 .vscode
 dist
+# WordPress static export — too big to ship in repo
+wp-export/
+simply-static-*.zip

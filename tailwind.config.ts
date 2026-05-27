@@ -11,18 +11,22 @@ const config: Config = {
     },
     extend: {
       colors: {
-        navy: { DEFAULT: '#1a2942', dark: '#131f33', soft: '#243551' },
-        coral: { DEFAULT: '#c4513f', dark: '#a03e2f', light: '#d97560' },
-        cream: { DEFAULT: '#faf6ef', card: '#f7ede0', deep: '#f0e2cd' },
-        gold: { DEFAULT: '#c8a87a', light: '#dec8a3' },
+        // Exact palette extracted from the live WordPress site (Elementor globals)
+        burgundy: { DEFAULT: '#81231B', dark: '#651a14', light: '#a02e23' },
+        ink: { DEFAULT: '#101840', muted: '#4a5275', soft: '#6f7693' },
+        cream: { DEFAULT: '#FBF6EE', card: '#f4ead8', deep: '#ead8b8' },
+        gold: { DEFAULT: '#EAC784', light: '#f4dfb3', dark: '#c9a361' },
+        // Aliases for backwards compat in components
+        navy: { DEFAULT: '#101840', dark: '#0a0e2d', soft: '#1c2454' },
+        coral: { DEFAULT: '#81231B', dark: '#651a14', light: '#a02e23' },
         lavender: '#ebe5f0',
-        ink: { DEFAULT: '#2c2520', muted: '#6b6258', soft: '#8a8278' },
         border: '#e5dfd7',
       },
       fontFamily: {
-        display: ['var(--font-cinzel)', 'Georgia', 'serif'],
-        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-playfair)', 'Georgia', 'serif'],
+        serif: ['var(--font-lora)', 'Georgia', 'serif'],
+        body: ['var(--font-merriweather)', 'Georgia', 'serif'],
+        sans: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         'shimmer-slide': {
