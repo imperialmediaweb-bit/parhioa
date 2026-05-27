@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { Hero } from '@/components/site/hero';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FadeIn } from '@/components/magicui/fade-in';
-import { BorderBeam } from '@/components/magicui/border-beam';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Heart, HandHeart, Plus, Users, Gift, Building2, Check } from 'lucide-react';
+import { Plus, Users, Gift, Check } from 'lucide-react';
 import { getImages } from '@/lib/images';
 import { CrossDivider } from '@/components/site/cross-divider';
+import { ParchmentFrame } from '@/components/site/parchment-frame';
 
 export const metadata = { title: 'Misiune' };
 
@@ -43,14 +43,12 @@ export default async function MisiunePage() {
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-xl">
-              <img
-                src={IMG.handsBranch}
-                alt="Mâini cu o ramură — credință vie"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <BorderBeam size={250} duration={10} colorFrom="#EAC784" colorTo="#81231B" />
-            </div>
+            <ParchmentFrame
+              src={IMG.handsBranch}
+              alt="Mâini cu o ramură — credință vie"
+              caption="Credință vie"
+              ratio="square"
+            />
           </FadeIn>
         </div>
       </section>
@@ -60,13 +58,12 @@ export default async function MisiunePage() {
         <CrossDivider className="container mb-10" />
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-xl">
-              <img
-                src={IMG.liturghie}
-                alt="Liturghie săvârșită în parohie"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
+            <ParchmentFrame
+              src={IMG.liturghie}
+              alt="Liturghie săvârșită în parohie"
+              caption="Sfânta Liturghie"
+              ratio="square"
+            />
           </FadeIn>
           <FadeIn delay={0.15}>
             <SectionEyebrow>Misiunea noastră</SectionEyebrow>
@@ -116,15 +113,12 @@ export default async function MisiunePage() {
             </ul>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <Card className="bg-cream-card border-0 p-2 rounded-3xl shadow-xl">
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden">
-                <img
-                  src={IMG.iconTeodora}
-                  alt="Icoana Sfintei Cuvioase Teodora de la Sihla"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </Card>
+            <ParchmentFrame
+              src={IMG.iconTeodora}
+              alt="Icoana Sfintei Cuvioase Teodora de la Sihla"
+              caption="Sf. Cuv. Teodora"
+              ratio="4/5"
+            />
           </FadeIn>
         </div>
       </section>
@@ -133,13 +127,12 @@ export default async function MisiunePage() {
       <section className="bg-cream py-12">
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn>
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-xl">
-              <img
-                src={IMG.handsChurch}
-                alt="Mâini ce țin o biserică mică — sprijin și solidaritate"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
+            <ParchmentFrame
+              src={IMG.handsChurch}
+              alt="Mâini ce țin o biserică mică — sprijin și solidaritate"
+              caption="Sprijin frățesc"
+              ratio="square"
+            />
           </FadeIn>
           <FadeIn delay={0.15}>
             <SectionEyebrow>Parteneriate</SectionEyebrow>

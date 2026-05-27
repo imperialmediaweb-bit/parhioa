@@ -2,12 +2,11 @@ import Link from 'next/link';
 import { Hero } from '@/components/site/hero';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FadeIn } from '@/components/magicui/fade-in';
-import { BorderBeam } from '@/components/magicui/border-beam';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Quote, Cross } from 'lucide-react';
 import { getImages } from '@/lib/images';
 import { CrossDivider } from '@/components/site/cross-divider';
+import { ParchmentFrame } from '@/components/site/parchment-frame';
 
 export const metadata = { title: 'Despre' };
 
@@ -46,10 +45,12 @@ export default async function DesprePage() {
           </FadeIn>
 
           <FadeIn delay={0.15}>
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
-              <img src={IMG.parishLogoBotosani} alt="Parohia Sf. Teodora — Botoșani" className="absolute inset-0 w-full h-full object-cover" />
-              <BorderBeam size={250} duration={10} colorFrom="#EAC784" colorTo="#81231B" />
-            </div>
+            <ParchmentFrame
+              src={IMG.parishIcon}
+              alt="Parohia Sf. Teodora — Botoșani"
+              caption="Sub ocrotirea Cuvioasei Teodora"
+              ratio="4/5"
+            />
           </FadeIn>
         </div>
       </section>
@@ -59,9 +60,12 @@ export default async function DesprePage() {
         <CrossDivider className="container mb-10" />
         <div className="container grid lg:grid-cols-5 gap-10 lg:gap-12 items-center">
           <FadeIn className="lg:col-span-2">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
-              <img src={IMG.priestPortrait} alt="Părintele Cătălin Ailenei" className="absolute inset-0 w-full h-full object-cover" />
-            </div>
+            <ParchmentFrame
+              src={IMG.priestPortrait}
+              alt="Părintele Cătălin Ailenei"
+              caption="Pr. Cătălin Ailenei"
+              ratio="4/5"
+            />
           </FadeIn>
           <FadeIn delay={0.1} className="lg:col-span-3">
             <SectionEyebrow>Părintele paroh</SectionEyebrow>
@@ -103,29 +107,39 @@ export default async function DesprePage() {
             </p>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <Card className="bg-cream-card border-0 p-2 rounded-3xl shadow-xl">
-              <div className="aspect-square rounded-2xl overflow-hidden">
-                <img src={IMG.iconTeodora2} alt="Icoana Sfintei Cuvioase Teodora de la Sihla" className="w-full h-full object-cover" />
-              </div>
-            </Card>
+            <ParchmentFrame
+              src={IMG.iconTeodora2}
+              alt="Icoana Sfintei Cuvioase Teodora de la Sihla"
+              caption="Icoana Cuvioasei"
+              ratio="3/4"
+            />
           </FadeIn>
         </div>
       </section>
 
       {/* Pull-quote — message from the priest */}
-      <section className="bg-burgundy text-white py-20 relative">
-        <div className="container max-w-3xl">
+      <section
+        className="relative py-20 text-cream"
+        style={{
+          background: 'linear-gradient(180deg, #5a1813 0%, #3d0f0a 70%, #2a0907 100%)',
+        }}
+      >
+        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent" />
+        <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent" />
+        <div className="container max-w-3xl text-center">
           <FadeIn>
-            <Quote className="h-12 w-12 text-gold/40 mb-4" />
-            <blockquote className="font-display text-xl sm:text-2xl lg:text-3xl leading-relaxed italic mb-6">
+            <Quote className="h-12 w-12 text-gold/50 mx-auto mb-5" />
+            <blockquote className="font-display text-xl sm:text-2xl lg:text-3xl leading-relaxed italic text-cream mb-7">
               „Cu îngăduința Bunului Dumnezeu și cu binecuvântarea Înaltpreasfințitului Părinte
               Teofan, Mitropolitul Moldovei și Bucovinei, parohia noastră a fost înființată încă
               de anul trecut! Nădăjduim ca acestei comunități să-i punem o temelie de nestăvilit
               în fața ispitelor, cu ajutorul lui Dumnezeu, prin lucrarea Duhului Sfânt – Cel ce
               sfințește toate, și prin mijlocirea Sfintei Cuvioase Teodora de la Sihla."
             </blockquote>
-            <p className="font-ceremonial uppercase text-sm tracking-[0.2em] text-gold">
+            <p className="font-ceremonial uppercase text-xs tracking-[0.32em] text-gold flex items-center justify-center gap-3">
+              <span className="h-px w-8 bg-gold/70" />
               Pr. Cătălin Ailenei
+              <span className="h-px w-8 bg-gold/70" />
             </p>
           </FadeIn>
         </div>
@@ -135,9 +149,12 @@ export default async function DesprePage() {
       <section className="container py-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn delay={0.15} className="order-2 lg:order-1">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
-              <img src={IMG.handsChurch} alt="Mâini ce țin o biserică mică" className="absolute inset-0 w-full h-full object-cover" />
-            </div>
+            <ParchmentFrame
+              src={IMG.handsChurch}
+              alt="Mâini ce țin o biserică mică"
+              caption="Lucrarea zidirii"
+              ratio="4/5"
+            />
           </FadeIn>
           <FadeIn className="order-1 lg:order-2">
             <SectionEyebrow>Întemeierea</SectionEyebrow>

@@ -360,7 +360,7 @@ export default async function HomePage() {
           </div>
         </FadeIn>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             {
               img: IMG.liturghie,
@@ -388,32 +388,62 @@ export default async function HomePage() {
               Icon: CenserIcon,
               eyebrow: 'Pelerinaje',
               title: 'Drumuri spre lumină',
-              text: 'Drumuri la mănăstiri, întâlniri duhovnicești și clipe de bucurie creștină.',
+              text: 'Drumuri la mănăstiri și întâlniri duhovnicești.',
             },
           ].map((s, i) => (
             <FadeIn key={s.title} delay={i * 0.08}>
-              <Card className="h-full overflow-hidden bg-cream group transition-all duration-300 hover:-translate-y-1 hover:shadow-warm-lg">
-                <div className="relative aspect-square overflow-hidden">
+              <article
+                className="relative h-full rounded-[22px] overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-[0_18px_40px_-22px_rgba(101,26,20,0.4)] hover:shadow-[0_24px_50px_-22px_rgba(101,26,20,0.55)]"
+                style={{
+                  background: 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 100%)',
+                }}
+              >
+                {/* Double inner border */}
+                <div className="absolute inset-2 rounded-[16px] border border-gold/55 pointer-events-none z-10" />
+                <div className="absolute inset-3 rounded-[13px] border border-burgundy/20 pointer-events-none z-10" />
+
+                {/* Image with Byzantine arched bottom */}
+                <div className="relative m-3 mb-0 aspect-square overflow-hidden"
+                  style={{
+                    borderTopLeftRadius: '12px',
+                    borderTopRightRadius: '12px',
+                    borderBottomLeftRadius: '50% 28%',
+                    borderBottomRightRadius: '50% 28%',
+                  }}
+                >
                   <img
                     src={s.img}
                     alt={s.title}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/65 via-burgundy-dark/15 to-transparent" />
-                  <div className="absolute top-3 left-3 flex h-12 w-12 items-center justify-center rounded-full bg-cream text-burgundy border-2 border-gold/60 shadow-warm-md">
-                    <s.Icon size={24} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/55 via-transparent to-transparent" />
+                </div>
+
+                {/* Floating icon medallion */}
+                <div className="relative -mt-7 flex justify-center z-20">
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-full text-cream shadow-[0_8px_18px_-6px_rgba(101,26,20,0.65)] ring-2 ring-gold/70"
+                    style={{
+                      background: 'linear-gradient(180deg, #7a201a 0%, #4f120d 100%)',
+                    }}
+                  >
+                    <s.Icon size={26} />
                   </div>
                 </div>
-                <div className="p-5 border-t border-gold/30">
-                  <p className="font-ceremonial uppercase text-[11px] tracking-[0.18em] text-burgundy mb-2 flex items-center gap-2">
-                    <span className="h-px w-3 bg-gold-dark" /> {s.eyebrow}
+
+                <div className="relative px-5 pt-3 pb-6 text-center">
+                  <p className="font-ceremonial uppercase text-[10px] tracking-[0.22em] text-gold-dark mb-2 flex items-center justify-center gap-2">
+                    <span className="h-px w-4 bg-gold/70" />
+                    {s.eyebrow}
+                    <span className="h-px w-4 bg-gold/70" />
                   </p>
-                  <h3 className="font-display text-xl font-semibold text-navy mb-2 leading-tight">
+                  <h3 className="font-display text-lg text-burgundy-dark mb-2 leading-tight">
                     {s.title}
                   </h3>
-                  <p className="text-sm text-ink-muted leading-relaxed font-serif">{s.text}</p>
+                  <p className="text-sm text-burgundy/70 leading-relaxed font-serif italic">{s.text}</p>
                 </div>
-              </Card>
+              </article>
             </FadeIn>
           ))}
         </div>
@@ -458,74 +488,97 @@ export default async function HomePage() {
           </div>
         </FadeIn>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left: 4 icon images in a 2x2 grid (hidden on tablet) */}
-          <FadeIn delay={0.1} className="hidden lg:grid lg:col-span-5 grid-cols-2 gap-3">
-            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.iconBox1} alt="" className="w-full h-full object-cover" />
-            </div>
-            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg mt-12">
-              <img src={IMG.iconBox2} alt="" className="w-full h-full object-cover" />
-            </div>
-            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.iconBox3} alt="" className="w-full h-full object-cover" />
-            </div>
-            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg mt-12">
-              <img src={IMG.iconBox4} alt="" className="w-full h-full object-cover" />
-            </div>
-          </FadeIn>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              Icon: GospelIcon,
+              title: 'Redirecționează din impozit',
+              text:
+                'Persoanele fizice (3,5%) și firmele (20%) pot susține parohia fără cost. Un gest simplu, dar care zidește.',
+              href: '/redirectioneaza-3-5',
+              cta: 'Vezi cum',
+            },
+            {
+              Icon: HandsHeartIcon,
+              title: 'Dăruiește pentru comunitate',
+              text:
+                'Prin darul tău, biserica prinde viață, iar cei aflați în nevoi simt mâna lui Dumnezeu.',
+              href: '/donations/strangere-de-fonduri-pentru-construirea-bisericii',
+              cta: 'Dăruiește acum',
+              highlight: true,
+            },
+            {
+              Icon: KandilaIcon,
+              title: 'Fii alături ca voluntar',
+              text:
+                'Biserica are nevoie de oameni, nu doar de bani. Prezența ta contează în orice formă.',
+              href: '/contact',
+              cta: 'Mă alătur',
+            },
+          ].map((p, i) => (
+            <FadeIn key={p.title} delay={i * 0.1}>
+              <Link
+                href={p.href}
+                className="group relative block h-full rounded-[22px] overflow-hidden p-7 sm:p-8 text-center transition-all duration-300 hover:-translate-y-1.5 shadow-[0_18px_40px_-22px_rgba(101,26,20,0.4)] hover:shadow-[0_26px_55px_-22px_rgba(101,26,20,0.6)]"
+                style={{
+                  background: p.highlight
+                    ? 'linear-gradient(180deg, #7a201a 0%, #4f120d 100%)'
+                    : 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 100%)',
+                }}
+              >
+                {/* Double inner border */}
+                <div
+                  className={`absolute inset-2 rounded-[16px] border pointer-events-none ${
+                    p.highlight ? 'border-gold/45' : 'border-gold/60'
+                  }`}
+                />
+                <div
+                  className={`absolute inset-3 rounded-[13px] border pointer-events-none ${
+                    p.highlight ? 'border-gold/20' : 'border-burgundy/22'
+                  }`}
+                />
 
-          {/* Right: 3 icon boxes with descriptions */}
-          <div className="lg:col-span-7 space-y-5">
-            {[
-              {
-                Icon: GospelIcon,
-                title: 'Redirecționează din impozit',
-                text:
-                  'Atât persoanele fizice (3,5%) cât și firmele (20% din impozitul pe profit sau venit) pot susține parohia fără costuri suplimentare. Sprijină zidirea bisericii printr-un gest simplu.',
-                href: '/redirectioneaza-3-5',
-                cta: 'Vezi cum',
-              },
-              {
-                Icon: HandsHeartIcon,
-                title: 'Dăruiește cu inimă',
-                text:
-                  'Prin darul tău, biserica prinde viață, iar cei aflați în nevoi simt mâna lui Dumnezeu. Dăruiește cu credință și nădejde.',
-                href: '/donations/strangere-de-fonduri-pentru-construirea-bisericii',
-                cta: 'Dăruiește pentru comunitate',
-              },
-              {
-                Icon: KandilaIcon,
-                title: 'Implică-te ca voluntar',
-                text:
-                  'Biserica are nevoie și de oameni, nu doar de bani. Fie că ajuți la curățenie, organizare sau distribuirea unor ajutoare, prezența ta contează.',
-                href: '/contact',
-                cta: 'Mă alătur',
-              },
-            ].map((p, i) => (
-              <FadeIn key={p.title} delay={i * 0.1}>
-                <div className="flex gap-4 sm:gap-5 p-5 rounded-2xl bg-cream border border-gold/30 shadow-warm hover:shadow-warm-md transition-shadow">
-                  <div className="flex-shrink-0 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark text-cream shadow-candlelight">
-                    <p.Icon size={32} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-display text-xl font-semibold text-burgundy mb-1.5">
-                      {p.title}
-                    </h3>
-                    <p className="text-sm text-ink-muted leading-relaxed mb-2 font-serif">
-                      {p.text}
-                    </p>
-                    <Link
-                      href={p.href}
-                      className="text-sm font-semibold text-burgundy hover:text-burgundy-dark inline-flex items-center gap-1"
-                    >
-                      {p.cta} →
-                    </Link>
-                  </div>
+                <div
+                  className={`relative mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full ring-2 transition-transform group-hover:scale-105 ${
+                    p.highlight
+                      ? 'bg-cream text-burgundy-dark ring-gold/70 shadow-[0_8px_18px_-6px_rgba(0,0,0,0.4)]'
+                      : 'text-cream ring-gold/70 shadow-[0_8px_18px_-6px_rgba(101,26,20,0.55)]'
+                  }`}
+                  style={
+                    p.highlight
+                      ? undefined
+                      : { background: 'linear-gradient(180deg, #7a201a 0%, #4f120d 100%)' }
+                  }
+                >
+                  <p.Icon size={30} />
                 </div>
-              </FadeIn>
-            ))}
-          </div>
+
+                <h3
+                  className={`relative font-display text-xl mb-3 leading-tight ${
+                    p.highlight ? 'text-cream' : 'text-burgundy-dark'
+                  }`}
+                >
+                  {p.title}
+                </h3>
+                <p
+                  className={`relative text-[14px] leading-relaxed font-serif italic mb-5 ${
+                    p.highlight ? 'text-cream/85' : 'text-burgundy/75'
+                  }`}
+                >
+                  {p.text}
+                </p>
+
+                <p
+                  className={`relative font-ceremonial uppercase text-[11px] tracking-[0.22em] inline-flex items-center gap-2 transition-colors ${
+                    p.highlight ? 'text-gold' : 'text-burgundy-dark group-hover:text-burgundy'
+                  }`}
+                >
+                  {p.cta}
+                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                </p>
+              </Link>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
