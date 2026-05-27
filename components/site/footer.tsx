@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Facebook, Linkedin, Music2, MapPin, Mail, Phone, User } from 'lucide-react';
-import { Logo } from './logo';
 import { OrthodoxCross } from './cross-divider';
 
 const INFO = [
@@ -61,9 +60,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* About + logo */}
           <div className="lg:col-span-4 space-y-5">
-            <div className="bg-cream rounded-2xl p-5 inline-block shadow-warm-lg">
-              <Logo size="lg" />
-            </div>
+            <FooterLogo />
             <p className="text-[15px] text-cream/80 leading-relaxed max-w-sm font-serif">
               Parohia „Sfânta Cuvioasă Teodora de la Sihla&quot; din Botoșani este o comunitate în
               formare, zidită cu credință, rugăciune și dragoste frățească.
@@ -130,6 +127,29 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterLogo() {
+  return (
+    <Link href="/" className="group inline-flex flex-col gap-3" aria-label="Acasă">
+      <img
+        src="https://res.cloudinary.com/dghmoelly/image/upload/v1779891768/Screenshot_101-removebg-preview_yxrjmd.png"
+        alt="Parohia Sf. Cuvioasă Teodora de la Sihla"
+        className="h-28 sm:h-32 w-auto object-contain drop-shadow-[0_4px_20px_rgba(234,199,132,0.35)] transition-transform group-hover:scale-105"
+      />
+      <div className="leading-[1.1]">
+        <p className="font-ecclesia text-[22px] sm:text-[26px] font-bold uppercase tracking-wider text-gold">
+          Parohia
+        </p>
+        <p className="font-ecclesia text-[17px] sm:text-[20px] font-bold uppercase tracking-wider text-cream">
+          Sf. Cuv. Teodora
+        </p>
+        <p className="font-ecclesia text-[12px] sm:text-[14px] font-semibold uppercase tracking-[0.18em] text-gold/80">
+          de la Sihla · Botoșani
+        </p>
+      </div>
+    </Link>
   );
 }
 

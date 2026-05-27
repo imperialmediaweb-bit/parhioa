@@ -1,10 +1,5 @@
 import { cn } from '@/lib/utils';
 
-/**
- * Authentic Romanian Orthodox cross — modelled after a carved-wood
- * Russian/Greek style cross with cloverleaf (trefoil) ends. Each arm
- * terminates in three large rounded lobes meeting at a slim neck.
- */
 export function CrossDivider({
   className,
   size = 'default',
@@ -14,7 +9,7 @@ export function CrossDivider({
   size?: 'sm' | 'default' | 'lg';
   variant?: 'light' | 'dark' | 'gold';
 }) {
-  const h = size === 'sm' ? 48 : size === 'lg' ? 96 : 68;
+  const h = size === 'sm' ? 56 : size === 'lg' ? 110 : 80;
 
   const palette = {
     light: { cross: '#81231B', inner: '#EAC784', rule: 'from-burgundy/40', dot: 'text-gold-dark' },
@@ -23,10 +18,7 @@ export function CrossDivider({
   }[variant];
 
   return (
-    <div
-      className={cn('flex items-center justify-center gap-4 my-10 select-none', className)}
-      aria-hidden
-    >
+    <div className={cn('flex items-center justify-center gap-4 my-10 select-none', className)} aria-hidden>
       <span className="flex items-center gap-2 flex-1 max-w-[140px] justify-end">
         <span className={cn('h-px flex-1 bg-gradient-to-r from-transparent', palette.rule)} />
         <Diamond className={cn('h-2 w-2', palette.dot)} />
@@ -43,9 +35,9 @@ export function CrossDivider({
 }
 
 /**
- * Romanian Orthodox cross SVG — carved-wood style with trefoil ends.
- * The path describes the full silhouette: each arm flares into three
- * round lobes, then a slim neck, then thickens into the cross body.
+ * Romanian Orthodox cross with budded / trefoil ends — modelled after
+ * the carved-wood cross the user wants. Single horizontal bar, longer
+ * lower stem, each of the 4 arm tips flowering into 3 lobes.
  */
 export function OrthodoxCross({
   height = 80,
@@ -60,108 +52,70 @@ export function OrthodoxCross({
 }) {
   return (
     <svg
-      viewBox="0 0 200 280"
+      viewBox="0 0 220 320"
+      width={(height * 220) / 320}
       height={height}
-      width={(height * 200) / 280}
       className={className}
       aria-hidden
     >
-      {/* Main silhouette — single filled path so it reads as one carved object */}
-      <path
-        fill={fill}
-        d="
-          M 100 8
-          C 92 8, 86 14, 86 22
-          C 86 28, 88 32, 90 35
-          C 82 35, 76 41, 76 49
-          C 76 57, 82 63, 90 63
-          C 92 63, 94 63, 96 62
-          L 96 80
-          L 60 80
-          C 60 72, 54 66, 46 66
-          C 38 66, 32 72, 32 80
-          C 32 86, 35 90, 39 92
-          C 32 92, 26 98, 26 106
-          C 26 114, 32 120, 40 120
-          C 48 120, 54 114, 54 106
-          C 56 106, 58 105, 60 105
-          L 96 105
-          L 96 200
-          L 78 200
-          C 78 192, 72 186, 64 186
-          C 56 186, 50 192, 50 200
-          C 50 206, 53 211, 57 213
-          C 49 213, 43 219, 43 227
-          C 43 235, 49 241, 57 241
-          C 65 241, 71 235, 71 227
-          C 71 226, 71 225, 70 224
-          L 90 220
-          L 92 248
-          C 84 248, 78 254, 78 262
-          C 78 270, 84 276, 92 276
-          L 108 276
-          C 116 276, 122 270, 122 262
-          C 122 254, 116 248, 108 248
-          L 110 220
-          L 130 224
-          C 129 225, 129 226, 129 227
-          C 129 235, 135 241, 143 241
-          C 151 241, 157 235, 157 227
-          C 157 219, 151 213, 143 213
-          C 147 211, 150 206, 150 200
-          C 150 192, 144 186, 136 186
-          C 128 186, 122 192, 122 200
-          L 104 200
-          L 104 105
-          L 140 105
-          C 142 105, 144 106, 146 106
-          C 146 114, 152 120, 160 120
-          C 168 120, 174 114, 174 106
-          C 174 98, 168 92, 161 92
-          C 165 90, 168 86, 168 80
-          C 168 72, 162 66, 154 66
-          C 146 66, 140 72, 140 80
-          L 104 80
-          L 104 62
-          C 106 63, 108 63, 110 63
-          C 118 63, 124 57, 124 49
-          C 124 41, 118 35, 110 35
-          C 112 32, 114 28, 114 22
-          C 114 14, 108 8, 100 8
-          Z
-        "
-      />
-      {/* Inner outline — subtle gold accent following the silhouette */}
-      <path
+      <defs>
+        {/* The trefoil "bud" — three overlapping circles forming a clover */}
+        <g id="bud-h">
+          {/* Horizontal: lobe sticks out to the right (rotate as needed) */}
+          <circle cx="0" cy="0" r="22" />
+          <circle cx="14" cy="-18" r="18" />
+          <circle cx="14" cy="18" r="18" />
+        </g>
+      </defs>
+
+      {/* Vertical stem */}
+      <rect x="92" y="42" width="36" height="240" rx="3" fill={fill} />
+
+      {/* Horizontal bar — single, like the wooden reference */}
+      <rect x="38" y="138" width="144" height="40" rx="3" fill={fill} />
+
+      {/* TOP trefoil — bud rotated so it opens upward */}
+      <g transform="translate(110 42) rotate(-90)" fill={fill}>
+        <circle cx="0" cy="0" r="22" />
+        <circle cx="14" cy="-18" r="18" />
+        <circle cx="14" cy="18" r="18" />
+      </g>
+
+      {/* LEFT trefoil — bud opens to the left */}
+      <g transform="translate(38 158) rotate(180)" fill={fill}>
+        <circle cx="0" cy="0" r="22" />
+        <circle cx="14" cy="-18" r="18" />
+        <circle cx="14" cy="18" r="18" />
+      </g>
+
+      {/* RIGHT trefoil — bud opens to the right */}
+      <g transform="translate(182 158)" fill={fill}>
+        <circle cx="0" cy="0" r="22" />
+        <circle cx="14" cy="-18" r="18" />
+        <circle cx="14" cy="18" r="18" />
+      </g>
+
+      {/* BOTTOM trefoil — bud opens downward, larger than the top one */}
+      <g transform="translate(110 282) rotate(90) scale(1.15)" fill={fill}>
+        <circle cx="0" cy="0" r="22" />
+        <circle cx="14" cy="-18" r="18" />
+        <circle cx="14" cy="18" r="18" />
+      </g>
+
+      {/* Inner gold accent following the silhouette — like the inset line on the wooden cross */}
+      <g
         fill="none"
         stroke={accent}
-        strokeWidth="1.2"
+        strokeWidth="2"
         opacity="0.55"
-        d="
-          M 96 80 L 60 80
-          M 96 105 L 60 105
-          M 96 200 L 78 200
-          M 104 200 L 122 200
-          M 104 80 L 140 80
-          M 104 105 L 140 105
-        "
-      />
-      {/* Gold dot at the crossing */}
-      <circle cx="100" cy="92" r="4" fill={accent} />
-      {/* Inner highlight stroke for depth */}
-      <path
-        fill="none"
-        stroke={accent}
-        strokeWidth="1.5"
-        opacity="0.35"
-        d="
-          M 96 18 L 96 65
-          M 96 105 L 96 195
-          M 96 245 L 96 268
-          M 32 92 L 60 92
-          M 140 92 L 168 92
-        "
-      />
+        strokeLinejoin="round"
+      >
+        <rect x="98" y="48" width="24" height="228" rx="2" />
+        <rect x="44" y="144" width="132" height="28" rx="2" />
+      </g>
+
+      {/* Center accent — small gold square at the crossing */}
+      <rect x="105" y="153" width="10" height="10" rx="1.5" fill={accent} opacity="0.85" />
     </svg>
   );
 }
