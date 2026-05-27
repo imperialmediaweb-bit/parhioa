@@ -22,20 +22,20 @@ const TESTIMONIALS: Testimonial[] = [
   {
     text:
       'Parohia «Sfânta Cuvioasă Teodora de la Sihla» e un început frumos și binecuvântat. Părintele Cătălin Ailenei este aproape de oameni, iar ceea ce se zidește aici se simte din suflet. Mă bucur să fac parte din această comunitate.',
-    author: 'Maria',
-    role: 'Credincioasă',
+    author: 'Aionițoaie Ionuț',
+    role: 'Enoriaș',
   },
   {
     text:
       'Se zidește cu răbdare și credință, iar părintele Cătălin este mereu alături, cu inimă bună și grijă pentru fiecare. Lucrurile cresc frumos, pas cu pas.',
-    author: 'Andrei',
-    role: 'Voluntar',
+    author: 'Aionițoaie Ana-Maria',
+    role: 'Enoriașă',
   },
   {
     text:
-      'Am simțit căldură și liniște încă de la prima slujbă. Aici nu te simți străin — ești primit ca-n familia ta duhovnicească.',
-    author: 'Elena',
-    role: 'Enoriaș',
+      'Parohia noastră este un început binecuvântat. Părintele Cătălin Ailenei este un om cu har și răbdare, aproape de oameni. Se simte că aici se zidește nu doar o biserică, ci o familie.',
+    author: 'Dorina Budeanu',
+    role: 'Enoriașă',
   },
 ];
 
@@ -58,54 +58,43 @@ async function getHomeData() {
 export default async function HomePage() {
   const [{ posts }, IMG] = await Promise.all([getHomeData(), getImages()]);
 
-  // Build hero slides from real Cloudinary images
+  // Hero slides — exact images from the live site
   const HERO_SLIDES: HeroSlide[] = [
     {
-      media: {
-        type: 'video',
-        src: '/hero/intro.mp4',
-        poster: IMG.parishLogoBotosani,
-      },
-      eyebrow: 'Parohia Sf. Cuv. Teodora de la Sihla · Botoșani',
+      media: { type: 'image', src: IMG.heroSlide1, alt: 'Bisericuța' },
+      eyebrow: 'Binecuvântare și chemare',
       title: <>Într-o inimă, o credință, o familie duhovnicească</>,
       subtitle:
         'Vino să te rogi cu noi, să te împărtășești din harul lui Dumnezeu și să fii parte dintr-o comunitate vie.',
-      primaryCta: { label: 'Implică-te', href: '/misiune' },
+      primaryCta: { label: 'Misiunea noastră', href: '/misiune' },
       secondaryCta: { label: 'Despre noi', href: '/despre' },
     },
     {
-      media: { type: 'image', src: IMG.handsBranch, alt: 'Mâini cu ramură — credință vie' },
-      eyebrow: 'Zidirea bisericii',
+      media: { type: 'image', src: IMG.heroSlide2, alt: 'Zidirea bisericii' },
+      eyebrow: 'Fii sprijin pentru biserica noastră',
       title: (
         <>
           Zidim cu credință, <em className="font-serif italic">cărămidă cu cărămidă</em>
         </>
       ),
       subtitle:
-        'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul tău, putem pune piatra de temelie.',
-      primaryCta: { label: 'Devino ctitor', href: '/campanii' },
+        'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul tău, putem pune piatra de temelie. Orice dar devine o cărămidă în casa Domnului.',
+      primaryCta: { label: 'Contribuie', href: '/doneaza' },
       secondaryCta: { label: 'Redirecționează 3,5%', href: '/redirectioneaza-3-5' },
-    },
-    {
-      media: { type: 'image', src: IMG.handsChurch, alt: 'Mâini ce țin o biserică' },
-      eyebrow: 'Rugăciune · Milostenie · Iubire',
-      title: <>Zidim credința, slujim cu dragoste</>,
-      subtitle:
-        'Trei stâlpi care țin viața parohiei și prin care creștem împreună întru Hristos.',
-      primaryCta: { label: 'Vezi misiunea', href: '/misiune' },
     },
   ];
 
-  // Curated gallery — uses the same image map as the rest of the site
+  // Gallery uses the same set of icons the live "Sprijină lucrarea parohiei"
+  // section shows, plus the parish icon and campaign poster.
   const GALLERY: GalleryImage[] = [
-    { src: IMG.liturghie, alt: 'Liturghie', caption: 'Sfânta Liturghie' },
-    { src: IMG.handsBranch, alt: 'Credință vie', caption: 'Credință vie și ajutor' },
-    { src: IMG.iconTeodora, alt: 'Sf. Teodora', caption: 'Icoana ocrotitoarei' },
-    { src: IMG.handsChurch, alt: 'Biserica', caption: 'Sprijin și solidaritate' },
-    { src: IMG.priestPraying, alt: 'Părintele în rugăciune', caption: 'Părintele Cătălin' },
+    { src: IMG.parishIcon, alt: 'Icoana parohiei', caption: 'Sfânta Cuvioasă Teodora' },
+    { src: IMG.iconBox1, alt: 'Donează', caption: 'Sprijină zidirea' },
+    { src: IMG.iconBox2, alt: 'Redirecționează', caption: 'Redirecționează 3,5%' },
+    { src: IMG.iconBox3, alt: 'Implică-te', caption: 'Comunitate vie' },
+    { src: IMG.iconBox4, alt: 'Liturghie', caption: 'Slujbe vii' },
     { src: IMG.campaignPoster, alt: 'Devino ctitor', caption: 'Campania de zidire' },
-    { src: IMG.iconTeodora2, alt: 'Icoana Sf. Teodora', caption: 'Ocrotitoarea parohiei' },
-    { src: IMG.donationFamily, alt: 'Cărămizi', caption: 'Zidirea bisericii' },
+    { src: IMG.parishLogoBotosani, alt: 'Parohia', caption: 'Sub ocrotirea Sf. Teodora' },
+    { src: IMG.priestPortrait, alt: 'Părintele Cătălin', caption: 'Părintele paroh' },
   ];
 
   return (
@@ -231,13 +220,10 @@ export default async function HomePage() {
         </FadeIn>
         <FadeIn delay={0.1}>
           <VideoSection
-            poster={IMG.liturghie}
-            youtubeId="dQw4w9WgXcQ"
+            poster={IMG.videoSectionBg}
+            youtubeId="w03-ddqY-AE"
             className="max-w-4xl mx-auto"
           />
-          <p className="text-center text-xs text-ink-soft mt-3 italic">
-            Înlocuiește youtubeId din app/page.tsx cu ID-ul real al canalului parohiei.
-          </p>
         </FadeIn>
       </section>
 

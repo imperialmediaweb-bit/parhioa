@@ -4,63 +4,125 @@ import { prisma } from './prisma';
 const WP_BASE = 'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads';
 
 type ImageEntry = {
-  /** All fragments are tried in order; first DB hit wins. Use distinctive bits of the filename. */
+  /** All fragments are tried in order; first DB hit wins. */
   matches: string[];
   fallback: string;
 };
 
+/**
+ * Image map extracted directly from the live site's HTML — exact filenames,
+ * not guesses. Each key has multiple match fragments because WordPress
+ * sometimes appends -2, -3 to slugs.
+ */
 const IMAGE_MAP = {
+  // ===== Hero slider (exact images from live elementskit-advanced-slider) =====
+  heroSlide1: {
+    matches: ['image-9-1', 'image-9'],
+    fallback: `${WP_BASE}/2024/04/image-9-1.webp`,
+  },
+  heroSlide2: {
+    matches: ['image-8', '2025/07/image-8'],
+    fallback: `${WP_BASE}/2025/07/image-8.webp`,
+  },
+
+  // ===== Section: Părintele Cătălin Ailenei =====
   priestPortrait: {
     matches: ['catalin-ailenei'],
     fallback: `${WP_BASE}/2025/06/Catalin-Ailenei.webp`,
   },
-  parishLogo: {
-    matches: ['parohia-sfanta-cuvioasa-teodora-de-la-sihla'],
-    fallback: `${WP_BASE}/2024/03/Parohia-Sfanta-Cuvioasa-Teodora-de-la-Sihla.png`,
-  },
+
+  // ===== Section: Sub ocrotirea Sf. Teodora =====
   parishLogoBotosani: {
     matches: ['parohia-sfanta-cuvioasa-teodora-de-la-sihla-botosani'],
     fallback: `${WP_BASE}/2025/06/Parohia-Sfanta-Cuvioasa-Teodora-de-la-Sihla-Botosani.webp`,
   },
-  handsBranch: {
-    matches: ['09_17_21', '09-17-21', 'jun-19-2025-09', 'image-jun-19'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-19-2025-09_17_21-PM-1.webp`,
+
+  // ===== Section: Fii ctitor al unei lucrări sfinte (REAL parish icon) =====
+  parishIcon: {
+    matches: ['par.png', '2025/10/par', 'par-300x237', 'par.'],
+    fallback: `${WP_BASE}/2025/10/par.png`,
   },
-  liturghie: {
-    matches: ['08_31_56', '08-31-56', 'jun-20-2025-08', 'image-jun-20'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-20-2025-08_31_56-AM-1.webp`,
+
+  // ===== Header / general logo =====
+  parishLogo: {
+    matches: ['parohia-sfanta-cuvioasa-teodora-de-la-sihla.png', '2024/03/parohia-sfanta'],
+    fallback: `${WP_BASE}/2024/03/Parohia-Sfanta-Cuvioasa-Teodora-de-la-Sihla.png`,
   },
+
+  // ===== Campaign poster (Devino ctitor) =====
+  campaignPoster: {
+    matches: ['whatsapp-image-2025-11-03', '15-27-15', '15_27_15'],
+    fallback: `${WP_BASE}/2025/06/WhatsApp-Image-2025-11-03-at-15.27.15.jpeg`,
+  },
+
+  // ===== Video section background (Împreună întru Hristos) =====
+  videoSectionBg: {
+    matches: ['image-5-picsart', 'picsart-aiimageenhancer', 'image-5-'],
+    fallback: `${WP_BASE}/2025/06/image-5-Picsart-AiImageEnhancer-2.webp`,
+  },
+
+  // ===== Newsletter background =====
+  newsletterBg: {
+    matches: ['image-6.webp', '2025/06/image-6'],
+    fallback: `${WP_BASE}/2025/06/image-6.webp`,
+  },
+
+  // ===== Donate section: 4 small icon images (left grid) =====
+  iconBox1: {
+    matches: ['screenshot_73'],
+    fallback: `${WP_BASE}/2025/06/Screenshot_73.webp`,
+  },
+  iconBox2: {
+    matches: ['screenshot_300', '2025/10/screenshot_300'],
+    fallback: `${WP_BASE}/2025/10/Screenshot_300.png`,
+  },
+  iconBox3: {
+    matches: ['screenshot_60-2', 'screenshot_60'],
+    fallback: `${WP_BASE}/2025/06/Screenshot_60-2.webp`,
+  },
+  iconBox4: {
+    matches: ['liturghie-2', 'liturghie'],
+    fallback: `${WP_BASE}/2025/06/liturghie-2.webp`,
+  },
+
+  // ===== Other useful images (preserved from earlier extraction) =====
   iconTeodora: {
-    matches: ['screenshot_80', 'screenshot-80'],
+    matches: ['screenshot_80', 'screenshot_82'],
     fallback: `${WP_BASE}/2025/06/Screenshot_80-1-1.webp`,
   },
-  iconTeodora2: {
-    matches: ['screenshot_82', 'screenshot-82'],
-    fallback: `${WP_BASE}/2025/06/Screenshot_82-1.webp`,
+  redirectChurch: {
+    matches: ['screenshot_59'],
+    fallback: `${WP_BASE}/2025/06/Screenshot_59-1.webp`,
   },
-  handsChurch: {
-    matches: ['09_30_18', '09-30-18', 'jun-20-2025-09'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-20-2025-09_30_18-PM-1.webp`,
-  },
-  priestPraying: {
-    matches: ['05_37_02', '05-37-02', 'jun-19-2025-05'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-19-2025-05_37_02-PM-1.webp`,
-  },
-  campaignPoster: {
-    matches: ['whatsapp-image-2025-11-03', 'whatsapp-image-2025-11', '15-27-15', '15_27_15'],
-    fallback: `${WP_BASE}/2025/06/WhatsApp-Image-2025-11-03-at-15.27.15.jpeg`,
+  redirectForm: {
+    matches: ['screenshot_77'],
+    fallback: `${WP_BASE}/2025/06/Screenshot_77-1.png`,
   },
   donationFamily: {
     matches: ['400455773'],
     fallback: `${WP_BASE}/2025/06/400455773_122112509750091213_6175291480986669359_n.jpg`,
   },
-  redirectChurch: {
-    matches: ['screenshot_59', 'screenshot-59'],
-    fallback: `${WP_BASE}/2025/06/Screenshot_59-1.webp`,
+
+  // ===== Legacy aliases (so older pages don't break) =====
+  handsBranch: {
+    matches: ['jun-19-2025-09_17_21', '09_17_21'],
+    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-19-2025-09_17_21-PM-1.webp`,
   },
-  redirectForm: {
-    matches: ['screenshot_77', 'screenshot-77'],
-    fallback: `${WP_BASE}/2025/06/Screenshot_77-1.png`,
+  liturghie: {
+    matches: ['jun-20-2025-08_31_56', '08_31_56'],
+    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-20-2025-08_31_56-AM-1.webp`,
+  },
+  iconTeodora2: {
+    matches: ['screenshot_82'],
+    fallback: `${WP_BASE}/2025/06/Screenshot_82-1.webp`,
+  },
+  handsChurch: {
+    matches: ['jun-20-2025-09_30_18', '09_30_18'],
+    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-20-2025-09_30_18-PM-1.webp`,
+  },
+  priestPraying: {
+    matches: ['jun-19-2025-05_37_02', '05_37_02'],
+    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-19-2025-05_37_02-PM-1.webp`,
   },
 } satisfies Record<string, ImageEntry>;
 
@@ -72,7 +134,6 @@ export const getImages = cache(async (): Promise<Record<ImageKey, string>> => {
   ) as Record<ImageKey, string>;
 
   try {
-    // Collect every fragment we might look for, query once.
     const allFragments = Array.from(
       new Set(Object.values(IMAGE_MAP).flatMap((e) => e.matches.map((m) => m.toLowerCase()))),
     );
@@ -104,7 +165,7 @@ export const getImages = cache(async (): Promise<Record<ImageKey, string>> => {
       }
     }
   } catch {
-    // DB unreachable — fall back to WP URLs (already in result).
+    // Fall back to WP URLs (already in result).
   }
 
   return result;
