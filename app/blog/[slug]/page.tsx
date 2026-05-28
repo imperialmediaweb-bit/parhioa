@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { prisma } from '@/lib/prisma';
-import { Hero } from '@/components/site/hero';
-import { Badge } from '@/components/ui/badge';
-import { formatDateRo } from '@/lib/utils';
-import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
+import { prisma } from '../../../lib/prisma';
+import { Hero } from '../../../components/site/hero';
+import { Badge } from '../../../components/ui/badge';
+import { formatDateRo } from '../../../lib/utils';
+import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
 
 export const revalidate = 60;
 
