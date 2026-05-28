@@ -118,7 +118,7 @@ export function HeroSlider({
 
 function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) {
   return (
-    <div className="relative h-[520px] sm:h-[640px] lg:h-[720px] w-full overflow-hidden bg-navy-dark">
+    <div className="relative h-[640px] sm:h-[760px] lg:h-[88vh] lg:min-h-[760px] lg:max-h-[920px] w-full overflow-hidden bg-navy-dark">
       {/* Media */}
       {slide.media.type === 'video' ? (
         <video
@@ -169,7 +169,7 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 50% 45% at 50% 55%, rgba(0,0,0,0.55), transparent 70%)',
+            'radial-gradient(ellipse 45% 35% at 50% 55%, rgba(0,0,0,0.5), transparent 75%)',
         }}
       />
 
