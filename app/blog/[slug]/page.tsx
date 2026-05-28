@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { Hero } from '@/components/site/hero';
 import { Badge } from '@/components/ui/badge';
 import { formatDateRo } from '@/lib/utils';
+import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 
 export const revalidate = 60;
 
@@ -11,13 +12,31 @@ type Props = { params: { slug: string } };
 
 async function getPost(slug: string) {
   try {
-    return await prisma.post.findUnique({
+    const dbPost = await prisma.post.findUnique({
       where: { slug },
       include: { featured: true, categories: true, tags: true },
     });
+    if (dbPost && dbPost.status === 'publish') return dbPost;
   } catch {
-    return null;
+    // ignore
   }
+
+  const fallback = PLACEHOLDER_POSTS.find((p) => p.slug === slug);
+  if (!fallback) return null;
+
+  return {
+    id: fallback.slug,
+    slug: fallback.slug,
+    status: 'publish' as const,
+    title: fallback.title,
+    excerpt: fallback.excerpt,
+    publishedAt: fallback.publishedAt,
+    content: `<p class="lead">${fallback.excerpt}</p><p>Articolul integral este disponibil pe site-ul oficial al parohiei: <a href="https://www.parohiasfteodoradelasihla.ro/${fallback.slug}/" target="_blank" rel="noopener" class="text-burgundy underline">citește mai departe</a>.</p>`,
+    featured: { url: fallback.featuredUrl, alt: fallback.title },
+    categories: [{ name: fallback.category, slug: fallback.category.toLowerCase() }],
+    tags: [] as Array<{ name: string; slug: string }>,
+    _placeholder: true,
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -28,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const post = await getPost(params.slug);
-  if (!post || post.status !== 'publish') notFound();
+  if (!post) notFound();
 
   return (
     <>

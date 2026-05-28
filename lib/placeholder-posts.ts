@@ -7,69 +7,114 @@ export type PlaceholderPost = {
   category: string;
 };
 
+const WP_BASE = 'https://www.parohiasfteodoradelasihla.ro';
+
 /**
- * Used when the Prisma DB has no published posts yet — so /blog and
- * the homepage news section always have something to show.
+ * Real posts from the live WordPress site, used until the production
+ * database is seeded via `npm run import:wp`. Once the DB has real
+ * posts, prisma.post.findMany will take over and these are hidden.
  */
 export const PLACEHOLDER_POSTS: PlaceholderPost[] = [
   {
-    slug: 'sfanta-cuvioasa-teodora-de-la-sihla',
-    title: 'Sfânta Cuvioasă Teodora de la Sihla — pildă de smerenie',
+    slug: '1-decembrie-2025-slujba-de-sfintire-a-locului-pentru-biserica-cu-hramul-sfanta-cuvioasa-teodora-de-la-sihla',
+    title:
+      '1 decembrie 2025 — Slujba de sfințire a locului pentru Biserica cu hramul „Sfânta Cuvioasă Teodora de la Sihla"',
     excerpt:
-      'Floare aleasă a pustiei și rugătoare neîncetată înaintea lui Hristos, Cuvioasa Teodora ne învață ce înseamnă răbdarea desăvârșită și viața în post și rugăciune.',
-    publishedAt: new Date(2025, 7, 7),
-    featuredUrl:
-      'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909922/Screenshot_98_uqff8q.png',
-    category: 'Vieți de sfinți',
-  },
-  {
-    slug: 'cum-iti-redirectionezi-3-5-din-impozit',
-    title: 'Cum redirecționezi 3,5% din impozit către parohie',
-    excerpt:
-      'Un gest care nu te costă nimic, dar care zidește. Iată pașii simpli prin care poți alege ca o parte din impozitul tău să sprijine construirea bisericii.',
-    publishedAt: new Date(2025, 5, 20),
-    featuredUrl:
-      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/Screenshot_60-2.webp',
-    category: 'Redirecționează',
-  },
-  {
-    slug: 'zidim-cu-credinta-fiecare-caramida-conteaza',
-    title: 'Zidim cu credință — fiecare cărămidă contează',
-    excerpt:
-      'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul vostru, punem temelia. Fiecare dar adus cu inimă curată devine o cărămidă vie.',
-    publishedAt: new Date(2025, 4, 15),
-    featuredUrl:
-      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/WhatsApp-Image-2025-11-03-at-15.27.15.jpeg',
-    category: 'Campanii',
-  },
-  {
-    slug: 'asezarea-sfintei-cruci-temelia-bisericii',
-    title: 'Așezarea Sfintei Cruci — temelia bisericii',
-    excerpt:
-      'Cu binecuvântarea Înaltpreasfințitului Părinte Teofan, s-a săvârșit slujba de așezare a Sfintei Cruci pe locul unde se va înălța biserica parohiei.',
-    publishedAt: new Date(2025, 9, 14),
-    featuredUrl:
-      'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779910523/594401053_122229437516091213_3614555738436750498_n_yn7qvr.jpg',
+      'Ziua de 1 decembrie 2025 rămâne adânc întipărită în sufletele credincioșilor parohiei noastre. A fost o zi cu o încărcătură duhovnicească deosebită.',
+    publishedAt: new Date('2025-12-05T14:39:36Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/12/594401053_122229437516091213_3614555738436750498_n-1024x683.jpg`,
     category: 'Vești din parohie',
   },
   {
-    slug: 'programul-slujbelor-de-praznice-imparatesti',
-    title: 'Programul slujbelor de praznice împărătești',
+    slug: '26-11-2025-pregatiri-pentru-sfintirea-locului-punerea-pietrei-de-temelie-si-sfintirea-troitei',
+    title:
+      '26.11.2025 — Pregătiri pentru Sfințirea Locului, Punerea Pietrei de Temelie și Sfințirea Troiței',
     excerpt:
-      'Iată rânduiala slujbelor pentru praznicele împărătești care urmează — Buna Vestire, Schimbarea la Față și Adormirea Maicii Domnului.',
-    publishedAt: new Date(2025, 2, 24),
-    featuredUrl:
-      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/Screenshot_80-1-1.webp',
-    category: 'Program slujbe',
+      'Dragi credincioși și prieteni ai parohiei noastre, cu ajutorul lui Dumnezeu am început în aceste zile pregătirile pentru Slujba de Sfințire a locului.',
+    publishedAt: new Date('2025-11-26T18:00:25Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/11/Screenshot_426.png`,
+    category: 'Vești din parohie',
   },
   {
-    slug: 'voluntariat-in-parohie-cum-te-poti-implica',
-    title: 'Voluntariat în parohie — cum te poți implica',
+    slug: 'un-pas-important-spre-ctitorie-racordarea-electrica-a-fost-realizata',
+    title: 'Un pas important spre ctitorie — racordarea electrică a fost realizată',
     excerpt:
-      'Biserica are nevoie de oameni, nu doar de bani. Iată cum poți pune umărul la lucrarea parohiei prin timpul și priceperea ta.',
-    publishedAt: new Date(2025, 1, 10),
-    featuredUrl:
-      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/ChatGPT-Image-Jun-19-2025-09_17_21-PM-1.webp',
-    category: 'Comunitate',
+      'Dragi credincioși și prieteni ai parohiei noastre, în aceste zile, cu ajutorul bunului Dumnezeu și prin osteneala celor cu inimă bună, au fost săvârșite lucrări importante.',
+    publishedAt: new Date('2025-11-19T12:55:55Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/11/Screenshot_397.png`,
+    category: 'Lucrări',
+  },
+  {
+    slug: 'chemare-catre-inimile-celor-ce-iubesc-biserica-lui-hristos-devino-ctitor',
+    title: 'Chemare către inimile celor ce iubesc Biserica lui Hristos — Devino ctitor',
+    excerpt:
+      'Cu ajutorul și binecuvântarea lui Dumnezeu, după doi ani de osteneli, rugăciuni și răbdare, am obținut documentul mult așteptat: Autorizația de Construire.',
+    publishedAt: new Date('2025-10-30T06:58:13Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/10/Screenshot_298.png`,
+    category: 'Chemare',
+  },
+  {
+    slug: 'pe-acest-loc-se-va-ridica-o-biserica',
+    title: 'Pe acest loc se va ridica o biserică',
+    excerpt:
+      'Prin rânduiala lui Dumnezeu, pe acest loc se trasează acum doar amprentele viitoarei biserici și ale paraclisului — semne smerite ale unei lucrări care începe.',
+    publishedAt: new Date('2025-10-29T06:48:59Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/10/Screenshot_297.png`,
+    category: 'Lucrări',
+  },
+  {
+    slug: '13-septembrie-2025-o-troita-a-credintei-si-nadejdii-ridicata-pe-locul-viitoarei-biserici-parohiale',
+    title:
+      '13 septembrie 2025 — O Troiță a credinței și nădejdii, ridicată pe locul viitoarei biserici',
+    excerpt:
+      'Dragi credincioși, vă împărtășim cu bucurie ridicarea unei Troițe pe locul unde, cu ajutorul lui Dumnezeu, se va înălța biserica parohiei noastre.',
+    publishedAt: new Date('2025-10-13T19:34:01Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/10/560667523_122224079870091213_5138230694830966099_n.jpg`,
+    category: 'Vești din parohie',
+  },
+  {
+    slug: 'pregatiri-pentru-zidirea-bisericii-un-pas-inainte-cu-nadejde-si-randuiala',
+    title: '26.09.2025 — Pregătiri pentru zidirea bisericii: un pas înainte, cu nădejde',
+    excerpt:
+      'Septembrie 2025 aduce pentru parohia noastră noi pași în pregătirea locului unde, cu ajutorul lui Dumnezeu, se va înălța sfânta biserică.',
+    publishedAt: new Date('2025-09-26T14:07:00Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/09/Screenshot_187.png`,
+    category: 'Lucrări',
+  },
+  {
+    slug: '11-09-2025-primii-pasi-pentru-biserica-parohiala-terenul-a-fost-curatat-si-pregatit',
+    title: '11.09.2025 — Primii pași pentru biserica parohială: terenul a fost curățat și pregătit',
+    excerpt:
+      'Dragi credincioși și prieteni ai parohiei noastre, cu inimă plină de bucurie vă împărtășim că în aceste zile am curățat și pregătit terenul.',
+    publishedAt: new Date('2025-09-11T18:27:41Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/09/546158569_122220546092091213_5960262916765349898_n-1024x768.jpg`,
+    category: 'Lucrări',
+  },
+  {
+    slug: 'sfanta-cuvioasa-teodora-de-la-sihla',
+    title: 'Sfânta Cuvioasă Teodora de la Sihla',
+    excerpt:
+      'Sfânta Cuvioasă Teodora de la Sihla este prima femeie româncă trecută oficial în rândul sfinților de către Biserica Ortodoxă Română. Viața ei este o pildă de smerenie.',
+    publishedAt: new Date('2025-06-20T18:53:15Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/06/Screenshot_60-2.webp`,
+    category: 'Vieți de sfinți',
+  },
+  {
+    slug: 'ajutor-si-milostenie-pentru-o-parohie-tanara',
+    title: 'Ajutor și milostenie pentru o parohie tânără',
+    excerpt:
+      'Într-o lume în care multe se ridică din piatră și se prăbușesc în uitare, la Botoșani se naște o lucrare vie: Parohia „Sfânta Cuvioasă Teodora de la Sihla".',
+    publishedAt: new Date('2025-06-20T18:46:17Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/06/Screenshot_85-removebg-preview-2.webp`,
+    category: 'Chemare',
+  },
+  {
+    slug: 'un-pas-mare-spre-zidirea-casei-domnului',
+    title: 'Un pas mare spre zidirea casei Domnului',
+    excerpt:
+      'Dragi enoriași și prieteni ai parohiei noastre, cu mulțumire către Dumnezeu vă împărtășim împlinirea unui pas important în drumul zidirii bisericii.',
+    publishedAt: new Date('2025-04-30T18:49:00Z'),
+    featuredUrl: `${WP_BASE}/wp-content/uploads/2025/06/Screenshot_66.png`,
+    category: 'Vești din parohie',
   },
 ];
