@@ -12,6 +12,8 @@ import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
+import { ConstructionProgress } from '@/components/site/construction-progress';
+import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
 import { FloatingEmbers } from '@/components/site/floating-embers';
 import {
@@ -29,39 +31,6 @@ import { Card } from '@/components/ui/card';
 import { FadeIn } from '@/components/magicui/fade-in';
 
 export const revalidate = 60;
-
-const PLACEHOLDER_POSTS = [
-  {
-    slug: 'sfanta-cuvioasa-teodora-de-la-sihla',
-    title: 'Sfânta Cuvioasă Teodora de la Sihla — pildă de smerenie',
-    excerpt:
-      'Floare aleasă a pustiei și rugătoare neîncetată înaintea lui Hristos, Cuvioasa Teodora ne învață ce înseamnă răbdarea desăvârșită și viața în post și rugăciune.',
-    publishedAt: new Date(2025, 7, 7),
-    featuredUrl:
-      'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909922/Screenshot_98_uqff8q.png',
-    category: 'Vieți de sfinți',
-  },
-  {
-    slug: 'cum-iti-redirectionezi-3-5-din-impozit',
-    title: 'Cum redirecționezi 3,5% din impozit către parohie',
-    excerpt:
-      'Un gest care nu te costă nimic, dar care zidește. Iată pașii simpli prin care poți alege ca o parte din impozitul tău să sprijine construirea bisericii.',
-    publishedAt: new Date(2025, 5, 20),
-    featuredUrl:
-      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/Screenshot_60-2.webp',
-    category: 'Redirecționează',
-  },
-  {
-    slug: 'zidim-cu-credinta-fiecare-caramida-conteaza',
-    title: 'Zidim cu credință — fiecare cărămidă contează',
-    excerpt:
-      'Parohia noastră nu are încă un lăcaș de închinare. Cu ajutorul vostru, punem temelia. Fiecare dar adus cu inimă curată devine o cărămidă vie.',
-    publishedAt: new Date(2025, 4, 15),
-    featuredUrl:
-      'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads/2025/06/WhatsApp-Image-2025-11-03-at-15.27.15.jpeg',
-    category: 'Campanii',
-  },
-];
 
 const TESTIMONIALS: Testimonial[] = [
   {
@@ -345,12 +314,7 @@ export default async function HomePage() {
                 lăcaș al harului.
               </p>
               <div className="mb-7">
-                <DonationProgress
-                  goal={500000}
-                  raised={114250}
-                  donors={87}
-                  label="Strângere pentru zidirea bisericii"
-                />
+                <ConstructionProgress label="Stadiul zidirii bisericii" />
               </div>
 
               <div className="flex flex-wrap gap-3">
@@ -748,7 +712,7 @@ export default async function HomePage() {
 
           {posts.length === 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {PLACEHOLDER_POSTS.map((p, i) => (
+              {PLACEHOLDER_POSTS.slice(0, 3).map((p, i) => (
                 <FadeIn key={p.slug} delay={i * 0.05}>
                   <PostCard
                     slug={p.slug}
