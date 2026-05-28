@@ -15,9 +15,11 @@ const lora = Lora({
   display: 'swap',
 });
 
-// Display — grand ecclesia titles (hero, section h2)
+// Display — grand ecclesia titles (hero, section h2).
+// Cinzel Decorative only ships Latin glyphs, so RO diacritics (Ț Ș Ă Î Â)
+// will gracefully fall back to Lora — also a serif, looks fine.
 const cinzelDecorative = Cinzel_Decorative({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   variable: '--font-cinzel-decorative',
   weight: ['400', '700', '900'],
   display: 'swap',
