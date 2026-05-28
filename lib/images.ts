@@ -119,8 +119,8 @@ const IMAGE_MAP = {
 
   // ===== Legacy aliases (so older pages don't break) =====
   handsBranch: {
-    matches: ['jun-19-2025-09_17_21', '09_17_21'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-19-2025-09_17_21-PM-1.webp`,
+    matches: ['__never_match__'],
+    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885100/parhioa/wp-28191.webp',
   },
   liturghie: {
     matches: ['jun-20-2025-08_31_56', '08_31_56'],

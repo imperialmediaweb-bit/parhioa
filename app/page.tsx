@@ -15,6 +15,7 @@ import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
+import { listGalleryAssets } from '@/lib/cloudinary-gallery';
 import {
   CandleIcon,
   CenserIcon,
@@ -54,7 +55,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 async function getHomeData() {
   try {
-    const [posts, gallery] = await Promise.all([
+    const [posts, gallery, cloudinaryAssets] = await Promise.all([
       prisma.post
         .findMany({
           where: { status: 'publish' },
@@ -91,18 +92,28 @@ async function getHomeData() {
           orderBy: { createdAt: 'desc' },
         })
         .catch(() => []),
+      listGalleryAssets(30).catch(() => []),
     ]);
-    return { posts, gallery };
+    return { posts, gallery, cloudinaryAssets };
   } catch {
-    return { posts: [], gallery: [] };
+    return { posts: [], gallery: [], cloudinaryAssets: [] };
   }
 }
 
 export default async function HomePage() {
-  const [{ posts, gallery }, IMG] = await Promise.all([getHomeData(), getImages()]);
+  const [{ posts, gallery, cloudinaryAssets }, IMG] = await Promise.all([
+    getHomeData(),
+    getImages(),
+  ]);
 
   const galleryImages: GalleryImage[] =
-    gallery.length >= 6
+    cloudinaryAssets.length >= 6
+      ? cloudinaryAssets.slice(0, 18).map((a) => ({
+          src: a.url,
+          alt: a.alt || a.publicId.split('/').pop() || 'Foto parohie',
+          caption: a.caption,
+        }))
+      : gallery.length >= 6
       ? gallery.slice(0, 18).map((m) => ({
           src: m.url,
           alt: m.alt || m.filename,
