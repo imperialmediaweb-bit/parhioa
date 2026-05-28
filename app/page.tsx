@@ -108,9 +108,14 @@ export default async function HomePage() {
 
   const CURATED_GALLERY: GalleryImage[] = [
     {
-      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885155/parhioa/wp-27811.webp',
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885083/parhioa/wp-28252.png',
       video: 'https://res.cloudinary.com/dghmoelly/video/upload/f_auto,q_auto:good,vc_auto,w_1920,c_limit/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
-      alt: 'Clipe din viața parohiei — video',
+      alt: 'Video — clipe din viața parohiei',
+      caption: 'Vezi video',
+    },
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885155/parhioa/wp-27811.webp',
+      alt: 'Clipe din viața parohiei',
       caption: 'Clipe din viața parohiei',
     },
     {
@@ -351,12 +356,19 @@ export default async function HomePage() {
       <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
           <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
-            <FadeIn className="lg:col-span-2">
+            <FadeIn className="lg:col-span-2 space-y-6">
               <ParchmentFrame
                 src={IMG.ctitorPhoto}
                 alt="Comunitatea parohiei adunată în rugăciune"
                 caption="Comunitatea parohiei"
                 ratio="4/5"
+              />
+              <ParchmentFrame
+                src="https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885078/parhioa/wp-28263.jpg"
+                alt="Locul viitoarei biserici"
+                caption="Locul viitoarei biserici"
+                ratio="4/5"
+                cross={false}
               />
             </FadeIn>
             <FadeIn delay={0.15} className="lg:col-span-3">

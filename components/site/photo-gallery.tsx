@@ -57,27 +57,64 @@ export function PhotoGallery({ images }: { images: GalleryImage[] }) {
               <button
                 key={i}
                 onClick={() => setLightboxIndex(i)}
-                className="min-w-0 flex-[0_0_85%] sm:flex-[0_0_60%] md:flex-[0_0_45%] lg:flex-[0_0_33%] relative aspect-[4/5] overflow-hidden rounded-2xl group cursor-pointer ring-1 ring-gold/30"
+                className={cn(
+                  'min-w-0 flex-[0_0_85%] sm:flex-[0_0_60%] md:flex-[0_0_45%] lg:flex-[0_0_33%] relative aspect-[4/5] overflow-hidden rounded-2xl group cursor-pointer',
+                  img.video
+                    ? 'ring-2 ring-gold shadow-[0_18px_40px_-12px_rgba(101,26,20,0.55)]'
+                    : 'ring-1 ring-gold/30',
+                )}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                {img.video && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cream/95 text-burgundy-dark ring-2 ring-gold/70 shadow-[0_8px_22px_-4px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 ml-1">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </span>
-                  </div>
-                )}
-                {img.caption && (
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <p className="font-serif italic text-sm">{img.caption}</p>
-                  </div>
+                {img.video ? (
+                  <>
+                    {/* permanent darker overlay for video */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-burgundy-dark/15 via-burgundy-dark/30 to-burgundy-dark/75" />
+
+                    {/* corner VIDEO badge */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-burgundy-dark/85 text-cream ring-1 ring-gold/60 backdrop-blur-sm">
+                      <span
+                        className="inline-flex h-1.5 w-1.5 rounded-full bg-gold animate-pulse"
+                        aria-hidden
+                      />
+                      <span className="font-ceremonial uppercase text-[10px] tracking-[0.22em]">
+                        Video
+                      </span>
+                    </div>
+
+                    {/* big central play button with ripple */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="relative flex items-center justify-center">
+                        <span className="absolute h-24 w-24 rounded-full bg-gold/30 animate-ping" />
+                        <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-cream text-burgundy-dark ring-[3px] ring-gold shadow-[0_12px_30px_-6px_rgba(0,0,0,0.6)] group-hover:scale-110 transition-transform">
+                          <svg viewBox="0 0 24 24" fill="currentColor" className="h-9 w-9 ml-1">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+
+                    {/* permanent caption strip */}
+                    {img.caption && (
+                      <div className="absolute bottom-0 left-0 right-0 p-4 text-cream text-center">
+                        <p className="font-ceremonial uppercase text-[11px] tracking-[0.28em] text-gold drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
+                          {img.caption}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {img.caption && (
+                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <p className="font-serif italic text-sm">{img.caption}</p>
+                      </div>
+                    )}
+                  </>
                 )}
               </button>
             ))}

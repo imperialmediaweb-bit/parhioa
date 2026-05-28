@@ -35,10 +35,9 @@ const STAGES: ConstructionStage[] = [
   {
     key: 'fundatie',
     label: 'Fundația și temelia',
-    description: 'Pregătirea terenului și turnarea fundației.',
+    description: 'Pregătirea terenului și turnarea fundației — urmează după strângerea de fonduri.',
     symbol: '🪨',
-    status: 'active',
-    percent: 35,
+    status: 'upcoming',
   },
   {
     key: 'ziduri',
@@ -137,11 +136,12 @@ export function ConstructionProgress({
 
         <div className="flex items-baseline justify-between gap-3 mb-4">
           <p className="font-display text-2xl sm:text-3xl text-burgundy-dark leading-tight">
-            Etapa <span className="text-gold-dark">{doneCount + 1}</span>{' '}
-            <span className="text-burgundy/60 text-xl">/ {total}</span>
+            <span className="text-gold-dark">{doneCount}</span>{' '}
+            <span className="text-burgundy/60 text-xl">/ {total}</span>{' '}
+            <span className="font-serif italic text-burgundy/70 text-lg">etape</span>
           </p>
           <p className="font-ceremonial uppercase text-xs tracking-[0.18em] text-burgundy-dark/75">
-            {animOverall}% finalizat
+            {animOverall}% parcurs
           </p>
         </div>
 
@@ -161,7 +161,10 @@ export function ConstructionProgress({
           {/* Vertical track */}
           <div className="absolute left-[15px] top-3 bottom-3 w-px bg-gold/35" aria-hidden />
 
-          {STAGES.map((stage) => (
+          {STAGES.map((stage, idx) => {
+            const firstUpcomingIdx = STAGES.findIndex((s) => s.status === 'upcoming');
+            const isNext = idx === firstUpcomingIdx && !activeStage;
+            return (
             <li key={stage.key} className="relative flex items-start gap-4 py-2">
               <span
                 className={`relative z-10 mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-[13px] font-ceremonial transition-all ${
@@ -200,6 +203,11 @@ export function ConstructionProgress({
                       În lucru
                     </span>
                   )}
+                  {isNext && (
+                    <span className="ml-2 inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.22em] font-ceremonial text-burgundy-dark bg-gold/70 px-2 py-0.5 rounded-full align-middle">
+                      Următoarea
+                    </span>
+                  )}
                 </p>
                 {stage.description && (
                   <p
@@ -224,7 +232,8 @@ export function ConstructionProgress({
                 )}
               </div>
             </li>
-          ))}
+            );
+          })}
         </ol>
       </div>
     </div>
