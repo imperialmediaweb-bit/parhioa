@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Parohia Sf. Teodora de la Sihla — Next.js + Prisma + Cloudinary",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
