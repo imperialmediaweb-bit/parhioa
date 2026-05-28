@@ -106,8 +106,44 @@ export default async function HomePage() {
     getImages(),
   ]);
 
+  const CURATED_GALLERY: GalleryImage[] = [
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885155/parhioa/wp-27811.webp',
+      video: 'https://res.cloudinary.com/dghmoelly/video/upload/f_auto,q_auto:good,vc_auto,w_1920,c_limit/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
+      alt: 'Clipe din viața parohiei — video',
+      caption: 'Clipe din viața parohiei',
+    },
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885137/parhioa/wp-27850.webp',
+      alt: 'Comunitatea parohiei',
+      caption: 'Comunitatea parohiei',
+    },
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885140/parhioa/wp-27849.webp',
+      alt: 'Slujbe vii',
+      caption: 'Slujbe vii',
+    },
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885141/parhioa/wp-27848.webp',
+      alt: 'Sfânta Cruce',
+      caption: 'Sfânta Cruce',
+    },
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885127/parhioa/wp-27898.webp',
+      alt: 'Lucrarea zidirii',
+      caption: 'Lucrarea zidirii',
+    },
+    {
+      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885135/parhioa/wp-27851.webp',
+      alt: 'Momente de rugăciune',
+      caption: 'Momente de rugăciune',
+    },
+  ];
+
   const galleryImages: GalleryImage[] =
-    cloudinaryAssets.length >= 6
+    CURATED_GALLERY.length >= 3
+      ? CURATED_GALLERY
+      : cloudinaryAssets.length >= 6
       ? cloudinaryAssets.slice(0, 18).map((a) => ({
           src: a.url,
           alt: a.alt || a.publicId.split('/').pop() || 'Foto parohie',

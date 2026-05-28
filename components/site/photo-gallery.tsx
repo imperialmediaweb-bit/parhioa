@@ -10,6 +10,8 @@ export interface GalleryImage {
   src: string;
   alt: string;
   caption?: string;
+  /** Optional video source; when set, the thumbnail (src) becomes a video poster. */
+  video?: string;
 }
 
 export function PhotoGallery({ images }: { images: GalleryImage[] }) {
@@ -55,7 +57,7 @@ export function PhotoGallery({ images }: { images: GalleryImage[] }) {
               <button
                 key={i}
                 onClick={() => setLightboxIndex(i)}
-                className="min-w-0 flex-[0_0_85%] sm:flex-[0_0_60%] md:flex-[0_0_45%] lg:flex-[0_0_33%] relative aspect-[4/5] overflow-hidden rounded-2xl group cursor-pointer"
+                className="min-w-0 flex-[0_0_85%] sm:flex-[0_0_60%] md:flex-[0_0_45%] lg:flex-[0_0_33%] relative aspect-[4/5] overflow-hidden rounded-2xl group cursor-pointer ring-1 ring-gold/30"
               >
                 <img
                   src={img.src}
@@ -63,6 +65,15 @@ export function PhotoGallery({ images }: { images: GalleryImage[] }) {
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-burgundy-dark/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {img.video && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cream/95 text-burgundy-dark ring-2 ring-gold/70 shadow-[0_8px_22px_-4px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 ml-1">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </span>
+                  </div>
+                )}
                 {img.caption && (
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
                     <p className="font-serif italic text-sm">{img.caption}</p>
@@ -136,12 +147,25 @@ export function PhotoGallery({ images }: { images: GalleryImage[] }) {
           >
             <ChevronRight className="h-6 w-6" />
           </button>
-          <img
-            src={images[lightboxIndex].src}
-            alt={images[lightboxIndex].alt}
-            className="max-h-[88vh] max-w-[90vw] object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
+          {images[lightboxIndex].video ? (
+            <video
+              key={images[lightboxIndex].video}
+              src={images[lightboxIndex].video}
+              poster={images[lightboxIndex].src}
+              controls
+              autoPlay
+              playsInline
+              className="max-h-[88vh] max-w-[90vw] rounded-lg bg-black"
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
+            <img
+              src={images[lightboxIndex].src}
+              alt={images[lightboxIndex].alt}
+              className="max-h-[88vh] max-w-[90vw] object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
           {images[lightboxIndex].caption && (
             <div className="absolute bottom-6 left-0 right-0 text-center text-white/90 font-serif italic">
               {images[lightboxIndex].caption}
