@@ -13,6 +13,7 @@ import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
 import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
+import { FloatingEmbers } from '@/components/site/floating-embers';
 import {
   CandleIcon,
   CenserIcon,
@@ -783,14 +784,15 @@ export default async function HomePage() {
 
       {/* ============= 12. NEWSLETTER ============= */}
       <section
-        className="relative py-16 sm:py-24"
+        className="relative py-16 sm:py-24 overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(rgba(26, 6, 4, 0.85), rgba(26, 6, 4, 0.92)), url(${IMG.newsletterBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="container max-w-2xl">
+        <FloatingEmbers density={26} />
+        <div className="relative container max-w-2xl">
           <FadeIn>
             <div className="relative mx-auto pt-12">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)]">

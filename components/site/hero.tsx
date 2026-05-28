@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { OrthodoxCross } from './cross-divider';
+import { FloatingEmbers } from './floating-embers';
 
 interface HeroProps {
   title: React.ReactNode;
@@ -34,6 +35,9 @@ export function Hero({ title, subtitle, breadcrumb, className }: HeroProps) {
               'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(234, 199, 132, 0.22), transparent 60%)',
           }}
         />
+
+        {/* Floating candle embers */}
+        <FloatingEmbers density={20} />
 
         <div className="relative mx-auto max-w-3xl space-y-5 animate-fade-up">
           <div className="flex justify-center mb-3 drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)]">

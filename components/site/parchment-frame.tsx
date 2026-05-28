@@ -1,4 +1,5 @@
 import { OrthodoxCross } from './cross-divider';
+import { ParchmentFrameImage } from './parchment-frame-image';
 import { cn } from '@/lib/utils';
 
 /**
@@ -14,6 +15,7 @@ export function ParchmentFrame({
   ratio = '4/5',
   cross = true,
   className,
+  parallax = true,
 }: {
   src: string;
   alt: string;
@@ -21,6 +23,7 @@ export function ParchmentFrame({
   ratio?: '4/5' | 'square' | '3/4';
   cross?: boolean;
   className?: string;
+  parallax?: boolean;
 }) {
   const aspect =
     ratio === 'square' ? 'aspect-square' : ratio === '3/4' ? 'aspect-[3/4]' : 'aspect-[4/5]';
@@ -76,27 +79,7 @@ export function ParchmentFrame({
         ))}
 
         {/* Photo with Byzantine arched top */}
-        <div
-          className={cn('relative overflow-hidden bg-burgundy/5 flex-1 min-h-0', aspect)}
-          style={{
-            borderTopLeftRadius: '50% 18%',
-            borderTopRightRadius: '50% 18%',
-            borderBottomLeftRadius: '10px',
-            borderBottomRightRadius: '10px',
-          }}
-        >
-          <img
-            src={src}
-            alt={alt}
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ boxShadow: 'inset 0 0 60px 6px rgba(61,15,10,0.4)' }}
-          />
-        </div>
+        <ParchmentFrameImage src={src} alt={alt} aspect={aspect} parallax={parallax} />
 
         {caption && (
           <div className="relative mt-4 flex items-center justify-center gap-3">

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Facebook, Linkedin, Music2, MapPin, Mail, Phone, User } from 'lucide-react';
 import { OrthodoxCross } from './cross-divider';
+import { FloatingEmbers } from './floating-embers';
 
 const INFO = [
   { label: 'Despre', href: '/despre' },
@@ -37,9 +38,12 @@ export function SiteFooter() {
         }}
       />
 
+      {/* Floating candle embers */}
+      <FloatingEmbers density={32} />
+
       {/* Top golden edge */}
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent" />
-      <div className="absolute top-[3px] inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent z-10" />
+      <div className="absolute top-[3px] inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent z-10" />
 
       {/* Sacred quote band */}
       <div className="relative border-b border-gold/25 py-12">
