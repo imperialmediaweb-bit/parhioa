@@ -7,10 +7,10 @@ import { MobileMenu } from './mobile-menu';
 const NAV = [
   { label: 'Despre', href: '/despre' },
   { label: 'Misiune', href: '/misiune' },
+  { label: 'Cronologie', href: '/cronologie' },
   { label: 'Campanii', href: '/campanii' },
   { label: 'Noutăți', href: '/blog' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Redirecționează', href: '/redirectioneaza-3-5' },
 ];
 
 export function SiteHeader() {

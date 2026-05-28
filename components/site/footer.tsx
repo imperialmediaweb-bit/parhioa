@@ -5,10 +5,11 @@ import { FloatingEmbers } from './floating-embers';
 
 const INFO = [
   { label: 'Despre', href: '/despre' },
+  { label: 'Misiune', href: '/misiune' },
+  { label: 'Cronologie', href: '/cronologie' },
   { label: 'Campanii', href: '/campanii' },
   { label: 'Noutăți', href: '/blog' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Misiune', href: '/misiune' },
 ];
 
 const RESURSE = [
