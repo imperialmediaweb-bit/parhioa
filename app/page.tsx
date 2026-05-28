@@ -15,7 +15,6 @@ import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
-import { FloatingEmbers } from '@/components/site/floating-embers';
 import {
   CandleIcon,
   CenserIcon,
@@ -68,9 +67,24 @@ async function getHomeData() {
         .findMany({
           where: {
             url: { contains: 'cloudinary' },
-            OR: [
-              { mimeType: { startsWith: 'image/' } },
-              { mimeType: null },
+            AND: [
+              // Skip WordPress theme demo images that may have leaked in
+              { filename: { not: { contains: 'portfolio' } } },
+              { filename: { not: { contains: 'home-church' } } },
+              { filename: { not: { contains: 'church-img' } } },
+              { filename: { not: { contains: 'placeholder' } } },
+              { filename: { not: { contains: 'demo' } } },
+              { filename: { not: { contains: 'icon-' } } },
+              { filename: { not: { contains: 'logo' } } },
+              { filename: { not: { contains: 'removebg' } } },
+              {
+                OR: [
+                  { mimeType: { startsWith: 'image/' } },
+                  { mimeType: null },
+                ],
+              },
+              // Need real dimensions, not 1x1 trackers
+              { OR: [{ width: { gt: 400 } }, { width: null }] },
             ],
           },
           take: 24,
@@ -755,7 +769,6 @@ export default async function HomePage() {
           backgroundPosition: 'center',
         }}
       >
-        <FloatingEmbers density={26} />
         <div className="relative container max-w-2xl">
           <FadeIn>
             <div className="relative mx-auto pt-12">

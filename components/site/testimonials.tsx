@@ -37,12 +37,12 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
+      <div className="overflow-hidden px-2 sm:px-4 -mx-2 sm:-mx-4 py-3" ref={emblaRef}>
+        <div className="flex gap-5">
           {items.map((t, i) => (
             <div
               key={i}
-              className="min-w-0 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] px-1"
+              className="min-w-0 flex-[0_0_88%] sm:flex-[0_0_46%] lg:flex-[0_0_32%]"
             >
               <ManuscriptCard testimonial={t} />
             </div>

@@ -7,7 +7,6 @@ import Autoplay from 'embla-carousel-autoplay';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ShimmerButton } from '@/components/magicui/shimmer-button';
-import { FloatingEmbers } from './floating-embers';
 import { cn } from '@/lib/utils';
 
 export type SlideMedia =
@@ -173,9 +172,6 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
             'radial-gradient(ellipse 50% 45% at 50% 55%, rgba(0,0,0,0.55), transparent 70%)',
         }}
       />
-
-      {/* Floating candle embers */}
-      <FloatingEmbers density={24} />
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center justify-center px-6 z-10">

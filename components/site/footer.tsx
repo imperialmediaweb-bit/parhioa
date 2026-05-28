@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Facebook, Linkedin, Music2, MapPin, Mail, Phone, User } from 'lucide-react';
 import { OrthodoxCross } from './cross-divider';
-import { FloatingEmbers } from './floating-embers';
 
 const INFO = [
   { label: 'Despre', href: '/despre' },
@@ -38,9 +37,6 @@ export function SiteFooter() {
             "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.6' numOctaves='2' seed='8'/><feColorMatrix values='0 0 0 0 0.92 0 0 0 0 0.78 0 0 0 0 0.52 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
         }}
       />
-
-      {/* Floating candle embers */}
-      <FloatingEmbers density={32} />
 
       {/* Top golden edge */}
       <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent z-10" />
