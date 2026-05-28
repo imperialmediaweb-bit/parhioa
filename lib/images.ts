@@ -131,8 +131,8 @@ const IMAGE_MAP = {
     fallback: `${WP_BASE}/2025/06/Screenshot_82-1.webp`,
   },
   handsChurch: {
-    matches: ['jun-20-2025-09_30_18', '09_30_18'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-20-2025-09_30_18-PM-1.webp`,
+    matches: ['__never_match__'],
+    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885066/parhioa/wp-28305.jpg',
   },
   priestPraying: {
     matches: ['jun-19-2025-05_37_02', '05_37_02'],
