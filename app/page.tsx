@@ -15,6 +15,7 @@ import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
+import { VideoGallery, type VideoItem } from '@/components/site/featured-video';
 import { listGalleryAssets } from '@/lib/cloudinary-gallery';
 import {
   CandleIcon,
@@ -106,13 +107,17 @@ export default async function HomePage() {
     getImages(),
   ]);
 
-  const CURATED_GALLERY: GalleryImage[] = [
+  // Add more videos here as you upload them to Cloudinary.
+  const VIDEOS: VideoItem[] = [
     {
-      src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885083/parhioa/wp-28252.png',
-      video: 'https://res.cloudinary.com/dghmoelly/video/upload/f_auto,q_auto:good,vc_auto,w_1920,c_limit/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
-      alt: 'Video — clipe din viața parohiei',
-      caption: 'Vezi video',
+      src: 'https://res.cloudinary.com/dghmoelly/video/upload/f_auto,q_auto:good,vc_auto,w_1920,c_limit/v1779891366/AQNW2yUPExwSeWN0RACjr1UnnrcH284LxopR8_On3Dvmql2ce0KyJuMVtjmO3mRRp-L0hB5t3mQlskEVLQNwKUvzORweggc0znWD8zGC7yPjKw_aj76ye.mp4',
+      poster:
+        'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885083/parhioa/wp-28252.png',
+      caption: 'Clipe din viața parohiei',
     },
+  ];
+
+  const CURATED_GALLERY: GalleryImage[] = [
     {
       src: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885155/parhioa/wp-27811.webp',
       alt: 'Clipe din viața parohiei',
@@ -604,25 +609,43 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============= 8c. GALERIE FOTO ============= */}
-      {galleryImages.length >= 3 && (
+      {/* ============= 8c. GALERIE VIDEO + FOTO ============= */}
+      {(galleryImages.length >= 3 || VIDEOS.length > 0) && (
         <>
           <SectionRibbon />
           <section className="container py-12 sm:py-20">
             <FadeIn>
               <div className="text-center mb-10 max-w-3xl mx-auto">
-                <SectionEyebrow align="center">Galerie foto</SectionEyebrow>
+                <SectionEyebrow align="center">Galerie</SectionEyebrow>
                 <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
                   Clipe din <em className="italic text-burgundy">viața parohiei</em>
                 </h2>
                 <p className="text-ink-muted mt-4 font-serif italic">
-                  Apasă pe orice imagine pentru a o vedea mărită.
+                  Vezi imagini și momente filmate din comunitatea noastră.
                 </p>
               </div>
             </FadeIn>
-            <FadeIn delay={0.1}>
-              <PhotoGallery images={galleryImages} />
-            </FadeIn>
+
+            {VIDEOS.length > 0 && (
+              <FadeIn delay={0.05} className="mb-14">
+                <VideoGallery videos={VIDEOS} />
+              </FadeIn>
+            )}
+
+            {galleryImages.length >= 3 && (
+              <FadeIn delay={0.1}>
+                <div className="text-center mb-8">
+                  <p className="font-ceremonial uppercase text-[11px] tracking-[0.28em] text-gold-dark flex items-center justify-center gap-3">
+                    <span className="h-px w-8 bg-gold/70" />
+                    <span className="text-burgundy/80">☩</span>
+                    Galerie foto
+                    <span className="text-burgundy/80">☩</span>
+                    <span className="h-px w-8 bg-gold/70" />
+                  </p>
+                </div>
+                <PhotoGallery images={galleryImages} />
+              </FadeIn>
+            )}
           </section>
         </>
       )}
