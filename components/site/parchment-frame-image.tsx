@@ -30,7 +30,7 @@ export function ParchmentFrameImage({
   return (
     <div
       ref={ref}
-      className={cn('relative overflow-hidden bg-burgundy/5 flex-1 min-h-0', aspect)}
+      className={cn('relative overflow-hidden bg-burgundy/5 w-full', aspect)}
       style={{
         borderTopLeftRadius: '50% 18%',
         borderTopRightRadius: '50% 18%',

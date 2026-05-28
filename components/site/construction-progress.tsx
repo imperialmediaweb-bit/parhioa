@@ -169,7 +169,7 @@ export function ConstructionProgress({
                     ? 'text-cream shadow-[0_4px_10px_-2px_rgba(101,26,20,0.5)]'
                     : stage.status === 'active'
                       ? 'text-burgundy-dark ring-2 ring-gold/80 shadow-[0_0_18px_-2px_rgba(234,199,132,0.7)]'
-                      : 'bg-burgundy/8 text-burgundy/45 ring-1 ring-burgundy/15'
+                      : 'bg-burgundy/15 text-burgundy ring-1 ring-burgundy/25'
                 }`}
                 style={
                   stage.status === 'done'
@@ -191,7 +191,7 @@ export function ConstructionProgress({
               <div className="flex-1 min-w-0 pt-1">
                 <p
                   className={`font-display text-[15px] leading-tight ${
-                    stage.status === 'upcoming' ? 'text-burgundy/55' : 'text-burgundy-dark'
+                    stage.status === 'upcoming' ? 'text-burgundy-dark/85' : 'text-burgundy-dark'
                   }`}
                 >
                   {stage.label}
@@ -204,7 +204,7 @@ export function ConstructionProgress({
                 {stage.description && (
                   <p
                     className={`text-[13px] mt-0.5 font-serif italic ${
-                      stage.status === 'upcoming' ? 'text-burgundy/40' : 'text-burgundy/70'
+                      stage.status === 'upcoming' ? 'text-burgundy/65' : 'text-burgundy/75'
                     }`}
                   >
                     {stage.description}
