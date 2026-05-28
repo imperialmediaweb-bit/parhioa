@@ -123,8 +123,8 @@ const IMAGE_MAP = {
     fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885100/parhioa/wp-28191.webp',
   },
   liturghie: {
-    matches: ['jun-20-2025-08_31_56', '08_31_56'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-20-2025-08_31_56-AM-1.webp`,
+    matches: ['__never_match__'],
+    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885081/parhioa/wp-28259.png',
   },
   iconTeodora2: {
     matches: ['screenshot_82'],
