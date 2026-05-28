@@ -63,14 +63,14 @@ export function ProgramSlujbe() {
   }, []);
 
   return (
-    <div className="relative mx-auto max-w-3xl pt-12">
+    <div className="relative h-full pt-12">
       {/* Floating cross above */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.4)]">
         <OrthodoxCross height={60} />
       </div>
 
       <div
-        className="relative rounded-[28px] px-6 pt-10 pb-8 sm:px-10 sm:pt-12 sm:pb-10 shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)] overflow-hidden"
+        className="relative h-full rounded-[28px] px-6 pt-10 pb-8 sm:px-8 sm:pt-12 sm:pb-10 shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)] overflow-hidden flex flex-col"
         style={{
           background: 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
         }}

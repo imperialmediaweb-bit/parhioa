@@ -9,7 +9,10 @@ import { VideoSection } from '@/components/site/video-section';
 import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
+import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { SectionRibbon } from '@/components/site/section-ribbon';
+import { DonationProgress } from '@/components/site/donation-progress';
+import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
 import {
   CandleIcon,
   CenserIcon,
@@ -82,22 +85,55 @@ const TESTIMONIALS: Testimonial[] = [
 
 async function getHomeData() {
   try {
-    const posts = await prisma.post
-      .findMany({
-        where: { status: 'publish' },
-        take: 6,
-        orderBy: { publishedAt: 'desc' },
-        include: { featured: true, categories: true },
-      })
-      .catch(() => []);
-    return { posts };
+    const [posts, gallery] = await Promise.all([
+      prisma.post
+        .findMany({
+          where: { status: 'publish' },
+          take: 6,
+          orderBy: { publishedAt: 'desc' },
+          include: { featured: true, categories: true },
+        })
+        .catch(() => []),
+      prisma.media
+        .findMany({
+          where: {
+            url: { contains: 'cloudinary' },
+            OR: [
+              { mimeType: { startsWith: 'image/' } },
+              { mimeType: null },
+            ],
+          },
+          take: 24,
+          orderBy: { createdAt: 'desc' },
+        })
+        .catch(() => []),
+    ]);
+    return { posts, gallery };
   } catch {
-    return { posts: [] };
+    return { posts: [], gallery: [] };
   }
 }
 
 export default async function HomePage() {
-  const [{ posts }, IMG] = await Promise.all([getHomeData(), getImages()]);
+  const [{ posts, gallery }, IMG] = await Promise.all([getHomeData(), getImages()]);
+
+  const galleryImages: GalleryImage[] =
+    gallery.length >= 6
+      ? gallery.slice(0, 18).map((m) => ({
+          src: m.url,
+          alt: m.alt || m.filename,
+          caption: m.caption || undefined,
+        }))
+      : [
+          { src: IMG.priestPortrait, alt: 'Pr. Cătălin Ailenei', caption: 'Părintele paroh' },
+          { src: IMG.ctitorPhoto, alt: 'Comunitatea parohiei', caption: 'Comunitatea parohiei' },
+          { src: IMG.liturghie, alt: 'Sfânta Liturghie', caption: 'Sfânta Liturghie' },
+          { src: IMG.iconTeodora, alt: 'Icoana Sf. Teodora', caption: 'Icoana Cuvioasei Teodora' },
+          { src: IMG.handsBranch, alt: 'Credință vie', caption: 'Credință vie' },
+          { src: IMG.handsChurch, alt: 'Lucrarea zidirii', caption: 'Mâini ce zidesc' },
+          { src: IMG.campaignPoster, alt: 'Devino ctitor', caption: 'Devino ctitor' },
+          { src: IMG.parishIcon, alt: 'Icoana parohiei', caption: 'Sub ocrotirea Sf. Teodora' },
+        ];
 
   const HERO_SLIDES: HeroSlide[] = [
     {
@@ -139,9 +175,16 @@ export default async function HomePage() {
       {/* ============= 1. HERO SLIDER ============= */}
       <HeroSlider slides={HERO_SLIDES} />
 
-      {/* ============= 2. PROGRAM SLUJBE ============= */}
+      {/* ============= 2. PROGRAM SLUJBE + SĂRBĂTOAREA ZILEI ============= */}
       <section className="container py-10 sm:py-14">
-        <ProgramSlujbe />
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          <div className="lg:col-span-2">
+            <ProgramSlujbe />
+          </div>
+          <div className="lg:col-span-1">
+            <SarbatoareaZilei />
+          </div>
+        </div>
       </section>
 
       {/* ============= 2b. STICKY SUB-NAV ============= */}
@@ -300,6 +343,15 @@ export default async function HomePage() {
                 întâlnire cu Dumnezeu. Fiecare dar adus cu inimă curată devine o cărămidă vie în acest
                 lăcaș al harului.
               </p>
+              <div className="mb-7">
+                <DonationProgress
+                  goal={500000}
+                  raised={114250}
+                  donors={87}
+                  label="Strângere pentru zidirea bisericii"
+                />
+              </div>
+
               <div className="flex flex-wrap gap-3">
                 <Link href="/donations/strangere-de-fonduri-pentru-construirea-bisericii">
                   <Button size="lg">Sprijină lucrarea parohiei</Button>
@@ -513,6 +565,29 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ============= 8c. GALERIE FOTO ============= */}
+      {galleryImages.length >= 3 && (
+        <>
+          <SectionRibbon />
+          <section className="container py-12 sm:py-20">
+            <FadeIn>
+              <div className="text-center mb-10 max-w-3xl mx-auto">
+                <SectionEyebrow align="center">Galerie foto</SectionEyebrow>
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+                  Clipe din <em className="italic text-burgundy">viața parohiei</em>
+                </h2>
+                <p className="text-ink-muted mt-4 font-serif italic">
+                  Apasă pe orice imagine pentru a o vedea mărită.
+                </p>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.1}>
+              <PhotoGallery images={galleryImages} />
+            </FadeIn>
+          </section>
+        </>
+      )}
 
       {/* ============= 9. TESTIMONIALE ============= */}
       <section className="bg-lavender-soft/50 py-12 sm:py-20">
