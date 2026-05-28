@@ -19,7 +19,7 @@ export function SiteHeader() {
       {/* Top gold hairline */}
       <div className="h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-      <div className="container flex h-22 sm:h-24 lg:h-28 items-center justify-between gap-3 sm:gap-6">
+      <div className="container flex h-24 sm:h-28 lg:h-32 items-center justify-between gap-3 sm:gap-6">
         <Logo size="default" className="shrink min-w-0" />
 
         {/* Desktop nav */}

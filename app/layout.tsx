@@ -8,7 +8,7 @@ import './globals.css';
 
 // Body + most titles — warm, readable serif with italic
 const lora = Lora({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-lora',
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
@@ -17,7 +17,7 @@ const lora = Lora({
 
 // Display — grand ecclesia titles (hero, section h2)
 const cinzelDecorative = Cinzel_Decorative({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-cinzel-decorative',
   weight: ['400', '700', '900'],
   display: 'swap',
@@ -25,7 +25,7 @@ const cinzelDecorative = Cinzel_Decorative({
 
 // Ceremonial — eyebrows, CTAs, inscriptions
 const marcellusSC = Marcellus_SC({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-marcellus-sc',
   weight: ['400'],
   display: 'swap',
