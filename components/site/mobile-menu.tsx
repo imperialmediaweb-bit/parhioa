@@ -36,7 +36,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Deschide meniul"
-        className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full text-navy hover:bg-cream-card transition"
+        className="lg:hidden flex h-12 w-12 items-center justify-center rounded-full text-burgundy hover:bg-cream-card active:bg-cream-deep transition"
       >
         <Menu className="h-6 w-6" />
       </button>
@@ -100,7 +100,10 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
         </nav>
 
         {/* Bottom action area */}
-        <div className="p-5 border-t border-border bg-white space-y-2">
+        <div
+          className="p-5 border-t border-border bg-white space-y-2"
+          style={{ paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom, 1.25rem))' }}
+        >
           <Link
             href="/donations/strangere-de-fonduri-pentru-construirea-bisericii"
             className="block"

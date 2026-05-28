@@ -74,14 +74,14 @@ export function HeroSlider({
           <button
             aria-label="Slide anterior"
             onClick={scrollPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 transition flex items-center justify-center"
+            className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 transition items-center justify-center"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
           <button
             aria-label="Slide următor"
             onClick={scrollNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 transition flex items-center justify-center"
+            className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 transition items-center justify-center"
           >
             <ChevronRight className="h-6 w-6" />
           </button>
@@ -118,7 +118,7 @@ export function HeroSlider({
 
 function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) {
   return (
-    <div className="relative h-[640px] sm:h-[760px] lg:h-[88vh] lg:min-h-[760px] lg:max-h-[920px] w-full overflow-hidden bg-navy-dark">
+    <div className="relative h-[78vh] min-h-[480px] max-h-[640px] sm:h-[760px] sm:min-h-[640px] sm:max-h-[820px] lg:h-[88vh] lg:min-h-[760px] lg:max-h-[920px] w-full overflow-hidden bg-navy-dark">
       {/* Media */}
       {slide.media.type === 'video' ? (
         <video
@@ -188,11 +188,11 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
               <span className="inline-block h-px w-8 bg-gold/70" />
             </p>
           )}
-          <h1 className="font-ecclesia text-[34px] sm:text-5xl lg:text-6xl xl:text-7xl !text-white font-bold leading-[1.08] tracking-wide mb-7 uppercase drop-shadow-[0_3px_18px_rgba(0,0,0,0.6)]">
+          <h1 className="font-ecclesia text-[28px] xs:text-[32px] sm:text-5xl lg:text-6xl xl:text-7xl !text-white font-bold leading-[1.08] tracking-wide mb-5 sm:mb-7 uppercase drop-shadow-[0_3px_18px_rgba(0,0,0,0.6)]">
             {slide.title}
           </h1>
           {slide.subtitle && (
-            <p className="font-serif italic text-[17px] sm:text-xl lg:text-2xl text-cream max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+            <p className="font-serif italic text-[15px] xs:text-base sm:text-xl lg:text-2xl text-cream max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
               {slide.subtitle}
             </p>
           )}

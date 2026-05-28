@@ -1,11 +1,18 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { prisma } from '@/lib/prisma';
 import { getImages } from '@/lib/images';
 import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
-import { Testimonials, type Testimonial } from '@/components/site/testimonials';
-import { VideoSection } from '@/components/site/video-section';
+import { type Testimonial } from '@/components/site/testimonials';
+
+// Heavier interactive blocks are loaded only after the hero/above-the-fold
+// content paints — keeps mobile LCP/INP fast.
+const Testimonials = dynamic(
+  () => import('@/components/site/testimonials').then((m) => m.Testimonials),
+  { ssr: true, loading: () => <div className="min-h-[280px]" /> },
+);
 import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
@@ -14,8 +21,18 @@ import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
-import { PhotoGallery, type GalleryImage } from '@/components/site/photo-gallery';
-import { VideoGallery, type VideoItem } from '@/components/site/featured-video';
+import { type GalleryImage } from '@/components/site/photo-gallery';
+import { type VideoItem } from '@/components/site/featured-video';
+
+const PhotoGallery = dynamic(
+  () => import('@/components/site/photo-gallery').then((m) => m.PhotoGallery),
+  { ssr: false, loading: () => <div className="min-h-[420px]" /> },
+);
+
+const VideoGallery = dynamic(
+  () => import('@/components/site/featured-video').then((m) => m.VideoGallery),
+  { ssr: false, loading: () => <div className="aspect-[16/9] max-w-5xl mx-auto rounded-[24px] bg-burgundy-dark/10" /> },
+);
 import { listGalleryAssets } from '@/lib/cloudinary-gallery';
 import {
   CandleIcon,
@@ -256,7 +273,7 @@ export default async function HomePage() {
       </nav>
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
-      <section id="parohul" className="container py-12 sm:py-20 scroll-mt-44">
+      <section id="parohul" className="container py-10 sm:py-16 lg:py-20 scroll-mt-44">
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn className="lg:col-span-2">
             <ParchmentFrame
@@ -268,7 +285,7 @@ export default async function HomePage() {
           </FadeIn>
           <FadeIn delay={0.15} className="lg:col-span-3">
             <SectionEyebrow>Părintele paroh</SectionEyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
+            <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Părintele Cătălin Ailenei – <em className="italic text-burgundy">păstor cu inimă de rugăciune</em>
             </h2>
             <p className="text-ink-muted leading-relaxed text-[17px] mb-5">
@@ -314,7 +331,7 @@ export default async function HomePage() {
       <SectionRibbon />
 
       {/* ============= 5. SUB OCROTIREA SF. CUVIOASE TEODORA ============= */}
-      <section id="despre-parohia" className="container py-12 sm:py-20 scroll-mt-44">
+      <section id="despre-parohia" className="container py-10 sm:py-16 lg:py-20 scroll-mt-44">
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2 flex items-center">
             <div className="relative mx-auto w-full max-w-[400px] pt-10">
@@ -339,7 +356,7 @@ export default async function HomePage() {
           </FadeIn>
           <FadeIn className="lg:col-span-3 lg:order-1">
             <SectionEyebrow>Ocrotitoarea parohiei</SectionEyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
+            <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
               Sub ocrotirea <em className="italic text-burgundy">Sfintei Cuvioase Teodora</em> de la Sihla
             </h2>
             <p className="text-ink-muted leading-relaxed text-[17px] mb-6">
@@ -378,7 +395,7 @@ export default async function HomePage() {
             </FadeIn>
             <FadeIn delay={0.15} className="lg:col-span-3">
               <SectionEyebrow>Devino ctitor</SectionEyebrow>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
+              <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-5">
                 Fii ctitor al unei <em className="italic text-burgundy">lucrări sfinte</em>
               </h2>
               <blockquote className="border-l-4 border-burgundy pl-4 my-5 italic text-ink-muted">
@@ -411,13 +428,13 @@ export default async function HomePage() {
       <SectionRibbon />
 
       {/* ============= 7. 3 STÂLPI – MISIUNEA PAROHIEI ============= */}
-      <section className="container py-12 sm:py-20">
+      <section className="container py-10 sm:py-16 lg:py-20">
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">
               Misiunea parohiei „Sfânta Cuvioasă Teodora de la Sihla"
             </SectionEyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+            <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
               Zidim credința, slujim cu <em className="italic text-burgundy">dragoste</em>, trăim în rugăciune
             </h2>
           </div>
@@ -472,7 +489,7 @@ export default async function HomePage() {
             <p className="font-ceremonial uppercase tracking-[0.22em] text-sm text-gold mb-4">
               Împreună întru Hristos, dincolo de ziduri
             </p>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-5 !text-white">
+            <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-5 !text-white">
               Mărturisirea credinței prin <em className="italic text-gold">rugăciune și cuvânt</em>
             </h2>
             <p className="text-white/90 mb-8 leading-relaxed text-[17px]">
@@ -506,11 +523,11 @@ export default async function HomePage() {
       <SectionRibbon />
 
       {/* ============= 8b. SCHEȚE / VIAȚA PAROHIEI – cards with Orthodox motifs ============= */}
-      <section className="container py-12 sm:py-20">
+      <section className="container py-10 sm:py-16 lg:py-20">
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Viața parohiei în chipuri</SectionEyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+            <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
               Pași spre <em className="italic text-burgundy">Hristos</em>
             </h2>
             <p className="text-ink-muted mt-4 text-[17px]">
@@ -613,11 +630,11 @@ export default async function HomePage() {
       {(galleryImages.length >= 3 || VIDEOS.length > 0) && (
         <>
           <SectionRibbon />
-          <section className="container py-12 sm:py-20">
+          <section className="container py-10 sm:py-16 lg:py-20">
             <FadeIn>
               <div className="text-center mb-10 max-w-3xl mx-auto">
                 <SectionEyebrow align="center">Galerie</SectionEyebrow>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+                <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
                   Clipe din <em className="italic text-burgundy">viața parohiei</em>
                 </h2>
                 <p className="text-ink-muted mt-4 font-serif italic">
@@ -651,14 +668,14 @@ export default async function HomePage() {
       )}
 
       {/* ============= 9. TESTIMONIALE ============= */}
-      <section className="bg-lavender-soft/50 py-12 sm:py-20">
+      <section className="bg-lavender-soft/50 py-10 sm:py-16 lg:py-20">
         <div className="container">
           <FadeIn>
             <div className="text-center mb-12 max-w-2xl mx-auto">
               <SectionEyebrow align="center">
                 Milostenia zidește și suflete, nu doar ziduri
               </SectionEyebrow>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+              <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
                 Mărturii ale <em className="italic text-burgundy">comunității</em>
               </h2>
               <p className="font-serif italic text-ink-muted mt-3">
@@ -675,11 +692,11 @@ export default async function HomePage() {
       <SectionRibbon />
 
       {/* ============= 10. FII ALĂTURI DE PAROHIE – 4 IMG GRID + 3 ICON BOXES ============= */}
-      <section className="container py-12 sm:py-20">
+      <section className="container py-10 sm:py-16 lg:py-20">
         <FadeIn>
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Sprijină lucrarea parohiei</SectionEyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+            <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
               Fii alături de parohie cu <em className="italic text-burgundy">rugăciunea și darul</em>
             </h2>
             <p className="text-ink-muted mt-5 text-[17px] max-w-2xl mx-auto">
@@ -793,7 +810,7 @@ export default async function HomePage() {
                 <SectionEyebrow>
                   Articole duhovnicești, vești din parohie și cuvinte de folos
                 </SectionEyebrow>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+                <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
                   Noutăți din viața parohiei <br />
                   și <em className="italic text-burgundy">gânduri pentru suflet</em>
                 </h2>

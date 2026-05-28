@@ -3,6 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  // Smaller bundles, faster mobile loads
+  swcMinify: true,
+  compress: true,
+  productionBrowserSourceMaps: false,
+  poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
@@ -10,6 +18,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'parohiasfteodoradelasihla.ro' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
+    minimumCacheTTL: 3600,
   },
 
   // ===== Preserve all WordPress URLs (301 redirects) =====

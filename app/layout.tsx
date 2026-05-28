@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Lora, Cinzel_Decorative, Marcellus_SC } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
@@ -32,12 +32,39 @@ const marcellusSC = Marcellus_SC({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://parhioa-production.up.railway.app'),
   title: {
-    default: 'Parohia Sf. Cuvioasă Teodora de la Sihla',
+    default: 'Parohia Sf. Cuvioasă Teodora de la Sihla · Botoșani',
     template: '%s — Parohia Sf. Cuvioasă Teodora de la Sihla',
   },
   description:
-    'Site oficial al Parohiei „Sfânta Cuvioasă Teodora de la Sihla" din Botoșani — comunitate creștin-ortodoxă în formare.',
+    'Comunitate creștin-ortodoxă în formare la Botoșani, sub ocrotirea Sfintei Cuvioase Teodora de la Sihla. Slujbe, mărturii și lucrarea de zidire a bisericii.',
+  applicationName: 'Parohia Sf. Teodora',
+  keywords: [
+    'Parohia Sf. Teodora',
+    'Botoșani',
+    'biserică ortodoxă',
+    'donații parohie',
+    'Sfânta Cuvioasă Teodora de la Sihla',
+    'pr. Cătălin Ailenei',
+  ],
+  openGraph: {
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'Parohia Sf. Cuvioasă Teodora de la Sihla',
+    title: 'Parohia Sf. Cuvioasă Teodora de la Sihla · Botoșani',
+    description:
+      'Vino să te rogi cu noi și să fii parte din zidirea unei biserici sub ocrotirea Cuvioasei Teodora.',
+  },
+  twitter: { card: 'summary_large_image' },
+  formatDetection: { telephone: false, email: false, address: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#5a1813',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

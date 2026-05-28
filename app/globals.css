@@ -3,9 +3,21 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    /* Prevent iOS Safari font size bumping on landscape */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
   body {
     @apply text-ink antialiased font-sans;
+    /* Base font size — 16px on mobile up, but slightly larger paragraphs/text */
+    font-size: 16px;
+    line-height: 1.65;
+    /* Avoid jank from sticky elements that cause horizontal scroll */
+    overflow-x: hidden;
+    /* Better touch behavior */
+    -webkit-tap-highlight-color: transparent;
     /* Subtle warm parchment grain across the entire site */
     background-color: #fbf6ec;
     background-image:
@@ -16,8 +28,30 @@
   }
   /* Default heading style — warm serif. Pages opt into Cinzel Decorative
      by explicitly adding `font-display` (h1/h2 hero/section titles). */
-  h1, h2 { @apply font-display text-burgundy-dark; }
-  h3, h4 { @apply font-serif font-semibold text-burgundy-dark; }
+  h1, h2 { @apply font-display text-burgundy-dark; line-height: 1.15; }
+  h3, h4 { @apply font-serif font-semibold text-burgundy-dark; line-height: 1.25; }
+
+  /* Tap targets on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    button, a[role="button"], a.touchable, [data-touch] {
+      min-height: 44px;
+    }
+  }
+
+  /* Form inputs — prevent iOS zoom on focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  /* Smooth fonts, no jaggies */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Reserve space for media to prevent CLS */
+  img, video {
+    height: auto;
+    max-width: 100%;
+  }
 
   /* Photos render at native quality — Cloudinary handles enhancement
      server-side (f_auto + q_auto + e_improve:20). We don't stack a
