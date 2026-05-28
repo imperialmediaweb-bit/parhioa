@@ -243,7 +243,7 @@ export default async function HomePage() {
             <ul className="space-y-2.5 mb-7">
               {[
                 { eyebrow: 'Slujire', text: 'Săvârșirea cu evlavie a Sfintei Liturghii și a rânduielilor bisericești.' },
-                { eyebrow: 'Părintie', text: 'Spovedanie, cuvânt de folos și călăuzire pe drumul mântuirii.' },
+                { eyebrow: 'Duhovnicie', text: 'Spovedanie, cuvânt de folos și călăuzire pe drumul mântuirii.' },
                 { eyebrow: 'Apropiere', text: 'Vizite pastorale, sfeștanii și prezență vie în viața enoriașilor.' },
               ].map((item) => (
                 <li key={item.eyebrow} className="flex gap-3 items-start">
