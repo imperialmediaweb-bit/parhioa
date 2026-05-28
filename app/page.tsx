@@ -252,7 +252,7 @@ export default async function HomePage() {
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
       <section id="parohul" className="container py-12 sm:py-20 scroll-mt-44">
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn className="lg:col-span-2">
             <ParchmentFrame
               src={IMG.priestPortrait}
@@ -310,7 +310,7 @@ export default async function HomePage() {
 
       {/* ============= 5. SUB OCROTIREA SF. CUVIOASE TEODORA ============= */}
       <section id="despre-parohia" className="container py-12 sm:py-20 scroll-mt-44">
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2 flex items-center">
             <div className="relative mx-auto w-full max-w-[400px] pt-10">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.4)]">
@@ -355,7 +355,7 @@ export default async function HomePage() {
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
       <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
-          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-stretch max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
             <FadeIn className="lg:col-span-2 space-y-6">
               <ParchmentFrame
                 src={IMG.ctitorPhoto}

@@ -15,6 +15,8 @@ export type ConstructionStage = {
   status: 'done' | 'active' | 'upcoming';
   /** 0–100, only used when status === "active" */
   percent?: number;
+  /** Relative weight of this stage in the overall progress (defaults to 1) */
+  weight?: number;
 };
 
 const STAGES: ConstructionStage[] = [
@@ -24,6 +26,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Locul a fost sfințit și pus sub ocrotirea Cuvioasei Teodora.',
     symbol: '☩',
     status: 'done',
+    weight: 1,
   },
   {
     key: 'cruce_temelie',
@@ -31,6 +34,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Crucea de temelie a fost ridicată și binecuvântată.',
     symbol: '✛',
     status: 'done',
+    weight: 1,
   },
   {
     key: 'fundatie',
@@ -38,6 +42,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Pregătirea terenului și turnarea fundației — urmează după strângerea de fonduri.',
     symbol: '🪨',
     status: 'upcoming',
+    weight: 4,
   },
   {
     key: 'ziduri',
@@ -45,6 +50,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Ridicarea pereților bisericii — cărămidă cu cărămidă.',
     symbol: '🧱',
     status: 'upcoming',
+    weight: 6,
   },
   {
     key: 'acoperis',
@@ -52,6 +58,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Șarpanta, acoperișul și înălțarea turlelor.',
     symbol: '🏛️',
     status: 'upcoming',
+    weight: 4,
   },
   {
     key: 'iconostas',
@@ -59,6 +66,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Catapeteasma, icoanele și pictura bisericească.',
     symbol: '🖼️',
     status: 'upcoming',
+    weight: 3,
   },
   {
     key: 'sfintire',
@@ -66,6 +74,7 @@ const STAGES: ConstructionStage[] = [
     description: 'Slujba de sfințire și prima Sfântă Liturghie.',
     symbol: '🕯️',
     status: 'upcoming',
+    weight: 1,
   },
 ];
 
@@ -77,9 +86,11 @@ export function ConstructionProgress({
   const total = STAGES.length;
   const doneCount = STAGES.filter((s) => s.status === 'done').length;
   const activeStage = STAGES.find((s) => s.status === 'active');
-  const overall = Math.round(
-    ((doneCount + (activeStage ? (activeStage.percent ?? 0) / 100 : 0)) / total) * 100,
-  );
+  const totalWeight = STAGES.reduce((sum, s) => sum + (s.weight ?? 1), 0);
+  const doneWeight =
+    STAGES.filter((s) => s.status === 'done').reduce((sum, s) => sum + (s.weight ?? 1), 0) +
+    (activeStage ? ((activeStage.percent ?? 0) / 100) * (activeStage.weight ?? 1) : 0);
+  const overall = Math.round((doneWeight / totalWeight) * 100);
 
   const [animOverall, setAnimOverall] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
