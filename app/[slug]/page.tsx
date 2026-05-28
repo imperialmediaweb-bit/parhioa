@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
-import { prisma } from '@/lib/prisma';
-import { Hero } from '@/components/site/hero';
+import { prisma } from '../../lib/prisma';
+import { Hero } from '../../components/site/hero';
 
 export const revalidate = 60;
 
