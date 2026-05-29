@@ -59,6 +59,16 @@
      images look slightly oversaturated and soft. */
 }
 
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
   /* ===== Byzantine ornaments: subtle background patterns ===== */
   .bg-byzantine-pattern {

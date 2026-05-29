@@ -37,14 +37,22 @@ export function Logo({
         )}
       />
       {showText && (
-        <span className="hidden sm:flex flex-col leading-[1.05]">
-          <span className="font-ecclesia text-[13px] lg:text-[15px] font-bold uppercase tracking-wider text-lavender-dark">
-            Parohia
-          </span>
-          <span className="font-ecclesia text-[15px] lg:text-[17px] font-bold uppercase tracking-wider text-burgundy">
+        <span className="flex flex-col leading-[1.05] min-w-0">
+          {/* Mobile: 2 compact lines */}
+          <span className="sm:hidden font-ecclesia text-[13px] font-bold uppercase tracking-wider text-burgundy leading-tight">
             Sf. Cuv. Teodora
           </span>
-          <span className="font-ecclesia text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.1em] text-lavender-dark">
+          <span className="sm:hidden font-ecclesia text-[9.5px] font-semibold uppercase tracking-[0.08em] text-lavender-dark leading-tight">
+            de la Sihla · Botoșani
+          </span>
+          {/* Tablet+: 3 full lines */}
+          <span className="hidden sm:block font-ecclesia text-[13px] lg:text-[15px] font-bold uppercase tracking-wider text-lavender-dark">
+            Parohia
+          </span>
+          <span className="hidden sm:block font-ecclesia text-[15px] lg:text-[17px] font-bold uppercase tracking-wider text-burgundy">
+            Sf. Cuv. Teodora
+          </span>
+          <span className="hidden sm:block font-ecclesia text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.1em] text-lavender-dark">
             de la Sihla · Botoșani
           </span>
         </span>
