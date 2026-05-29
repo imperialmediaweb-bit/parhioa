@@ -49,6 +49,8 @@ export function DonateForm({
   const [amount, setAmount] = useState<number>(defaultAmount);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [recurring, setRecurring] = useState<boolean>(false);
+  const [donorName, setDonorName] = useState<string>('');
+  const [isPublic, setIsPublic] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -69,7 +71,13 @@ export function DonateForm({
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: selectedAmount, recurring, campaign }),
+        body: JSON.stringify({
+          amount: selectedAmount,
+          recurring,
+          campaign,
+          donorName: donorName.trim(),
+          isPublic,
+        }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) {
@@ -213,6 +221,38 @@ export function DonateForm({
             RON
           </span>
         </div>
+      </div>
+
+      {/* Ctitor identity */}
+      <div className="rounded-2xl border border-gold/30 bg-cream-card/40 p-4 space-y-3">
+        <label className="block">
+          <span className="text-sm font-medium text-ink">
+            Cum doriți să apăreți în lista <em className="italic text-burgundy">ctitorilor</em>?
+          </span>
+          <span className="block text-[11px] text-ink-soft mt-0.5">
+            Numele sau pomelnicul (opțional). Va fi pomenit la Sfânta Liturghie.
+          </span>
+          <input
+            type="text"
+            value={donorName}
+            onChange={(e) => setDonorName(e.target.value)}
+            placeholder="ex: Familia Popescu"
+            maxLength={80}
+            className="mt-2 w-full px-4 py-3 rounded-xl border border-border focus:outline-none focus:border-burgundy text-ink"
+          />
+        </label>
+        <label className="flex items-start gap-2 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            className="mt-1 h-4 w-4 accent-burgundy"
+          />
+          <span className="text-xs text-ink-muted leading-relaxed">
+            Doresc să apar în lista publică de ctitori. Dacă debifați, donația apare ca{' '}
+            <em>„Anonim"</em> — dar zidește biserica la fel.
+          </span>
+        </label>
       </div>
 
       {/* Summary line */}

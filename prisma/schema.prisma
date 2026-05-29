@@ -101,3 +101,28 @@ model MenuItem {
   order     Int      @default(0)
   target    String?
 }
+
+model Donor {
+  id        Int        @id @default(autoincrement())
+  name      String?
+  isPublic  Boolean    @default(true)
+  email     String?    @unique
+  donations Donation[]
+  createdAt DateTime   @default(now())
+}
+
+model Donation {
+  id              Int      @id @default(autoincrement())
+  stripeSessionId String   @unique
+  amount          Int
+  currency        String   @default("ron")
+  campaign        String
+  recurring       Boolean  @default(false)
+  status          String   @default("completed")
+  donor           Donor?   @relation(fields: [donorId], references: [id])
+  donorId         Int?
+  createdAt       DateTime @default(now())
+
+  @@index([campaign, createdAt])
+  @@index([createdAt])
+}

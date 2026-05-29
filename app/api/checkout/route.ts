@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
     const amount = Number(body.amount);
     const recurring = !!body.recurring;
     const campaign = String(body.campaign || 'zidirea-bisericii');
+    const donorName = String(body.donorName || '').slice(0, 80);
+    const isPublic = body.isPublic !== false;
 
     if (!amount || amount < 5 || amount > 100000) {
       return NextResponse.json(
@@ -61,7 +63,20 @@ export async function POST(req: NextRequest) {
       metadata: {
         campaign,
         recurring: String(recurring),
+        donorName,
+        isPublic: isPublic ? '1' : '0',
       },
+      ...(recurring
+        ? {
+            subscription_data: {
+              metadata: {
+                campaign,
+                donorName,
+                isPublic: isPublic ? '1' : '0',
+              },
+            },
+          }
+        : {}),
       locale: 'ro',
     });
 

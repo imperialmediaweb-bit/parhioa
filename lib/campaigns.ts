@@ -26,6 +26,8 @@ export type Campaign = {
   presetAmounts: number[];
   /** Default selected amount */
   defaultAmount: number;
+  /** Total fundraising target in RON, used by the church-progress visualization */
+  goalRon: number;
 };
 
 export const CAMPAIGNS: Campaign[] = [
@@ -56,6 +58,7 @@ export const CAMPAIGNS: Campaign[] = [
     },
     presetAmounts: [10, 25, 50, 100, 250, 500],
     defaultAmount: 50,
+    goalRon: 1_500_000,
   },
 ];
 

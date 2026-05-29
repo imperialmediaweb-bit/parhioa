@@ -63,6 +63,12 @@ const IMAGE_MAP = {
     fallback: `${WP_BASE}/2025/06/WhatsApp-Image-2025-11-03-at-15.27.15.jpeg`,
   },
 
+  // ===== Architectural rendering of the future church (church progress visualization) =====
+  churchRendering: {
+    matches: ['wp-28263'],
+    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885066/parhioa/wp-28263.jpg',
+  },
+
   // ===== Video section background (Împreună întru Hristos) =====
   videoSectionBg: {
     matches: ['image-5-picsart', 'picsart-aiimageenhancer', 'image-5-'],
