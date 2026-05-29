@@ -1,137 +1,173 @@
 import { prisma } from '@/lib/prisma';
 import { getImages } from '@/lib/images';
-import { unitsFromTotal } from '@/lib/symbolic';
-import { NumberTicker } from '@/components/magicui/number-ticker';
+import { OrthodoxCross } from './cross-divider';
 
 interface Props {
   campaign: string;
+  /** Internal scale for the rising-light height. Never displayed. */
   goalRon: number;
 }
 
-async function fetchTotals(campaign: string) {
+async function fetchInternals(campaign: string) {
   try {
     const [agg, donorCount] = await Promise.all([
       prisma.donation.aggregate({
         where: { campaign, status: { in: ['completed', 'self_reported_bank'] } },
         _sum: { amount: true },
-        _count: { _all: true },
       }),
       prisma.donor.count({ where: { donations: { some: { campaign } } } }),
     ]);
     return {
       raised: agg._sum.amount || 0,
-      donations: agg._count._all || 0,
       donors: donorCount,
     };
-  } catch (err) {
-    console.error('[ChurchProgress] DB read failed:', err);
-    return { raised: 0, donations: 0, donors: 0 };
+  } catch {
+    return { raised: 0, donors: 0 };
   }
 }
 
 export async function ChurchProgress({ campaign, goalRon }: Props) {
   const IMG = await getImages();
-  const totals = await fetchTotals(campaign);
-  const pct = Math.min(100, Math.round((totals.raised / goalRon) * 100));
-  const units = unitsFromTotal(totals.raised);
+  const { raised, donors } = await fetchInternals(campaign);
 
-  // Light rises from foundation (bottom). Always at least an 8% glow so even at 0
-  // there's a faint candle-flame at the base of the building.
-  const lightHeightPct = Math.max(8, pct);
+  // Internal-only: light height as a function of progress. NEVER displayed.
+  const internalPct = Math.min(100, (raised / Math.max(1, goalRon)) * 100);
+  const lightHeightPct = Math.max(10, internalPct);
 
   return (
-    <div className="relative">
-      <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gold/30 bg-burgundy-dark">
-        <img
-          src={IMG.churchRendering}
-          alt="Biserica viitoare — Parohia Sf. Teodora de la Sihla"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-
-        {/* Subtle dark veil so the gold light reads. */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'linear-gradient(to top, rgba(20,8,10,0.55) 0%, rgba(20,8,10,0.25) 35%, rgba(20,8,10,0.05) 70%)',
-          }}
-          aria-hidden
-        />
-
-        {/* Rising golden light — radial glow at the foundation that grows upward
-            with the percentage raised. */}
-        <div
-          className="absolute inset-x-0 bottom-0 pointer-events-none transition-[height] duration-1000 ease-out"
-          style={{
-            height: `${lightHeightPct}%`,
-            background:
-              'radial-gradient(ellipse at 50% 100%, rgba(255,212,128,0.85) 0%, rgba(255,184,77,0.55) 30%, rgba(201,169,97,0.25) 60%, transparent 90%)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden
-        />
-
-        {/* Foundation candle-line — bright base line. */}
-        <div
-          className="absolute inset-x-0 pointer-events-none"
-          style={{
-            bottom: `${Math.max(0, lightHeightPct - 1)}%`,
-            height: '2px',
-            background:
-              'linear-gradient(to right, transparent 0%, rgba(255,224,150,0.9) 20%, rgba(255,255,200,1) 50%, rgba(255,224,150,0.9) 80%, transparent 100%)',
-            boxShadow: '0 0 12px 2px rgba(255,212,128,0.7)',
-          }}
-          aria-hidden
-        />
-
-        {/* Top-left badge with raised amount. */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 bg-burgundy/90 backdrop-blur-sm border border-gold/40 rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-white shadow-xl">
-          <p className="font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.22em] text-gold">
-            Strâns până acum
-          </p>
-          <p className="font-display text-2xl sm:text-3xl font-bold leading-tight mt-1">
-            <NumberTicker value={totals.raised} />{' '}
-            <span className="text-gold text-sm">RON</span>
-          </p>
-          <p className="text-[11px] sm:text-xs text-white/75 mt-0.5">
-            din ținta de {goalRon.toLocaleString('ro-RO')} RON · {pct}%
-          </p>
-        </div>
-
-        {/* Top-right badge: donor + brick counters */}
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-cream-card/90 backdrop-blur-sm border border-gold/40 rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-ink shadow-xl text-right">
-          <p className="font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.22em] text-burgundy">
-            Ctitori · cărămizi
-          </p>
-          <p className="font-display text-2xl sm:text-3xl font-bold leading-tight mt-1 text-burgundy">
-            <NumberTicker value={totals.donors} />{' '}
-            <span className="text-ink-soft text-sm">·</span>{' '}
-            <NumberTicker value={units.caramizi} />
-          </p>
-          <p className="text-[11px] sm:text-xs text-ink-soft mt-0.5">
-            inimi care zidesc împreună
-          </p>
-        </div>
-
-        {/* Bottom inscription */}
-        <div className="absolute inset-x-0 bottom-0 pb-5 sm:pb-6 text-center pointer-events-none">
-          <p className="font-display italic text-gold text-sm sm:text-base drop-shadow-lg">
-            „Cei ce zidesc Biserica, zidesc cer pe pământ."
-          </p>
-        </div>
+    <div className="relative mx-auto w-full max-w-4xl pt-14">
+      {/* Floating cross above the parchment */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.4)]">
+        <OrthodoxCross height={64} />
       </div>
 
-      {/* Progress bar below the image */}
-      <div className="mt-5">
-        <div className="h-3 rounded-full overflow-hidden bg-cream-deep border border-gold/30">
+      {/* Parchment outer panel */}
+      <div
+        className="relative rounded-[32px] px-5 sm:px-7 pt-7 sm:pt-9 pb-6 shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)] overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
+        }}
+      >
+        {/* Parchment grain texture */}
+        <div
+          className="absolute inset-0 opacity-30 mix-blend-multiply pointer-events-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.18 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+          }}
+          aria-hidden
+        />
+
+        {/* Gold + burgundy double border */}
+        <div className="absolute inset-2 rounded-[26px] border border-gold/60 pointer-events-none" />
+        <div className="absolute inset-3 rounded-[23px] border border-burgundy/25 pointer-events-none" />
+
+        {/* Corner ornaments */}
+        {(
+          [
+            'top-2 left-2 rotate-0',
+            'top-2 right-2 rotate-90',
+            'bottom-2 right-2 rotate-180',
+            'bottom-2 left-2 -rotate-90',
+          ] as const
+        ).map((pos) => (
+          <svg
+            key={pos}
+            viewBox="0 0 24 24"
+            className={`absolute ${pos} h-5 w-5 text-gold pointer-events-none`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            aria-hidden
+          >
+            <path d="M2 10 V4 H10" />
+            <circle cx="4" cy="4" r="0.8" fill="currentColor" />
+          </svg>
+        ))}
+
+        {/* Eyebrow inscription */}
+        <p className="relative font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.28em] text-burgundy text-center mb-3 sm:mb-4">
+          ☩ Catedrala se ridică din inimi ☩
+        </p>
+
+        {/* Church image inside a Byzantine-arched window */}
+        <div
+          className="relative overflow-hidden bg-burgundy/5 w-full"
+          style={{
+            aspectRatio: '16 / 10',
+            borderTopLeftRadius: '50% 14%',
+            borderTopRightRadius: '50% 14%',
+            borderBottomLeftRadius: '10px',
+            borderBottomRightRadius: '10px',
+          }}
+        >
+          <img
+            src={IMG.churchRendering}
+            alt="Biserica viitoare — Parohia Sf. Teodora de la Sihla"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+
+          {/* Veil so the gold light reads against the building */}
           <div
-            className="h-full bg-gradient-to-r from-gold via-amber-300 to-gold shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-[width] duration-1000 ease-out"
-            style={{ width: `${pct}%` }}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(to top, rgba(20,8,10,0.55) 0%, rgba(20,8,10,0.20) 35%, rgba(20,8,10,0.04) 70%)',
+            }}
+            aria-hidden
+          />
+
+          {/* Rising golden light from the foundation */}
+          <div
+            className="absolute inset-x-0 bottom-0 pointer-events-none transition-[height] duration-1000 ease-out"
+            style={{
+              height: `${lightHeightPct}%`,
+              background:
+                'radial-gradient(ellipse at 50% 100%, rgba(255,212,128,0.85) 0%, rgba(255,184,77,0.55) 30%, rgba(201,169,97,0.25) 60%, transparent 90%)',
+              mixBlendMode: 'screen',
+            }}
+            aria-hidden
+          />
+
+          {/* Foundation light-line */}
+          <div
+            className="absolute inset-x-0 pointer-events-none"
+            style={{
+              bottom: `${Math.max(0, lightHeightPct - 1)}%`,
+              height: '2px',
+              background:
+                'linear-gradient(to right, transparent 0%, rgba(255,224,150,0.9) 20%, rgba(255,255,200,1) 50%, rgba(255,224,150,0.9) 80%, transparent 100%)',
+              boxShadow: '0 0 12px 2px rgba(255,212,128,0.7)',
+            }}
+            aria-hidden
+          />
+
+          {/* Inner shadow to seat the image in the frame */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ boxShadow: 'inset 0 0 60px 6px rgba(61,15,10,0.4)' }}
+            aria-hidden
           />
         </div>
-        <p className="text-xs text-ink-soft text-center mt-2">
-          {pct}% din ținta de {goalRon.toLocaleString('ro-RO')} RON ·{' '}
-          <span className="text-burgundy font-medium">{totals.donations} donații</span>
+
+        {/* Caption under the photo */}
+        <div className="relative mt-5 flex items-center justify-center gap-3">
+          <span className="h-px w-10 bg-gold/70" />
+          <span className="text-gold text-base leading-none">☩</span>
+          <p className="font-ceremonial uppercase text-[11px] sm:text-xs tracking-[0.28em] text-burgundy text-center">
+            {donors > 0
+              ? `${donors} ${donors === 1 ? 'ctitor pune umărul la zid' : 'ctitori pun umărul la zid'}`
+              : 'fii primul ctitor al acestei biserici'}
+          </p>
+          <span className="text-gold text-base leading-none">☩</span>
+          <span className="h-px w-10 bg-gold/70" />
+        </div>
+
+        {/* Inscription */}
+        <p className="relative text-center mt-4 font-display italic text-burgundy/85 text-base sm:text-lg leading-snug">
+          „Cei ce zidesc Biserica, zidesc cer pe pământ."
         </p>
       </div>
     </div>

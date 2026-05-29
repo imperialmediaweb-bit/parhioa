@@ -8,20 +8,21 @@ import { Button } from '@/components/ui/button';
 import { DonateForm, type PresetTier } from '@/components/site/donate-form';
 import { ChurchProgress } from '@/components/site/church-progress';
 import { CtitoriList } from '@/components/site/ctitori-list';
-import { SymbolicStats } from '@/components/site/symbolic-stats';
+import { ConstructionProgress } from '@/components/site/construction-progress';
 import { CopyButton } from '@/components/site/copy-button';
 import { Heart, ShieldCheck, Building2, Landmark, User } from 'lucide-react';
 import { isStripeConfigured } from '@/lib/stripe';
 import { findCampaign } from '@/lib/campaigns';
 
-// Mapping amounts → symbolic church elements (bricks, stones, etc.)
+// Amount → realistic construction unit (price-anchored). Each preset describes
+// what the gift actually pays for in the church build.
 const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }> = {
-  10: { symbol: '1 cărămidă', icon: '🧱', subtitle: 'fundația' },
-  25: { symbol: '3 cărămizi', icon: '🧱', subtitle: 'pereții' },
-  50: { symbol: 'O piatră', icon: '🪨', subtitle: 'temelia' },
-  100: { symbol: 'O grindă', icon: '🪵', subtitle: 'acoperișul' },
-  250: { symbol: 'Un vitraliu', icon: '🪟', subtitle: 'lumina' },
-  500: { symbol: 'O icoană', icon: '🕯️', subtitle: 'altarul' },
+  10: { symbol: '2 cărămizi', icon: '🧱', subtitle: 'fundația' },
+  25: { symbol: '5 cărămizi', icon: '🧱', subtitle: 'pereții' },
+  50: { symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelia' },
+  100: { symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereții' },
+  250: { symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereții' },
+  500: { symbol: '1 grindă', icon: '🪵', subtitle: 'acoperișul' },
 };
 
 export async function generateMetadata({
@@ -61,7 +62,7 @@ export default async function DonationCampaignPage({
         ]}
       />
 
-      {/* ── CENTERPIECE: church visualization with rising golden light ────────── */}
+      {/* ── CENTERPIECE: parchment-framed church with rising golden light ────── */}
       <section className="container py-10 sm:py-14">
         <div className="max-w-5xl mx-auto">
           <FadeIn>
@@ -73,8 +74,7 @@ export default async function DonationCampaignPage({
                 Lumina se ridică odată cu noi
               </h2>
               <p className="text-ink-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-                Fiecare donație aprinde candela de la temelie și o face să urce — biserica
-                noastră se zidește din fiecare jertfă, mare sau mică.
+                Fiecare jertfă adusă cu inima curată ridică lumina de la temelie spre cer.
               </p>
             </div>
           </FadeIn>
@@ -83,9 +83,10 @@ export default async function DonationCampaignPage({
             <ChurchProgress campaign={campaign.slug} goalRon={campaign.goalRon} />
           </FadeIn>
 
+          {/* Construction stages — parchment-style list of seven phases. */}
           <FadeIn delay={0.2}>
-            <div className="mt-8 sm:mt-10">
-              <SymbolicStats campaign={campaign.slug} />
+            <div className="mt-10 sm:mt-12 max-w-3xl mx-auto">
+              <ConstructionProgress label="Stadiul zidirii bisericii" />
             </div>
           </FadeIn>
         </div>

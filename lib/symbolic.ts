@@ -1,52 +1,51 @@
 /**
- * Symbolic translation of RON donations into Orthodox-coded units
- * (bricks, foundation stones, beams, stained-glass windows, icons).
+ * Realistic unit prices for the church construction work.
+ * Used by the donor list (symbolic representation of each gift) and by
+ * the donate form's preset descriptions.
  *
- * Used by the church progress visualization, the donor list, and the
- * symbolic-stats medallions on the campaign page.
+ * Prices are approximate market values for materials + labor in Botoșani,
+ * meant to be defensible if a parishioner asks "what does my gift actually buy?".
  */
 
-export type SymbolicUnit = 'caramizi' | 'pietre' | 'grinzi' | 'vitralii' | 'icoane';
+export type SymbolicUnit =
+  | 'caramizi'      // 1 cărămidă plină
+  | 'saciCiment'    // 1 sac de ciment 25 kg
+  | 'tencuiala'     // 1 m² de tencuială (materiale + manoperă)
+  | 'zidarie'       // 1 m² de zidărie completă
+  | 'grinzi';       // 1 grindă de lemn pentru acoperiș
 
 export const TIER_VALUES: Record<SymbolicUnit, number> = {
-  caramizi: 10,
-  pietre: 50,
-  grinzi: 100,
-  vitralii: 250,
-  icoane: 500,
+  caramizi: 5,
+  saciCiment: 50,
+  tencuiala: 100,
+  zidarie: 250,
+  grinzi: 500,
 };
 
 export function ronToBricks(amount: number): number {
   return Math.floor(amount / TIER_VALUES.caramizi);
 }
 
-export function unitsFromTotal(amount: number): Record<SymbolicUnit, number> {
-  return {
-    caramizi: Math.floor(amount / TIER_VALUES.caramizi),
-    pietre: Math.floor(amount / TIER_VALUES.pietre),
-    grinzi: Math.floor(amount / TIER_VALUES.grinzi),
-    vitralii: Math.floor(amount / TIER_VALUES.vitralii),
-    icoane: Math.floor(amount / TIER_VALUES.icoane),
-  };
-}
-
-/** Single best-fit symbolic translation for one donation amount. */
+/**
+ * Best-fit symbolic translation for a single donation amount.
+ * Returns the largest realistic unit the gift covers in full.
+ */
 export function symbolicLabel(amount: number): { icon: string; label: string } {
-  if (amount >= TIER_VALUES.icoane) {
-    const n = Math.floor(amount / TIER_VALUES.icoane);
-    return { icon: '🕯️', label: `${n} ${n === 1 ? 'icoană' : 'icoane'}` };
-  }
-  if (amount >= TIER_VALUES.vitralii) {
-    const n = Math.floor(amount / TIER_VALUES.vitralii);
-    return { icon: '🪟', label: `${n} ${n === 1 ? 'vitraliu' : 'vitralii'}` };
-  }
   if (amount >= TIER_VALUES.grinzi) {
     const n = Math.floor(amount / TIER_VALUES.grinzi);
-    return { icon: '🪵', label: `${n} ${n === 1 ? 'grindă' : 'grinzi'}` };
+    return { icon: '🪵', label: `${n} ${n === 1 ? 'grindă' : 'grinzi'} pentru acoperiș` };
   }
-  if (amount >= TIER_VALUES.pietre) {
-    const n = Math.floor(amount / TIER_VALUES.pietre);
-    return { icon: '🪨', label: `${n} ${n === 1 ? 'piatră' : 'pietre'} de temelie` };
+  if (amount >= TIER_VALUES.zidarie) {
+    const n = Math.floor(amount / TIER_VALUES.zidarie);
+    return { icon: '🧱', label: `${n} m² de zidărie` };
+  }
+  if (amount >= TIER_VALUES.tencuiala) {
+    const n = Math.floor(amount / TIER_VALUES.tencuiala);
+    return { icon: '🛠️', label: `${n} m² de tencuială` };
+  }
+  if (amount >= TIER_VALUES.saciCiment) {
+    const n = Math.floor(amount / TIER_VALUES.saciCiment);
+    return { icon: '🪨', label: `${n} ${n === 1 ? 'sac' : 'saci'} de ciment` };
   }
   const n = Math.max(1, Math.floor(amount / TIER_VALUES.caramizi));
   return { icon: '🧱', label: `${n} ${n === 1 ? 'cărămidă' : 'cărămizi'}` };

@@ -84,27 +84,21 @@ export async function CtitoriList({ campaign, limit = 24 }: Props) {
                   >
                     {displayName}
                   </p>
-                  <p className="text-[11px] text-ink-soft mt-0.5 flex items-center gap-1.5">
+                  <p className="text-[11px] text-ink-soft mt-0.5 flex items-center gap-1.5 flex-wrap">
                     <span>
                       {sym.label} · {timeAgo(d.createdAt)}
                     </span>
+                    {d.recurring && (
+                      <span className="inline-block px-1.5 py-px rounded-full bg-burgundy/10 text-burgundy text-[9px] uppercase tracking-wider font-ceremonial">
+                        lunar
+                      </span>
+                    )}
                     {d.status === 'self_reported_bank' && (
                       <span className="inline-block px-1.5 py-px rounded-full bg-gold/20 text-burgundy text-[9px] uppercase tracking-wider font-ceremonial">
                         transfer
                       </span>
                     )}
                   </p>
-                </div>
-                <div className="flex-shrink-0 text-right">
-                  <p className="font-display font-bold text-burgundy">
-                    {d.amount.toLocaleString('ro-RO')}{' '}
-                    <span className="text-[10px] text-ink-soft font-sans">RON</span>
-                  </p>
-                  {d.recurring && (
-                    <p className="text-[9px] uppercase tracking-wider text-gold-dark">
-                      / lună
-                    </p>
-                  )}
                 </div>
               </li>
             );
