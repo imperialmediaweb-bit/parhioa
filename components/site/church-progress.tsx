@@ -12,7 +12,7 @@ async function fetchTotals(campaign: string) {
   try {
     const [agg, donorCount] = await Promise.all([
       prisma.donation.aggregate({
-        where: { campaign, status: 'completed' },
+        where: { campaign, status: { in: ['completed', 'self_reported_bank'] } },
         _sum: { amount: true },
         _count: { _all: true },
       }),

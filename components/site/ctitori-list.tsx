@@ -9,7 +9,7 @@ interface Props {
 async function fetchRecent(campaign: string, limit: number) {
   try {
     return await prisma.donation.findMany({
-      where: { campaign, status: 'completed' },
+      where: { campaign, status: { in: ['completed', 'self_reported_bank'] } },
       orderBy: { createdAt: 'desc' },
       take: limit,
       include: { donor: true },
@@ -84,8 +84,15 @@ export async function CtitoriList({ campaign, limit = 24 }: Props) {
                   >
                     {displayName}
                   </p>
-                  <p className="text-[11px] text-ink-soft mt-0.5">
-                    {sym.label} · {timeAgo(d.createdAt)}
+                  <p className="text-[11px] text-ink-soft mt-0.5 flex items-center gap-1.5">
+                    <span>
+                      {sym.label} · {timeAgo(d.createdAt)}
+                    </span>
+                    {d.status === 'self_reported_bank' && (
+                      <span className="inline-block px-1.5 py-px rounded-full bg-gold/20 text-burgundy text-[9px] uppercase tracking-wider font-ceremonial">
+                        transfer
+                      </span>
+                    )}
                   </p>
                 </div>
                 <div className="flex-shrink-0 text-right">

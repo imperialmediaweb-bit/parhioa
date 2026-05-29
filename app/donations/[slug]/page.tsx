@@ -9,7 +9,8 @@ import { DonateForm, type PresetTier } from '@/components/site/donate-form';
 import { ChurchProgress } from '@/components/site/church-progress';
 import { CtitoriList } from '@/components/site/ctitori-list';
 import { SymbolicStats } from '@/components/site/symbolic-stats';
-import { Heart, ShieldCheck, Copy, Building2, Landmark, User } from 'lucide-react';
+import { CopyButton } from '@/components/site/copy-button';
+import { Heart, ShieldCheck, Building2, Landmark, User } from 'lucide-react';
 import { isStripeConfigured } from '@/lib/stripe';
 import { findCampaign } from '@/lib/campaigns';
 
@@ -109,6 +110,7 @@ export default async function DonationCampaignPage({
                     campaignTitle={campaign.shortTitle}
                     presets={tiers}
                     defaultAmount={campaign.defaultAmount}
+                    bankDetails={campaign.bankDetails}
                   />
                 </Card>
               </FadeIn>
@@ -180,8 +182,8 @@ export default async function DonationCampaignPage({
                 Pentru cei ce preferă viramentul direct, datele contului parohiei sunt:
               </p>
               <dl className="grid sm:grid-cols-1 gap-3">
-                <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border">
-                  <User className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
+                <div className="flex items-center gap-3 bg-white rounded-xl p-4 border border-border">
+                  <User className="h-5 w-5 text-burgundy flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <dt className="text-xs uppercase font-bold tracking-wider text-ink-soft">
                       Titular
@@ -190,9 +192,10 @@ export default async function DonationCampaignPage({
                       {campaign.bankDetails.holder}
                     </dd>
                   </div>
+                  <CopyButton value={campaign.bankDetails.holder} />
                 </div>
-                <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border">
-                  <Copy className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
+                <div className="flex items-center gap-3 bg-white rounded-xl p-4 border border-border">
+                  <Landmark className="h-5 w-5 text-burgundy flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <dt className="text-xs uppercase font-bold tracking-wider text-ink-soft">
                       IBAN
@@ -201,17 +204,23 @@ export default async function DonationCampaignPage({
                       {campaign.bankDetails.iban}
                     </dd>
                   </div>
+                  <CopyButton value={campaign.bankDetails.iban} />
                 </div>
-                <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-border">
-                  <Building2 className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
+                <div className="flex items-center gap-3 bg-white rounded-xl p-4 border border-border">
+                  <Building2 className="h-5 w-5 text-burgundy flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <dt className="text-xs uppercase font-bold tracking-wider text-ink-soft">
                       Banca
                     </dt>
                     <dd className="font-medium text-ink mt-0.5">{campaign.bankDetails.bank}</dd>
                   </div>
+                  <CopyButton value={campaign.bankDetails.bank} />
                 </div>
               </dl>
+              <p className="text-xs text-ink-soft italic text-center mt-4">
+                Sau alegeți <em>„Transfer bancar"</em> în formularul de mai sus pentru a
+                ne anunța că ați făcut transferul.
+              </p>
             </Card>
           </FadeIn>
         </div>

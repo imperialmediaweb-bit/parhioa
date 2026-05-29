@@ -18,7 +18,7 @@ export async function SymbolicStats({ campaign }: Props) {
   let raised = 0;
   try {
     const agg = await prisma.donation.aggregate({
-      where: { campaign, status: 'completed' },
+      where: { campaign, status: { in: ['completed', 'self_reported_bank'] } },
       _sum: { amount: true },
     });
     raised = agg._sum.amount || 0;
