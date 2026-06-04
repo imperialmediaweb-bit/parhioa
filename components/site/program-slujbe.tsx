@@ -10,7 +10,7 @@ const WEEK: { day: string; services: Service[] }[] = [
   { day: 'Marți', services: [] },
   { day: 'Miercuri', services: [{ time: '17:00', name: 'Acatist' }] },
   { day: 'Joi', services: [] },
-  { day: 'Vineri', services: [{ time: '17:00', name: 'Vecernia' }] },
+  { day: 'Vineri', services: [{ time: '08:30', name: 'Sf. Maslu' }] },
   {
     day: 'Sâmbătă',
     services: [
@@ -152,7 +152,11 @@ export function ProgramSlujbe() {
           })}
         </div>
 
-        <p className="relative text-center mt-6 text-xs font-serif italic text-burgundy/60">
+        <p className="relative text-center mt-5 text-[11px] sm:text-xs font-serif italic text-burgundy/70">
+          Slujbele se țin la <strong className="not-italic text-burgundy">Biserica „Bunavestire"</strong> până la
+          finalizarea lăcașului de cult al parohiei.
+        </p>
+        <p className="relative text-center mt-2 text-xs font-serif italic text-burgundy/60">
           La sărbători mari, programul poate fi modificat. Vezi pagina{' '}
           <a href="/contact" className="underline hover:text-burgundy">
             de contact
