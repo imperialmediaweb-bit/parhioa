@@ -15,7 +15,7 @@ export type SymbolicUnit =
   | 'grinzi';       // 1 grindă de lemn pentru acoperiș
 
 export const TIER_VALUES: Record<SymbolicUnit, number> = {
-  caramizi: 5,
+  caramizi: 10,
   saciCiment: 50,
   tencuiala: 100,
   zidarie: 250,

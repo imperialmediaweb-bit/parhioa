@@ -17,8 +17,8 @@ import { findCampaign } from '@/lib/campaigns';
 // Amount → realistic construction unit (price-anchored). Each preset describes
 // what the gift actually pays for in the church build.
 const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }> = {
-  10: { symbol: '2 cărămizi', icon: '🧱', subtitle: 'fundație' },
-  25: { symbol: '5 cărămizi', icon: '🧱', subtitle: 'pereți' },
+  10: { symbol: '1 cărămidă', icon: '🧱', subtitle: 'fundație' },
+  25: { symbol: '2 cărămizi', icon: '🧱', subtitle: 'pereți' },
   50: { symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelie' },
   100: { symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereți' },
   250: { symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereți' },
