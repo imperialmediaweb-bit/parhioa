@@ -8,7 +8,7 @@ type Service = { time: string; name: string };
 const WEEK: { day: string; services: Service[] }[] = [
   { day: 'Luni', services: [{ time: '17:00', name: 'Acatistul Sf. Arhangheli' }] },
   { day: 'Marți', services: [{ time: '17:00', name: 'Acatistul Sf. Ioan Botezătorul' }] },
-  { day: 'Miercuri', services: [{ time: '17:00', name: 'Acatist' }] },
+  { day: 'Miercuri', services: [{ time: '17:00', name: 'Acatistul Maicii Domnului' }] },
   { day: 'Joi', services: [{ time: '17:00', name: 'Acatistul Sf. Nicolae' }] },
   { day: 'Vineri', services: [{ time: '08:30', name: 'Sf. Maslu' }] },
   {
