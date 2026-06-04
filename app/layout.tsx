@@ -60,6 +60,13 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image' },
   formatDetection: { telephone: false, email: false, address: false },
+  icons: {
+    icon: [
+      { url: 'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png' },
+    ],
+    shortcut: 'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png',
+    apple: 'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png',
+  },
 };
 
 export const viewport: Viewport = {
