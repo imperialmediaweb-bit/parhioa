@@ -83,9 +83,9 @@ export function SarbatoareaZilei() {
       const delta = value - todayValue;
       return { ...f, delta: delta < 0 ? delta + 12 * 31 : delta };
     })
-      .filter((f) => f.delta > 0 && f.delta <= 60)
+      .filter((f) => f.delta > 0 && f.delta <= 90)
       .sort((a, b) => a.delta - b.delta)
-      .slice(0, 3);
+      .slice(0, 6);
 
     return {
       today: {
@@ -163,12 +163,12 @@ export function SarbatoareaZilei() {
             <p className="font-ceremonial uppercase text-[10px] tracking-[0.28em] text-gold/70 mb-3">
               Sărbători apropiate
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {upcoming.map((u) => {
                 const [m, d] = u.date.split('-').map(Number);
                 return (
                   <li key={u.date} className="flex items-baseline gap-3 text-cream/85">
-                    <span className="font-mono text-[11px] text-gold w-12 flex-shrink-0">
+                    <span className="font-display text-[12px] text-gold w-12 flex-shrink-0 font-semibold">
                       {d} {MONTHS_RO[m - 1].slice(0, 3)}
                     </span>
                     <span className="text-[13px] leading-snug font-serif">{u.name}</span>
@@ -178,6 +178,17 @@ export function SarbatoareaZilei() {
             </ul>
           </div>
         )}
+
+        {/* Inscription at the bottom — fills empty space when prayer card is tall */}
+        <div className="relative pt-6 mt-6 border-t border-gold/25 text-center">
+          <p className="text-gold text-xl leading-none mb-2">☩</p>
+          <p className="font-serif italic text-cream/75 text-[13px] leading-relaxed">
+            „Pace vouă! Precum M-a trimis pe Mine Tatăl, vă trimit și Eu pe voi."
+          </p>
+          <p className="font-ceremonial uppercase text-[9px] tracking-[0.22em] text-gold/65 mt-2">
+            Ioan 20, 21
+          </p>
+        </div>
       </div>
     </div>
   );
