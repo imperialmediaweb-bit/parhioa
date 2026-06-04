@@ -235,7 +235,7 @@ export default async function HomePage() {
 
       {/* ============= 2. PROGRAM SLUJBE + SĂRBĂTOAREA ZILEI ============= */}
       <section className="container py-10 sm:py-14">
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
           <div className="lg:col-span-2">
             <ProgramSlujbe />
           </div>

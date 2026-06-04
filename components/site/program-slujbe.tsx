@@ -59,14 +59,14 @@ export function ProgramSlujbe() {
   }, []);
 
   return (
-    <div className="relative h-full pt-12">
+    <div className="relative pt-12">
       {/* Floating cross above */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.4)]">
         <OrthodoxCross height={60} />
       </div>
 
       <div
-        className="relative h-full rounded-[28px] px-6 pt-10 pb-8 sm:px-8 sm:pt-12 sm:pb-10 shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)] overflow-hidden flex flex-col"
+        className="relative rounded-[28px] px-6 pt-10 pb-8 sm:px-8 sm:pt-12 sm:pb-10 shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)] overflow-hidden"
         style={{
           background: 'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
         }}
@@ -113,7 +113,7 @@ export function ProgramSlujbe() {
                 >
                   {d.day.slice(0, 3)}
                 </p>
-                <div className="space-y-1 sm:space-y-1.5">
+                <div className="space-y-2 sm:space-y-2.5">
                   {d.services.length === 0 ? (
                     <p
                       className={`text-[11px] italic text-center ${
@@ -126,15 +126,15 @@ export function ProgramSlujbe() {
                     d.services.map((s) => (
                       <div key={s.name + s.time} className="text-center leading-tight">
                         <p
-                          className={`font-mono text-[10px] sm:text-[11px] font-semibold ${
+                          className={`font-display text-[12px] sm:text-[13px] font-bold tracking-wide mb-0.5 ${
                             isToday ? 'text-gold' : 'text-burgundy'
                           }`}
                         >
                           {s.time}
                         </p>
                         <p
-                          className={`text-[9px] sm:text-[11px] leading-snug ${
-                            isToday ? 'text-cream' : 'text-burgundy-dark/80'
+                          className={`font-serif text-[10px] sm:text-[11.5px] leading-snug ${
+                            isToday ? 'text-cream' : 'text-burgundy-dark/85'
                           }`}
                         >
                           {s.name}
