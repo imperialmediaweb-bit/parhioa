@@ -98,26 +98,26 @@ export function ProgramSlujbe() {
           <p className="font-serif italic text-sm text-burgundy/70 mt-1">{todayLabel.date}</p>
         </div>
 
-        <div className="relative grid sm:grid-cols-7 gap-1.5">
+        <div className="relative grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-7 gap-1.5">
           {WEEK.map((d) => {
             const isToday = d.day === todayLabel.dayName;
             return (
               <div
                 key={d.day}
-                className={`rounded-xl px-3 py-3 transition-all ${
+                className={`rounded-xl px-2 py-2.5 sm:px-3 sm:py-3 transition-all ${
                   isToday
                     ? 'bg-gradient-to-b from-burgundy to-burgundy-dark text-cream ring-1 ring-gold/60 shadow-[0_8px_22px_-10px_rgba(101,26,20,0.65)]'
                     : 'bg-white/40 text-burgundy-dark/80 ring-1 ring-burgundy/10'
                 }`}
               >
                 <p
-                  className={`font-ceremonial uppercase text-[10px] tracking-[0.18em] mb-2 text-center ${
+                  className={`font-ceremonial uppercase text-[10px] tracking-[0.16em] mb-1.5 sm:mb-2 text-center ${
                     isToday ? 'text-gold' : 'text-burgundy/70'
                   }`}
                 >
                   {d.day.slice(0, 3)}
                 </p>
-                <div className="space-y-1.5">
+                <div className="space-y-1 sm:space-y-1.5">
                   {d.services.length === 0 ? (
                     <p
                       className={`text-[11px] italic text-center ${
@@ -137,7 +137,7 @@ export function ProgramSlujbe() {
                           {s.time}
                         </p>
                         <p
-                          className={`text-[10px] sm:text-[11px] ${
+                          className={`text-[9px] sm:text-[11px] leading-snug ${
                             isToday ? 'text-cream' : 'text-burgundy-dark/80'
                           }`}
                         >
