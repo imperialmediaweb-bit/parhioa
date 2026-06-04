@@ -9,6 +9,9 @@ const FROM =
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://parohiasfteodoradelasihla.ro';
 
+const LOGO_URL =
+  'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png';
+
 /** Parohia / admin notification address. Defaults to the FROM address. */
 function adminEmail(): string {
   if (process.env.ADMIN_EMAIL) return process.env.ADMIN_EMAIL;
@@ -45,7 +48,7 @@ export async function sendThankYouEmail(opts: {
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fdf6e8;border:1px solid #c9a961;border-radius:16px;overflow:hidden;">
         <tr>
           <td style="background:linear-gradient(135deg,#6b1f2b 0%,#4a1620 100%);padding:32px 32px 28px;text-align:center;color:#fdf6e8;">
-            <div style="font-size:28px;line-height:1;margin-bottom:8px;">☩</div>
+            <img src="${LOGO_URL}" alt="Sfânta Cuvioasă Teodora de la Sihla" width="96" height="96" style="display:block;margin:0 auto 12px;width:96px;height:96px;border-radius:12px;background:rgba(253,246,232,0.06);" />
             <h1 style="margin:0;font-size:24px;font-weight:600;letter-spacing:0.02em;">Slavă lui Dumnezeu</h1>
             <p style="margin:6px 0 0;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:#e8c878;">pentru darul tău</p>
           </td>
@@ -152,7 +155,7 @@ export async function sendAdminPaymentFailedEmail(opts: {
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;background:#f3ead8;"><tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fdf6e8;border:1px solid #c9a961;border-radius:16px;overflow:hidden;">
 <tr><td style="background:linear-gradient(135deg,#6b1f2b,#4a1620);padding:24px;text-align:center;color:#fdf6e8;">
-<div style="font-size:24px;">⚠️</div>
+<img src="${LOGO_URL}" alt="Parohia Sf. Teodora" width="56" height="56" style="display:block;margin:0 auto 8px;width:56px;height:56px;border-radius:8px;" />
 <h1 style="margin:6px 0 0;font-size:20px;">${escape(subject.replace(' — Parohia Sf. Teodora', ''))}</h1>
 </td></tr>
 <tr><td style="padding:24px;">

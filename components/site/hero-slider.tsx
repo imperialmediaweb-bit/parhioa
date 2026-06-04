@@ -199,15 +199,21 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
           {(slide.primaryCta || slide.secondaryCta) && (
             <div className="flex flex-wrap gap-3 justify-center">
               {slide.primaryCta && (
-                <Link href={slide.primaryCta.href}>
-                  <ShimmerButton>
-                    <span className="text-base font-semibold">{slide.primaryCta.label}</span>
+                <Link href={slide.primaryCta.href} className="inline-block">
+                  <ShimmerButton className="!px-7 !py-3.5 !min-w-[180px]">
+                    <span className="text-[15px] font-semibold tracking-wide">
+                      {slide.primaryCta.label}
+                    </span>
                   </ShimmerButton>
                 </Link>
               )}
               {slide.secondaryCta && (
-                <Link href={slide.secondaryCta.href}>
-                  <Button variant="cream" size="lg">
+                <Link href={slide.secondaryCta.href} className="inline-block">
+                  <Button
+                    variant="cream"
+                    size="lg"
+                    className="!px-7 !py-3.5 !min-w-[180px] !text-[15px] !font-semibold !tracking-wide"
+                  >
                     {slide.secondaryCta.label}
                   </Button>
                 </Link>

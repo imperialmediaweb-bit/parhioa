@@ -41,10 +41,10 @@ export function Logo({
       {showText && (
         <span className="flex flex-col leading-[1.05] min-w-0">
           {/* Mobile: 2 compact lines */}
-          <span className="sm:hidden font-ecclesia text-[13px] font-bold uppercase tracking-wider text-burgundy leading-tight">
+          <span className="sm:hidden font-ecclesia text-[15px] font-bold uppercase tracking-wider text-burgundy leading-tight">
             Sf. Cuv. Teodora
           </span>
-          <span className="sm:hidden font-ecclesia text-[9.5px] font-semibold uppercase tracking-[0.08em] text-lavender-dark leading-tight">
+          <span className="sm:hidden font-ecclesia text-[11px] font-semibold uppercase tracking-[0.08em] text-lavender-dark leading-tight mt-0.5">
             de la Sihla · Botoșani
           </span>
           {/* Tablet+: 3 full lines */}
