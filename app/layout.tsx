@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Lora, Cinzel_Decorative, Marcellus_SC } from 'next/font/google';
+import { Lora, Cinzel_Decorative, Marcellus_SC, Cinzel } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
 import { MobileDonateCta } from '@/components/site/mobile-donate-cta';
@@ -30,6 +30,16 @@ const marcellusSC = Marcellus_SC({
   subsets: ['latin', 'latin-ext'],
   variable: '--font-marcellus-sc',
   weight: ['400'],
+  display: 'swap',
+});
+
+// Nav / labels — classical Roman caps, full diacritic support. Used for the
+// top-level menu so Ă/Ș/Ț render at the same height as the other letters,
+// which Marcellus SC's small-caps shapes do not.
+const cinzel = Cinzel({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-cinzel',
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -80,7 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="ro"
-      className={`${lora.variable} ${cinzelDecorative.variable} ${marcellusSC.variable}`}
+      className={`${lora.variable} ${cinzelDecorative.variable} ${marcellusSC.variable} ${cinzel.variable}`}
     >
       <body>
         <SmoothScrollProvider />

@@ -51,6 +51,7 @@ const config: Config = {
         display: ['var(--font-cinzel-decorative)', 'Georgia', 'serif'],
         ecclesia: ['var(--font-cinzel-decorative)', 'Georgia', 'serif'],
         ceremonial: ['var(--font-marcellus-sc)', 'Georgia', 'serif'],
+        nav: ['var(--font-cinzel)', 'Georgia', 'serif'],
         serif: ['var(--font-lora)', 'Georgia', 'serif'],
         body: ['var(--font-lora)', 'Georgia', 'serif'],
         sans: ['var(--font-lora)', 'system-ui', 'sans-serif'],
