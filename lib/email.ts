@@ -9,6 +9,13 @@ const FROM =
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://parohiasfteodoradelasihla.ro';
 
+/** Parohia / admin notification address. Defaults to the FROM address. */
+function adminEmail(): string {
+  if (process.env.ADMIN_EMAIL) return process.env.ADMIN_EMAIL;
+  const m = FROM.match(/<([^>]+)>/) || FROM.match(/(\S+@\S+)/);
+  return m?.[1] || 'contact@parohiasfteodoradelasihla.ro';
+}
+
 export async function sendThankYouEmail(opts: {
   to: string;
   donorName: string | null;
@@ -109,4 +116,67 @@ function escape(s: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+/**
+ * Notify parish admin when someone starts a donation but does not finish
+ * (Stripe checkout session expired or async payment failed).
+ */
+export async function sendAdminPaymentFailedEmail(opts: {
+  donorEmail: string | null;
+  donorName: string | null;
+  amount: number | null;
+  campaign: string;
+  reason: 'expired' | 'failed';
+}) {
+  const to = adminEmail();
+  if (!resend) {
+    console.log('[email] RESEND_API_KEY missing — skipping admin notification');
+    return;
+  }
+
+  const subject =
+    opts.reason === 'expired'
+      ? 'Donație neterminată — Parohia Sf. Teodora'
+      : 'Plată eșuată — Parohia Sf. Teodora';
+
+  const reasonText =
+    opts.reason === 'expired'
+      ? 'Donatorul a deschis pagina de plată, dar nu a finalizat tranzacția în interval de 24 ore.'
+      : 'Plata a fost inițiată, dar a fost respinsă de bancă sau de procesatorul de plăți.';
+
+  const amountText = opts.amount ? `${opts.amount} RON` : '(sumă necunoscută)';
+
+  const html = `<!doctype html><html lang="ro"><head><meta charset="utf-8"/></head>
+<body style="margin:0;padding:0;background:#f3ead8;font-family:Georgia,serif;color:#2c1810;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;background:#f3ead8;"><tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fdf6e8;border:1px solid #c9a961;border-radius:16px;overflow:hidden;">
+<tr><td style="background:linear-gradient(135deg,#6b1f2b,#4a1620);padding:24px;text-align:center;color:#fdf6e8;">
+<div style="font-size:24px;">⚠️</div>
+<h1 style="margin:6px 0 0;font-size:20px;">${escape(subject.replace(' — Parohia Sf. Teodora', ''))}</h1>
+</td></tr>
+<tr><td style="padding:24px;">
+<p style="margin:0 0 12px;font-size:15px;line-height:1.6;">${escape(reasonText)}</p>
+<table cellpadding="8" cellspacing="0" style="width:100%;border-collapse:collapse;background:#f3ead8;border-radius:8px;margin:12px 0;">
+<tr><td style="font-weight:bold;width:120px;">Email:</td><td style="font-family:monospace;">${escape(opts.donorEmail || '—')}</td></tr>
+<tr><td style="font-weight:bold;">Nume:</td><td>${escape(opts.donorName || '—')}</td></tr>
+<tr><td style="font-weight:bold;">Sumă:</td><td>${escape(amountText)}</td></tr>
+<tr><td style="font-weight:bold;">Campanie:</td><td>${escape(opts.campaign)}</td></tr>
+</table>
+${opts.donorEmail ? `<p style="margin:16px 0 0;font-size:14px;color:#6b5544;">Puteți contacta direct donatorul la <a href="mailto:${escape(opts.donorEmail)}" style="color:#6b1f2b;">${escape(opts.donorEmail)}</a> dacă doriți să-l ajutați să reia donația.</p>` : ''}
+</td></tr>
+<tr><td style="background:#f3ead8;padding:14px 24px;text-align:center;font-size:12px;color:#6b5544;border-top:1px solid #d6c4a0;">
+Notificare automată — sistemul de donații al parohiei
+</td></tr></table></td></tr></table></body></html>`;
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to,
+      subject,
+      html,
+    });
+  } catch (err) {
+    console.error('[email] admin notification send failed:', err);
+  }
 }

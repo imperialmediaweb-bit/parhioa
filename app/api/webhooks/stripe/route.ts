@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
-import { sendThankYouEmail } from '@/lib/email';
+import { sendThankYouEmail, sendAdminPaymentFailedEmail } from '@/lib/email';
 import { findCampaign } from '@/lib/campaigns';
 
 export const dynamic = 'force-dynamic';
@@ -33,14 +33,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session;
-    try {
-      await recordDonation(session);
-    } catch (err) {
-      console.error('[stripe webhook] recordDonation failed:', err);
-      return NextResponse.json({ error: 'processing failed' }, { status: 500 });
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+        await recordDonation(event.data.object as Stripe.Checkout.Session);
+        break;
+
+      case 'checkout.session.expired':
+        await notifyIncomplete(event.data.object as Stripe.Checkout.Session, 'expired');
+        break;
+
+      case 'checkout.session.async_payment_failed':
+        await notifyIncomplete(event.data.object as Stripe.Checkout.Session, 'failed');
+        break;
+
+      case 'charge.refunded':
+        await markRefunded(event.data.object as Stripe.Charge);
+        break;
     }
+  } catch (err) {
+    console.error(`[stripe webhook] handler failed for ${event.type}:`, err);
+    return NextResponse.json({ error: 'processing failed' }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });
@@ -111,4 +124,51 @@ async function recordDonation(session: Stripe.Checkout.Session) {
       campaignTitle: camp?.title || 'Zidirea bisericii',
     });
   }
+}
+
+async function notifyIncomplete(
+  session: Stripe.Checkout.Session,
+  reason: 'expired' | 'failed',
+) {
+  const meta = session.metadata || {};
+  const campaign = meta.campaign || 'zidirea-bisericii';
+  const donorName =
+    (meta.donorName || '').trim() || session.customer_details?.name || null;
+  const donorEmail =
+    session.customer_details?.email || session.customer_email || null;
+
+  const amountTotal = session.amount_total ?? 0;
+  const amountRon = amountTotal ? Math.round(amountTotal / 100) : null;
+
+  await sendAdminPaymentFailedEmail({
+    donorEmail,
+    donorName,
+    amount: amountRon,
+    campaign,
+    reason,
+  });
+}
+
+async function markRefunded(charge: Stripe.Charge) {
+  if (!stripe) return;
+
+  const paymentIntentId =
+    typeof charge.payment_intent === 'string'
+      ? charge.payment_intent
+      : charge.payment_intent?.id;
+
+  if (!paymentIntentId) return;
+
+  // Find the Checkout Session this charge originated from.
+  const sessions = await stripe.checkout.sessions.list({
+    payment_intent: paymentIntentId,
+    limit: 1,
+  });
+  const sessionId = sessions.data[0]?.id;
+  if (!sessionId) return;
+
+  await prisma.donation.updateMany({
+    where: { stripeSessionId: sessionId },
+    data: { status: 'refunded' },
+  });
 }
