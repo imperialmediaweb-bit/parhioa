@@ -119,7 +119,12 @@ export default async function CampaniiPage() {
                     Variables pentru ca plățile să funcționeze.
                   </div>
                 )}
-                <DonateForm campaign={c.slug} campaignTitle={c.title} />
+                <DonateForm
+                  campaign={c.slug}
+                  campaignTitle={c.title}
+                  defaultAmount={c.defaultAmount}
+                  bankDetails={c.bankDetails}
+                />
               </Card>
             </div>
           </FadeIn>

@@ -32,12 +32,12 @@ export type BankDetails = {
 };
 
 const DEFAULT_PRESETS: PresetTier[] = [
-  { amount: 10, symbol: '1 cărămidă', icon: '🧱', subtitle: 'fundația' },
-  { amount: 25, symbol: '3 cărămizi', icon: '🧱', subtitle: 'pereții' },
-  { amount: 50, symbol: 'O piatră', icon: '🪨', subtitle: 'temelia' },
-  { amount: 100, symbol: 'O grindă', icon: '🪵', subtitle: 'acoperișul' },
-  { amount: 250, symbol: 'Un vitraliu', icon: '🪟', subtitle: 'lumina' },
-  { amount: 500, symbol: 'O icoană', icon: '🕯️', subtitle: 'altarul' },
+  { amount: 25, symbol: '5 cărămizi', icon: '🧱', subtitle: 'fundație' },
+  { amount: 50, symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelie' },
+  { amount: 100, symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereți' },
+  { amount: 250, symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereți' },
+  { amount: 500, symbol: '1 grindă', icon: '🪵', subtitle: 'acoperiș' },
+  { amount: 1000, symbol: '1 fereastră', icon: '🪟', subtitle: 'lumină' },
 ];
 
 type Method = 'card' | 'bank';
@@ -55,7 +55,7 @@ export function DonateForm({
   campaign = 'strangere-de-fonduri-pentru-construirea-bisericii',
   campaignTitle = 'Zidirea bisericii',
   presets = DEFAULT_PRESETS,
-  defaultAmount = 50,
+  defaultAmount = 100,
   bankDetails,
   className,
 }: DonateFormProps) {
