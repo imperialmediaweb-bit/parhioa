@@ -1,7 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { OrthodoxCross } from './cross-divider';
+import { getPrayerForDay } from '@/lib/daily-prayers';
 
 type Service = { time: string; name: string };
 
@@ -50,13 +52,17 @@ const MONTHS_RO = [
 ];
 
 export function ProgramSlujbe() {
-  const todayLabel = useMemo(() => {
+  const { todayLabel, prayer } = useMemo(() => {
     const d = new Date();
     return {
-      dayName: DAY_NAMES_RO[d.getDay()],
-      date: `${d.getDate()} ${MONTHS_RO[d.getMonth()]} ${d.getFullYear()}`,
+      todayLabel: {
+        dayName: DAY_NAMES_RO[d.getDay()],
+        date: `${d.getDate()} ${MONTHS_RO[d.getMonth()]} ${d.getFullYear()}`,
+      },
+      prayer: getPrayerForDay(d.getDay()),
     };
   }, []);
+  const [expandedPrayer, setExpandedPrayer] = useState(false);
 
   return (
     <div className="relative pt-12">
@@ -159,6 +165,55 @@ export function ProgramSlujbe() {
           </a>{' '}
           pentru detalii.
         </p>
+
+        {/* ── Rugăciunea zilei ─────────────────────────────────────── */}
+        <div className="relative mt-7 pt-6 border-t border-gold/40">
+          <p className="font-ceremonial uppercase text-[10px] tracking-[0.28em] text-gold-dark mb-2 text-center flex items-center justify-center gap-2">
+            <span className="text-burgundy">☩</span>
+            Rugăciunea zilei
+          </p>
+          <h4 className="font-display text-lg sm:text-xl text-burgundy-dark italic text-center mb-4">
+            {prayer.title}
+          </h4>
+
+          <div className="relative">
+            <div className="text-burgundy-dark/90 font-serif text-[14px] sm:text-[15px] leading-[1.85] space-y-3">
+              {(expandedPrayer
+                ? prayer.paragraphs
+                : prayer.paragraphs.slice(0, 1)
+              ).map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+            {!expandedPrayer && prayer.paragraphs.length > 1 && (
+              <div
+                className="absolute bottom-0 left-0 right-0 h-14 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(180deg, transparent 0%, #EFE0C0 100%)',
+                }}
+              />
+            )}
+          </div>
+
+          {prayer.paragraphs.length > 1 && (
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => setExpandedPrayer(!expandedPrayer)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-burgundy/30 bg-white/60 hover:bg-burgundy hover:text-cream hover:border-burgundy text-burgundy text-[11px] font-ceremonial uppercase tracking-[0.2em] transition-colors"
+              >
+                {expandedPrayer ? 'Închide' : 'Citește mai mult'}
+                <ChevronDown
+                  className={`h-3.5 w-3.5 transition-transform ${expandedPrayer ? 'rotate-180' : ''}`}
+                />
+              </button>
+            </div>
+          )}
+
+          <p className="text-center mt-4 text-[10px] sm:text-[11px] font-serif italic text-burgundy/55">
+            Din „Dă-i voință, ia-i putere" — Protosinghel Nicodim Măndiță
+          </p>
+        </div>
       </div>
     </div>
   );

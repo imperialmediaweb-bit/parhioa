@@ -1,8 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { getPrayerForDay } from '@/lib/daily-prayers';
+import { useMemo } from 'react';
 
 type Feast = {
   /** ISO MM-DD format */
@@ -69,7 +67,7 @@ const MONTHS_RO = [
 ];
 
 export function SarbatoareaZilei() {
-  const { today, feast, upcoming, dayIndex } = useMemo(() => {
+  const { today, feast, upcoming } = useMemo(() => {
     const now = new Date();
     const mm = String(now.getMonth() + 1).padStart(2, '0');
     const dd = String(now.getDate()).padStart(2, '0');
@@ -96,12 +94,8 @@ export function SarbatoareaZilei() {
       },
       feast: todayFeast,
       upcoming: sorted,
-      dayIndex: now.getDay(),
     };
   }, []);
-
-  const dailyPrayer = useMemo(() => getPrayerForDay(dayIndex), [dayIndex]);
-  const [expandedPrayer, setExpandedPrayer] = useState(false);
 
   return (
     <div className="relative h-full">
@@ -154,29 +148,11 @@ export function SarbatoareaZilei() {
             <div>
               <p className="font-ceremonial uppercase text-[10px] tracking-[0.28em] text-gold/80 mb-3 flex items-center gap-2">
                 <span className="text-base">☩</span>
-                {dailyPrayer.title}
+                Astăzi
               </p>
-              <div className="text-cream/85 text-[14px] sm:text-[15px] leading-relaxed font-serif space-y-3">
-                {(expandedPrayer
-                  ? dailyPrayer.paragraphs
-                  : dailyPrayer.paragraphs.slice(0, 1)
-                ).map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-              {dailyPrayer.paragraphs.length > 1 && (
-                <button
-                  onClick={() => setExpandedPrayer(!expandedPrayer)}
-                  className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold/15 hover:bg-gold/25 text-gold text-[10px] uppercase tracking-[0.22em] font-ceremonial transition-colors"
-                >
-                  {expandedPrayer ? 'Închide' : 'Citește toată rugăciunea'}
-                  <ChevronDown
-                    className={`h-3 w-3 transition-transform ${expandedPrayer ? 'rotate-180' : ''}`}
-                  />
-                </button>
-              )}
-              <p className="mt-3 text-[10px] italic text-cream/45 font-serif">
-                Din „Dă-i voință, ia-i putere" — Protosinghel Nicodim Măndiță
+              <p className="font-serif italic text-cream/85 text-[15px] leading-relaxed">
+                Zi de rugăciune și liniște — bine ai venit la sfânta noastră
+                comunitate.
               </p>
             </div>
           )}
