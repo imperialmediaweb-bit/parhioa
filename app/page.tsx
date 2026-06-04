@@ -826,35 +826,39 @@ export default async function HomePage() {
           </FadeIn>
 
           {posts.length === 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 -mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible snap-x snap-mandatory pb-4 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {PLACEHOLDER_POSTS.slice(0, 3).map((p, i) => (
-                <FadeIn key={p.slug} delay={i * 0.05}>
-                  <PostCard
-                    slug={p.slug}
-                    title={p.title}
-                    excerpt={p.excerpt}
-                    publishedAt={p.publishedAt}
-                    featuredUrl={p.featuredUrl}
-                    featuredAlt={p.title}
-                    categories={[{ name: p.category, slug: p.category.toLowerCase() }]}
-                  />
-                </FadeIn>
+                <div key={p.slug} className="snap-start shrink-0 w-[80%] sm:w-auto">
+                  <FadeIn delay={i * 0.05}>
+                    <PostCard
+                      slug={p.slug}
+                      title={p.title}
+                      excerpt={p.excerpt}
+                      publishedAt={p.publishedAt}
+                      featuredUrl={p.featuredUrl}
+                      featuredAlt={p.title}
+                      categories={[{ name: p.category, slug: p.category.toLowerCase() }]}
+                    />
+                  </FadeIn>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 -mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible snap-x snap-mandatory pb-4 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {posts.slice(0, 3).map((p, i) => (
-                <FadeIn key={p.id} delay={i * 0.05}>
-                  <PostCard
-                    slug={p.slug}
-                    title={p.title}
-                    excerpt={p.excerpt}
-                    publishedAt={p.publishedAt}
-                    featuredUrl={p.featured?.url}
-                    featuredAlt={p.featured?.alt}
-                    categories={p.categories}
-                  />
-                </FadeIn>
+                <div key={p.id} className="snap-start shrink-0 w-[80%] sm:w-auto">
+                  <FadeIn delay={i * 0.05}>
+                    <PostCard
+                      slug={p.slug}
+                      title={p.title}
+                      excerpt={p.excerpt}
+                      publishedAt={p.publishedAt}
+                      featuredUrl={p.featured?.url}
+                      featuredAlt={p.featured?.alt}
+                      categories={p.categories}
+                    />
+                  </FadeIn>
+                </div>
               ))}
             </div>
           )}

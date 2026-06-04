@@ -42,7 +42,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
           {items.map((t, i) => (
             <div
               key={i}
-              className="min-w-0 flex-[0_0_88%] sm:flex-[0_0_46%] lg:flex-[0_0_32%]"
+              className="min-w-0 flex-[0_0_80%] sm:flex-[0_0_60%] lg:flex-[0_0_32%]"
             >
               <ManuscriptCard testimonial={t} />
             </div>
