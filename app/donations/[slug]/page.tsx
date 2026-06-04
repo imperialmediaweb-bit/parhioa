@@ -17,12 +17,12 @@ import { findCampaign } from '@/lib/campaigns';
 // Amount → realistic construction unit (price-anchored). Each preset describes
 // what the gift actually pays for in the church build.
 const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }> = {
-  10: { symbol: '2 cărămizi', icon: '🧱', subtitle: 'fundația' },
-  25: { symbol: '5 cărămizi', icon: '🧱', subtitle: 'pereții' },
-  50: { symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelia' },
-  100: { symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereții' },
-  250: { symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereții' },
-  500: { symbol: '1 grindă', icon: '🪵', subtitle: 'acoperișul' },
+  10: { symbol: '2 cărămizi', icon: '🧱', subtitle: 'fundație' },
+  25: { symbol: '5 cărămizi', icon: '🧱', subtitle: 'pereți' },
+  50: { symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelie' },
+  100: { symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereți' },
+  250: { symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereți' },
+  500: { symbol: '1 grindă', icon: '🪵', subtitle: 'acoperiș' },
 };
 
 export async function generateMetadata({
@@ -134,42 +134,8 @@ export default async function DonationCampaignPage({
         </div>
       </section>
 
-      {/* ── STORY + QUOTE ────────────────────────────────────────────────────── */}
-      <section className="bg-cream-card/40 border-y border-gold/20 py-14">
-        <div className="container max-w-3xl">
-          <FadeIn>
-            <div className="border-l-4 border-burgundy bg-white/70 rounded-r-2xl p-6 sm:p-7 mb-8">
-              <p className="text-2xl mb-2">📜</p>
-              <p className="font-serif italic text-ink leading-relaxed text-lg sm:text-xl">
-                „{campaign.bodyQuote.text}"
-              </p>
-              <p className="font-ceremonial text-sm uppercase tracking-[0.18em] text-burgundy mt-3">
-                — {campaign.bodyQuote.author}
-              </p>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="space-y-5">
-              {campaign.description.map((p, i) => (
-                <p
-                  key={i}
-                  className={
-                    i === campaign.description.length - 1
-                      ? 'font-display italic text-2xl sm:text-3xl text-burgundy text-center mt-8'
-                      : 'text-ink-muted leading-relaxed text-[17px] sm:text-lg'
-                  }
-                >
-                  {p}
-                </p>
-              ))}
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── BANK DETAILS ─────────────────────────────────────────────────────── */}
-      <section className="container py-12">
+      {/* ── BANK DETAILS (moved up, right after the donate form) ─────────────── */}
+      <section className="container pb-12 sm:pb-14">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
             <Card className="bg-gradient-to-br from-cream-card via-cream-deep/40 to-cream-card border border-gold/30 p-6 sm:p-8">
@@ -223,6 +189,40 @@ export default async function DonationCampaignPage({
                 ne anunța că ați făcut transferul.
               </p>
             </Card>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── STORY + QUOTE ────────────────────────────────────────────────────── */}
+      <section className="bg-cream-card/40 border-y border-gold/20 py-14">
+        <div className="container max-w-3xl">
+          <FadeIn>
+            <div className="border-l-4 border-burgundy bg-white/70 rounded-r-2xl p-6 sm:p-7 mb-8">
+              <p className="text-2xl mb-2">📜</p>
+              <p className="font-serif italic text-ink leading-relaxed text-lg sm:text-xl">
+                „{campaign.bodyQuote.text}"
+              </p>
+              <p className="font-ceremonial text-sm uppercase tracking-[0.18em] text-burgundy mt-3">
+                — {campaign.bodyQuote.author}
+              </p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <div className="space-y-5">
+              {campaign.description.map((p, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === campaign.description.length - 1
+                      ? 'font-display italic text-2xl sm:text-3xl text-burgundy text-center mt-8'
+                      : 'text-ink-muted leading-relaxed text-[17px] sm:text-lg'
+                  }
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
           </FadeIn>
         </div>
       </section>

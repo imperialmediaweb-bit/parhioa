@@ -318,7 +318,7 @@ export function DonateForm({
       {/* Custom amount */}
       <div>
         <label className="text-sm font-medium text-ink mb-2 block">
-          Sau o jertfă personalizată
+          Sau altă sumă
         </label>
         <div className="relative">
           <input
@@ -418,7 +418,7 @@ export function DonateForm({
       {selectedAmount > 0 && (
         <div className="bg-gradient-to-r from-cream-card via-cream-deep to-cream-card rounded-2xl p-4 text-center">
           <p className="text-sm text-ink-muted">
-            Doneazi <strong className="text-burgundy text-lg">{selectedAmount} RON</strong>
+            Donați <strong className="text-burgundy text-lg">{selectedAmount} RON</strong>
             {effectiveRecurring && <span className="text-sm"> / lună</span>}{' '}
             prin{' '}
             <strong className="text-burgundy">
