@@ -315,6 +315,14 @@ export function DonateForm({
         </div>
       </div>
 
+      {/* Symbolic-amounts disclaimer */}
+      <p className="text-[11px] text-ink-soft italic text-center -mt-2 px-2 leading-relaxed">
+        Sumele și unitățile (cărămidă, sac de ciment, grindă…) sunt{' '}
+        <em className="not-italic font-medium text-burgundy/80">orientative</em> —
+        fiecare donație contribuie la zidirea bisericii în ansamblu, nu la un
+        element anume.
+      </p>
+
       {/* Custom amount */}
       <div>
         <label className="text-sm font-medium text-ink mb-2 block">

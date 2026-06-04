@@ -140,6 +140,18 @@ async function notifyIncomplete(
   const amountTotal = session.amount_total ?? 0;
   const amountRon = amountTotal ? Math.round(amountTotal / 100) : null;
 
+  // Persist the email even when the payment didn't complete — useful for
+  // re-engagement and future campaigns. Honors the donor's public/anonymous
+  // preference from the form.
+  if (donorEmail) {
+    const isPublic = meta.isPublic !== '0';
+    await prisma.donor.upsert({
+      where: { email: donorEmail },
+      update: { name: donorName ?? undefined, isPublic },
+      create: { email: donorEmail, name: donorName, isPublic },
+    });
+  }
+
   await sendAdminPaymentFailedEmail({
     donorEmail,
     donorName,
