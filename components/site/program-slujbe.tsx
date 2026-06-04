@@ -16,6 +16,7 @@ const WEEK: { day: string; services: Service[] }[] = [
     services: [
       { time: '08:00', name: 'Utrenia' },
       { time: '09:30', name: 'Sf. Liturghie' },
+      { time: '11:00', name: 'Pomenirea morților' },
       { time: '17:00', name: 'Vecernia' },
     ],
   },
