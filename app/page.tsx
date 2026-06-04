@@ -17,7 +17,6 @@ import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
-import { RugaciuneaZilei } from '@/components/site/rugaciunea-zilei';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
@@ -243,11 +242,6 @@ export default async function HomePage() {
           <div className="lg:col-span-1">
             <SarbatoareaZilei />
           </div>
-        </div>
-
-        {/* Rugăciunea zilei — text tradițional pentru ziua curentă */}
-        <div className="mt-8 sm:mt-10 max-w-3xl mx-auto">
-          <RugaciuneaZilei />
         </div>
       </section>
 
