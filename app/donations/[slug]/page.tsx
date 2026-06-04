@@ -17,12 +17,12 @@ import { findCampaign } from '@/lib/campaigns';
 // Amount → realistic construction unit (price-anchored). Each preset describes
 // what the gift actually pays for in the church build.
 const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }> = {
-  10: { symbol: '1 cărămidă', icon: '🧱', subtitle: 'fundație' },
-  25: { symbol: '2 cărămizi', icon: '🧱', subtitle: 'pereți' },
+  25: { symbol: '5 cărămizi', icon: '🧱', subtitle: 'fundație' },
   50: { symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelie' },
   100: { symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereți' },
   250: { symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereți' },
   500: { symbol: '1 grindă', icon: '🪵', subtitle: 'acoperiș' },
+  1000: { symbol: '1 fereastră', icon: '🪟', subtitle: 'lumină' },
 };
 
 export async function generateMetadata({
@@ -68,7 +68,7 @@ export default async function DonationCampaignPage({
           <FadeIn>
             <div className="text-center mb-8">
               <p className="font-ceremonial uppercase text-xs tracking-[0.24em] text-burgundy mb-2">
-                Catedrala din inimi
+                Biserica din inimi
               </p>
               <h2 className="font-display text-3xl sm:text-4xl italic text-navy">
                 Lumina se ridică odată cu noi

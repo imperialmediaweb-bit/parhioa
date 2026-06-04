@@ -12,14 +12,16 @@ export type SymbolicUnit =
   | 'saciCiment'    // 1 sac de ciment 25 kg
   | 'tencuiala'     // 1 m² de tencuială (materiale + manoperă)
   | 'zidarie'       // 1 m² de zidărie completă
-  | 'grinzi';       // 1 grindă de lemn pentru acoperiș
+  | 'grinzi'        // 1 grindă de lemn pentru acoperiș
+  | 'ferestre';     // 1 fereastră simplă pentru biserică
 
 export const TIER_VALUES: Record<SymbolicUnit, number> = {
-  caramizi: 10,
+  caramizi: 5,
   saciCiment: 50,
   tencuiala: 100,
   zidarie: 250,
   grinzi: 500,
+  ferestre: 1000,
 };
 
 export function ronToBricks(amount: number): number {
@@ -31,6 +33,10 @@ export function ronToBricks(amount: number): number {
  * Returns the largest realistic unit the gift covers in full.
  */
 export function symbolicLabel(amount: number): { icon: string; label: string } {
+  if (amount >= TIER_VALUES.ferestre) {
+    const n = Math.floor(amount / TIER_VALUES.ferestre);
+    return { icon: '🪟', label: `${n} ${n === 1 ? 'fereastră' : 'ferestre'}` };
+  }
   if (amount >= TIER_VALUES.grinzi) {
     const n = Math.floor(amount / TIER_VALUES.grinzi);
     return { icon: '🪵', label: `${n} ${n === 1 ? 'grindă' : 'grinzi'} pentru acoperiș` };

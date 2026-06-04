@@ -87,7 +87,7 @@ export async function ChurchProgress({ campaign, goalRon }: Props) {
 
         {/* Eyebrow inscription */}
         <p className="relative font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.28em] text-burgundy text-center mb-3 sm:mb-4">
-          ☩ Catedrala se ridică din inimi ☩
+          ☩ Biserica se ridică din inimi ☩
         </p>
 
         {/* Church image inside a Byzantine-arched window */}

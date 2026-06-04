@@ -56,8 +56,8 @@ export const CAMPAIGNS: Campaign[] = [
       iban: 'RO13CECEB00030RON2913441',
       bank: 'CEC Bank',
     },
-    presetAmounts: [10, 25, 50, 100, 250, 500],
-    defaultAmount: 50,
+    presetAmounts: [25, 50, 100, 250, 500, 1000],
+    defaultAmount: 100,
     goalRon: 1_500_000,
   },
 ];
