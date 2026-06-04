@@ -387,13 +387,16 @@ export default async function HomePage() {
                 caption="Comunitatea parohiei"
                 ratio="4/5"
               />
-              <ParchmentFrame
-                src="https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885078/parhioa/wp-28263.jpg"
-                alt="Locul viitoarei biserici"
-                caption="Locul viitoarei biserici"
-                ratio="4/5"
-                cross={false}
-              />
+              {/* Second photo hidden on mobile — saves vertical space. */}
+              <div className="hidden lg:block">
+                <ParchmentFrame
+                  src="https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885078/parhioa/wp-28263.jpg"
+                  alt="Locul viitoarei biserici"
+                  caption="Locul viitoarei biserici"
+                  ratio="4/5"
+                  cross={false}
+                />
+              </div>
             </FadeIn>
             <FadeIn delay={0.15} className="lg:col-span-3">
               <SectionEyebrow>Devino ctitor</SectionEyebrow>
@@ -432,7 +435,7 @@ export default async function HomePage() {
       {/* ============= 7. 3 STÂLPI – MISIUNEA PAROHIEI ============= */}
       <section className="container py-10 sm:py-16 lg:py-20">
         <FadeIn>
-          <div className="text-center mb-12 max-w-3xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">
               Misiunea parohiei „Sfânta Cuvioasă Teodora de la Sihla"
             </SectionEyebrow>
@@ -442,7 +445,7 @@ export default async function HomePage() {
           </div>
         </FadeIn>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {[
             {
               Icon: ChurchIcon,
@@ -464,12 +467,12 @@ export default async function HomePage() {
             },
           ].map((p, i) => (
             <FadeIn key={p.title} delay={i * 0.1}>
-              <Card className="h-full p-8 bg-cream text-center ornament-frame">
-                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark text-cream mb-5 shadow-candlelight candlelight-halo">
-                  <p.Icon size={44} />
+              <Card className="h-full p-6 sm:p-8 bg-cream text-center ornament-frame">
+                <div className="mx-auto flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark text-cream mb-4 sm:mb-5 shadow-candlelight candlelight-halo">
+                  <p.Icon size={38} />
                 </div>
-                <h3 className="font-display text-2xl font-semibold mb-3 text-burgundy">{p.title}</h3>
-                <p className="text-ink-muted leading-relaxed font-serif">{p.text}</p>
+                <h3 className="font-display text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-burgundy">{p.title}</h3>
+                <p className="text-ink-muted leading-relaxed font-serif text-[15px] sm:text-base">{p.text}</p>
               </Card>
             </FadeIn>
           ))}
@@ -527,7 +530,7 @@ export default async function HomePage() {
       {/* ============= 8b. SCHEȚE / VIAȚA PAROHIEI – cards with Orthodox motifs ============= */}
       <section className="container py-10 sm:py-16 lg:py-20">
         <FadeIn>
-          <div className="text-center mb-12 max-w-3xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Viața parohiei în chipuri</SectionEyebrow>
             <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
               Pași spre <em className="italic text-burgundy">Hristos</em>
@@ -696,7 +699,7 @@ export default async function HomePage() {
       {/* ============= 10. FII ALĂTURI DE PAROHIE – 4 IMG GRID + 3 ICON BOXES ============= */}
       <section className="container py-10 sm:py-16 lg:py-20">
         <FadeIn>
-          <div className="text-center mb-12 max-w-3xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
             <SectionEyebrow align="center">Sprijină lucrarea parohiei</SectionEyebrow>
             <h2 className="font-display text-[26px] sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
               Fii alături de parohie cu <em className="italic text-burgundy">rugăciunea și darul</em>
