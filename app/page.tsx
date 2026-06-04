@@ -239,7 +239,7 @@ export default async function HomePage() {
           <div className="lg:col-span-2">
             <ProgramSlujbe />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 lg:sticky lg:top-32">
             <SarbatoareaZilei />
           </div>
         </div>
