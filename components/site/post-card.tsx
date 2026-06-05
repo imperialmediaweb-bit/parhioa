@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatDateRo } from '@/lib/utils';
+import { PostImage } from './post-image';
 
 interface PostCardProps {
   slug: string;
@@ -27,15 +28,16 @@ export function PostCard({
   const url = href || `/blog/${slug}`;
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      {featuredUrl && (
-        <Link href={url} className="block overflow-hidden">
-          <img
-            src={featuredUrl}
-            alt={featuredAlt || title}
-            className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </Link>
-      )}
+      <Link href={url} className="block overflow-hidden">
+        <PostImage
+          src={
+            featuredUrl ||
+            'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png'
+          }
+          alt={featuredAlt || title}
+          className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </Link>
       <CardContent className="p-6 pt-6 flex flex-col gap-3">
         {categories && categories.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
