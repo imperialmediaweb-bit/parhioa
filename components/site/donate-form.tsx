@@ -65,6 +65,7 @@ export function DonateForm({
   const [recurring, setRecurring] = useState<boolean>(false);
   const [donorName, setDonorName] = useState<string>('');
   const [donorEmail, setDonorEmail] = useState<string>('');
+  const [donorPhone, setDonorPhone] = useState<string>('');
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -89,6 +90,10 @@ export function DonateForm({
       setError('Suma minimă este 5 RON.');
       return;
     }
+    if (!donorEmail || !/.+@.+\..+/.test(donorEmail)) {
+      setError('Vă rugăm să introduceți un email valid (ca să primiți confirmarea).');
+      return;
+    }
 
     if (method === 'card') {
       setLoading(true);
@@ -101,6 +106,8 @@ export function DonateForm({
             recurring,
             campaign,
             donorName: donorName.trim(),
+            donorEmail: donorEmail.trim(),
+            donorPhone: donorPhone.trim(),
             isPublic,
           }),
         });
@@ -117,10 +124,6 @@ export function DonateForm({
     }
 
     // method === 'bank' — donor confirms they made the bank transfer
-    if (!donorEmail || !/.+@.+\..+/.test(donorEmail)) {
-      setError('Pentru transfer bancar, vă rugăm să introduceți un email valid (ca să confirmăm primirea).');
-      return;
-    }
     setLoading(true);
     try {
       const res = await fetch('/api/donations/bank-pledge', {
@@ -131,6 +134,7 @@ export function DonateForm({
           campaign,
           donorName: donorName.trim(),
           donorEmail: donorEmail.trim(),
+          donorPhone: donorPhone.trim(),
           isPublic,
         }),
       });
@@ -363,22 +367,37 @@ export function DonateForm({
           />
         </label>
 
-        {method === 'bank' && (
-          <label className="block">
-            <span className="text-sm font-medium text-ink">Email pentru confirmare *</span>
-            <span className="block text-[11px] text-ink-soft mt-0.5">
-              Ca să vă trimitem confirmarea după ce verificăm contul.
-            </span>
-            <input
-              type="email"
-              value={donorEmail}
-              onChange={(e) => setDonorEmail(e.target.value)}
-              placeholder="email@exemplu.ro"
-              required={method === 'bank'}
-              className="mt-2 w-full px-4 py-3 rounded-xl border border-border focus:outline-none focus:border-burgundy text-ink"
-            />
-          </label>
-        )}
+        <label className="block">
+          <span className="text-sm font-medium text-ink">Email *</span>
+          <span className="block text-[11px] text-ink-soft mt-0.5">
+            {method === 'bank'
+              ? 'Vă trimitem confirmarea după verificarea contului.'
+              : 'Vă trimitem emailul de mulțumire imediat după plată.'}
+          </span>
+          <input
+            type="email"
+            value={donorEmail}
+            onChange={(e) => setDonorEmail(e.target.value)}
+            placeholder="email@exemplu.ro"
+            required
+            className="mt-2 w-full px-4 py-3 rounded-xl border border-border focus:outline-none focus:border-burgundy text-ink"
+          />
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-ink">Telefon (opțional)</span>
+          <span className="block text-[11px] text-ink-soft mt-0.5">
+            Doar pentru cazul în care parohia trebuie să vă contacteze.
+          </span>
+          <input
+            type="tel"
+            value={donorPhone}
+            onChange={(e) => setDonorPhone(e.target.value)}
+            placeholder="ex: 07XX XXX XXX"
+            maxLength={20}
+            className="mt-2 w-full px-4 py-3 rounded-xl border border-border focus:outline-none focus:border-burgundy text-ink"
+          />
+        </label>
 
         <label className="flex items-start gap-2 cursor-pointer select-none">
           <input

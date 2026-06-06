@@ -69,13 +69,17 @@ async function recordDonation(session: Stripe.Checkout.Session) {
   const recurring = meta.recurring === 'true';
   const isPublic = meta.isPublic !== '0';
   const donorName = (meta.donorName || '').trim() || null;
+  const donorPhone = (meta.donorPhone || '').trim() || null;
 
   const email = session.customer_details?.email || session.customer_email || null;
   const fallbackName = session.customer_details?.name || null;
+  const fallbackPhone = session.customer_details?.phone || null;
 
   const amountTotal = session.amount_total ?? 0;
   const amountRon = Math.round(amountTotal / 100);
   const currency = (session.currency || 'ron').toLowerCase();
+
+  const phone = donorPhone || fallbackPhone || null;
 
   let donorId: number | null = null;
   if (email) {
@@ -83,11 +87,13 @@ async function recordDonation(session: Stripe.Checkout.Session) {
       where: { email },
       update: {
         name: donorName || fallbackName || undefined,
+        phone: phone || undefined,
         isPublic,
       },
       create: {
         email,
         name: donorName || fallbackName || null,
+        phone,
         isPublic,
       },
     });
@@ -96,6 +102,7 @@ async function recordDonation(session: Stripe.Checkout.Session) {
     const donor = await prisma.donor.create({
       data: {
         name: donorName || fallbackName,
+        phone,
         isPublic,
       },
     });

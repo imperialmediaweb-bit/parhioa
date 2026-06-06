@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     const campaignSlug = String(body.campaign || 'zidirea-bisericii');
     const donorName = String(body.donorName || '').trim().slice(0, 80) || null;
     const donorEmail = String(body.donorEmail || '').trim().toLowerCase();
+    const donorPhone = String(body.donorPhone || '').trim().slice(0, 20) || null;
     const isPublic = body.isPublic !== false;
 
     if (!amount || amount < 5 || amount > 100000) {
@@ -41,11 +42,13 @@ export async function POST(req: NextRequest) {
       where: { email: donorEmail },
       update: {
         name: donorName ?? undefined,
+        phone: donorPhone ?? undefined,
         isPublic,
       },
       create: {
         email: donorEmail,
         name: donorName,
+        phone: donorPhone,
         isPublic,
       },
     });

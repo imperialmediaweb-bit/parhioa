@@ -107,6 +107,7 @@ model Donor {
   name      String?
   isPublic  Boolean    @default(true)
   email     String?    @unique
+  phone     String?
   donations Donation[]
   createdAt DateTime   @default(now())
 }

@@ -26,11 +26,19 @@ export async function POST(req: NextRequest) {
     const recurring = !!body.recurring;
     const campaign = String(body.campaign || 'zidirea-bisericii');
     const donorName = String(body.donorName || '').slice(0, 80);
+    const donorEmail = String(body.donorEmail || '').trim().toLowerCase();
+    const donorPhone = String(body.donorPhone || '').trim().slice(0, 20);
     const isPublic = body.isPublic !== false;
 
     if (!amount || amount < 5 || amount > 100000) {
       return NextResponse.json(
         { error: 'Suma trebuie să fie între 5 și 100.000 RON.' },
+        { status: 400 },
+      );
+    }
+    if (!donorEmail || !/.+@.+\..+/.test(donorEmail)) {
+      return NextResponse.json(
+        { error: 'Email invalid. Avem nevoie de un email valid pentru confirmare.' },
         { status: 400 },
       );
     }
@@ -60,10 +68,12 @@ export async function POST(req: NextRequest) {
       ],
       success_url: `${origin}/doneaza/multumim?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/doneaza`,
+      customer_email: donorEmail,
       metadata: {
         campaign,
         recurring: String(recurring),
         donorName,
+        donorPhone,
         isPublic: isPublic ? '1' : '0',
       },
       ...(recurring
@@ -72,6 +82,7 @@ export async function POST(req: NextRequest) {
               metadata: {
                 campaign,
                 donorName,
+                donorPhone,
                 isPublic: isPublic ? '1' : '0',
               },
             },

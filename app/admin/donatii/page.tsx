@@ -38,7 +38,14 @@ export default async function DonationsAdminPage({
     prisma.donor.findMany({
       where: { email: { not: null } },
       orderBy: { createdAt: 'desc' },
-      select: { id: true, name: true, email: true, isPublic: true, createdAt: true },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        isPublic: true,
+        createdAt: true,
+      },
     }),
     prisma.donation.groupBy({
       by: ['status'],
@@ -59,11 +66,12 @@ export default async function DonationsAdminPage({
   const allEmails = donors.map((d) => d.email!).filter(Boolean).join(', ');
 
   const csv = [
-    'nume,email,public,creat_la',
+    'nume,email,telefon,public,creat_la',
     ...donors.map((d) =>
       [
         (d.name ?? '').replace(/,/g, ' '),
         d.email ?? '',
+        (d.phone ?? '').replace(/,/g, ' '),
         d.isPublic ? 'da' : 'nu',
         d.createdAt.toISOString(),
       ].join(','),
@@ -144,6 +152,7 @@ export default async function DonationsAdminPage({
                 <th className="px-4 py-3 text-left">Data</th>
                 <th className="px-4 py-3 text-left">Donator</th>
                 <th className="px-4 py-3 text-left">Email</th>
+                <th className="px-4 py-3 text-left">Telefon</th>
                 <th className="px-4 py-3 text-right">Sumă</th>
                 <th className="px-4 py-3 text-left">Metodă</th>
                 <th className="px-4 py-3 text-left">Status</th>
@@ -176,6 +185,9 @@ export default async function DonationsAdminPage({
                     </td>
                     <td className="px-4 py-3 text-xs text-ink-muted font-mono break-all">
                       {d.donor?.email || '—'}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-ink-muted font-mono whitespace-nowrap">
+                      {d.donor?.phone || '—'}
                     </td>
                     <td className="px-4 py-3 text-right font-display font-bold text-burgundy whitespace-nowrap">
                       {d.amount.toLocaleString('ro-RO')}{' '}
