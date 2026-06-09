@@ -118,6 +118,19 @@ export function SiteFooter() {
             </Link>
           </div>
         </div>
+
+        {/* Credit */}
+        <div className="mt-4 pt-4 border-t border-gold/10 text-center text-[11px] text-cream/45">
+          Website creat de{' '}
+          <a
+            href="https://imperial-media.ro/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold/80 hover:text-gold transition-colors underline underline-offset-2"
+          >
+            Imperial Media
+          </a>
+        </div>
       </div>
     </footer>
   );
