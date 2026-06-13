@@ -86,6 +86,34 @@ export async function POST(req: NextRequest) {
 
     const existing = await prisma.post.findUnique({ where: { sourceGuid: guid } });
     if (existing) {
+      // If the existing post has no featured image and the feed now has one
+      // (better extraction), try to attach it. Otherwise skip.
+      if (!existing.featuredId && item.image) {
+        try {
+          const uploaded = await uploadImage(item.image, existing.slug);
+          if (uploaded) {
+            const media = await prisma.media.create({
+              data: {
+                filename: existing.slug + '.jpg',
+                url: uploaded.url,
+                cloudinaryId: uploaded.publicId,
+                alt: existing.title,
+                wpUrl: item.image,
+              },
+            });
+            await prisma.post.update({
+              where: { id: existing.id },
+              data: { featuredId: media.id },
+            });
+            log.push(`🖼️ ${existing.title.slice(0, 60)} — poză adăugată`);
+            continue;
+          }
+        } catch (err: any) {
+          log.push(
+            `⚠️ ${existing.title.slice(0, 40)} — nu am putut atașa poză: ${(err?.message || '').slice(0, 50)}`,
+          );
+        }
+      }
       skipped++;
       log.push(`⏭️ deja importat: ${existing.title.slice(0, 60)}`);
       continue;

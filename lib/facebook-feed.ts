@@ -73,23 +73,72 @@ function pick(xml: string, tag: string): string | null {
 }
 
 function pickImage(itemXml: string, description: string): string | null {
+  // Collect ALL candidate images and prefer the largest / most specific.
+  // rss.app often inserts the channel logo as first <img> in description,
+  // so picking the last image inside the description tends to give the real
+  // post photo.
+  const candidates: string[] = [];
+
   // 1) <enclosure url="..." />
   const enc = /<enclosure[^>]+url=["']([^"']+)["']/i.exec(itemXml);
-  if (enc) return enc[1];
+  if (enc) candidates.push(enc[1]);
 
-  // 2) <media:content url="..." />
-  const media = /<media:content[^>]+url=["']([^"']+)["']/i.exec(itemXml);
-  if (media) return media[1];
+  // 2) <media:content url="..." /> — can appear multiple times
+  const mediaRe = /<media:content[^>]+url=["']([^"']+)["']/gi;
+  let mm: RegExpExecArray | null;
+  while ((mm = mediaRe.exec(itemXml)) !== null) candidates.push(mm[1]);
 
   // 3) <media:thumbnail url="..." />
   const thumb = /<media:thumbnail[^>]+url=["']([^"']+)["']/i.exec(itemXml);
-  if (thumb) return thumb[1];
+  if (thumb) candidates.push(thumb[1]);
 
-  // 4) first <img src="..."> inside description
-  const img = /<img[^>]+src=["']([^"']+)["']/i.exec(description);
-  if (img) return img[1];
+  // 4) ALL <img src="..."> inside description
+  const imgRe = /<img[^>]+src=["']([^"']+)["']/gi;
+  let im: RegExpExecArray | null;
+  while ((im = imgRe.exec(description)) !== null) candidates.push(im[1]);
 
-  return null;
+  // Filter out tiny tracking pixels and obvious channel/profile images
+  const filtered = candidates.filter((u) => {
+    if (!u) return false;
+    if (/1x1|spacer|pixel|tracking|blank/i.test(u)) return false;
+    // Facebook profile pictures usually have 's40x40', 's60x60', etc.
+    if (/[?&_/](s|p)\d{2,3}x\d{2,3}\//.test(u)) return false;
+    // Very small thumbnails often have these markers
+    if (/s50x50|s32x32|s100x100/i.test(u)) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) return candidates[0] || null;
+
+  // Prefer the last candidate (in feeds, channel/logo comes first,
+  // content image comes later).
+  return filtered[filtered.length - 1];
+}
+
+/**
+ * Try to fetch the Open Graph image of the actual post URL — this is the
+ * most reliable source of the post's main photo, since rss.app sometimes
+ * substitutes the channel logo when the post has no inline media.
+ */
+async function fetchOgImage(url: string): Promise<string | null> {
+  if (!url || !url.startsWith('http')) return null;
+  try {
+    const res = await fetch(url, {
+      next: { revalidate: 86400 },
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (compatible; ParohiaBot/1.0; +https://parohiasfteodoradelasihla.ro)',
+        Accept: 'text/html,*/*',
+      },
+    });
+    if (!res.ok) return null;
+    const html = await res.text();
+    const m = /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i.exec(html) ||
+              /<meta\s+content=["']([^"']+)["']\s+property=["']og:image["']/i.exec(html);
+    return m ? m[1] : null;
+  } catch {
+    return null;
+  }
 }
 
 function inferTags(text: string): FeedItem['tags'] {
@@ -143,7 +192,17 @@ export async function fetchFeed(): Promise<FeedItem[]> {
       const description = stripHtml(descRaw).slice(0, 600);
       const link = decodeEntities(stripHtml(linkRaw));
       const pubDate = pubDateRaw ? new Date(pubDateRaw) : null;
-      const image = pickImage(itemXml, descRaw);
+      let image = pickImage(itemXml, descRaw);
+      // If we only found something that looks like a small profile/icon
+      // (or nothing), try the post's own Open Graph image.
+      const looksLikeProfile =
+        !image ||
+        /profile|page_picture|avatar/i.test(image) ||
+        /scontent.+\/[^/]*\.(?:jpg|png|webp)(?:\?|$)/i.test(image) === false;
+      if ((looksLikeProfile || !image) && link) {
+        const og = await fetchOgImage(link);
+        if (og) image = og;
+      }
       const tags = inferTags(`${title} ${description}`);
 
       if (!title) continue;
