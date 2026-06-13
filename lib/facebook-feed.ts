@@ -120,25 +120,74 @@ function pickImage(itemXml: string, description: string): string | null {
  * most reliable source of the post's main photo, since rss.app sometimes
  * substitutes the channel logo when the post has no inline media.
  */
+function ogVariants(url: string): string[] {
+  // Try multiple Facebook URL forms — mbasic is the most scraping-friendly.
+  const out = [url];
+  if (/facebook\.com/i.test(url)) {
+    out.push(url.replace(/^https?:\/\/(www\.)?facebook\.com/i, 'https://mbasic.facebook.com'));
+    out.push(url.replace(/^https?:\/\/(www\.)?facebook\.com/i, 'https://m.facebook.com'));
+    out.push(url.replace(/^https?:\/\/(www\.)?facebook\.com/i, 'https://touch.facebook.com'));
+  }
+  return Array.from(new Set(out));
+}
+
+const BROWSER_UA =
+  'Mozilla/5.0 (Linux; Android 10; SM-G960F) AppleWebKit/537.36 ' +
+  '(KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36';
+
 async function fetchOgImage(url: string): Promise<string | null> {
   if (!url || !url.startsWith('http')) return null;
-  try {
-    const res = await fetch(url, {
-      next: { revalidate: 86400 },
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (compatible; ParohiaBot/1.0; +https://parohiasfteodoradelasihla.ro)',
-        Accept: 'text/html,*/*',
-      },
-    });
-    if (!res.ok) return null;
-    const html = await res.text();
-    const m = /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i.exec(html) ||
-              /<meta\s+content=["']([^"']+)["']\s+property=["']og:image["']/i.exec(html);
-    return m ? m[1] : null;
-  } catch {
-    return null;
+  for (const candidate of ogVariants(url)) {
+    try {
+      const res = await fetch(candidate, {
+        next: { revalidate: 86400 },
+        headers: {
+          'User-Agent': BROWSER_UA,
+          Accept: 'text/html,application/xhtml+xml,*/*;q=0.8',
+          'Accept-Language': 'ro-RO,ro;q=0.9,en;q=0.7',
+        },
+      });
+      if (!res.ok) continue;
+      const html = await res.text();
+
+      // Try OG, Twitter card, then any prominent image in HTML body.
+      const patterns: RegExp[] = [
+        /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i,
+        /<meta\s+content=["']([^"']+)["']\s+property=["']og:image["']/i,
+        /<meta\s+property=["']og:image:secure_url["']\s+content=["']([^"']+)["']/i,
+        /<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/i,
+        /<meta\s+content=["']([^"']+)["']\s+name=["']twitter:image["']/i,
+      ];
+      for (const p of patterns) {
+        const m = p.exec(html);
+        if (m && m[1]) {
+          const candidate = m[1]
+            .replace(/&amp;/g, '&')
+            .replace(/&#x2F;/gi, '/')
+            .replace(/&#47;/g, '/');
+          if (/^https?:\/\//.test(candidate)) return candidate;
+        }
+      }
+
+      // mbasic sometimes inlines the post photo as a plain <img>; pick the
+      // largest-looking one (skip emoji and tiny pixels).
+      const imgs: string[] = [];
+      const imgRe = /<img[^>]+src=["']([^"']+)["']/gi;
+      let m: RegExpExecArray | null;
+      while ((m = imgRe.exec(html)) !== null) {
+        const u = m[1].replace(/&amp;/g, '&');
+        if (/emoji|spacer|1x1|safe_image/i.test(u)) continue;
+        if (!/^https?:\/\//.test(u)) continue;
+        imgs.push(u);
+      }
+      // mbasic puts the post photo in the FIRST scontent.* link typically.
+      const post = imgs.find((u) => /scontent[-.]/i.test(u) || /fbcdn\.net/i.test(u));
+      if (post) return post;
+    } catch {
+      // try next variant
+    }
   }
+  return null;
 }
 
 function inferTags(text: string): FeedItem['tags'] {
@@ -216,6 +265,20 @@ export async function fetchFeed(): Promise<FeedItem[]> {
         tags,
       });
     }
+    // Post-process: if an image URL appears in 2+ items, it's the channel
+    // logo (rss.app's default fallback when a Facebook post has no inline
+    // media), not a real post photo. Null it out so the importer/cards
+    // show the parchment placeholder instead.
+    const seen = new Map<string, number>();
+    for (const it of items) {
+      if (it.image) seen.set(it.image, (seen.get(it.image) || 0) + 1);
+    }
+    for (const it of items) {
+      if (it.image && (seen.get(it.image) || 0) >= 2) {
+        it.image = null;
+      }
+    }
+
     return items;
   } catch (err) {
     console.error('[rss] failed', err);

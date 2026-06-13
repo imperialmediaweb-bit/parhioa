@@ -37,6 +37,29 @@ async function uploadToCloudinary(url: string, publicId: string): Promise<string
   }
 }
 
+async function clearDuplicateFeaturedImages(): Promise<number> {
+  // Find posts that share the same featured Media URL — those are the
+  // rss.app channel logo bleeding into multiple imports. Clear featuredId
+  // so the cards show the parchment placeholder instead.
+  const groups = await prisma.post.groupBy({
+    by: ['featuredId'],
+    where: { featuredId: { not: null } },
+    _count: { _all: true },
+    having: { featuredId: { _count: { gt: 1 } } },
+  });
+
+  let cleared = 0;
+  for (const g of groups) {
+    if (!g.featuredId) continue;
+    const updated = await prisma.post.updateMany({
+      where: { featuredId: g.featuredId },
+      data: { featuredId: null },
+    });
+    cleared += updated.count;
+  }
+  return cleared;
+}
+
 export async function POST(req: NextRequest) {
   const expected = process.env.ADMIN_KEY;
   let providedKey: string | undefined;
@@ -107,6 +130,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  const duplicatesCleared = await clearDuplicateFeaturedImages();
+  if (duplicatesCleared > 0) {
+    log.push(`🧹 ${duplicatesCleared} articole — poză duplicat (logo Facebook) ștearsă`);
+  }
+
   return NextResponse.json({
     ok: true,
     total: candidates.length,
@@ -114,6 +142,7 @@ export async function POST(req: NextRequest) {
     freshlyUploaded,
     dead,
     skipped,
+    duplicatesCleared,
     log,
   });
 }

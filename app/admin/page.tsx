@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { Heart, FileText, Image as ImageIcon, Users, Mail, ExternalLink } from 'lucide-react';
 import { MigrateImagesButton } from './migrate-images-button';
 import { ImportFeedButton } from './import-feed-button';
+import { RefetchImagesButton } from './refetch-images-button';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Parohia Sf. Teodora' };
@@ -123,6 +124,7 @@ export default async function AdminDashboard({
       <h2 className="font-display text-xl text-burgundy mb-3">Mentenanță & automatizare</h2>
       <div className="mb-10 space-y-4">
         <ImportFeedButton adminKey={provided} />
+        <RefetchImagesButton adminKey={provided} />
         <MigrateImagesButton adminKey={provided} />
       </div>
 
