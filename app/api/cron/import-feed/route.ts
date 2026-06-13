@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import { prisma } from '@/lib/prisma';
 import { fetchFeed, type FeedItem } from '@/lib/facebook-feed';
 import { rewriteAsArticle } from '@/lib/ai-rewriter';
+import { uploadRemoteImage } from '@/lib/image-upload';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -17,22 +18,8 @@ cloudinary.config({
 
 const FOLDER = 'parhioa/blog';
 
-async function uploadImage(
-  url: string,
-  baseSlug: string,
-): Promise<{ url: string; publicId: string } | null> {
-  try {
-    const res = await cloudinary.uploader.upload(url, {
-      folder: FOLDER,
-      public_id: baseSlug,
-      overwrite: false,
-      resource_type: 'image',
-    });
-    return { url: res.secure_url, publicId: res.public_id };
-  } catch (err) {
-    console.error('[cron import-feed] upload failed', err);
-    return null;
-  }
+async function uploadImage(url: string, baseSlug: string) {
+  return uploadRemoteImage(url, baseSlug, FOLDER);
 }
 
 async function ensureCategory(name: string) {
