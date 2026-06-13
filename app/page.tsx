@@ -17,7 +17,6 @@ import { CrossDivider, OrthodoxCross } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
-import { AnunturiStrip } from '@/components/site/anunturi-strip';
 import { NewsTicker } from '@/components/site/news-ticker';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
@@ -235,11 +234,8 @@ export default async function HomePage() {
       {/* ============= 1. HERO SLIDER ============= */}
       <HeroSlider slides={HERO_SLIDES} />
 
-      {/* ============= 1b. NEWS TICKER (announcements scroll) ============= */}
+      {/* ============= 1b. NEWS TICKER — Facebook announcements ============= */}
       <NewsTicker />
-
-      {/* ============= 1c. ANUNȚURI & EVENIMENTE (card strip) ============= */}
-      <AnunturiStrip limit={4} />
 
       {/* ============= 2. PROGRAM SLUJBE + SĂRBĂTOAREA ZILEI ============= */}
       <section className="container py-10 sm:py-14">
