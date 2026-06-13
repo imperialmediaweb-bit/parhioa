@@ -21,8 +21,15 @@ function formatDate(d: Date | null): string {
 export async function NewsTicker() {
   let posts: any[] = [];
   try {
+    // Only show recent posts on the ticker — anything older than 14 days
+    // has already happened and shouldn't keep scrolling.
+    const cutoff = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
     posts = await prisma.post.findMany({
-      where: { status: 'publish', sourceGuid: { not: null } },
+      where: {
+        status: 'publish',
+        sourceGuid: { not: null },
+        publishedAt: { gte: cutoff },
+      },
       orderBy: { publishedAt: 'desc' },
       include: { categories: true },
       take: 8,
