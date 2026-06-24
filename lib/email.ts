@@ -183,3 +183,104 @@ Notificare automată — sistemul de donații al parohiei
     console.error('[email] admin notification send failed:', err);
   }
 }
+
+/**
+ * Forward a contact-form submission to the parish admin mailbox.
+ * Sets reply-to to the sender so the priest can reply directly.
+ */
+export async function sendContactToParish(opts: {
+  name: string;
+  email: string;
+  phone: string | null;
+  subject: string | null;
+  message: string;
+}) {
+  const to = adminEmail();
+  if (!resend) {
+    console.log('[email] RESEND_API_KEY missing — contact message not forwarded:', opts);
+    return;
+  }
+
+  const subjectLine = opts.subject
+    ? `Mesaj nou de pe site — ${opts.subject}`
+    : `Mesaj nou de pe site — ${opts.name}`;
+
+  const html = `<!doctype html><html lang="ro"><head><meta charset="utf-8"/></head>
+<body style="margin:0;padding:0;background:#f3ead8;font-family:Georgia,serif;color:#2c1810;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;background:#f3ead8;"><tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fdf6e8;border:1px solid #c9a961;border-radius:16px;overflow:hidden;">
+<tr><td style="background:linear-gradient(135deg,#6b1f2b,#4a1620);padding:24px;text-align:center;color:#fdf6e8;">
+<img src="${LOGO_URL}" alt="Parohia Sf. Teodora" width="56" height="56" style="display:block;margin:0 auto 8px;width:56px;height:56px;border-radius:8px;" />
+<h1 style="margin:6px 0 0;font-size:20px;">Mesaj nou de pe site</h1>
+</td></tr>
+<tr><td style="padding:24px;">
+<table cellpadding="8" cellspacing="0" style="width:100%;border-collapse:collapse;background:#f3ead8;border-radius:8px;margin-bottom:12px;">
+<tr><td style="font-weight:bold;width:120px;">De la:</td><td>${escape(opts.name)}</td></tr>
+<tr><td style="font-weight:bold;">Email:</td><td><a href="mailto:${escape(opts.email)}" style="color:#6b1f2b;">${escape(opts.email)}</a></td></tr>
+${opts.phone ? `<tr><td style="font-weight:bold;">Telefon:</td><td>${escape(opts.phone)}</td></tr>` : ''}
+${opts.subject ? `<tr><td style="font-weight:bold;">Subiect:</td><td>${escape(opts.subject)}</td></tr>` : ''}
+</table>
+<div style="background:#fff;border:1px solid #d6c4a0;border-radius:8px;padding:16px;white-space:pre-wrap;line-height:1.6;font-size:15px;color:#2c1810;">${escape(opts.message)}</div>
+<p style="margin:16px 0 0;font-size:13px;color:#6b5544;">Pentru a răspunde, folosiți butonul „Reply" — va trimite direct la <strong>${escape(opts.email)}</strong>.</p>
+</td></tr>
+<tr><td style="background:#f3ead8;padding:14px 24px;text-align:center;font-size:12px;color:#6b5544;border-top:1px solid #d6c4a0;">
+Mesaj primit prin formularul de contact al parohiei
+</td></tr></table></td></tr></table></body></html>`;
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to,
+      replyTo: opts.email,
+      subject: subjectLine,
+      html,
+    });
+  } catch (err) {
+    console.error('[email] contact forward failed:', err);
+    throw err;
+  }
+}
+
+/**
+ * Acknowledge a newsletter subscription. Soft confirmation only — no
+ * double-opt-in yet (parish would need to set that up if they start
+ * scheduled campaigns). The CAN-SPAM-style unsubscribe link uses the
+ * subscriber id.
+ */
+export async function sendNewsletterWelcome(opts: {
+  to: string;
+  unsubscribeUrl: string;
+}) {
+  if (!resend) {
+    console.log('[email] RESEND_API_KEY missing — newsletter welcome skipped for', opts.to);
+    return;
+  }
+
+  const html = `<!doctype html><html lang="ro"><head><meta charset="utf-8"/></head>
+<body style="margin:0;padding:0;background:#f3ead8;font-family:Georgia,serif;color:#2c1810;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;background:#f3ead8;"><tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fdf6e8;border:1px solid #c9a961;border-radius:16px;overflow:hidden;">
+<tr><td style="background:linear-gradient(135deg,#6b1f2b,#4a1620);padding:28px;text-align:center;color:#fdf6e8;">
+<img src="${LOGO_URL}" alt="Parohia Sf. Teodora" width="80" height="80" style="display:block;margin:0 auto 10px;width:80px;height:80px;border-radius:10px;" />
+<h1 style="margin:6px 0 0;font-size:22px;">Bine ai venit în comunitatea parohiei</h1>
+</td></tr>
+<tr><td style="padding:28px;">
+<p style="margin:0 0 14px;font-size:16px;line-height:1.6;">Mulțumim că dorești să primești foaia parohiei prin email.</p>
+<p style="margin:0 0 14px;font-size:15px;line-height:1.7;">Îți vom trimite ocazional: program pentru sărbători, anunțuri importante, gânduri duhovnicești pentru săptămâna în curs. Nu spam, nu reclame — doar lucruri din viața parohiei „Sfânta Cuvioasă Teodora de la Sihla".</p>
+<p style="margin:18px 0 0;font-size:15px;line-height:1.7;">Cu binecuvântare,<br/><strong>Pr. Cătălin Ailenei</strong></p>
+</td></tr>
+<tr><td style="background:#f3ead8;padding:14px 24px;text-align:center;font-size:11px;color:#6b5544;border-top:1px solid #d6c4a0;">
+Dacă nu mai dorești să primești aceste emailuri, <a href="${escape(opts.unsubscribeUrl)}" style="color:#6b1f2b;">dezabonează-te aici</a>.
+</td></tr></table></td></tr></table></body></html>`;
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: opts.to,
+      subject: 'Bine ai venit — Parohia Sf. Teodora',
+      html,
+    });
+  } catch (err) {
+    console.error('[email] newsletter welcome failed:', err);
+  }
+}

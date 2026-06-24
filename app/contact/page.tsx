@@ -2,9 +2,9 @@ import { Hero } from '@/components/site/hero';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FadeIn } from '@/components/magicui/fade-in';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { MapPin, HandHeart, HeartPulse, Mail, Phone, User } from 'lucide-react';
+import { MapPin, HandHeart, HeartPulse, Mail, Phone } from 'lucide-react';
 import { getImages } from '@/lib/images';
+import { ContactForm } from '@/components/site/contact-form';
 
 export const metadata = { title: 'Contact' };
 
@@ -31,18 +31,7 @@ export default async function ContactPage() {
                 Scrie-ne folosind formularul de mai jos, fie pentru rugăciune, sfat duhovnicesc,
                 ori alte întrebări legate de parohie.
               </p>
-              <form className="space-y-4" action="#" method="post">
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-soft" />
-                  <input type="text" required placeholder="Nume" className="w-full pl-11 pr-4 py-3 rounded-full bg-white border border-border focus:outline-none focus:ring-2 focus:ring-burgundy text-ink" />
-                </div>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-soft" />
-                  <input type="email" required placeholder="Adresă de email" className="w-full pl-11 pr-4 py-3 rounded-full bg-white border border-border focus:outline-none focus:ring-2 focus:ring-burgundy text-ink" />
-                </div>
-                <textarea required rows={5} placeholder="Mesaj" className="w-full px-4 py-3 rounded-3xl bg-white border border-border focus:outline-none focus:ring-2 focus:ring-burgundy text-ink resize-y" />
-                <Button type="submit" size="lg" className="w-full">Trimite</Button>
-              </form>
+              <ContactForm />
             </Card>
           </FadeIn>
           <FadeIn delay={0.15}>

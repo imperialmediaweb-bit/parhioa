@@ -18,6 +18,7 @@ import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { NewsTicker } from '@/components/site/news-ticker';
+import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
@@ -929,20 +930,7 @@ export default async function HomePage() {
                     </li>
                   </ul>
 
-                  <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                    <input
-                      type="email"
-                      required
-                      placeholder="adresa.ta@email.ro"
-                      className="flex-1 px-5 py-3.5 rounded-full bg-white/70 border border-gold/50 text-burgundy-dark placeholder:text-burgundy/50 focus:outline-none focus:ring-2 focus:ring-burgundy/40"
-                    />
-                    <Button type="submit" size="lg">
-                      Abonează-mă
-                    </Button>
-                  </form>
-                  <p className="text-xs text-burgundy/55 mt-4 italic">
-                    Niciun spam. Doar gânduri bune. Te poți dezabona oricând.
-                  </p>
+                  <NewsletterForm />
                 </div>
               </div>
             </div>

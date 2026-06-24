@@ -103,6 +103,33 @@ model MenuItem {
   target    String?
 }
 
+model Subscriber {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  name        String?
+  source      String    @default("newsletter")
+  confirmedAt DateTime?
+  unsubscribedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([createdAt])
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String   @db.Text
+  handled   Boolean  @default(false)
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([handled])
+}
+
 model Donor {
   id        Int        @id @default(autoincrement())
   name      String?
