@@ -68,17 +68,27 @@ export default async function ContactPage() {
       <section className="bg-lavender-soft py-12">
         <div className="container grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <FadeIn>
-            <div className="aspect-square rounded-3xl overflow-hidden shadow-xl bg-white">
-              <iframe
-                src="https://www.google.com/maps?q=Strada+Pacea+45B,+Boto%C8%99ani,+Romania&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full"
-                title="Locația parohiei"
-              />
+            <div className="space-y-3">
+              <div className="aspect-[4/3] sm:aspect-square rounded-3xl overflow-hidden shadow-xl bg-white">
+                <iframe
+                  src="https://www.google.com/maps?q=Strada+Pacea+45B,+Boto%C8%99ani,+Romania&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                  title="Locația parohiei — Strada Pacea 45B"
+                />
+              </div>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Strada+Pacea+45B,+Botosani,+Romania"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center text-sm text-burgundy hover:text-burgundy-dark font-medium underline-offset-2 hover:underline"
+              >
+                Deschide indicații în Google Maps →
+              </a>
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>
@@ -90,8 +100,20 @@ export default async function ContactPage() {
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-burgundy flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold mb-0.5">Adresă:</p>
+                  <p className="font-semibold mb-0.5">Adresa parohiei (administrativ):</p>
                   <p className="text-ink-muted">Strada Pacea, Nr. 45B, Botoșani, România</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-gold/10 border border-gold/30 rounded-xl p-3">
+                <span className="text-burgundy text-lg leading-none mt-0.5">☩</span>
+                <div>
+                  <p className="font-semibold mb-0.5 text-burgundy">Unde se țin slujbele:</p>
+                  <p className="text-ink-muted leading-relaxed">
+                    Până la finalizarea bisericii proprii, slujbele se țin la{' '}
+                    <strong className="text-ink">Biserica „Bunavestire"</strong> — Botoșani.
+                    Programul săptămânal este afișat pe{' '}
+                    <a href="/" className="underline text-burgundy">pagina principală</a>.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

@@ -22,7 +22,7 @@ export function MobileDonateCta() {
       style={{ bottom: 'max(0.75rem, env(safe-area-inset-bottom, 0.75rem))' }}
     >
       <Link
-        href="/doneaza"
+        href="/donations/strangere-de-fonduri-pentru-construirea-bisericii"
         className="flex items-center justify-center gap-2 h-14 rounded-full text-cream font-ceremonial uppercase tracking-[0.16em] text-[12.5px] shadow-[0_10px_30px_-8px_rgba(101,26,20,0.85)] ring-1 ring-gold/60 active:scale-[0.98] transition-transform"
         style={{
           background: 'linear-gradient(180deg, #7a201a 0%, #4f120d 100%)',

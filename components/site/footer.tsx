@@ -91,7 +91,12 @@ export function SiteFooter() {
           <div>
             <FooterHeading>Contact</FooterHeading>
             <div className="space-y-3">
-              <ContactRow icon={MapPin}>Strada Pacea, Nr. 45B, Botoșani</ContactRow>
+              <ContactRow icon={MapPin}>
+                Strada Pacea, Nr. 45B, Botoșani
+                <span className="block text-[11px] text-cream/55 italic mt-0.5">
+                  Slujbele se țin la Biserica „Bunavestire"
+                </span>
+              </ContactRow>
               <ContactRow icon={Mail}>
                 <a href="mailto:contact@parohiasfteodoradelasihla.ro" className="hover:text-gold transition break-all">
                   contact@parohiasfteodoradelasihla.ro

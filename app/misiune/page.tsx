@@ -175,7 +175,7 @@ export default async function MisiunePage() {
                 icon: Gift,
                 title: 'Dăruiește',
                 text: 'Fiecare dar, oricât de mic, devine parte dintr-o lucrare mai mare. Sprijină biserica, ajută familiile nevoiașe și susține acțiunile misionare.',
-                cta: { label: 'Donează', href: '/doneaza' },
+                cta: { label: 'Donează', href: '/donations/strangere-de-fonduri-pentru-construirea-bisericii' },
               },
               {
                 icon: Plus,

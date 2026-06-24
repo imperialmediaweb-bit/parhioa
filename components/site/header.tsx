@@ -44,7 +44,7 @@ export function SiteHeader() {
             <Search className="h-5 w-5" />
           </button>
           <Link
-            href="/doneaza"
+            href="/donations/strangere-de-fonduri-pentru-construirea-bisericii"
             className="hidden md:inline-flex"
           >
             <Button size="sm" className="!gap-1.5">
