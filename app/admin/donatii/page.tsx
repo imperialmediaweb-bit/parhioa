@@ -155,7 +155,10 @@ export default async function DonationsAdminPage({
                   : d.recurring
                     ? 'Card · lunar'
                     : 'Card';
-                const isPublic = d.donor?.isPublic !== false;
+                // Per-donation flag wins; fall back to the donor default
+                // for legacy rows that predate the column.
+                const isPublic =
+                  d.isPublic === false ? false : d.donor?.isPublic !== false;
                 return (
                   <tr key={d.id} className="hover:bg-cream-card/30">
                     <td className="px-4 py-3 text-ink-soft text-xs whitespace-nowrap">

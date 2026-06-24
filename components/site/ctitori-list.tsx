@@ -62,7 +62,15 @@ export async function CtitoriList({ campaign, limit = 24 }: Props) {
       ) : (
         <ul className="divide-y divide-gold/15 max-h-[480px] overflow-y-auto">
           {donations.map((d) => {
-            const isAnon = !d.donor || d.donor.isPublic === false || !d.donor.name;
+            // Honor the per-donation preference captured at donation time
+            // (so a donor who later flips their default doesn't retroactively
+            // rewrite older entries). Fall back to the donor's default only
+            // for legacy rows where the flag isn't set on the donation.
+            const isAnon =
+              d.isPublic === false ||
+              !d.donor ||
+              d.donor.isPublic === false ||
+              !d.donor.name;
             const displayName = isAnon ? 'Anonim' : (d.donor!.name as string);
             const sym = symbolicLabel(d.amount);
 

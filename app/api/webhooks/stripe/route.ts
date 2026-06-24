@@ -47,6 +47,26 @@ export async function POST(req: NextRequest) {
         await notifyIncomplete(event.data.object as Stripe.Checkout.Session, 'failed');
         break;
 
+      // Recurring subscription renewals. The FIRST month is already recorded
+      // via checkout.session.completed; this catches months 2, 3, … which
+      // would otherwise disappear silently.
+      case 'invoice.paid':
+      case 'invoice.payment_succeeded':
+        await recordRenewal(event.data.object as Stripe.Invoice);
+        break;
+
+      // Failed subscription renewal — card expired, insufficient funds, etc.
+      // The parish needs to know so they can reach out to the donor.
+      case 'invoice.payment_failed':
+        await notifyRenewalFailed(event.data.object as Stripe.Invoice);
+        break;
+
+      // Donor canceled their monthly pledge. We log it on the donor record
+      // so the admin sees the lifetime history clearly.
+      case 'customer.subscription.deleted':
+        await logSubscriptionCanceled(event.data.object as Stripe.Subscription);
+        break;
+
       case 'charge.refunded':
         await markRefunded(event.data.object as Stripe.Charge);
         break;
@@ -81,6 +101,11 @@ async function recordDonation(session: Stripe.Checkout.Session) {
 
   const phone = donorPhone || fallbackPhone || null;
 
+  const subscriptionId =
+    typeof session.subscription === 'string'
+      ? session.subscription
+      : session.subscription?.id ?? null;
+
   let donorId: number | null = null;
   if (email) {
     const donor = await prisma.donor.upsert({
@@ -112,11 +137,13 @@ async function recordDonation(session: Stripe.Checkout.Session) {
   await prisma.donation.create({
     data: {
       stripeSessionId: sessionId,
+      stripeSubscriptionId: subscriptionId,
       amount: amountRon,
       currency,
       campaign,
       recurring,
       status: 'completed',
+      isPublic,
       donorId,
     },
   });
@@ -165,6 +192,153 @@ async function notifyIncomplete(
     amount: amountRon,
     campaign,
     reason,
+  });
+}
+
+/**
+ * Record a subscription renewal as its own Donation row.
+ *
+ * Stripe fires `invoice.paid` for BOTH the very first month of a subscription
+ * (alongside `checkout.session.completed`) AND for every monthly renewal
+ * after that. The first one is already covered by `recordDonation`, so we
+ * filter on `billing_reason === 'subscription_cycle'` (renewals only).
+ *
+ * One-time donations don't have an invoice, so this code path never fires
+ * for them.
+ */
+async function recordRenewal(invoice: Stripe.Invoice) {
+  if (!stripe) return;
+
+  // Only handle renewals — the initial subscription_create invoice is
+  // already covered by checkout.session.completed (avoids double-counting).
+  if (invoice.billing_reason !== 'subscription_cycle') return;
+
+  const invoiceId = invoice.id;
+  if (!invoiceId) return;
+
+  // Dedup: stripeSessionId is unique, and we use the invoice id as the key.
+  const existing = await prisma.donation.findUnique({
+    where: { stripeSessionId: invoiceId },
+  });
+  if (existing) return;
+
+  const subscriptionId =
+    typeof invoice.subscription === 'string'
+      ? invoice.subscription
+      : invoice.subscription?.id ?? null;
+
+  if (!subscriptionId) return;
+
+  // Pull the subscription to access the metadata we set at checkout
+  // (campaign, donorName, donorPhone, isPublic).
+  const sub = await stripe.subscriptions.retrieve(subscriptionId).catch(() => null);
+  const meta = sub?.metadata || {};
+  const campaign = meta.campaign || 'zidirea-bisericii';
+  const isPublic = meta.isPublic !== '0';
+  const metaName = (meta.donorName || '').trim() || null;
+  const metaPhone = (meta.donorPhone || '').trim() || null;
+
+  const email =
+    invoice.customer_email ||
+    (typeof invoice.customer === 'object' && invoice.customer && !invoice.customer.deleted
+      ? invoice.customer.email
+      : null) ||
+    null;
+
+  const amountTotal = invoice.amount_paid ?? 0;
+  const amountRon = Math.round(amountTotal / 100);
+  const currency = (invoice.currency || 'ron').toLowerCase();
+
+  let donorId: number | null = null;
+  if (email) {
+    const donor = await prisma.donor.upsert({
+      where: { email },
+      update: { name: metaName ?? undefined, phone: metaPhone ?? undefined },
+      create: { email, name: metaName, phone: metaPhone, isPublic },
+    });
+    donorId = donor.id;
+  }
+
+  await prisma.donation.create({
+    data: {
+      stripeSessionId: invoiceId,
+      stripeSubscriptionId: subscriptionId,
+      amount: amountRon,
+      currency,
+      campaign,
+      recurring: true,
+      status: 'completed',
+      isPublic,
+      donorId,
+    },
+  });
+
+  // Send a brief thank-you each month — keeps the relationship warm and
+  // gives the donor an audit trail for their own records (Form 230, etc.).
+  if (email) {
+    const camp = findCampaign(campaign);
+    await sendThankYouEmail({
+      to: email,
+      donorName: metaName,
+      amount: amountRon,
+      recurring: true,
+      campaignTitle: camp?.title || 'Zidirea bisericii',
+    });
+  }
+}
+
+/**
+ * Subscription renewal failed (expired card, insufficient funds, etc.).
+ * Notify the parish so they can reach out before the donor goes silent.
+ */
+async function notifyRenewalFailed(invoice: Stripe.Invoice) {
+  // Only fire for renewals — failed first-month invoices are already
+  // covered by checkout.session.async_payment_failed.
+  if (invoice.billing_reason !== 'subscription_cycle') return;
+
+  const meta =
+    (typeof invoice.subscription === 'object' && invoice.subscription?.metadata) ||
+    {};
+  const campaign = (meta as any).campaign || 'zidirea-bisericii';
+  const donorName =
+    ((meta as any).donorName || '').trim() ||
+    (typeof invoice.customer === 'object' && invoice.customer && !invoice.customer.deleted
+      ? invoice.customer.name
+      : null) ||
+    null;
+  const donorEmail =
+    invoice.customer_email ||
+    (typeof invoice.customer === 'object' && invoice.customer && !invoice.customer.deleted
+      ? invoice.customer.email
+      : null) ||
+    null;
+
+  const amountTotal = invoice.amount_due ?? 0;
+  const amountRon = amountTotal ? Math.round(amountTotal / 100) : null;
+
+  await sendAdminPaymentFailedEmail({
+    donorEmail,
+    donorName,
+    amount: amountRon,
+    campaign,
+    reason: 'failed',
+  });
+}
+
+/**
+ * Donor canceled (or Stripe terminated) their monthly pledge.
+ * No money movement — we just log it so the admin sees the lifetime arc
+ * of each ctitor pledge. Existing donation rows are kept (history).
+ */
+async function logSubscriptionCanceled(sub: Stripe.Subscription) {
+  const meta = sub.metadata || {};
+  console.log('[stripe webhook] subscription canceled', {
+    subscriptionId: sub.id,
+    campaign: meta.campaign,
+    donorName: meta.donorName,
+    canceledAt: sub.canceled_at
+      ? new Date(sub.canceled_at * 1000).toISOString()
+      : null,
   });
 }
 

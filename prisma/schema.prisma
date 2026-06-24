@@ -141,17 +141,28 @@ model Donor {
 }
 
 model Donation {
-  id              Int      @id @default(autoincrement())
-  stripeSessionId String   @unique
-  amount          Int
-  currency        String   @default("ron")
-  campaign        String
-  recurring       Boolean  @default(false)
-  status          String   @default("completed")
-  donor           Donor?   @relation(fields: [donorId], references: [id])
-  donorId         Int?
-  createdAt       DateTime @default(now())
+  id                   Int      @id @default(autoincrement())
+  // For one-time Checkout: Stripe Checkout Session id.
+  // For recurring renewals: Stripe Invoice id (each renewal is a separate row).
+  // For self-reported bank transfers: `bank_<uuid>`.
+  stripeSessionId      String   @unique
+  // When the donation came from a recurring subscription (first payment or
+  // renewal), the subscription id is recorded so the parish can see the
+  // full history per pledge.
+  stripeSubscriptionId String?
+  amount               Int
+  currency             String   @default("ron")
+  campaign             String
+  recurring            Boolean  @default(false)
+  status               String   @default("completed")
+  // Per-donation public/anonymous preference. Captured at donation time so
+  // changing the flag later doesn't retroactively rewrite older entries.
+  isPublic             Boolean  @default(true)
+  donor                Donor?   @relation(fields: [donorId], references: [id])
+  donorId              Int?
+  createdAt            DateTime @default(now())
 
   @@index([campaign, createdAt])
   @@index([createdAt])
+  @@index([stripeSubscriptionId])
 }
