@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { sanitizePostHtml, sanitizeText } from './sanitize';
 
 const client = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
@@ -27,14 +28,17 @@ export async function rewriteAsArticle(opts: {
   const fallbackCategory = inferCategory(opts.rawTitle + ' ' + opts.rawDescription);
 
   if (!client) {
+    // Fallback when OPENAI_API_KEY is unset. Even here we sanitize — the
+    // raw Facebook description is attacker-controlled text.
+    const rawHtml = `<p>${escapeHtml(opts.rawDescription)}</p>${
+      opts.link
+        ? `<p><a href="${escapeAttr(opts.link)}" target="_blank" rel="noopener noreferrer">Vezi postarea originală pe Facebook</a></p>`
+        : ''
+    }`;
     return {
-      title: opts.rawTitle.slice(0, 140) || 'Vești din parohie',
-      excerpt: opts.rawDescription.slice(0, 240),
-      contentHtml: `<p>${escapeHtml(opts.rawDescription)}</p>${
-        opts.link
-          ? `<p><a href="${escapeAttr(opts.link)}" target="_blank" rel="noopener noreferrer">Vezi postarea originală pe Facebook</a></p>`
-          : ''
-      }`,
+      title: sanitizeText(opts.rawTitle).slice(0, 140) || 'Vești din parohie',
+      excerpt: sanitizeText(opts.rawDescription).slice(0, 240),
+      contentHtml: sanitizePostHtml(rawHtml),
       category: fallbackCategory,
     };
   }
@@ -97,20 +101,25 @@ Rescrie acest text ca articol de blog parohial. Răspunde DOAR cu JSON-ul cerut,
         ? (parsed.category as RewrittenArticle['category'])
         : fallbackCategory;
 
+    // Sanitize EVERYTHING the model returned. The model can be jailbroken
+    // by an attacker-controlled Facebook post body into emitting <script>
+    // or unsafe links. Defense in depth: we also sanitize on render, but
+    // there's no reason to store unsafe HTML in the DB.
+    const safeContent = sanitizePostHtml(
+      parsed.contentHtml || `<p>${escapeHtml(opts.rawDescription)}</p>`,
+    );
     return {
-      title: (parsed.title || opts.rawTitle || 'Vești din parohie').slice(0, 200),
-      excerpt: (parsed.excerpt || '').slice(0, 260),
-      contentHtml:
-        parsed.contentHtml ||
-        `<p>${escapeHtml(opts.rawDescription)}</p>`,
+      title: sanitizeText(parsed.title || opts.rawTitle || 'Vești din parohie').slice(0, 200),
+      excerpt: sanitizeText(parsed.excerpt || '').slice(0, 260),
+      contentHtml: safeContent,
       category,
     };
   } catch (err) {
     console.error('[ai-rewriter] OpenAI call failed, falling back:', err);
     return {
-      title: opts.rawTitle.slice(0, 140) || 'Vești din parohie',
-      excerpt: opts.rawDescription.slice(0, 240),
-      contentHtml: `<p>${escapeHtml(opts.rawDescription)}</p>`,
+      title: sanitizeText(opts.rawTitle).slice(0, 140) || 'Vești din parohie',
+      excerpt: sanitizeText(opts.rawDescription).slice(0, 240),
+      contentHtml: sanitizePostHtml(`<p>${escapeHtml(opts.rawDescription)}</p>`),
       category: fallbackCategory,
     };
   }

@@ -5,6 +5,7 @@ import { Hero } from '../../../components/site/hero';
 import { Badge } from '../../../components/ui/badge';
 import { formatDateRo } from '../../../lib/utils';
 import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
+import { sanitizePostHtml } from '@/lib/sanitize';
 
 export const revalidate = 60;
 
@@ -68,7 +69,13 @@ export default async function PostPage({ params }: Props) {
             className="rounded-2xl w-full max-h-[480px] object-cover mb-10 shadow-sm"
           />
         )}
-        <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+        {/* Sanitize on render too — defense in depth in case a legacy
+            WordPress-imported post has dangerous HTML the save handler
+            never sanitized. */}
+        <div
+          className="wp-content"
+          dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.content) }}
+        />
         {post.categories.length > 0 && (
           <div className="mt-10 pt-6 border-t border-border flex flex-wrap items-center gap-2">
             <span className="text-sm text-ink-muted mr-2">Categorii:</span>

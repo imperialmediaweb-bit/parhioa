@@ -40,6 +40,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "resend": "^6.12.4",
+    "sanitize-html": "^2.17.5",
     "slugify": "^1.6.6",
     "stripe": "^14.21.0",
     "tailwind-merge": "^2.3.0",
@@ -48,6 +49,7 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/sanitize-html": "^2.16.1",
     "dotenv": "^16.3.1",
     "ts-node": "^10.9.2"
   }

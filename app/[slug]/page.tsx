@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { prisma } from '../../lib/prisma';
 import { Hero } from '../../components/site/hero';
+import { sanitizePostHtml } from '@/lib/sanitize';
 
 export const revalidate = 60;
 
@@ -73,7 +74,10 @@ export default async function DynamicPage({ params }: Props) {
               className="rounded-2xl w-full max-h-[480px] object-cover mb-10 shadow-sm"
             />
           )}
-          <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content }} />
+          <div
+            className="wp-content"
+            dangerouslySetInnerHTML={{ __html: sanitizePostHtml(page.content) }}
+          />
         </article>
       </>
     );
