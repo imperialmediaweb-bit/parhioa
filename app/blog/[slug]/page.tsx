@@ -7,6 +7,8 @@ import { formatDateRo } from '../../../lib/utils';
 import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
 import { sanitizePostHtml } from '@/lib/sanitize';
 import { DEFAULT_OG_IMAGE } from '@/lib/site';
+import { blogPostingJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
+import { JsonLd } from '@/components/site/jsonld';
 
 export const revalidate = 60;
 
@@ -75,6 +77,23 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          blogPostingJsonLd({
+            slug: post.slug,
+            title: post.title,
+            excerpt: post.excerpt,
+            publishedAt: post.publishedAt,
+            updatedAt: (post as any).updatedAt ?? null,
+            imageUrl: post.featured?.url ?? null,
+          }),
+          breadcrumbJsonLd([
+            { name: 'Acasă', path: '/' },
+            { name: 'Blog', path: '/blog' },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
       <Hero
         title={post.title}
         subtitle={post.publishedAt ? formatDateRo(post.publishedAt) : undefined}

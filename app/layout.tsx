@@ -4,7 +4,9 @@ import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
 import { MobileDonateCta } from '@/components/site/mobile-donate-cta';
 import { SmoothScrollProvider } from '@/components/site/smooth-scroll-provider';
+import { JsonLd } from '@/components/site/jsonld';
 import { SITE_URL, DEFAULT_OG_IMAGE } from '@/lib/site';
+import { organizationJsonLd, websiteJsonLd } from '@/lib/jsonld';
 import './globals.css';
 
 // Body + most titles — warm, readable serif with italic
@@ -97,6 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${lora.variable} ${cinzelDecorative.variable} ${marcellusSC.variable} ${cinzel.variable}`}
     >
       <body>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <SmoothScrollProvider />
         <SiteHeader />
         <main className="min-h-[60vh]">{children}</main>
