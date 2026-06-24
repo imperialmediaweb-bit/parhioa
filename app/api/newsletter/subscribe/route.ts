@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendNewsletterWelcome } from '@/lib/email';
 import { clientIp, rateLimitMulti } from '@/lib/rate-limit';
+import { SITE_URL } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -26,9 +27,6 @@ function originAllowed(req: NextRequest): boolean {
 }
 
 const EMAIL_RE = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i;
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://parohiasfteodoradelasihla.ro';
 
 export async function POST(req: NextRequest) {
   if (!originAllowed(req)) {

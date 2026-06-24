@@ -1,13 +1,11 @@
 import { Resend } from 'resend';
+import { SITE_URL } from './site';
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const FROM =
   process.env.EMAIL_FROM ||
   'Parohia Sf. Teodora <contact@parohiasfteodoradelasihla.ro>';
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://parohiasfteodoradelasihla.ro';
 
 const LOGO_URL =
   'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png';

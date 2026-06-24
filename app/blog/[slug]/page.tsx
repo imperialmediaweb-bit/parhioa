@@ -6,6 +6,7 @@ import { Badge } from '../../../components/ui/badge';
 import { formatDateRo } from '../../../lib/utils';
 import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
 import { sanitizePostHtml } from '@/lib/sanitize';
+import { DEFAULT_OG_IMAGE } from '@/lib/site';
 
 export const revalidate = 60;
 
@@ -42,8 +43,30 @@ async function getPost(slug: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(params.slug);
-  if (!post) return { title: 'Articol negăsit' };
-  return { title: post.title, description: post.excerpt || undefined };
+  if (!post) return { title: 'Articol negăsit', robots: { index: false } };
+
+  const url = `/blog/${post.slug}`;
+  const description = post.excerpt || undefined;
+  const image = post.featured?.url || DEFAULT_OG_IMAGE;
+  const publishedTime =
+    post.publishedAt instanceof Date
+      ? post.publishedAt.toISOString()
+      : post.publishedAt || undefined;
+
+  return {
+    title: post.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      url,
+      title: post.title,
+      description,
+      publishedTime,
+      images: [{ url: image, alt: post.featured?.alt || post.title }],
+    },
+    twitter: { card: 'summary_large_image', title: post.title, description, images: [image] },
+  };
 }
 
 export default async function PostPage({ params }: Props) {

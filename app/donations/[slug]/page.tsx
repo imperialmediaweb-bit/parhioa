@@ -13,6 +13,7 @@ import { CopyButton } from '@/components/site/copy-button';
 import { Heart, ShieldCheck, Building2, Landmark, User } from 'lucide-react';
 import { isStripeConfigured } from '@/lib/stripe';
 import { findCampaign } from '@/lib/campaigns';
+import { DEFAULT_OG_IMAGE } from '@/lib/site';
 
 // Amount → realistic construction unit (price-anchored). Each preset describes
 // what the gift actually pays for in the church build.
@@ -31,9 +32,23 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const c = findCampaign(params.slug);
-  return c
-    ? { title: c.title, description: c.description[0] }
-    : { title: 'Campanie inexistentă' };
+  if (!c) return { title: 'Campanie inexistentă', robots: { index: false } };
+
+  const url = `/donations/${c.slug}`;
+  const description = c.description[0];
+  return {
+    title: c.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      title: c.title,
+      description,
+      images: [{ url: DEFAULT_OG_IMAGE, alt: c.title }],
+    },
+    twitter: { card: 'summary_large_image', title: c.title, description, images: [DEFAULT_OG_IMAGE] },
+  };
 }
 
 export default async function DonationCampaignPage({
