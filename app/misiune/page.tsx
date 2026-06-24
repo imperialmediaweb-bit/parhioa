@@ -219,7 +219,7 @@ export default async function MisiunePage() {
             Ajută la construirea bisericii și la sprijinirea familiilor în nevoie. E simplu. E legal.
             E cu rost.
           </p>
-          <Link href="/directioneaza-20"><Button size="lg">Direcționează impozit</Button></Link>
+          <Link href="/contact"><Button size="lg">Cere detalii pentru firma ta</Button></Link>
         </FadeIn>
       </section>
     </>

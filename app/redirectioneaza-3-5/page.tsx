@@ -20,8 +20,11 @@ import { getImages } from '@/lib/images';
 
 export const metadata = { title: 'Redirecționează 3,5%' };
 
-// Replace this with your real PDF download URL (e.g. from Cloudinary or /public/forms/anaf-230.pdf)
-const ANAF_230_PDF_URL = '/forms/anaf-230.pdf';
+// Official ANAF form 230, hosted on the Romanian National Tax Authority's
+// portal. Stable URL. The parish CIF the donor needs (48801453) is
+// pre-printed in the "Susține parohia" sub-section just below.
+const ANAF_230_PDF_URL =
+  'https://static.anaf.ro/static/10/Anaf/formulare/Anexa_1_OPANAF_15_2021_an2023.pdf';
 const WHATSAPP_PHONE = '40754510167';
 const WHATSAPP_DISPLAY = '+40 754 510 167';
 const CONTACT_EMAIL = 'contact@parohiasfteodoradelasihla.ro';
@@ -230,14 +233,20 @@ export default async function Redirect35Page() {
                 </p>
                 <a
                   href={ANAF_230_PDF_URL}
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-burgundy hover:bg-burgundy-dark text-white font-semibold px-7 py-4 rounded-full transition shadow-lg hover:shadow-xl text-base"
                 >
                   <Download className="h-5 w-5" />
                   Descarcă formular 230 (PDF)
                 </a>
-                <p className="text-xs text-ink-soft mt-4">
-                  Salvează fișierul în <code className="bg-cream-card px-1 py-0.5 rounded">public/forms/anaf-230.pdf</code> sau pe Cloudinary
+                <p className="text-xs text-ink-soft mt-4 leading-relaxed">
+                  Se deschide PDF-ul oficial al ANAF. Îl completați acasă cu pixul
+                  sau electronic, apoi îl trimiteți la ANAF sau direct nouă la{' '}
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="text-burgundy underline">
+                    {CONTACT_EMAIL}
+                  </a>{' '}
+                  — îl depunem noi pentru dumneavoastră.
                 </p>
               </div>
             </Card>
@@ -245,38 +254,29 @@ export default async function Redirect35Page() {
         </div>
       </section>
 
-      {/* Online form embed (e.g., redirectioneaza.ro / formular230.ro iframe) */}
+      {/* Online form helper — opens the ANAF Spațiul Privat Virtual flow */}
       <section id="completeaza" className="bg-cream-card py-12 scroll-mt-24">
-        <div className="container max-w-4xl">
+        <div className="container max-w-3xl text-center">
           <FadeIn>
-            <div className="text-center mb-8">
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-4">
-                Completează online, direct mai jos!
-              </h2>
-              <p className="text-ink-muted text-[17px] leading-relaxed max-w-2xl mx-auto">
-                Completează formularul direct pe site, semnează electronic și generează PDF-ul cu
-                semnătura digitală. Totul se face rapid, online, fără să descarci programe suplimentare!
-              </p>
-            </div>
-
-            {/*
-              Embed iframe for the form 230 generator. Replace src below
-              with the embed URL from your provider (e.g., redirectioneaza.ro,
-              formular230.ro, Typeform, Google Forms, or a custom solution).
-            */}
-            <div className="rounded-3xl overflow-hidden shadow-xl bg-white border border-border">
-              <iframe
-                src="about:blank"
-                title="Formular 230 — completare online"
-                className="w-full"
-                style={{ minHeight: '900px', border: 0 }}
-                loading="lazy"
-                allow="payment"
-              />
-            </div>
-            <p className="text-xs text-ink-soft mt-4 italic text-center">
-              💡 Înlocuiește atributul <code className="bg-white px-1 py-0.5 rounded">src=&quot;about:blank&quot;</code>{' '}
-              cu URL-ul iframe-ului tău (de pe redirectioneaza.ro, formular230.ro sau soluția pe care o folosești).
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight mb-4">
+              Sau completați direct online
+            </h2>
+            <p className="text-ink-muted text-[17px] leading-relaxed mb-6 max-w-2xl mx-auto">
+              Dacă aveți cont pe <strong>Spațiul Privat Virtual</strong> al ANAF,
+              puteți depune formularul 230 electronic, semnat cu semnătură
+              electronică. Nu trebuie să imprimați nimic.
+            </p>
+            <a
+              href="https://www.anaf.ro/anaf/internet/ANAF/servicii_online/inreg_inrol_pf_pj_spv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-burgundy text-cream font-semibold hover:bg-burgundy-dark transition-colors"
+            >
+              <FileText className="h-4 w-4" /> Deschide ANAF Spațiul Privat Virtual
+            </a>
+            <p className="text-xs text-ink-soft mt-4 italic">
+              Asigurați-vă că ați completat în formular CIF-ul parohiei:{' '}
+              <strong className="text-burgundy">48801453</strong>.
             </p>
           </FadeIn>
         </div>

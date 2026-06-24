@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, Linkedin, Music2, MapPin, Mail, Phone, User } from 'lucide-react';
+import { Facebook, MapPin, Mail, Phone, User } from 'lucide-react';
 import { OrthodoxCross } from './cross-divider';
 
 const INFO = [
@@ -11,12 +11,18 @@ const INFO = [
   { label: 'Contact', href: '/contact' },
 ];
 
+// Only routes that have a real page behind them. "Voluntariat" and
+// "Direcționează 20% / Evenimente" land elsewhere or aren't built yet —
+// keep the menu honest until those pages exist.
 const RESURSE = [
-  { label: 'Direcționează 20%', href: '/directioneaza-20' },
+  { label: 'Donează', href: '/donations/strangere-de-fonduri-pentru-construirea-bisericii' },
   { label: 'Redirecționează 3,5%', href: '/redirectioneaza-3-5' },
-  { label: 'Voluntariat', href: '/voluntariat' },
-  { label: 'Evenimente', href: '/evenimente' },
+  { label: 'Voluntariat', href: '/contact' },
 ];
+
+const FACEBOOK_URL =
+  process.env.NEXT_PUBLIC_FACEBOOK_URL ||
+  'https://www.facebook.com/profile.php?id=61573108296072';
 
 export function SiteFooter() {
   return (
@@ -67,9 +73,9 @@ export function SiteFooter() {
               rugăciune și dragoste frățească, sub ocrotirea Sfintei Cuvioase Teodora.
             </p>
             <div className="flex gap-2.5 pt-1">
-              <SocialLink href="#" label="Facebook"><Facebook className="h-4 w-4" /></SocialLink>
-              <SocialLink href="#" label="TikTok"><Music2 className="h-4 w-4" /></SocialLink>
-              <SocialLink href="#" label="LinkedIn"><Linkedin className="h-4 w-4" /></SocialLink>
+              <SocialLink href={FACEBOOK_URL} label="Facebook" external>
+                <Facebook className="h-4 w-4" />
+              </SocialLink>
             </div>
           </div>
 
@@ -196,11 +202,23 @@ function FooterLink({ label, href }: { label: string; href: string }) {
   );
 }
 
-function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+function SocialLink({
+  href,
+  label,
+  children,
+  external = false,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+  external?: boolean;
+}) {
   return (
     <a
       href={href}
       aria-label={label}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
       className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-burgundy-dark transition-all hover:shadow-candlelight"
     >
       {children}

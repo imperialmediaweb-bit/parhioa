@@ -33,11 +33,23 @@ const nextConfig = {
       { source: '/redirectioneaza-35/', destination: '/redirectioneaza-3-5', permanent: true },
       { source: '/redirectioneaza-35', destination: '/redirectioneaza-3-5', permanent: true },
 
-      { source: '/directioneza-20/', destination: '/directioneaza-20', permanent: true },
-      { source: '/directioneza-20', destination: '/directioneaza-20', permanent: true },
+      // /directioneaza-20 doesn't exist yet (corporate 20% form). Route any
+      // legacy WP misspellings to the contact page so firms reach us anyway.
+      { source: '/directioneza-20/', destination: '/contact', permanent: false },
+      { source: '/directioneza-20', destination: '/contact', permanent: false },
+      { source: '/directioneaza-20/', destination: '/contact', permanent: false },
+      { source: '/directioneaza-20', destination: '/contact', permanent: false },
 
-      { source: '/volunariat/', destination: '/voluntariat', permanent: true },
-      { source: '/volunariat', destination: '/voluntariat', permanent: true },
+      // No standalone /voluntariat page; volunteering = contact the parish.
+      { source: '/volunariat/', destination: '/contact', permanent: false },
+      { source: '/volunariat', destination: '/contact', permanent: false },
+      { source: '/voluntariat/', destination: '/contact', permanent: false },
+      { source: '/voluntariat', destination: '/contact', permanent: false },
+
+      // /evenimente isn't a separate page; we surface events on /blog and
+      // the homepage news ticker.
+      { source: '/evenimente/', destination: '/blog', permanent: false },
+      { source: '/evenimente', destination: '/blog', permanent: false },
 
       // Donations / campaigns
       { source: '/donations/', destination: '/campanii', permanent: true },
