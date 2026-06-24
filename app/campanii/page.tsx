@@ -5,25 +5,23 @@ import { FadeIn } from '@/components/magicui/fade-in';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { NumberTicker } from '@/components/magicui/number-ticker';
-import { DonateForm } from '@/components/site/donate-form';
-import { Quote, Building2 } from 'lucide-react';
+import { Quote, Building2, ArrowRight } from 'lucide-react';
 import { getImages } from '@/lib/images';
-import { isStripeConfigured } from '@/lib/stripe';
+import { activeCampaigns } from '@/lib/campaigns';
 
 export const metadata = { title: 'Campanii' };
 
 export default async function CampaniiPage() {
   const IMG = await getImages();
-  const CAMPAIGNS = [
-    {
-      slug: 'zidirea-bisericii',
-      image: IMG.campaignPoster,
-      title: 'Strângere de fonduri pentru construirea bisericii',
-      quote: '„Nu zidurile fac Biserica, ci credința; dar fără ziduri, credința nu are unde…"',
-      excerpt:
-        'Devino ctitor al bisericii noi a Parohiei Sfânta Cuvioasă Teodora de la Sihla. Fiecare cărămidă spune o rugăciune. Susține construcția lăcașului de cult.',
-    },
-  ];
+  // Single source of truth — derive cards from lib/campaigns so the title,
+  // slug and quote always match the canonical campaign page.
+  const CAMPAIGNS = activeCampaigns.map((c) => ({
+    slug: c.slug,
+    image: IMG[c.image],
+    title: c.title,
+    quote: c.bodyQuote ? `„${c.bodyQuote.text}"` : '',
+    excerpt: c.description[0] ?? '',
+  }));
 
   return (
     <>
@@ -49,9 +47,11 @@ export default async function CampaniiPage() {
                   </h3>
                   <p className="font-serif italic text-ink-muted mb-4 text-[15px]">{c.quote}</p>
                   <p className="text-sm text-ink-muted leading-relaxed mb-6">{c.excerpt}</p>
-                  <a href={`#donate-${c.slug}`}>
-                    <Button size="lg">Donează acum</Button>
-                  </a>
+                  <Link href={`/donations/${c.slug}`}>
+                    <Button size="lg" className="gap-2">
+                      Vezi campania și donează <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Card>
@@ -94,42 +94,6 @@ export default async function CampaniiPage() {
           </div>
         </div>
       </section>
-
-      {/* Per-campaign donate forms */}
-      {CAMPAIGNS.map((c) => (
-        <section
-          key={c.slug}
-          id={`donate-${c.slug}`}
-          className="container py-12 scroll-mt-24"
-        >
-          <FadeIn>
-            <div className="grid lg:grid-cols-2 gap-10 items-start max-w-5xl mx-auto">
-              <div>
-                <SectionEyebrow>Devino ctitor</SectionEyebrow>
-                <h3 className="font-display text-3xl sm:text-4xl font-semibold leading-tight mb-4">
-                  Susține: <em className="italic text-burgundy">{c.title}</em>
-                </h3>
-                <p className="text-ink-muted leading-relaxed mb-4">{c.excerpt}</p>
-                <p className="font-serif italic text-burgundy">{c.quote}</p>
-              </div>
-              <Card className="p-6 sm:p-8 bg-white border border-border">
-                {!isStripeConfigured && (
-                  <div className="mb-5 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
-                    ⚠️ Stripe nu e configurat. Setează <code>STRIPE_SECRET_KEY</code> în Railway →
-                    Variables pentru ca plățile să funcționeze.
-                  </div>
-                )}
-                <DonateForm
-                  campaign={c.slug}
-                  campaignTitle={c.title}
-                  defaultAmount={c.defaultAmount}
-                  bankDetails={c.bankDetails}
-                />
-              </Card>
-            </div>
-          </FadeIn>
-        </section>
-      ))}
 
       {/* CTA */}
       <section className="bg-burgundy text-white py-20">

@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { v2 as cloudinary } from 'cloudinary';
 import slugify from 'slugify';
 import { prisma } from '@/lib/prisma';
 import { fetchFeed, type FeedItem } from '@/lib/facebook-feed';
 import { rewriteAsArticle } from '@/lib/ai-rewriter';
 import { uploadRemoteImage } from '@/lib/image-upload';
+import { isAdminKeyValid } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -36,21 +38,25 @@ function uniqueSlug(base: string): string {
 
 function isAuthorized(req: NextRequest): boolean {
   const expected = process.env.CRON_SECRET;
-  if (!expected) {
-    // No secret set → require ADMIN_KEY instead so we don't accidentally
-    // expose this endpoint to anyone.
-    const adminExpected = process.env.ADMIN_KEY;
-    const providedKey = req.nextUrl.searchParams.get('key');
-    if (adminExpected && providedKey === adminExpected) return true;
+  if (expected) {
+    // Preferred: Authorization: Bearer <secret> header (not logged in URLs).
+    const auth = req.headers.get('authorization');
+    if (auth && safeStringEqual(auth, `Bearer ${expected}`)) return true;
+    // Fallback for simple GET schedulers that can't set headers.
+    const q = req.nextUrl.searchParams.get('secret');
+    if (q && safeStringEqual(q, expected)) return true;
     return false;
   }
+  // No CRON_SECRET → fall back to a valid ADMIN_KEY in ?key= so the endpoint
+  // is never world-open. FAIL-CLOSED if neither is configured.
+  return isAdminKeyValid(req.nextUrl.searchParams.get('key'));
+}
 
-  // Header (preferred for cron services)
-  const auth = req.headers.get('authorization');
-  if (auth === `Bearer ${expected}`) return true;
-  // Query param fallback (easier for simple GET schedulers)
-  if (req.nextUrl.searchParams.get('secret') === expected) return true;
-  return false;
+function safeStringEqual(a: string, b: string): boolean {
+  const ba = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ba.length !== bb.length) return false;
+  return timingSafeEqual(ba, bb);
 }
 
 async function runImport(maxAgeHours: number = 24) {

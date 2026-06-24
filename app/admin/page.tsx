@@ -4,6 +4,8 @@ import { Heart, FileText, Image as ImageIcon, Users, Mail, ExternalLink } from '
 import { MigrateImagesButton } from './migrate-images-button';
 import { ImportFeedButton } from './import-feed-button';
 import { RefetchImagesButton } from './refetch-images-button';
+import { isAdminKeyValid } from '@/lib/admin-auth';
+import { AdminLocked } from './admin-locked';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Parohia Sf. Teodora' };
@@ -17,21 +19,13 @@ export default async function AdminDashboard({
 }: {
   searchParams: SearchParams;
 }) {
-  const expected = process.env.ADMIN_KEY;
   const provided = searchParams.key;
 
-  if (expected && provided !== expected) {
-    return (
-      <div className="container py-20 max-w-md mx-auto text-center">
-        <h1 className="font-display text-2xl text-burgundy mb-3">Acces restricționat</h1>
-        <p className="text-ink-muted text-sm">
-          Accesează panoul prin linkul cu cheia primită.
-        </p>
-      </div>
-    );
+  if (!isAdminKeyValid(provided)) {
+    return <AdminLocked />;
   }
 
-  const keyParam = provided ? `?key=${encodeURIComponent(provided)}` : '';
+  const keyParam = `?key=${encodeURIComponent(provided as string)}`;
 
   const [donationAgg, donorCount, postCount, mediaCount] = await Promise.all([
     prisma.donation.aggregate({

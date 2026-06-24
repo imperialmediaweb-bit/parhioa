@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { CopyEmailsButton } from './copy-emails-button';
+import { isAdminKeyValid } from '@/lib/admin-auth';
+import { AdminLocked } from '../admin-locked';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Donații' };
@@ -13,21 +15,13 @@ export default async function DonationsAdminPage({
 }: {
   searchParams: SearchParams;
 }) {
-  const expected = process.env.ADMIN_KEY;
   const provided = searchParams.key;
 
-  if (expected && provided !== expected) {
-    return (
-      <div className="container py-20 max-w-md mx-auto text-center">
-        <h1 className="font-display text-2xl text-burgundy mb-3">Acces restricționat</h1>
-        <p className="text-ink-muted text-sm">
-          Accesează pagina prin linkul cu cheia primită la administrare.
-        </p>
-      </div>
-    );
+  // FAIL-CLOSED: donor PII (names, emails, phones) is never rendered unless
+  // a valid ADMIN_KEY is configured and matched.
+  if (!isAdminKeyValid(provided)) {
+    return <AdminLocked />;
   }
-
-  const isUnprotected = !expected;
 
   const [donations, donors, aggByStatus] = await Promise.all([
     prisma.donation.findMany({
@@ -88,11 +82,6 @@ export default async function DonationsAdminPage({
             sunt salvați aici.
           </p>
         </div>
-        {isUnprotected && (
-          <span className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2 py-1 rounded">
-            ⚠️ Setează <code>ADMIN_KEY</code> în Railway ca să protejezi pagina
-          </span>
-        )}
       </div>
 
       {/* Stats */}

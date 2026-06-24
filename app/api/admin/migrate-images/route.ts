@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
+import { isAdminKeyValid } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -61,14 +62,13 @@ async function clearDuplicateFeaturedImages(): Promise<number> {
 }
 
 export async function POST(req: NextRequest) {
-  const expected = process.env.ADMIN_KEY;
   let providedKey: string | undefined;
   try {
     const body = await req.json();
     providedKey = body?.key;
   } catch {}
 
-  if (expected && providedKey !== expected) {
+  if (!isAdminKeyValid(providedKey)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
 

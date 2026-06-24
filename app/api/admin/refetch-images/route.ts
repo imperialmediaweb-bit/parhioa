@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { prisma } from '@/lib/prisma';
 import { uploadRemoteImage } from '@/lib/image-upload';
+import { isAdminKeyValid } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -70,13 +71,12 @@ async function getOgImage(url: string): Promise<string | null> {
 }
 
 export async function POST(req: NextRequest) {
-  const expected = process.env.ADMIN_KEY;
   let provided: string | undefined;
   try {
     const body = await req.json();
     provided = body?.key;
   } catch {}
-  if (expected && provided !== expected) {
+  if (!isAdminKeyValid(provided)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
   if (

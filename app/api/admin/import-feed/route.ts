@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { fetchFeed, type FeedItem } from '@/lib/facebook-feed';
 import { rewriteAsArticle } from '@/lib/ai-rewriter';
 import { uploadRemoteImage } from '@/lib/image-upload';
+import { isAdminKeyValid } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -35,13 +36,12 @@ function uniqueSlug(base: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  const expected = process.env.ADMIN_KEY;
   let providedKey: string | undefined;
   try {
     const body = await req.json();
     providedKey = body?.key;
   } catch {}
-  if (expected && providedKey !== expected) {
+  if (!isAdminKeyValid(providedKey)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
 

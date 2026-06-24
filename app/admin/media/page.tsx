@@ -1,11 +1,23 @@
 import { prisma } from '../../../lib/prisma';
+import { isAdminKeyValid } from '@/lib/admin-auth';
+import { AdminLocked } from '../admin-locked';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Media' };
 
-export default async function MediaAdminPage() {
+export default async function MediaAdminPage({
+  searchParams,
+}: {
+  searchParams: { key?: string };
+}) {
+  if (!isAdminKeyValid(searchParams.key)) {
+    return <AdminLocked />;
+  }
+
   const media = await prisma.media.findMany({
-    orderBy: { wpId: 'desc' },
+    // createdAt over wpId: manually-uploaded media have wpId=null which
+    // sorts unpredictably, sinking new uploads to the bottom forever.
+    orderBy: { createdAt: 'desc' },
     take: 200,
   });
 
