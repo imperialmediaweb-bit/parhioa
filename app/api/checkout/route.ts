@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { findCampaign } from '@/lib/campaigns';
 import { clientIp, rateLimitMulti } from '@/lib/rate-limit';
+import { sanitizeShortText } from '@/lib/sanitize';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,18 +35,6 @@ function originAllowed(req: NextRequest): boolean {
   } catch {
     return false;
   }
-}
-
-const CONTROL_CHARS = /[ --‎‏‪-‮⁦-⁩]/g;
-
-function sanitizeShortText(s: string, max: number): string {
-  return s
-    .replace(CONTROL_CHARS, '')
-    .replace(/<[^>]*>/g, '')
-    .replace(/https?:\/\/\S+/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, max);
 }
 
 const EMAIL_RE = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i;
