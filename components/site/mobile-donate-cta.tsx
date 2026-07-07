@@ -1,18 +1,33 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Heart } from 'lucide-react';
 
 export function MobileDonateCta() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
+  // Hide the CTA on pages where the donation form is already on screen —
+  // there it would just link back to the same page and scroll to the top,
+  // which is confusing. Keep it everywhere else (home, blog, despre…) where
+  // it's a useful shortcut to give.
+  const onDonatePage =
+    pathname === '/doneaza' || pathname.startsWith('/donations');
+
   useEffect(() => {
+    if (onDonatePage) {
+      setVisible(false);
+      return;
+    }
     const onScroll = () => setVisible(window.scrollY > 480);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [onDonatePage]);
+
+  if (onDonatePage) return null;
 
   return (
     <div
