@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CheckCircle2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { stripe } from '@/lib/stripe';
+import { PixelDonatie } from '@/components/meta-pixel';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Mulțumim' };
@@ -24,6 +25,7 @@ export default async function MultumimPage({
 
   return (
     <div className="container py-20 max-w-2xl text-center">
+      {searchParams.session_id && <PixelDonatie valoare={amount} id={searchParams.session_id} />}
       <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-burgundy text-white mb-6">
         <CheckCircle2 className="h-12 w-12" />
       </div>

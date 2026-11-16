@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { MetaPixel } from '@/components/meta-pixel';
 import { Lora, Cinzel_Decorative, Marcellus_SC, Cinzel } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-[60vh]">{children}</main>
         <SiteFooter />
         <MobileDonateCta />
+        <MetaPixel />
       </body>
     </html>
   );
