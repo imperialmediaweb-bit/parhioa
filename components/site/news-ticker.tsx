@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { Megaphone } from 'lucide-react';
 import { anuntPostActiv } from '@/lib/anunt-post';
+import { ARTICOLE_STATICE } from '@/lib/articole-statice';
 
 const CATEGORY_LABEL: Record<string, string> = {
   evenimente: 'Eveniment',
@@ -63,6 +64,20 @@ export async function NewsTicker() {
       text: `${anunt.title}: ${anunt.lines.join(' · ')} — ${anunt.location}`,
     });
   }
+
+  // Our own editorial articles from the last 60 days, linked on the ticker.
+  const staticCutoff = Date.now() - 60 * 24 * 60 * 60 * 1000;
+  for (const a of ARTICOLE_STATICE) {
+    if (a.publishedAt.getTime() < staticCutoff) continue;
+    base.push({
+      key: `art-${a.slug}`,
+      accent: true,
+      label: a.category,
+      text: a.title,
+      href: `/blog/${a.slug}`,
+    });
+  }
+
   for (const p of posts) {
     const cat = p.categories?.[0]?.slug;
     base.push({
