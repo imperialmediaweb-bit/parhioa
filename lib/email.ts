@@ -8,7 +8,7 @@ const FROM =
   'Parohia Sf. Teodora <contact@parohiasfteodoradelasihla.ro>';
 
 const LOGO_URL =
-  'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png';
+  'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png';
 
 /** Parohia / admin notification address. Defaults to the FROM address. */
 function adminEmail(): string {

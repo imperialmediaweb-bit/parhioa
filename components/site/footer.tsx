@@ -151,7 +151,7 @@ function FooterLogo() {
   return (
     <Link href="/" className="group inline-flex flex-col gap-3" aria-label="Acasă">
       <img
-        src="https://res.cloudinary.com/dghmoelly/image/upload/v1779891768/Screenshot_101-removebg-preview_yxrjmd.png"
+        src="https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png"
         alt="Parohia Sf. Cuvioasă Teodora de la Sihla"
         className="h-28 sm:h-32 w-auto object-contain drop-shadow-[0_4px_20px_rgba(234,199,132,0.35)] transition-transform group-hover:scale-105"
       />

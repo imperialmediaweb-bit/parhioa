@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { cld } from '@/lib/img';
 
 interface Props {
   src: string;
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const ICON_URL =
-  'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png';
+  'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png';
 
 function PlaceholderArt({ alt, className }: { alt: string; className?: string }) {
   return (
@@ -50,7 +51,7 @@ export function PostImage({ src, alt, className }: Props) {
 
   return (
     <img
-      src={src}
+      src={cld(src)}
       alt={alt}
       className={className}
       onError={() => setErrored(true)}

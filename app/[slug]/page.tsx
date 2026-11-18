@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { prisma } from '../../lib/prisma';
 import { Hero } from '../../components/site/hero';
 import { sanitizePostHtml } from '@/lib/sanitize';
+import { cld, cldAll } from '@/lib/img';
 
 export const revalidate = 60;
 
@@ -69,14 +70,14 @@ export default async function DynamicPage({ params }: Props) {
         <article className="container py-16 max-w-3xl">
           {page.featured?.url && (
             <img
-              src={page.featured.url}
+              src={cld(page.featured.url)}
               alt={page.featured.alt || page.title}
               className="rounded-2xl w-full max-h-[480px] object-cover mb-10 shadow-sm"
             />
           )}
           <div
             className="wp-content"
-            dangerouslySetInnerHTML={{ __html: sanitizePostHtml(page.content) }}
+            dangerouslySetInnerHTML={{ __html: cldAll(sanitizePostHtml(page.content)) }}
           />
         </article>
       </>

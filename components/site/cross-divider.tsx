@@ -37,37 +37,48 @@ export function CrossDivider({
   );
 }
 
-/** Romanian Orthodox carved-wood cross — transparent PNG hosted on Cloudinary. */
-const CROSS_IMG_URL =
-  'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909825/0000078e_c2uclm-removebg-preview_q5jzgo.png';
-
 /**
- * Romanian Orthodox cross — uses the parish's own wooden cross image
- * uploaded to Cloudinary. Falls back to a tiny SVG only if the image
- * fails to load somehow.
+ * Romanian Orthodox three-bar cross, drawn inline as SVG — no external image,
+ * so it never breaks and costs no bandwidth. Gold with a soft inner highlight
+ * to match the parish's parchment-and-gold aesthetic.
  */
 export function OrthodoxCross({
   height = 86,
   className,
-  // kept for API compat; not used now that the image speaks for itself
-  fill: _fill,
-  accent: _accent,
+  fill = '#c9a961',
+  accent = '#f0dca8',
 }: {
   height?: number;
   className?: string;
   fill?: string;
   accent?: string;
 }) {
-  // Original image aspect ratio is roughly 5:7 (taller than wide)
+  const width = Math.round(height * (72 / 100)); // ~5:7, taller than wide
   return (
-    <img
-      src={CROSS_IMG_URL}
-      alt="Cruce ortodoxă"
-      style={{ height, width: 'auto' }}
+    <svg
+      viewBox="0 0 72 100"
+      style={{ height, width }}
       className={className}
-      loading="lazy"
-      decoding="async"
-    />
+      role="img"
+      aria-label="Cruce ortodoxă"
+    >
+      <defs>
+        <linearGradient id="oxcross-g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={accent} />
+          <stop offset="100%" stopColor={fill} />
+        </linearGradient>
+      </defs>
+      <g fill="url(#oxcross-g)" stroke={fill} strokeWidth="0.5">
+        {/* vertical beam */}
+        <rect x="31" y="4" width="10" height="92" rx="2.5" />
+        {/* top bar (titulus) */}
+        <rect x="22" y="18" width="28" height="7" rx="2" />
+        {/* main cross bar */}
+        <rect x="10" y="36" width="52" height="9" rx="2.5" />
+        {/* slanted foot bar (suppedaneum) */}
+        <rect x="20" y="64" width="32" height="7" rx="2" transform="rotate(-18 36 67.5)" />
+      </g>
+    </svg>
   );
 }
 

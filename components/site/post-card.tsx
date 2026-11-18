@@ -32,7 +32,7 @@ export function PostCard({
         <PostImage
           src={
             featuredUrl ||
-            'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png'
+            'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png'
           }
           alt={featuredAlt || title}
           className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"

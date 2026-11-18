@@ -6,6 +6,7 @@ import { Badge } from '../../../components/ui/badge';
 import { formatDateRo } from '../../../lib/utils';
 import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
 import { sanitizePostHtml } from '@/lib/sanitize';
+import { cld, cldAll } from '@/lib/img';
 import { gasesteArticolStatic } from '@/lib/articole-statice';
 import { DEFAULT_OG_IMAGE } from '@/lib/site';
 import { blogPostingJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
@@ -67,7 +68,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const url = `/blog/${post.slug}`;
   const description = post.excerpt || undefined;
-  const image = post.featured?.url || DEFAULT_OG_IMAGE;
+  const image = post.featured?.url ? cld(post.featured.url) : DEFAULT_OG_IMAGE;
   const publishedTime =
     post.publishedAt instanceof Date
       ? post.publishedAt.toISOString()
@@ -124,7 +125,7 @@ export default async function PostPage({ params }: Props) {
       <article className="container py-16 max-w-3xl">
         {post.featured?.url && (
           <img
-            src={post.featured.url}
+            src={cld(post.featured.url)}
             alt={post.featured.alt || post.title}
             className="rounded-2xl w-full max-h-[480px] object-cover mb-10 shadow-sm"
           />
@@ -134,7 +135,7 @@ export default async function PostPage({ params }: Props) {
             never sanitized. */}
         <div
           className="wp-content"
-          dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.content) }}
+          dangerouslySetInnerHTML={{ __html: cldAll(sanitizePostHtml(post.content)) }}
         />
         {post.categories.length > 0 && (
           <div className="mt-10 pt-6 border-t border-border flex flex-wrap items-center gap-2">

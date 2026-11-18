@@ -19,4 +19,4 @@ export function absoluteUrl(path = '/'): string {
 
 /** Default social-share image. The parish patron icon — always available. */
 export const DEFAULT_OG_IMAGE =
-  'https://res.cloudinary.com/dghmoelly/image/upload/v1780574528/sf_theodora_de_la_sihla_ri9rz2.png';
+  'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png';

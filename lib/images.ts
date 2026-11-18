@@ -42,13 +42,13 @@ const IMAGE_MAP = {
   parishIcon: {
     // No DB lookup — pin to the Cloudinary image the user wants used for the parish icon.
     matches: ['__never_match__'],
-    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779909922/Screenshot_98_uqff8q.png',
+    fallback: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png',
   },
 
   // ===== Section: Fii ctitor — community photo =====
   ctitorPhoto: {
     matches: ['__never_match__'],
-    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779910523/594401053_122229437516091213_3614555738436750498_n_yn7qvr.jpg',
+    fallback: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-27849.webp',
   },
 
   // ===== Header / general logo =====
@@ -66,7 +66,7 @@ const IMAGE_MAP = {
   // ===== Architectural rendering of the future church (church progress visualization) =====
   churchRendering: {
     matches: ['wp-28263'],
-    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885066/parhioa/wp-28263.jpg',
+    fallback: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg',
   },
 
   // ===== Video section background (Împreună întru Hristos) =====
@@ -126,11 +126,11 @@ const IMAGE_MAP = {
   // ===== Legacy aliases (so older pages don't break) =====
   handsBranch: {
     matches: ['__never_match__'],
-    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885100/parhioa/wp-28191.webp',
+    fallback: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28191.webp',
   },
   liturghie: {
     matches: ['__never_match__'],
-    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885081/parhioa/wp-28259.png',
+    fallback: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28259.png',
   },
   iconTeodora2: {
     matches: ['screenshot_82'],
@@ -138,7 +138,7 @@ const IMAGE_MAP = {
   },
   handsChurch: {
     matches: ['__never_match__'],
-    fallback: 'https://res.cloudinary.com/dghmoelly/image/upload/f_auto,q_auto:best/v1779885066/parhioa/wp-28305.jpg',
+    fallback: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28305.jpg',
   },
   priestPraying: {
     matches: ['jun-19-2025-05_37_02', '05_37_02'],
