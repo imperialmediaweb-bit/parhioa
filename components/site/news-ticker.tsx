@@ -59,7 +59,7 @@ export async function NewsTicker() {
           className="flex items-center gap-10 py-2.5 whitespace-nowrap animate-marquee hover:[animation-play-state:paused] will-change-transform sm:pl-44 pl-4"
           style={
             {
-              '--duration': '50s',
+              '--duration': '90s',
               '--gap': '2.5rem',
             } as React.CSSProperties
           }
