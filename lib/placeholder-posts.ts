@@ -7,7 +7,7 @@ export type PlaceholderPost = {
   category: string;
 };
 
-const WP_BASE = 'https://www.parohiasfteodoradelasihla.ro';
+const WP_BASE = 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev';
 
 /**
  * Real posts from the live WordPress site, used until the production

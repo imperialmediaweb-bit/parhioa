@@ -2,7 +2,7 @@ import { cache } from 'react';
 import { prisma } from './prisma';
 import { cld } from './img';
 
-const WP_BASE = 'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads';
+const WP_BASE = 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/wp-content/uploads';
 
 type ImageEntry = {
   /** All fragments are tried in order; first DB hit wins. */
@@ -19,11 +19,11 @@ const IMAGE_MAP = {
   // ===== Hero slider (exact images from live elementskit-advanced-slider) =====
   heroSlide1: {
     matches: ['image-9-1', 'image-9'],
-    fallback: `${WP_BASE}/2024/04/image-9-1.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28264.png",
   },
   heroSlide2: {
     matches: ['image-8', '2025/07/image-8'],
-    fallback: `${WP_BASE}/2025/07/image-8.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg",
   },
 
   // ===== Section: Părintele Cătălin Ailenei =====
@@ -72,19 +72,19 @@ const IMAGE_MAP = {
   // ===== Video section background (Împreună întru Hristos) =====
   videoSectionBg: {
     matches: ['image-5-picsart', 'picsart-aiimageenhancer', 'image-5-'],
-    fallback: `${WP_BASE}/2025/06/image-5-Picsart-AiImageEnhancer-2.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28264.png",
   },
 
   // ===== Newsletter background =====
   newsletterBg: {
     matches: ['image-6.webp', '2025/06/image-6'],
-    fallback: `${WP_BASE}/2025/06/image-6.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28264.png",
   },
 
   // ===== Background for redirect-3-5 hero =====
   redirectHeroBg: {
     matches: ['image-7.webp', '2025/06/image-7'],
-    fallback: `${WP_BASE}/2025/06/image-7.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg",
   },
 
   // ===== Donate section: 4 small icon images (left grid) =====
@@ -108,19 +108,19 @@ const IMAGE_MAP = {
   // ===== Other useful images (preserved from earlier extraction) =====
   iconTeodora: {
     matches: ['screenshot_80', 'screenshot_82'],
-    fallback: `${WP_BASE}/2025/06/Screenshot_80-1-1.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png",
   },
   redirectChurch: {
     matches: ['screenshot_59'],
-    fallback: `${WP_BASE}/2025/06/Screenshot_59-1.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg",
   },
   redirectForm: {
     matches: ['screenshot_77'],
-    fallback: `${WP_BASE}/2025/06/Screenshot_77-1.png`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/wp-content/uploads/2025/10/Screenshot_300.png",
   },
   donationFamily: {
     matches: ['400455773'],
-    fallback: `${WP_BASE}/2025/06/400455773_122112509750091213_6175291480986669359_n.jpg`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/wp-content/uploads/2025/10/560667523_122224079870091213_5138230694830966099_n.jpg",
   },
 
   // ===== Legacy aliases (so older pages don't break) =====
@@ -142,7 +142,7 @@ const IMAGE_MAP = {
   },
   priestPraying: {
     matches: ['jun-19-2025-05_37_02', '05_37_02'],
-    fallback: `${WP_BASE}/2025/06/ChatGPT-Image-Jun-19-2025-05_37_02-PM-1.webp`,
+    fallback: "https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/wp-content/uploads/2025/06/Catalin-Ailenei.webp",
   },
 } satisfies Record<string, ImageEntry>;
 
