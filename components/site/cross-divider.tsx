@@ -53,56 +53,70 @@ export function OrthodoxCross({
   fill?: string;
   accent?: string;
 }) {
-  const width = Math.round(height * (76 / 108));
-  const gid = 'oxcross-g';
-  const sid = 'oxcross-sheen';
-  // Trefoil (3-lobe) terminals at each beam end — the Romanian/Byzantine
-  // budded-cross motif — rendered as three small circles.
-  const Bud = ({ cx, cy }: { cx: number; cy: number }) => (
-    <g fill={`url(#${gid})`} stroke={fill} strokeWidth="0.4">
-      <circle cx={cx} cy={cy} r="3.1" />
-      <circle cx={cx - 3.4} cy={cy} r="2.6" />
-      <circle cx={cx + 3.4} cy={cy} r="2.6" />
+  const width = Math.round(height * (80 / 116));
+  // A bejeweled Byzantine cross: gold frame, deep-red body, inlaid rubies
+  // (red) and sapphires (blue). `fill`/`accent` keep the gold tones.
+  const gem = (cx: number, cy: number, r: number, type: 'ruby' | 'sapphire') => (
+    <g key={`${cx}-${cy}`}>
+      <circle cx={cx} cy={cy} r={r} fill={`url(#ox-${type})`} stroke="#00000022" strokeWidth="0.4" />
+      <ellipse cx={cx - r * 0.28} cy={cy - r * 0.32} rx={r * 0.38} ry={r * 0.26} fill="#ffffff" opacity="0.65" />
     </g>
   );
   return (
     <svg
-      viewBox="0 0 76 108"
+      viewBox="0 0 80 116"
       style={{ height, width }}
       className={className}
       role="img"
       aria-label="Cruce ortodoxă"
     >
       <defs>
-        <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="ox-gold" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor={accent} />
-          <stop offset="55%" stopColor={fill} />
-          <stop offset="100%" stopColor={accent} />
+          <stop offset="50%" stopColor={fill} />
+          <stop offset="100%" stopColor="#9c7d3f" />
         </linearGradient>
-        <linearGradient id={sid} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-          <stop offset="45%" stopColor="#ffffff" stopOpacity="0.5" />
-          <stop offset="55%" stopColor="#ffffff" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        <linearGradient id="ox-body" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#a52236" />
+          <stop offset="55%" stopColor="#7e1526" />
+          <stop offset="100%" stopColor="#5a0e1a" />
         </linearGradient>
+        <radialGradient id="ox-ruby" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#ff7183" />
+          <stop offset="45%" stopColor="#e02a40" />
+          <stop offset="100%" stopColor="#7d0c1c" />
+        </radialGradient>
+        <radialGradient id="ox-sapphire" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#8fb4ff" />
+          <stop offset="45%" stopColor="#2f5fd0" />
+          <stop offset="100%" stopColor="#102a6b" />
+        </radialGradient>
       </defs>
-      <g fill={`url(#${gid})`} stroke={fill} strokeWidth="0.6" strokeLinejoin="round">
-        {/* vertical beam */}
-        <rect x="32" y="8" width="12" height="94" rx="3" />
-        {/* top bar (titulus) */}
-        <rect x="23" y="22" width="30" height="8" rx="2.5" />
-        {/* main cross bar */}
-        <rect x="9" y="42" width="58" height="11" rx="3" />
-        {/* slanted foot bar (suppedaneum) */}
-        <rect x="19" y="72" width="38" height="8" rx="2.5" transform="rotate(-16 38 76)" />
+
+      {/* gold frame (slightly larger, drawn behind) */}
+      <g fill="url(#ox-gold)" stroke="#8a6d33" strokeWidth="0.6" strokeLinejoin="round">
+        <rect x="33.5" y="7" width="13" height="102" rx="3.5" />
+        <rect x="23" y="22" width="34" height="9.5" rx="3" />
+        <rect x="8" y="44" width="64" height="13" rx="3.5" />
+        <rect x="20" y="76" width="40" height="9" rx="3" transform="rotate(-16 40 80.5)" />
       </g>
-      {/* budded terminals */}
-      <Bud cx={38} cy={9} />
-      <Bud cx={38} cy={100} />
-      <Bud cx={11} cy={47.5} />
-      <Bud cx={65} cy={47.5} />
-      {/* subtle vertical sheen */}
-      <rect x="32" y="8" width="12" height="94" rx="3" fill={`url(#${sid})`} opacity="0.35" />
+      {/* red enamel body (inset) */}
+      <g fill="url(#ox-body)">
+        <rect x="36" y="9.5" width="8" height="97" rx="2.5" />
+        <rect x="25.5" y="24.3" width="29" height="5" rx="2" />
+        <rect x="10.5" y="46.5" width="59" height="8.3" rx="2.5" />
+        <rect x="22.5" y="78.2" width="35" height="4.8" rx="2" transform="rotate(-16 40 80.5)" />
+      </g>
+
+      {/* inlaid gems */}
+      {gem(40, 50.5, 4.6, 'ruby')}      {/* center — ruby */}
+      {gem(13.5, 50.5, 3, 'sapphire')}  {/* left arm */}
+      {gem(66.5, 50.5, 3, 'sapphire')}  {/* right arm */}
+      {gem(40, 12.5, 2.6, 'sapphire')}  {/* top */}
+      {gem(40, 103, 2.6, 'sapphire')}   {/* bottom */}
+      {gem(40, 27, 2.1, 'ruby')}        {/* titulus */}
+      {gem(40, 68, 2.6, 'ruby')}        {/* lower stem */}
+      {gem(40, 86, 2.3, 'ruby')}        {/* near foot */}
     </svg>
   );
 }
