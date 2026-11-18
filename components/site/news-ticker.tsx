@@ -94,7 +94,7 @@ export async function NewsTicker() {
 
   // Keep the scroll speed constant no matter how many announcements there
   // are: longer list → proportionally longer duration. ~13s per item.
-  const durationSec = Math.max(70, base.length * 13);
+  const durationSec = Math.max(110, base.length * 22);
 
   return (
     <div className="relative bg-gradient-to-r from-burgundy-dark via-burgundy to-burgundy-dark border-y border-gold/40 text-cream overflow-hidden">
