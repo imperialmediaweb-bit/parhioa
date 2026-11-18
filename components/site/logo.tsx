@@ -12,10 +12,10 @@ interface LogoProps {
 // reads clearly on phones — the icon is the parish's visual anchor and was
 // too small on small screens.
 const SIZE_CLASSES: Record<NonNullable<LogoProps['size']>, string> = {
-  sm: 'w-14 h-14 sm:w-14 sm:h-14',
-  default: 'w-20 h-20 sm:w-20 sm:h-20 lg:w-24 lg:h-24',
-  lg: 'w-24 h-24 sm:w-24 sm:h-24 lg:w-28 lg:h-28',
-  xl: 'w-28 h-28 sm:w-28 sm:h-28 lg:w-32 lg:h-32',
+  sm: 'w-16 h-16 sm:w-16 sm:h-16',
+  default: 'w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32',
+  lg: 'w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36',
+  xl: 'w-32 h-32 sm:w-36 sm:h-36 lg:w-40 lg:h-40',
 };
 
 export function Logo({
