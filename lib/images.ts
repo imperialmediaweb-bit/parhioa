@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import { prisma } from './prisma';
-import { enhanceCloudinary } from './cloudinary-transform';
+import { cld } from './img';
 
 const WP_BASE = 'https://www.parohiasfteodoradelasihla.ro/wp-content/uploads';
 
@@ -188,10 +188,10 @@ export const getImages = cache(async (): Promise<Record<ImageKey, string>> => {
     // Fall back to WP URLs (already in result).
   }
 
-  // Auto-enhance every Cloudinary URL we return — f_auto, q_auto and a gentle
-  // color/contrast improvement. WordPress fallback URLs are returned untouched.
+  // Rewrite every Cloudinary (dghmoelly) URL — from the DB or a hardcoded
+  // fallback — to its R2 equivalent, since Cloudinary no longer serves them.
   for (const key of Object.keys(result) as ImageKey[]) {
-    result[key] = enhanceCloudinary(result[key]);
+    result[key] = cld(result[key]);
   }
 
   return result;
