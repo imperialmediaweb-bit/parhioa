@@ -53,31 +53,56 @@ export function OrthodoxCross({
   fill?: string;
   accent?: string;
 }) {
-  const width = Math.round(height * (72 / 100)); // ~5:7, taller than wide
+  const width = Math.round(height * (76 / 108));
+  const gid = 'oxcross-g';
+  const sid = 'oxcross-sheen';
+  // Trefoil (3-lobe) terminals at each beam end — the Romanian/Byzantine
+  // budded-cross motif — rendered as three small circles.
+  const Bud = ({ cx, cy }: { cx: number; cy: number }) => (
+    <g fill={`url(#${gid})`} stroke={fill} strokeWidth="0.4">
+      <circle cx={cx} cy={cy} r="3.1" />
+      <circle cx={cx - 3.4} cy={cy} r="2.6" />
+      <circle cx={cx + 3.4} cy={cy} r="2.6" />
+    </g>
+  );
   return (
     <svg
-      viewBox="0 0 72 100"
+      viewBox="0 0 76 108"
       style={{ height, width }}
       className={className}
       role="img"
       aria-label="Cruce ortodoxă"
     >
       <defs>
-        <linearGradient id="oxcross-g" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={accent} />
-          <stop offset="100%" stopColor={fill} />
+          <stop offset="55%" stopColor={fill} />
+          <stop offset="100%" stopColor={accent} />
+        </linearGradient>
+        <linearGradient id={sid} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
+          <stop offset="45%" stopColor="#ffffff" stopOpacity="0.5" />
+          <stop offset="55%" stopColor="#ffffff" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <g fill="url(#oxcross-g)" stroke={fill} strokeWidth="0.5">
+      <g fill={`url(#${gid})`} stroke={fill} strokeWidth="0.6" strokeLinejoin="round">
         {/* vertical beam */}
-        <rect x="31" y="4" width="10" height="92" rx="2.5" />
+        <rect x="32" y="8" width="12" height="94" rx="3" />
         {/* top bar (titulus) */}
-        <rect x="22" y="18" width="28" height="7" rx="2" />
+        <rect x="23" y="22" width="30" height="8" rx="2.5" />
         {/* main cross bar */}
-        <rect x="10" y="36" width="52" height="9" rx="2.5" />
+        <rect x="9" y="42" width="58" height="11" rx="3" />
         {/* slanted foot bar (suppedaneum) */}
-        <rect x="20" y="64" width="32" height="7" rx="2" transform="rotate(-18 36 67.5)" />
+        <rect x="19" y="72" width="38" height="8" rx="2.5" transform="rotate(-16 38 76)" />
       </g>
+      {/* budded terminals */}
+      <Bud cx={38} cy={9} />
+      <Bud cx={38} cy={100} />
+      <Bud cx={11} cy={47.5} />
+      <Bud cx={65} cy={47.5} />
+      {/* subtle vertical sheen */}
+      <rect x="32" y="8" width="12" height="94" rx="3" fill={`url(#${sid})`} opacity="0.35" />
     </svg>
   );
 }
