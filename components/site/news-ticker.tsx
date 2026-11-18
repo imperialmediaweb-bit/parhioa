@@ -92,6 +92,10 @@ export async function NewsTicker() {
   // Duplicate the list so the CSS marquee loops seamlessly.
   const items = [...base, ...base];
 
+  // Keep the scroll speed constant no matter how many announcements there
+  // are: longer list → proportionally longer duration. ~13s per item.
+  const durationSec = Math.max(70, base.length * 13);
+
   return (
     <div className="relative bg-gradient-to-r from-burgundy-dark via-burgundy to-burgundy-dark border-y border-gold/40 text-cream overflow-hidden">
       <div className="absolute top-0 bottom-0 left-0 w-24 sm:w-32 bg-gradient-to-r from-burgundy-dark to-transparent z-10 pointer-events-none" />
@@ -109,7 +113,7 @@ export async function NewsTicker() {
           className="flex items-center gap-10 py-2.5 whitespace-nowrap animate-marquee hover:[animation-play-state:paused] will-change-transform sm:pl-44 pl-4"
           style={
             {
-              '--duration': '90s',
+              '--duration': `${durationSec}s`,
               '--gap': '2.5rem',
             } as React.CSSProperties
           }
