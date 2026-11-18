@@ -27,7 +27,8 @@ export const ARTICOLE_STATICE: ArticolStatic[] = [
       'Vă chemăm să ne unim inimile și glasurile în rugăciunea Psaltirii, în fiecare seară între orele 21:00–21:30, în perioada 15 noiembrie – 24 decembrie 2026. Înscrierea se face telefonic la 0754 857 903.',
     publishedAt: new Date('2026-11-18T08:00:00Z'),
     category: 'Rugăciune',
-    featuredUrl: null,
+    featuredUrl:
+      'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/blog/citirea-psaltirii-poster.jpg',
     featuredAlt: 'Citirea Psaltirii în Postul Nașterii Domnului',
     contentHtml: `
 <p class="lead"><em>„Să ne unim în rugăciunea Psaltirii, ca într-un singur glas al Bisericii, cerând Domnului milă pentru cei bolnavi, mângâiere pentru cei întristați, iertare pentru cei păcătoși și pace pentru întreaga lume!"</em></p>
