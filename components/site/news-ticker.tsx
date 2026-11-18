@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { Megaphone } from 'lucide-react';
+import { anuntPostActiv } from '@/lib/anunt-post';
 
 const CATEGORY_LABEL: Record<string, string> = {
   evenimente: 'Eveniment',
@@ -35,12 +36,46 @@ export async function NewsTicker() {
       take: 8,
     });
   } catch {
-    return null;
+    posts = [];
   }
-  if (posts.length === 0) return null;
+
+  // Build a unified list: a fasting-period announcement (if active) pinned
+  // first, then the recent Facebook posts. The ticker shows even with zero
+  // posts as long as the announcement is active.
+  const anunt = anuntPostActiv();
+  if (posts.length === 0 && !anunt) return null;
+
+  type TickerItem = {
+    key: string;
+    accent?: boolean;
+    label?: string | null;
+    date?: string | null;
+    text: string;
+    href?: string;
+  };
+
+  const base: TickerItem[] = [];
+  if (anunt) {
+    base.push({
+      key: 'anunt-post',
+      accent: true,
+      label: anunt.eyebrow,
+      text: `${anunt.title}: ${anunt.lines.join(' · ')} — ${anunt.location}`,
+    });
+  }
+  for (const p of posts) {
+    const cat = p.categories?.[0]?.slug;
+    base.push({
+      key: `post-${p.id}`,
+      label: cat ? CATEGORY_LABEL[cat] : null,
+      date: formatDate(p.publishedAt),
+      text: p.title,
+      href: `/blog/${p.slug}`,
+    });
+  }
 
   // Duplicate the list so the CSS marquee loops seamlessly.
-  const items = [...posts, ...posts];
+  const items = [...base, ...base];
 
   return (
     <div className="relative bg-gradient-to-r from-burgundy-dark via-burgundy to-burgundy-dark border-y border-gold/40 text-cream overflow-hidden">
@@ -64,28 +99,42 @@ export async function NewsTicker() {
             } as React.CSSProperties
           }
         >
-          {items.map((p, i) => {
-            const cat = p.categories?.[0]?.slug;
-            const catLabel = cat ? CATEGORY_LABEL[cat] : null;
-            return (
+          {items.map((it, i) => {
+            const inner = (
+              <>
+                <span className="text-gold text-base leading-none">☩</span>
+                {it.label && (
+                  <span
+                    className={
+                      it.accent
+                        ? 'font-ceremonial uppercase text-[10px] tracking-[0.18em] text-burgundy-dark bg-gold px-1.5 py-0.5 rounded-full font-bold'
+                        : 'font-ceremonial uppercase text-[10px] tracking-[0.18em] text-gold/90 border border-gold/40 px-1.5 py-0.5 rounded-full'
+                    }
+                  >
+                    {it.label}
+                  </span>
+                )}
+                {it.date && (
+                  <span className="text-gold/75 text-xs font-medium">{it.date}</span>
+                )}
+                <span className="font-serif text-cream">{it.text}</span>
+              </>
+            );
+            return it.href ? (
               <Link
-                key={`${p.id}-${i}`}
-                href={`/blog/${p.slug}`}
+                key={`${it.key}-${i}`}
+                href={it.href}
                 className="flex items-center gap-2.5 text-sm hover:text-gold transition-colors"
               >
-                <span className="text-gold text-base leading-none">☩</span>
-                {catLabel && (
-                  <span className="font-ceremonial uppercase text-[10px] tracking-[0.18em] text-gold/90 border border-gold/40 px-1.5 py-0.5 rounded-full">
-                    {catLabel}
-                  </span>
-                )}
-                {p.publishedAt && (
-                  <span className="text-gold/75 text-xs font-medium">
-                    {formatDate(p.publishedAt)}
-                  </span>
-                )}
-                <span className="font-serif text-cream">{p.title}</span>
+                {inner}
               </Link>
+            ) : (
+              <span
+                key={`${it.key}-${i}`}
+                className="flex items-center gap-2.5 text-sm"
+              >
+                {inner}
+              </span>
             );
           })}
         </div>

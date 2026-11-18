@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { OrthodoxCross } from './cross-divider';
 import { getPrayerForDay } from '@/lib/daily-prayers';
+import { anuntPostActiv } from '@/lib/anunt-post';
 
 type Service = { time: string; name: string };
 
@@ -52,7 +53,7 @@ const MONTHS_RO = [
 ];
 
 export function ProgramSlujbe() {
-  const { todayLabel, prayer } = useMemo(() => {
+  const { todayLabel, prayer, anunt } = useMemo(() => {
     const d = new Date();
     return {
       todayLabel: {
@@ -60,6 +61,7 @@ export function ProgramSlujbe() {
         date: `${d.getDate()} ${MONTHS_RO[d.getMonth()]} ${d.getFullYear()}`,
       },
       prayer: getPrayerForDay(d.getDay()),
+      anunt: anuntPostActiv(d),
     };
   }, []);
   const [expandedPrayer, setExpandedPrayer] = useState(false);
@@ -165,6 +167,37 @@ export function ProgramSlujbe() {
           </a>{' '}
           pentru detalii.
         </p>
+
+        {/* ── Anunț de post (spovedanie etc.), afișat doar în perioada activă ── */}
+        {anunt && (
+          <div className="relative mt-6 rounded-2xl border-2 border-gold/50 bg-gradient-to-br from-burgundy via-burgundy-dark to-burgundy text-cream px-5 py-4 shadow-lg">
+            <p className="font-ceremonial uppercase text-[10px] tracking-[0.24em] text-gold mb-1">
+              ☩ {anunt.eyebrow}
+            </p>
+            <h4 className="font-display text-lg sm:text-xl font-semibold text-gold-light">
+              {anunt.title}
+            </h4>
+            {anunt.lines.map((l, i) => (
+              <p key={i} className="text-sm text-cream/95 mt-1">
+                {l}
+              </p>
+            ))}
+            <p className="text-xs text-cream/80 mt-2 leading-relaxed">{anunt.location}</p>
+            {anunt.phoneNote && (
+              <p className="text-xs text-cream/75 mt-2 leading-relaxed italic">
+                {anunt.phoneNote}
+              </p>
+            )}
+            {anunt.phone && (
+              <a
+                href={`tel:${anunt.phone.replace(/\s+/g, '')}`}
+                className="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold text-burgundy-dark bg-gold hover:bg-gold-light px-3 py-1.5 rounded-full transition-colors"
+              >
+                ☎ {anunt.phone}
+              </a>
+            )}
+          </div>
+        )}
 
         {/* ── Rugăciunea zilei ─────────────────────────────────────── */}
         <div className="relative mt-7 pt-6 border-t border-gold/40">

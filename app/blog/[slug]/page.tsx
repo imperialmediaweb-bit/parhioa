@@ -6,6 +6,7 @@ import { Badge } from '../../../components/ui/badge';
 import { formatDateRo } from '../../../lib/utils';
 import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
 import { sanitizePostHtml } from '@/lib/sanitize';
+import { gasesteArticolStatic } from '@/lib/articole-statice';
 import { DEFAULT_OG_IMAGE } from '@/lib/site';
 import { blogPostingJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
 import { JsonLd } from '@/components/site/jsonld';
@@ -23,6 +24,23 @@ async function getPost(slug: string) {
     if (dbPost && dbPost.status === 'publish') return dbPost;
   } catch {
     // ignore
+  }
+
+  // Our own editorial articles (written in code, always available).
+  const articol = gasesteArticolStatic(slug);
+  if (articol) {
+    return {
+      id: articol.slug,
+      slug: articol.slug,
+      status: 'publish' as const,
+      title: articol.title,
+      excerpt: articol.excerpt,
+      publishedAt: articol.publishedAt,
+      content: articol.contentHtml,
+      featured: { url: articol.featuredUrl, alt: articol.featuredAlt },
+      categories: [{ name: articol.category, slug: articol.category.toLowerCase() }],
+      tags: [] as Array<{ name: string; slug: string }>,
+    };
   }
 
   const fallback = PLACEHOLDER_POSTS.find((p) => p.slug === slug);
