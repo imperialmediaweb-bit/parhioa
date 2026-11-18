@@ -82,8 +82,11 @@ const config: Config = {
           '100%': { transform: 'translateZ(0) rotate(360deg)' },
         },
         marquee: {
+          // Track holds two identical copies, so a -50% shift lands copy 2
+          // exactly where copy 1 began — a seamless loop at half the old
+          // (too-fast) speed.
           from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+          to: { transform: 'translateX(-50%)' },
         },
         'border-beam': {
           '100%': { 'offset-distance': '100%' },
