@@ -36,21 +36,40 @@ function cldPathToKey(rest: string): string {
 }
 
 /**
- * Rewrite a single Cloudinary (dghmoelly) delivery URL to its R2 equivalent.
- * Non-Cloudinary URLs are returned unchanged. Used at render time on image
- * URLs that come from the database (blog featured images).
+ * Optimize/resize an R2 image through the free wsrv.nl image CDN — upscales
+ * small WordPress-era thumbnails, sharpens and re-encodes to WebP. This
+ * replaces the automatic quality/resize Cloudinary used to do (f_auto,q_auto,
+ * w_), which R2 (plain storage) cannot. R2 stays the origin; wsrv.nl only
+ * proxies, so swapping it out later is a one-line change.
  */
-export function cld(url: string | null | undefined): string {
+export function opt(r2url: string, width = 1600): string {
+  if (!r2url || r2url.includes('wsrv.nl')) return r2url;
+  // Only our own R2 assets go through the optimizer.
+  if (!r2url.includes('.r2.dev') && !r2url.includes(R2_BASE)) return r2url;
+  return `https://wsrv.nl/?url=${encodeURIComponent(r2url)}&w=${width}&q=82&output=webp&we`;
+}
+
+/**
+ * Rewrite a Cloudinary (dghmoelly) delivery URL to its R2 equivalent AND run
+ * it through the optimizer. Non-Cloudinary, non-R2 URLs are returned
+ * unchanged. Used at render time on image URLs from the database.
+ */
+export function cld(url: string | null | undefined, width = 1600): string {
   if (!url) return '';
   const m = url.match(
     /^https?:\/\/res\.cloudinary\.com\/dghmoelly\/image\/upload\/(.+)$/,
   );
-  if (!m) return url;
-  return `${R2_BASE}/${cldPathToKey(m[1])}`;
+  const r2 = m ? `${R2_BASE}/${cldPathToKey(m[1])}` : url;
+  return opt(r2, width);
 }
 
-/** Rewrite every Cloudinary URL inside a longer string (e.g. HTML content). */
+/** Rewrite + optimize every Cloudinary/R2 image URL inside a longer string. */
 export function cldAll(text: string | null | undefined): string {
   if (!text) return '';
-  return text.replace(CLD_RE, (_full, rest) => `${R2_BASE}/${cldPathToKey(rest)}`);
+  return text
+    .replace(CLD_RE, (_full, rest) => opt(`${R2_BASE}/${cldPathToKey(rest)}`))
+    .replace(
+      /https?:\/\/pub-[a-z0-9]+\.r2\.dev\/[^"'\s)]+\.(?:png|jpe?g|webp|gif)/gi,
+      (u) => (u.includes('wsrv.nl') ? u : opt(u)),
+    );
 }

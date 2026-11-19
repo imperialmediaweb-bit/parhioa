@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { opt } from '@/lib/img';
 
 interface LogoProps {
   className?: string;
@@ -31,7 +32,7 @@ export function Logo({
       aria-label="Parohia Sf. Cuvioasă Teodora de la Sihla — acasă"
     >
       <img
-        src={iconSrc}
+        src={opt(iconSrc, 400)}
         alt="Icoană Sfânta Cuvioasă Teodora de la Sihla"
         className={cn(
           'object-contain flex-shrink-0 transition-transform group-hover:scale-105 drop-shadow-sm',
