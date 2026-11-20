@@ -2,6 +2,7 @@ import { Hero } from '@/components/site/hero';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FadeIn } from '@/components/magicui/fade-in';
 import { OrthodoxCross } from '@/components/site/cross-divider';
+import { opt } from '@/lib/img';
 
 export const metadata = {
   title: 'Cronologie',
@@ -29,6 +30,8 @@ const MILESTONES: Milestone[] = [
     title: 'Curățirea și pregătirea locului',
     body: 'În această zi de pomenire și bucurie duhovnicească, s-a săvârșit cel dintâi pas către ridicarea bisericii parohiale — curățirea și pregătirea terenului. Locul ce zăcea nelucrat a fost înveșmântat prin osteneala și jertfa celor cu inimă bună, ca să fie vrednic de a primi, la vremea rânduită, zidirea Casei Domnului.',
     symbol: '🚩',
+    image: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28194.jpg',
+    imageAlt: 'Curățirea și pregătirea terenului pentru biserică',
   },
   {
     date: '13 octombrie 2025',
@@ -37,6 +40,8 @@ const MILESTONES: Milestone[] = [
     title: 'O Troiță a credinței și nădejdii, ridicată pe locul viitoarei biserici',
     body: 'La această dată a fost așezată Troița care veghează peste locul unde va fi construită biserica parohială. Este primul semn vizibil al lucrării de ctitorie și un moment de mare emoție pentru comunitatea noastră.',
     symbol: '✛',
+    image: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28243.jpg',
+    imageAlt: 'Troița ridicată pe locul viitoarei biserici',
   },
   {
     date: '30 octombrie 2025',
@@ -53,6 +58,8 @@ const MILESTONES: Milestone[] = [
     title: 'Racordarea electrică a fost realizată',
     body: 'Au fost finalizate lucrările de racordare la rețeaua electrică pe terenul parohiei. A fost montată o priză de lucru și cablul pentru proiectorul ce va lumina Sfânta Troiță, pregătind locul pentru începerea lucrărilor de construire a bisericii.',
     symbol: '⚡',
+    image: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28280.png',
+    imageAlt: 'Racordarea electrică pe terenul parohiei',
   },
   {
     date: '26 noiembrie 2025',
@@ -61,6 +68,8 @@ const MILESTONES: Milestone[] = [
     title: 'Pregătiri pentru Sfințirea Locului și Punerea Pietrei de Temelie',
     body: 'Cu ajutorul lui Dumnezeu am început pregătirile pentru Slujba de Sfințire a locului, Punerea Pietrei de Temelie și Sfințirea Troiței. Comunitatea s-a adunat în jurul acestei lucrări binecuvântate, cu rugăciune și nădejde.',
     symbol: '🛐',
+    image: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28299.png',
+    imageAlt: 'Pregătiri pentru sfințirea locului și punerea pietrei de temelie',
   },
   {
     date: '1 decembrie 2025',
@@ -69,6 +78,8 @@ const MILESTONES: Milestone[] = [
     title: 'Slujba de sfințire a locului pentru biserică',
     body: 'Ziua de 1 decembrie 2025 rămâne adânc întipărită în sufletele credincioșilor parohiei noastre. A fost o zi cu o încărcătură duhovnicească deosebită, în care s-a săvârșit slujba de sfințire a locului pentru biserica cu hramul „Sfânta Cuvioasă Teodora de la Sihla".',
     symbol: '☩',
+    image: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28305.jpg',
+    imageAlt: 'Slujba de sfințire a locului pentru biserică',
   },
   {
     date: 'Noiembrie 2026',
@@ -179,7 +190,7 @@ export default function CronologiePage() {
                           {m.image && (
                             <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-gold/40 shadow-[0_14px_30px_-18px_rgba(101,26,20,0.6)]">
                               <img
-                                src={m.image}
+                                src={opt(m.image)}
                                 alt={m.imageAlt ?? m.title}
                                 loading="lazy"
                                 className="w-full aspect-[16/10] object-cover"
