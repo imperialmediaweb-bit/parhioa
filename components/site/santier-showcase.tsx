@@ -140,7 +140,7 @@ export function SantierShowcase({
                   ☩ Primele imagini de pe șantier
                 </span>
                 <span className="font-serif italic text-cream/85 text-sm hidden sm:block">
-                  cu cântare bizantină
+                  de la temelie la proiectul sfânt
                 </span>
               </span>
             </button>
