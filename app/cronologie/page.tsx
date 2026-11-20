@@ -80,6 +80,8 @@ const MILESTONES: Milestone[] = [
     symbol: '🪨',
     image: '/santier/fundatie.jpg',
     imageAlt: 'Turnarea fundației noii biserici — primele lucrări pe șantier',
+    video: '/santier/santier-biserica.mp4',
+    videoPoster: '/santier/fundatie.jpg',
   },
 ];
 

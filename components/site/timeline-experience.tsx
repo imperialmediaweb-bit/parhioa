@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import {
   motion,
   useScroll,
@@ -20,9 +20,68 @@ export type Milestone = {
   symbol?: string;
   image?: string;
   imageAlt?: string;
+  /** Optional video (click-to-play) shown in the card instead of the photo. */
+  video?: string;
+  videoPoster?: string;
 };
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Click-to-play video with a poster and a golden play button. */
+function TimelineVideo({
+  src,
+  poster,
+  label,
+  aspect = 'aspect-[16/10]',
+}: {
+  src: string;
+  poster: string;
+  label: string;
+  aspect?: string;
+}) {
+  const [playing, setPlaying] = useState(false);
+  if (playing) {
+    return (
+      <video
+        src={src}
+        poster={poster}
+        controls
+        autoPlay
+        playsInline
+        className={`w-full ${aspect} bg-black object-cover`}
+      />
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => setPlaying(true)}
+      aria-label={`Redă: ${label}`}
+      className={`group/vid relative block w-full ${aspect} overflow-hidden`}
+    >
+      <img
+        src={poster}
+        alt={label}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover/vid:scale-105"
+      />
+      <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/20" />
+      <span className="absolute inset-0 flex items-center justify-center">
+        <span className="relative flex items-center justify-center">
+          <span className="absolute h-16 w-16 rounded-full bg-gold/25 animate-ping" />
+          <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-dark text-burgundy-dark shadow-[0_8px_22px_-6px_rgba(234,199,132,0.8)] transition-transform duration-300 group-hover/vid:scale-110">
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 ml-0.5">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </span>
+      </span>
+      <span className="absolute bottom-2.5 left-3 right-3 font-ceremonial uppercase text-[10px] tracking-[0.2em] text-cream/95 flex items-center gap-1.5">
+        <span className="text-gold">☩</span> Vezi filmul
+      </span>
+    </button>
+  );
+}
 
 /**
  * Premium, scroll-driven church-building timeline. Brand motion idea: the
@@ -78,7 +137,7 @@ export function TimelineExperience({ milestones }: { milestones: Milestone[] }) 
       >
         <OrthodoxCross height={56} />
         <p className="mt-4 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
-          Așa va arăta biserica
+          Așa va arăta biserica — proiectul 3D
         </p>
         <motion.figure
           initial={{ clipPath: 'inset(0 0 100% 0)' }}
@@ -87,11 +146,11 @@ export function TimelineExperience({ milestones }: { milestones: Milestone[] }) 
           transition={{ duration: 1, ease: EASE }}
           className="mt-5 w-full max-w-2xl overflow-hidden rounded-[18px] ring-1 ring-gold/45 shadow-[0_26px_60px_-30px_rgba(101,26,20,0.6)]"
         >
-          <img
-            src="/santier/poster.jpg"
-            alt="Randare 3D — așa va arăta viitoarea biserică a parohiei"
-            loading="lazy"
-            className="w-full aspect-video object-cover"
+          <TimelineVideo
+            src="/santier/reel-proiect.mp4"
+            poster="/santier/poster.jpg"
+            label="Proiectul 3D al viitoarei biserici"
+            aspect="aspect-video"
           />
         </motion.figure>
         <p className="mt-6 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
@@ -200,12 +259,15 @@ function TimelineItem({
               {m.eyebrow}
             </motion.p>
 
-            {/* Title revealed word by word */}
-            <h3 className="font-display text-xl sm:text-2xl text-burgundy-dark leading-tight mb-3 flex flex-wrap gap-x-[0.3em]">
+            {/* Title revealed word by word (real spaces kept for SEO/a11y) */}
+            <h3 className="font-display text-xl sm:text-2xl text-burgundy-dark leading-tight mb-3">
               {words.map((w, wi) => (
-                <motion.span key={wi} variants={rise} className="inline-block">
-                  {w}
-                </motion.span>
+                <Fragment key={wi}>
+                  <motion.span variants={rise} className="inline-block">
+                    {w}
+                  </motion.span>
+                  {wi < words.length - 1 ? ' ' : ''}
+                </Fragment>
               ))}
             </h3>
 
@@ -216,7 +278,18 @@ function TimelineItem({
               {m.body}
             </motion.p>
 
-            {m.image && (
+            {m.video ? (
+              <motion.div
+                variants={rise}
+                className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-gold/40 shadow-[0_14px_30px_-18px_rgba(101,26,20,0.6)]"
+              >
+                <TimelineVideo
+                  src={m.video}
+                  poster={opt(m.videoPoster ?? m.image ?? '')}
+                  label={m.title}
+                />
+              </motion.div>
+            ) : m.image ? (
               <motion.div
                 variants={rise}
                 className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-gold/40 shadow-[0_14px_30px_-18px_rgba(101,26,20,0.6)]"
@@ -230,7 +303,7 @@ function TimelineItem({
                   />
                 </motion.div>
               </motion.div>
-            )}
+            ) : null}
 
             {/* Mobile date inside card */}
             <p className="sm:hidden mt-4 pt-3 border-t border-gold/30 font-ceremonial uppercase text-[10px] tracking-[0.22em] text-burgundy-dark flex items-center gap-2">
