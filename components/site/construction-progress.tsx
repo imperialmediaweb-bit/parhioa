@@ -39,9 +39,11 @@ const STAGES: ConstructionStage[] = [
   {
     key: 'fundatie',
     label: 'Fundația și temelia',
-    description: 'Pregătirea terenului și turnarea fundației — urmează după strângerea de fonduri.',
+    // 20.11.2026: cei 20 de cuzineți turnați, decofrați; umplutura compactată în lucru.
+    description: 'În lucru: cei 20 de cuzineți de fundație sunt turnați și decofrați, iar acum se face umplutura compactată și stratul de piatră.',
     symbol: '🪨',
-    status: 'upcoming',
+    status: 'active',
+    percent: 40,
     weight: 4,
   },
   {
