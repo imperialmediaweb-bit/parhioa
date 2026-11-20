@@ -16,6 +16,9 @@ type Milestone = {
   title: string;
   body: string;
   symbol?: string;
+  /** Optional photo (or video poster) shown inside the milestone card. */
+  image?: string;
+  imageAlt?: string;
 };
 
 const MILESTONES: Milestone[] = [
@@ -66,6 +69,16 @@ const MILESTONES: Milestone[] = [
     title: 'Slujba de sfințire a locului pentru biserică',
     body: 'Ziua de 1 decembrie 2025 rămâne adânc întipărită în sufletele credincioșilor parohiei noastre. A fost o zi cu o încărcătură duhovnicească deosebită, în care s-a săvârșit slujba de sfințire a locului pentru biserica cu hramul „Sfânta Cuvioasă Teodora de la Sihla".',
     symbol: '☩',
+  },
+  {
+    date: 'Noiembrie 2026',
+    dateLabel: 'Au început lucrările',
+    eyebrow: 'Început de șantier',
+    title: 'Au început lucrările de construire — turnarea fundației',
+    body: 'Cu ajutorul lui Dumnezeu și al ctitorilor, au început lucrările pe șantier: pregătirea terenului, așezarea armăturilor și turnarea fundației pe care se va înălța sfântul lăcaș. Primele imagini de pe șantier pot fi urmărite în filmul de pe pagina principală.',
+    symbol: '🪨',
+    image: '/santier/fundatie.jpg',
+    imageAlt: 'Turnarea fundației noii biserici — primele lucrări pe șantier',
   },
 ];
 
@@ -162,6 +175,18 @@ export default function CronologiePage() {
                             {m.body}
                           </p>
 
+                          {/* Optional photo */}
+                          {m.image && (
+                            <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-gold/40 shadow-[0_14px_30px_-18px_rgba(101,26,20,0.6)]">
+                              <img
+                                src={m.image}
+                                alt={m.imageAlt ?? m.title}
+                                loading="lazy"
+                                className="w-full aspect-[16/10] object-cover"
+                              />
+                            </div>
+                          )}
+
                           {/* Mobile date inside card */}
                           <p className="sm:hidden mt-4 pt-3 border-t border-gold/30 font-ceremonial uppercase text-[10px] tracking-[0.22em] text-burgundy-dark flex items-center gap-2">
                             <span className="text-gold">☩</span>
@@ -191,17 +216,26 @@ export default function CronologiePage() {
             })}
           </ol>
 
-          {/* Closing flourish */}
-          <div className="relative flex justify-center mt-14">
-            <div className="relative flex flex-col items-center">
-              <OrthodoxCross height={56} />
-              <p className="mt-4 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
-                Drumul continuă
-              </p>
-              <p className="mt-2 font-serif italic text-burgundy/65 text-center max-w-sm">
-                „Cu rugăciune și răbdare zidim biserica nu doar din piatră, ci și din inimi."
-              </p>
-            </div>
+          {/* Closing flourish — how the finished church will look */}
+          <div className="relative flex flex-col items-center mt-16">
+            <OrthodoxCross height={56} />
+            <p className="mt-4 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
+              Așa va arăta biserica
+            </p>
+            <figure className="mt-5 w-full max-w-2xl overflow-hidden rounded-[18px] ring-1 ring-gold/45 shadow-[0_26px_60px_-30px_rgba(101,26,20,0.6)]">
+              <img
+                src="/santier/poster.jpg"
+                alt="Randare 3D — așa va arăta viitoarea biserică a parohiei"
+                loading="lazy"
+                className="w-full aspect-video object-cover"
+              />
+            </figure>
+            <p className="mt-6 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
+              Drumul continuă
+            </p>
+            <p className="mt-2 font-serif italic text-burgundy/65 text-center max-w-sm">
+              „Cu rugăciune și răbdare zidim biserica nu doar din piatră, ci și din inimi."
+            </p>
           </div>
         </div>
       </section>
