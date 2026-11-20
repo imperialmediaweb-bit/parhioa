@@ -22,6 +22,7 @@ import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
 import { ConstructionProgress } from '@/components/site/construction-progress';
+import { SantierShowcase } from '@/components/site/santier-showcase';
 import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { type GalleryImage } from '@/components/site/photo-gallery';
 import { type VideoItem } from '@/components/site/featured-video';
@@ -434,6 +435,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ============= 6b. ȘANTIERUL NOII BISERICI (video + randări) ============= */}
+      <SantierShowcase />
 
       <SectionRibbon />
 
