@@ -1,25 +1,15 @@
 import { Hero } from '@/components/site/hero';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FadeIn } from '@/components/magicui/fade-in';
-import { OrthodoxCross } from '@/components/site/cross-divider';
-import { opt } from '@/lib/img';
+import {
+  TimelineExperience,
+  type Milestone,
+} from '@/components/site/timeline-experience';
 
 export const metadata = {
   title: 'Cronologie',
   description:
     'Pașii sfintei zidiri — momentele cheie din parcursul Parohiei Sf. Cuvioasă Teodora de la Sihla.',
-};
-
-type Milestone = {
-  date: string;
-  dateLabel: string;
-  eyebrow: string;
-  title: string;
-  body: string;
-  symbol?: string;
-  /** Optional photo (or video poster) shown inside the milestone card. */
-  image?: string;
-  imageAlt?: string;
 };
 
 const MILESTONES: Milestone[] = [
@@ -116,139 +106,7 @@ export default function CronologiePage() {
           </div>
         </FadeIn>
 
-        <div className="relative max-w-5xl mx-auto">
-          {/* Center vertical line with golden gradient */}
-          <div
-            className="absolute left-6 sm:left-1/2 sm:-translate-x-1/2 top-3 bottom-3 w-px"
-            style={{
-              background:
-                'linear-gradient(180deg, transparent 0%, #EAC784 8%, #c9a361 50%, #EAC784 92%, transparent 100%)',
-            }}
-            aria-hidden
-          />
-
-          <ol className="relative space-y-10 sm:space-y-16">
-            {MILESTONES.map((m, i) => {
-              const onRight = i % 2 === 1;
-              return (
-                <li key={m.date} className="relative">
-                  {/* Cross medallion on the line */}
-                  <div className="absolute left-6 sm:left-1/2 -translate-x-1/2 top-3 z-10">
-                    <div
-                      className="relative flex h-12 w-12 items-center justify-center rounded-full text-cream shadow-[0_6px_22px_-6px_rgba(101,26,20,0.7)] ring-2 ring-gold/65"
-                      style={{
-                        background: 'linear-gradient(180deg, #7a201a 0%, #4f120d 100%)',
-                      }}
-                    >
-                      <span
-                        className="absolute inset-0 rounded-full blur-md bg-gold/30 -z-10"
-                        aria-hidden
-                      />
-                      <span className="text-base leading-none">☩</span>
-                    </div>
-                  </div>
-
-                  {/* Row: card | date  OR  date | card on alternating sides on desktop */}
-                  <div className="ml-20 sm:ml-0 sm:grid sm:grid-cols-2 sm:gap-12 items-start">
-                    {/* CARD */}
-                    <FadeIn
-                      delay={i * 0.05}
-                      className={`${onRight ? 'sm:order-2 sm:col-start-2' : 'sm:order-1 sm:col-start-1'}`}
-                    >
-                      <article
-                        className="relative rounded-[20px] p-6 sm:p-7 shadow-[0_22px_46px_-26px_rgba(101,26,20,0.5)] overflow-hidden"
-                        style={{
-                          background:
-                            'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
-                        }}
-                      >
-                        {/* parchment grain */}
-                        <div
-                          className="absolute inset-0 opacity-25 mix-blend-multiply pointer-events-none"
-                          style={{
-                            backgroundImage:
-                              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.18 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-                          }}
-                        />
-                        {/* double border */}
-                        <div className="absolute inset-2 rounded-[14px] border border-gold/55 pointer-events-none" />
-                        <div className="absolute inset-3 rounded-[11px] border border-burgundy/20 pointer-events-none" />
-
-                        <div className="relative">
-                          <p className="font-ceremonial uppercase text-[10px] tracking-[0.28em] text-gold-dark mb-2 flex items-center gap-2">
-                            <span className="text-burgundy">☩</span>
-                            {m.eyebrow}
-                          </p>
-                          <h3 className="font-display text-xl sm:text-2xl text-burgundy-dark leading-tight mb-3">
-                            {m.title}
-                          </h3>
-                          <p className="text-[15px] text-burgundy/80 leading-relaxed font-serif">
-                            {m.body}
-                          </p>
-
-                          {/* Optional photo */}
-                          {m.image && (
-                            <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-gold/40 shadow-[0_14px_30px_-18px_rgba(101,26,20,0.6)]">
-                              <img
-                                src={opt(m.image)}
-                                alt={m.imageAlt ?? m.title}
-                                loading="lazy"
-                                className="w-full aspect-[16/10] object-cover"
-                              />
-                            </div>
-                          )}
-
-                          {/* Mobile date inside card */}
-                          <p className="sm:hidden mt-4 pt-3 border-t border-gold/30 font-ceremonial uppercase text-[10px] tracking-[0.22em] text-burgundy-dark flex items-center gap-2">
-                            <span className="text-gold">☩</span>
-                            {m.date} · {m.dateLabel}
-                          </p>
-                        </div>
-                      </article>
-                    </FadeIn>
-
-                    {/* DATE COLUMN (desktop) */}
-                    <FadeIn
-                      delay={i * 0.05 + 0.05}
-                      className={`hidden sm:block pt-2 ${
-                        onRight
-                          ? 'sm:order-1 sm:col-start-1 sm:text-right'
-                          : 'sm:order-2 sm:col-start-2 sm:text-left'
-                      }`}
-                    >
-                      <p className="font-display text-2xl lg:text-3xl text-burgundy-dark leading-tight">
-                        {m.date}
-                      </p>
-                      <p className="font-serif italic text-burgundy/70 mt-1">{m.dateLabel}</p>
-                    </FadeIn>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-
-          {/* Closing flourish — how the finished church will look */}
-          <div className="relative flex flex-col items-center mt-16">
-            <OrthodoxCross height={56} />
-            <p className="mt-4 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
-              Așa va arăta biserica
-            </p>
-            <figure className="mt-5 w-full max-w-2xl overflow-hidden rounded-[18px] ring-1 ring-gold/45 shadow-[0_26px_60px_-30px_rgba(101,26,20,0.6)]">
-              <img
-                src="/santier/poster.jpg"
-                alt="Randare 3D — așa va arăta viitoarea biserică a parohiei"
-                loading="lazy"
-                className="w-full aspect-video object-cover"
-              />
-            </figure>
-            <p className="mt-6 font-ceremonial uppercase text-[10px] tracking-[0.32em] text-gold-dark">
-              Drumul continuă
-            </p>
-            <p className="mt-2 font-serif italic text-burgundy/65 text-center max-w-sm">
-              „Cu rugăciune și răbdare zidim biserica nu doar din piatră, ci și din inimi."
-            </p>
-          </div>
-        </div>
+        <TimelineExperience milestones={MILESTONES} />
       </section>
     </>
   );
