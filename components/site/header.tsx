@@ -33,7 +33,7 @@ export function SiteHeader() {
           aria-hidden
         />
 
-        <div className="container relative flex h-24 sm:h-28 items-center justify-between gap-3 sm:gap-6">
+        <div className="container relative flex h-20 sm:h-24 items-center justify-between gap-3 sm:gap-6">
           <Logo size="default" className="shrink min-w-0" />
 
           {/* Desktop nav — centered golden underline that grows from the middle */}
