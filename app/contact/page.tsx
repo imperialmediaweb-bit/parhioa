@@ -6,16 +6,24 @@ import { MapPin, HandHeart, HeartPulse, Mail, Phone } from 'lucide-react';
 import { getImages } from '@/lib/images';
 import { ContactForm } from '@/components/site/contact-form';
 
-export const metadata = { title: 'Contact' };
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'Contact',
+  path: '/contact',
+  description:
+    'Contactează Parohia „Sfânta Cuvioasă Teodora" din Botoșani: adresă pe Strada Pacea, telefon, e-mail și formular pentru întrebări sau rugăciuni.',
+});
 
 export default async function ContactPage() {
   const IMG = await getImages();
   return (
     <>
       <Hero
+        legibleTitle
         title={<>Trimite un <em className="font-serif italic">gând</em> sau o întrebare</>}
         subtitle="Scrie-ne pentru întrebări, rugăciuni sau sprijin duhovnicesc. Suntem aproape."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Contact' }]}
       />
 
       {/* Form + photo */}
@@ -24,7 +32,7 @@ export default async function ContactPage() {
           <FadeIn>
             <Card className="h-full bg-lavender-soft border-0 p-8 sm:p-10">
               <SectionEyebrow>Contact</SectionEyebrow>
-              <h2 className="font-display text-2xl sm:text-3xl font-semibold leading-tight mb-3">
+              <h2 className="title-legible text-2xl sm:text-3xl font-semibold leading-tight mb-3">
                 Ai un cuvânt de împărtășit sau o întrebare pe suflet?
               </h2>
               <p className="text-ink-muted leading-relaxed mb-6">
@@ -110,7 +118,7 @@ export default async function ContactPage() {
                   <p className="font-semibold mb-0.5 text-burgundy">Unde se țin slujbele:</p>
                   <p className="text-ink-muted leading-relaxed">
                     Până la finalizarea bisericii proprii, slujbele se țin la{' '}
-                    <strong className="text-ink">Biserica „Bunavestire"</strong> — Botoșani.
+                    <strong className="text-ink">Biserica „Buna-Vestire"</strong> — Botoșani.
                     Programul săptămânal este afișat pe{' '}
                     <a href="/" className="underline text-burgundy">pagina principală</a>.
                   </p>

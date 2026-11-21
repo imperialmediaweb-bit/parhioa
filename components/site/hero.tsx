@@ -7,9 +7,11 @@ interface HeroProps {
   subtitle?: React.ReactNode;
   breadcrumb?: { label: string; href?: string }[];
   className?: string;
+  /** Use the plain Cinzel face (no decorative alternates) for long titles. */
+  legibleTitle?: boolean;
 }
 
-export function Hero({ title, subtitle, breadcrumb, className }: HeroProps) {
+export function Hero({ title, subtitle, breadcrumb, className, legibleTitle }: HeroProps) {
   return (
     <section className={cn('relative isolate overflow-hidden', className)}>
       <div
@@ -56,7 +58,12 @@ export function Hero({ title, subtitle, breadcrumb, className }: HeroProps) {
               ))}
             </nav>
           )}
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl !text-cream leading-[1.1] tracking-wide drop-shadow-[0_3px_18px_rgba(0,0,0,0.65)]">
+          <h1
+            className={cn(
+              'text-4xl sm:text-5xl lg:text-6xl !text-cream leading-[1.1] tracking-wide drop-shadow-[0_3px_18px_rgba(0,0,0,0.65)]',
+              legibleTitle ? 'title-legible' : 'font-display',
+            )}
+          >
             {title}
           </h1>
           {subtitle && (

@@ -103,7 +103,7 @@ export function TimelineExperience({ milestones }: { milestones: Milestone[] }) 
   const fillScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <div ref={trackRef} className="relative max-w-5xl mx-auto">
+    <div ref={trackRef} className="relative max-w-5xl mx-auto [overflow-x:clip]">
       {/* Static track */}
       <div
         className="absolute left-6 sm:left-1/2 sm:-translate-x-1/2 top-3 bottom-3 w-[2px] rounded-full bg-burgundy/12"

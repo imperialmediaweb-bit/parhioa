@@ -154,12 +154,12 @@ export function ConstructionProgress({
             <span className="font-serif italic text-burgundy/70 text-lg">etape</span>
           </p>
           <p className="font-ceremonial uppercase text-xs tracking-[0.18em] text-burgundy-dark/75">
-            {animOverall}% parcurs
+            {animOverall}% din lucrare
           </p>
         </div>
 
         {/* Overall thin progress bar */}
-        <div className="relative h-1.5 rounded-full bg-burgundy/12 overflow-hidden mb-5">
+        <div className="relative h-1.5 rounded-full bg-burgundy/12 overflow-hidden mb-2">
           <div
             className="absolute inset-y-0 left-0 transition-[width] duration-700 ease-out rounded-full"
             style={{
@@ -168,6 +168,13 @@ export function ConstructionProgress({
             }}
           />
         </div>
+        {/* Clarify what the percentage measures, so „2 / 7 etape" and the
+            percentage don't look contradictory: it is weighted by the volume
+            of work of each stage (and the current stage's own progress), not
+            by the plain count of stages. */}
+        <p className="text-[11px] text-burgundy/55 font-serif italic mb-5">
+          Procent estimat după volumul lucrărilor fiecărei etape, nu după numărul de etape.
+        </p>
 
         {/* Stages list */}
         <ol className="relative space-y-1">

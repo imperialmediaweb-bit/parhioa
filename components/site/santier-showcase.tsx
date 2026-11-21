@@ -121,7 +121,7 @@ export function SantierShowcase({
               <img
                 src={poster}
                 alt="Șantierul noii biserici — fundația"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                className="absolute inset-0 h-full w-full object-cover transition-transform [transition-duration:1200ms] group-hover:scale-105"
               />
               <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/30" />
               {/* Play button */}
@@ -198,7 +198,7 @@ export function SantierShowcase({
                     src={r.src}
                     alt={r.alt}
                     loading="lazy"
-                    className="w-full aspect-[4/3] object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                    className="w-full aspect-[4/3] object-cover transition-transform [transition-duration:1200ms] group-hover:scale-105"
                   />
                   <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 pt-10 pb-3">
                     <span className="font-serif italic text-cream text-sm">{r.caption}</span>
