@@ -117,7 +117,7 @@ export default async function PostPage({ params }: Props) {
         title={post.title}
         subtitle={post.publishedAt ? formatDateRo(post.publishedAt) : undefined}
         breadcrumb={[
-          { label: 'Home', href: '/' },
+          { label: 'Acasă', href: '/' },
           { label: 'Blog', href: '/blog' },
           { label: post.title },
         ]}

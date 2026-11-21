@@ -17,8 +17,14 @@ import {
   Phone,
 } from 'lucide-react';
 import { getImages } from '@/lib/images';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = { title: 'Redirecționează 3,5%' };
+export const metadata = pageMetadata({
+  title: 'Redirecționează 3,5%',
+  path: '/redirectioneaza-3-5',
+  description:
+    'Redirecționează 3,5% din impozit către Parohia „Sfânta Cuvioasă Teodora" din Botoșani. Completezi formularul 230 și sprijini zidirea bisericii.',
+});
 
 // Official ANAF form 230, hosted on the Romanian National Tax Authority's
 // portal. Stable URL. The parish CIF the donor needs (48801453) is
@@ -36,7 +42,7 @@ export default async function Redirect35Page() {
       <Hero
         title="Redirecționează 3,5%"
         subtitle="Susține zidirea bisericii noastre."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Redirecționează 3,5%' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Redirecționează 3,5%' }]}
       />
 
       {/* Intro card with photo */}

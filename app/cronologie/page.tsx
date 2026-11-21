@@ -91,7 +91,7 @@ export default function CronologiePage() {
       <Hero
         title="Cronologie"
         subtitle="Pașii sfintei zidiri — momentele cheie din parcursul parohiei noastre."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Cronologie' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Cronologie' }]}
       />
 
       <section className="container py-14 sm:py-20">

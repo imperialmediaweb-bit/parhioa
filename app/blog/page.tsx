@@ -6,7 +6,14 @@ import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { ARTICOLE_STATICE } from '@/lib/articole-statice';
 
 export const revalidate = 60;
-export const metadata = { title: 'Noutăți' };
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'Noutăți',
+  path: '/blog',
+  description:
+    'Noutăți, anunțuri și cuvinte duhovnicești de la Parohia „Sfânta Cuvioasă Teodora" din Botoșani: slujbe, pelerinaje și momente din viața parohiei.',
+});
 
 type Card = {
   slug: string;
@@ -76,7 +83,7 @@ export default async function BlogPage() {
       <Hero
         title="Blog"
         subtitle="Vești din parohie și din viața bisericii — gânduri, slujbe și momente împărtășite."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Blog' }]}
       />
       <section className="container py-12">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -17,7 +17,7 @@ export default function TermsPage() {
         title="Termeni și condiții"
         subtitle="Reguli simple pentru folosirea site-ului parohial."
         breadcrumb={[
-          { label: 'Home', href: '/' },
+          { label: 'Acasă', href: '/' },
           { label: 'Termeni și condiții' },
         ]}
       />

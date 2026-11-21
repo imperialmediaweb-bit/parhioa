@@ -65,7 +65,7 @@ export default async function DynamicPage({ params }: Props) {
         <Hero
           title={page.title}
           subtitle={page.excerpt || undefined}
-          breadcrumb={[{ label: 'Home', href: '/' }, { label: page.title }]}
+          breadcrumb={[{ label: 'Acasă', href: '/' }, { label: page.title }]}
         />
         <article className="container py-16 max-w-3xl">
           {page.featured?.url && (

@@ -9,7 +9,14 @@ import { getImages } from '@/lib/images';
 import { CrossDivider } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 
-export const metadata = { title: 'Misiune' };
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'Misiune',
+  path: '/misiune',
+  description:
+    'Misiunea Parohiei „Sfânta Cuvioasă Teodora de la Sihla" din Botoșani: slujire liturgică, milostenie și rugăciune, trăite împreună ca o familie duhovnicească.',
+});
 
 export default async function MisiunePage() {
   const IMG = await getImages();
@@ -18,7 +25,7 @@ export default async function MisiunePage() {
       <Hero
         title="Misiunea noastră"
         subtitle="Un loc de rugăciune, ajutor și iubire creștină, unde credința se trăiește împreună."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Misiune' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Misiune' }]}
       />
 
       {/* Intro */}

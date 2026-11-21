@@ -8,7 +8,14 @@ import { getImages } from '@/lib/images';
 import { CrossDivider } from '@/components/site/cross-divider';
 import { ParchmentFrame } from '@/components/site/parchment-frame';
 
-export const metadata = { title: 'Despre' };
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'Despre',
+  path: '/despre',
+  description:
+    'Află povestea Parohiei „Sfânta Cuvioasă Teodora de la Sihla" din Botoșani: nașterea comunității, parohul și drumul spre ridicarea primei biserici.',
+});
 
 export default async function DesprePage() {
   const IMG = await getImages();
@@ -17,7 +24,7 @@ export default async function DesprePage() {
       <Hero
         title="Despre parohia noastră"
         subtitle="Un lăcaș întru zidire sufletească, născut cu binecuvântare arhierească, sub ocrotirea Sfintei Cuvioase Teodora de la Sihla."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Despre' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Despre' }]}
       />
 
       {/* Intro */}

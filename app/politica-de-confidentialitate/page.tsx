@@ -17,7 +17,7 @@ export default function PrivacyPage() {
         title="Politică de confidențialitate"
         subtitle="Ce date colectăm, de ce, și ce drepturi aveți."
         breadcrumb={[
-          { label: 'Home', href: '/' },
+          { label: 'Acasă', href: '/' },
           { label: 'Politică de confidențialitate' },
         ]}
       />

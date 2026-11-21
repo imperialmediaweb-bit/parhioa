@@ -9,7 +9,14 @@ import { Quote, Building2, ArrowRight } from 'lucide-react';
 import { getImages } from '@/lib/images';
 import { activeCampaigns } from '@/lib/campaigns';
 
-export const metadata = { title: 'Campanii' };
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'Campanii',
+  path: '/campanii',
+  description:
+    'Campaniile Parohiei „Sfânta Cuvioasă Teodora" din Botoșani: strângere de fonduri pentru biserică, ajutor pentru familii nevoiașe și lucrări de folos.',
+});
 
 export default async function CampaniiPage() {
   const IMG = await getImages();
@@ -26,9 +33,10 @@ export default async function CampaniiPage() {
   return (
     <>
       <Hero
+        legibleTitle
         title={<>Campaniile parohiei – <em className="font-serif italic">fapte bune care zidesc</em></>}
         subtitle="Campaniile prin care parohia sprijină zidirea bisericii, ajutorarea familiilor aflate în nevoie, susținerea celor lipsiți și alte lucrări de folos. Împreună putem duce mai departe credința prin faptă."
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Campanii' }]}
+        breadcrumb={[{ label: 'Acasă', href: '/' }, { label: 'Campanii' }]}
       />
 
       {/* Campaign card with image */}

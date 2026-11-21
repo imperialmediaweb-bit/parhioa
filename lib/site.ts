@@ -20,3 +20,29 @@ export function absoluteUrl(path = '/'): string {
 /** Default social-share image. The parish patron icon — always available. */
 export const DEFAULT_OG_IMAGE =
   'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png';
+
+/**
+ * Build per-page metadata with a unique description that also flows into
+ * og:description and twitter:description, plus a canonical URL. Keeps every
+ * page's SEO description distinct instead of inheriting the site default.
+ */
+export function pageMetadata(opts: {
+  title?: string;
+  description: string;
+  path: string;
+}): import('next').Metadata {
+  const { title, description, path } = opts;
+  return {
+    ...(title ? { title } : {}),
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      ...(title
+        ? { title: `${title} — Parohia Sf. Cuvioasă Teodora de la Sihla` }
+        : {}),
+      description,
+      url: absoluteUrl(path),
+    },
+    twitter: { description },
+  };
+}

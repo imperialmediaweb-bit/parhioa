@@ -71,7 +71,7 @@ export default async function DonationCampaignPage({
       <Hero
         title={campaign.title}
         breadcrumb={[
-          { label: 'Home', href: '/' },
+          { label: 'Acasă', href: '/' },
           { label: 'Campanii', href: '/campanii' },
           { label: campaign.shortTitle },
         ]}

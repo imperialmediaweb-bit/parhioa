@@ -62,7 +62,7 @@ export function HeroSlider({
         <div className="flex">
           {slides.map((slide, i) => (
             <div key={i} className="relative min-w-0 flex-[0_0_100%]">
-              <SlideContent slide={slide} active={selectedIndex === i} />
+              <SlideContent slide={slide} active={selectedIndex === i} index={i} />
             </div>
           ))}
         </div>
@@ -116,7 +116,18 @@ export function HeroSlider({
   );
 }
 
-function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) {
+function SlideContent({
+  slide,
+  active,
+  index,
+}: {
+  slide: HeroSlide;
+  active: boolean;
+  index: number;
+}) {
+  // Only the first slide carries the page's single <h1>; the others use a
+  // visually identical <p> so the carousel never ships multiple H1s.
+  const TitleTag = index === 0 ? 'h1' : 'p';
   return (
     <div className="relative h-[78vh] min-h-[480px] max-h-[640px] sm:h-[760px] sm:min-h-[640px] sm:max-h-[820px] lg:h-[88vh] lg:min-h-[760px] lg:max-h-[920px] w-full overflow-hidden bg-navy-dark">
       {/* Media */}
@@ -188,9 +199,9 @@ function SlideContent({ slide, active }: { slide: HeroSlide; active: boolean }) 
               <span className="inline-block h-px w-8 bg-gold/70" />
             </p>
           )}
-          <h1 className="font-ecclesia text-[28px] xs:text-[32px] sm:text-5xl lg:text-6xl xl:text-7xl !text-white font-bold leading-[1.08] tracking-wide mb-5 sm:mb-7 uppercase drop-shadow-[0_3px_18px_rgba(0,0,0,0.6)]">
+          <TitleTag className="title-legible text-[28px] xs:text-[32px] sm:text-5xl lg:text-6xl xl:text-7xl !text-white font-bold leading-[1.08] tracking-wide mb-5 sm:mb-7 uppercase drop-shadow-[0_3px_18px_rgba(0,0,0,0.6)]">
             {slide.title}
-          </h1>
+          </TitleTag>
           {slide.subtitle && (
             <p className="font-serif italic text-[15px] xs:text-base sm:text-xl lg:text-2xl text-cream max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
               {slide.subtitle}
