@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Heart, Mail } from 'lucide-react';
+import { Menu, X, Heart, Mail, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -12,7 +12,7 @@ interface NavItem {
   href: string;
 }
 
-export function MobileMenu({ items }: { items: NavItem[] }) {
+export function MobileMenu({ items, onSearch }: { items: NavItem[]; onSearch?: () => void }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -21,12 +21,17 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
     setOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when drawer is open
+  // Prevent body scroll + close on Escape when drawer is open
   useEffect(() => {
     if (open) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = '';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
     };
   }, [open]);
 
@@ -77,6 +82,19 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
 
         {/* Nav links */}
         <nav className="flex-1 overflow-y-auto p-5">
+          {/* Search */}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onSearch?.();
+            }}
+            className="mb-4 flex w-full items-center gap-3 rounded-2xl border border-gold/40 bg-white px-4 py-3.5 text-left text-ink-soft transition hover:bg-cream-card"
+          >
+            <Search className="h-5 w-5 text-burgundy" />
+            <span className="font-serif italic">Caută pe site…</span>
+          </button>
+
           <ul className="space-y-1">
             {items.map((item) => {
               const active = pathname === item.href || pathname?.startsWith(item.href + '/');

@@ -3,6 +3,7 @@ import { MetaPixel } from '@/components/meta-pixel';
 import { Lora, Cinzel_Decorative, Marcellus_SC, Cinzel } from 'next/font/google';
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
+import { SearchModal } from '@/components/site/search-modal';
 import { MobileDonateCta } from '@/components/site/mobile-donate-cta';
 import { SmoothScrollProvider } from '@/components/site/smooth-scroll-provider';
 import { JsonLd } from '@/components/site/jsonld';
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <SmoothScrollProvider />
         <SiteHeader />
+        <SearchModal />
         <main className="min-h-[60vh]">{children}</main>
         <SiteFooter />
         <MobileDonateCta />

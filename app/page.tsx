@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { prisma } from '@/lib/prisma';
 import { getImages } from '@/lib/images';
 import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
+import { HomeSubNav } from '@/components/site/home-subnav';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { type Testimonial } from '@/components/site/testimonials';
@@ -199,13 +200,13 @@ export default async function HomePage() {
   const HERO_SLIDES: HeroSlide[] = [
     {
       // ===== VIDEO SLIDE =====
-      // Cloudinary video with f_auto + q_auto + vc_auto so the browser
-      // gets the lightest codec it supports (AV1/VP9/H.264) at the right
-      // bitrate — no more stuttering.
+      // Clean version of the church-render hero video — the baked-in parish
+      // logo watermark (top-left) was removed with ffmpeg `delogo`, since the
+      // same logo already sits in the header. Served from /public.
       media: {
         type: 'video',
-        src: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/hero.mp4',
-        poster: IMG.heroSlide1,
+        src: '/santier/hero-clean.mp4',
+        poster: '/santier/hero-poster.jpg',
       },
       eyebrow: 'Binecuvântare și chemare',
       title: <>Într-o inimă, o credință, o familie duhovnicească</>,
@@ -252,33 +253,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============= 2b. STICKY SUB-NAV ============= */}
-      <nav className="border-y border-gold/30 bg-cream/85 backdrop-blur sticky top-24 sm:top-28 lg:top-32 z-30">
-        <div className="container flex items-center justify-start sm:justify-center gap-5 sm:gap-8 lg:gap-12 py-2.5 sm:py-4 overflow-x-auto scrollbar-none">
-          <a
-            href="#parohul"
-            className="flex items-center gap-1.5 sm:gap-2 font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.16em] sm:tracking-[0.18em] text-burgundy-dark hover:text-burgundy active:text-burgundy transition whitespace-nowrap shrink-0"
-          >
-            <span className="text-gold">☩</span>
-            <span className="sm:hidden">Parohul</span>
-            <span className="hidden sm:inline">Parohul bisericii</span>
-          </a>
-          <a
-            href="#despre-parohia"
-            className="flex items-center gap-1.5 sm:gap-2 font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.16em] sm:tracking-[0.18em] text-burgundy-dark hover:text-burgundy active:text-burgundy transition whitespace-nowrap shrink-0"
-          >
-            <span className="text-gold">☩</span>
-            <span>Despre parohie</span>
-          </a>
-          <a
-            href="#daruieste"
-            className="flex items-center gap-1.5 sm:gap-2 font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.16em] sm:tracking-[0.18em] text-burgundy-dark hover:text-burgundy active:text-burgundy transition whitespace-nowrap shrink-0"
-          >
-            <span className="text-gold">☩</span>
-            <span className="sm:hidden">Dăruiește</span>
-            <span className="hidden sm:inline">Dăruiește pentru zidire</span>
-          </a>
-        </div>
-      </nav>
+      <HomeSubNav />
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
       <section id="parohul" className="container py-10 sm:py-16 lg:py-20 scroll-mt-44">
