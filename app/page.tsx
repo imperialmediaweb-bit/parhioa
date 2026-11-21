@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { prisma } from '@/lib/prisma';
 import { getImages } from '@/lib/images';
 import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
-import { HomeSubNav } from '@/components/site/home-subnav';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { type Testimonial } from '@/components/site/testimonials';
@@ -251,9 +250,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ============= 2b. STICKY SUB-NAV ============= */}
-      <HomeSubNav />
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
       <section id="parohul" className="container py-10 sm:py-16 lg:py-20 scroll-mt-44">

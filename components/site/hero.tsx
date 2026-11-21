@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { OrthodoxCross } from './cross-divider';
+import { JsonLd } from './jsonld';
+import { absoluteUrl } from '@/lib/site';
 
 interface HeroProps {
   title: React.ReactNode;
@@ -12,8 +14,26 @@ interface HeroProps {
 }
 
 export function Hero({ title, subtitle, breadcrumb, className, legibleTitle }: HeroProps) {
+  // Emit a BreadcrumbList so search engines get the page's position in the
+  // site hierarchy. The last crumb (current page) carries no URL, which Google
+  // accepts. Only crumbs with a real label are included.
+  const breadcrumbLd =
+    breadcrumb && breadcrumb.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: breadcrumb.map((b, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: b.label,
+            ...(b.href ? { item: absoluteUrl(b.href) } : {}),
+          })),
+        }
+      : null;
+
   return (
     <section className={cn('relative isolate overflow-hidden', className)}>
+      {breadcrumbLd && <JsonLd data={breadcrumbLd} />}
       <div
         className="relative px-6 py-24 sm:py-32 text-center text-cream"
         style={{

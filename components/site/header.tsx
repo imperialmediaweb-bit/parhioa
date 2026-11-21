@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Search, Heart } from 'lucide-react';
 import { Logo } from './logo';
 import { Button } from '@/components/ui/button';
@@ -18,12 +19,21 @@ const NAV = [
   { label: 'Contact', href: '/contact' },
 ];
 
+// Homepage quick-jump links, integrated into the header (shown only on `/`).
+const HOME_JUMP = [
+  { href: '#parohul', short: 'Parohul', full: 'Parohul bisericii' },
+  { href: '#despre-parohia', short: 'Despre parohie', full: 'Despre parohie' },
+  { href: '#daruieste', short: 'Dăruiește', full: 'Dăruiește pentru zidire' },
+];
+
 function openSearch() {
   window.dispatchEvent(new Event(OPEN_SEARCH_EVENT));
 }
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -85,6 +95,35 @@ export function SiteHeader() {
           <MobileMenu items={NAV} onSearch={openSearch} />
         </div>
       </div>
+
+      {/* Integrated homepage quick-jump row — part of the header, shown only on
+          the homepage and collapsed once the user scrolls, so the fixed chrome
+          stays slim. */}
+      {isHome && (
+        <div
+          className={cn(
+            'overflow-hidden border-t border-gold/25 bg-cream/70 transition-all duration-300 ease-out',
+            scrolled ? 'max-h-0 opacity-0' : 'max-h-12 opacity-100',
+          )}
+        >
+          <nav
+            className="container flex items-center justify-start sm:justify-center gap-5 sm:gap-8 lg:gap-12 py-2 overflow-x-auto scrollbar-none"
+            aria-label="Navigare rapidă pagina principală"
+          >
+            {HOME_JUMP.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="flex items-center gap-1.5 sm:gap-2 font-ceremonial uppercase text-[10px] sm:text-[11px] tracking-[0.16em] sm:tracking-[0.18em] text-burgundy-dark hover:text-burgundy active:text-burgundy transition whitespace-nowrap shrink-0"
+              >
+                <span className="text-gold">☩</span>
+                <span className="sm:hidden">{l.short}</span>
+                <span className="hidden sm:inline">{l.full}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
 
       {/* Bottom gold hairline */}
       <div className="h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
