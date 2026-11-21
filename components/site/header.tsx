@@ -52,6 +52,8 @@ export function SiteHeader() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2 shrink-0">
+            {/* Subtle gold divider between the nav and the action group */}
+            <span className="hidden lg:block h-7 w-px bg-gradient-to-b from-transparent via-gold/45 to-transparent mr-1" aria-hidden />
             <button
               type="button"
               onClick={openSearch}
@@ -63,9 +65,12 @@ export function SiteHeader() {
             </button>
             <Link
               href="/donations/strangere-de-fonduri-pentru-construirea-bisericii"
-              className="hidden md:inline-flex"
+              className="hidden md:inline-flex transition-transform duration-200 hover:-translate-y-0.5"
             >
-              <Button size="sm" className="!gap-1.5 shadow-[0_6px_18px_-6px_rgba(101,26,20,0.5)]">
+              <Button
+                size="sm"
+                className="!gap-1.5 shadow-[0_6px_18px_-6px_rgba(101,26,20,0.5)] hover:shadow-[0_10px_26px_-8px_rgba(101,26,20,0.6)]"
+              >
                 <Heart className="h-3.5 w-3.5 text-gold" fill="currentColor" />
                 Dăruiește
               </Button>
