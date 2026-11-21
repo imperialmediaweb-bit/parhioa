@@ -18,26 +18,38 @@ function PlaceholderArt({ alt, className }: { alt: string; className?: string })
       className={`relative flex flex-col items-center justify-center overflow-hidden ${className || ''}`}
       style={{
         background:
-          'linear-gradient(180deg, #FBF6EE 0%, #F5EBD7 55%, #EFE0C0 100%)',
+          'radial-gradient(130% 130% at 50% 0%, #7a201a 0%, #4f120d 58%, #350b08 100%)',
       }}
     >
-      {/* Parchment grain */}
+      {/* Warm gold glow */}
       <div
-        className="absolute inset-0 opacity-30 mix-blend-multiply pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.18 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+          background:
+            'radial-gradient(60% 85% at 50% 32%, rgba(234,199,132,0.28), transparent 72%)',
         }}
       />
-      <div className="absolute inset-2 rounded-[14px] border border-gold/55 pointer-events-none" />
-      <div className="absolute inset-3 rounded-[12px] border border-burgundy/25 pointer-events-none" />
+      {/* Subtle grain */}
+      <div
+        className="absolute inset-0 opacity-[0.12] mix-blend-screen pointer-events-none"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.8' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+        }}
+      />
+      {/* Ornamental double frame */}
+      <div className="absolute inset-3 rounded-[12px] border border-gold/45 pointer-events-none" />
+      <div className="absolute inset-4 rounded-[10px] border border-gold/15 pointer-events-none" />
 
       <img
         src={ICON_URL}
         alt={alt}
-        className="relative h-16 w-16 sm:h-20 sm:w-20 object-contain opacity-85 mb-2"
+        className="relative h-20 w-20 sm:h-24 sm:w-24 object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.45)]"
       />
-      <p className="relative text-burgundy text-sm sm:text-base">☩</p>
+      <p className="relative mt-3 font-ceremonial uppercase text-[9px] sm:text-[10px] tracking-[0.24em] text-gold text-center px-4 leading-relaxed">
+        Parohia Sf. Cuv. Teodora
+      </p>
+      <span className="relative mt-1 text-gold/80 text-sm leading-none">☩</span>
     </div>
   );
 }
