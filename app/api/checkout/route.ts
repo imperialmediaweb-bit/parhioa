@@ -131,6 +131,11 @@ export async function POST(req: NextRequest) {
         donorName,
         donorPhone,
         isPublic: isPublic ? '1' : '0',
+        // 21.11.2026 — pentru donația trimisă la Facebook de pe server (lib/meta-capi.ts)
+        fbp: (req.cookies.get('_fbp')?.value || '').slice(0, 200),
+        fbc: (req.cookies.get('_fbc')?.value || '').slice(0, 300),
+        ip: (req.headers.get('x-forwarded-for') || '').split(',')[0].trim().slice(0, 60),
+        ua: (req.headers.get('user-agent') || '').slice(0, 450),
       },
       ...(recurring
         ? {

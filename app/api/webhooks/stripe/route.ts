@@ -4,6 +4,7 @@ import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import { sendThankYouEmail, sendAdminPaymentFailedEmail } from '@/lib/email';
 import { findCampaign } from '@/lib/campaigns';
+import { trimiteDonatieLaFacebook } from '@/lib/meta-capi';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -100,6 +101,20 @@ async function recordDonation(session: Stripe.Checkout.Session) {
   const currency = (session.currency || 'ron').toLowerCase();
 
   const phone = donorPhone || fallbackPhone || null;
+
+  // Donația și la Facebook, de pe server (pixelul din browser nu era înregistrat).
+  if ((session.payment_status === 'paid' || session.payment_status === 'no_payment_required') && amountRon > 0) {
+    await trimiteDonatieLaFacebook({
+      sessionId,
+      valoare: amountRon,
+      email,
+      telefon: phone,
+      fbp: meta.fbp || null,
+      fbc: meta.fbc || null,
+      ip: meta.ip || null,
+      ua: meta.ua || null,
+    });
+  }
 
   const subscriptionId =
     typeof session.subscription === 'string'
