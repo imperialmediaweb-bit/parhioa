@@ -21,7 +21,7 @@ const FEASTS: Feast[] = [
   { date: '01-07', name: 'Soborul Sfântului Ioan Botezătorul', rank: 'polyeleos' },
   { date: '01-30', name: 'Sfinții Trei Ierarhi', rank: 'polyeleos' },
   { date: '02-02', name: 'Întâmpinarea Domnului', rank: 'great' },
-  { date: '03-25', name: 'Buna Vestire', rank: 'great' },
+  { date: '03-25', name: 'Buna-Vestire', rank: 'great' },
   { date: '06-24', name: 'Nașterea Sf. Ioan Botezătorul', rank: 'polyeleos' },
   { date: '06-29', name: 'Sfinții Apostoli Petru și Pavel', rank: 'great' },
   { date: '07-20', name: 'Sf. Proroc Ilie Tesviteanul', rank: 'polyeleos' },

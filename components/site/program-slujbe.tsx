@@ -157,7 +157,7 @@ export function ProgramSlujbe() {
         </div>
 
         <p className="relative text-center mt-5 text-[11px] sm:text-xs font-serif italic text-burgundy/70">
-          Slujbele se țin la <strong className="not-italic text-burgundy">Biserica „Bunavestire"</strong> până la
+          Slujbele se țin la <strong className="not-italic text-burgundy">Biserica „Buna-Vestire"</strong> până la
           finalizarea lăcașului de cult al parohiei.
         </p>
         <p className="relative text-center mt-2 text-xs font-serif italic text-burgundy/60">

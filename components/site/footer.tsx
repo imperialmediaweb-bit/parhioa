@@ -94,7 +94,7 @@ export function SiteFooter() {
               <ContactRow icon={MapPin}>
                 Strada Pacea, Nr. 45B, Botoșani
                 <span className="block text-[11px] text-cream/55 italic mt-0.5">
-                  Slujbele se țin la Biserica „Bunavestire"
+                  Slujbele se țin la Biserica „Buna-Vestire"
                 </span>
               </ContactRow>
               <ContactRow icon={Mail}>
