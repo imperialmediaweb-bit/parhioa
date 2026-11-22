@@ -7,6 +7,8 @@ interface LogoProps {
   showText?: boolean;
   size?: 'sm' | 'default' | 'lg' | 'xl';
   iconSrc?: string;
+  /** Present the icon inside a gilded „kiot" frame, like a venerated icon. */
+  framed?: boolean;
 }
 
 // Responsive sizes: [mobile, sm, lg]. Bumped mobile values so the icon
@@ -15,7 +17,7 @@ interface LogoProps {
 const SIZE_CLASSES: Record<NonNullable<LogoProps['size']>, string> = {
   sm: 'w-14 h-14 sm:w-16 sm:h-16',
   // Balanced with the 3-line wordmark next to it in the header.
-  default: 'w-20 h-20 sm:w-[88px] sm:h-[88px] lg:w-[100px] lg:h-[100px]',
+  default: 'w-[72px] h-[72px] sm:w-20 sm:h-20 lg:w-[88px] lg:h-[88px]',
   lg: 'w-24 h-24 sm:w-28 sm:h-28',
   xl: 'w-28 h-28 sm:w-32 sm:h-32',
 };
@@ -25,21 +27,40 @@ export function Logo({
   showText = true,
   size = 'default',
   iconSrc = 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png',
+  framed = false,
 }: LogoProps) {
+  const iconImg = (
+    <img
+      src={opt(iconSrc, 400)}
+      alt="Icoană Sfânta Cuvioasă Teodora de la Sihla"
+      className={cn(
+        'object-contain flex-shrink-0 transition-transform group-hover:scale-[1.04] drop-shadow-sm',
+        SIZE_CLASSES[size],
+      )}
+    />
+  );
   return (
     <Link
       href="/"
       className={cn('flex items-center gap-3 sm:gap-4 group whitespace-nowrap', className)}
       aria-label="Parohia Sf. Cuvioasă Teodora de la Sihla — acasă"
     >
-      <img
-        src={opt(iconSrc, 400)}
-        alt="Icoană Sfânta Cuvioasă Teodora de la Sihla"
-        className={cn(
-          'object-contain flex-shrink-0 transition-transform group-hover:scale-105 drop-shadow-sm',
-          SIZE_CLASSES[size],
-        )}
-      />
+      {framed ? (
+        <span
+          className="relative flex items-center justify-center rounded-[14px] p-1.5 sm:p-2 flex-shrink-0 shadow-[0_8px_22px_-10px_rgba(101,26,20,0.5)]"
+          style={{
+            background:
+              'radial-gradient(circle at 50% 38%, #fffaf0 0%, #f6ead1 60%, #efdcbb 100%)',
+          }}
+        >
+          {/* Double gilded border — kiot (icon case) feel */}
+          <span className="pointer-events-none absolute inset-[3px] rounded-[11px] border border-gold/70" />
+          <span className="pointer-events-none absolute inset-[6px] rounded-[9px] border border-burgundy/20" />
+          {iconImg}
+        </span>
+      ) : (
+        iconImg
+      )}
       {showText && (
         <span className="flex flex-col leading-[1.05] min-w-0">
           {/* Mobile: 2 compact lines */}

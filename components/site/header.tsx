@@ -45,7 +45,7 @@ export function SiteHeader() {
         />
 
         <div className="container relative flex h-24 sm:h-28 items-center justify-between gap-3 sm:gap-6">
-          <Logo size="default" className="shrink min-w-0" />
+          <Logo size="default" framed className="shrink min-w-0" />
 
           {/* Desktop nav — active page marked with a steady gold underline;
               hover grows the same underline from the centre. */}
