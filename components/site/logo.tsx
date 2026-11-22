@@ -68,17 +68,19 @@ export function Logo({
             Sf. Cuv. Teodora
           </span>
           <span className="sm:hidden font-ecclesia text-[11px] font-semibold uppercase tracking-[0.08em] text-lavender-dark leading-tight mt-0.5">
-            de la Sihla · Botoșani
+            de la Sihla <span className="text-gold-dark">·</span> Botoșani
           </span>
-          {/* Tablet+: 3 full lines */}
-          <span className="hidden sm:block font-ecclesia text-[13px] lg:text-[15px] font-bold uppercase tracking-wider text-lavender-dark">
+          {/* Tablet+: 3 full lines with gold accents */}
+          <span className="hidden sm:flex items-center gap-2 font-ecclesia text-[12px] lg:text-[13px] font-semibold uppercase tracking-[0.3em] text-lavender-dark">
             Parohia
+            <span className="h-px w-7 lg:w-9 bg-gradient-to-r from-gold/70 to-transparent" aria-hidden />
           </span>
-          <span className="hidden sm:block font-ecclesia text-[15px] lg:text-[17px] font-bold uppercase tracking-wider text-burgundy">
+          <span className="hidden sm:block font-ecclesia text-[16px] lg:text-[19px] font-bold uppercase tracking-wide text-burgundy leading-none mt-0.5">
             Sf. Cuv. Teodora
           </span>
-          <span className="hidden sm:block font-ecclesia text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.1em] text-lavender-dark">
-            de la Sihla · Botoșani
+          <span className="hidden sm:flex items-center gap-1.5 font-ecclesia text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.14em] text-lavender-dark mt-1">
+            <span className="text-gold-dark text-[9px] leading-none">☩</span>
+            de la Sihla <span className="text-gold-dark">·</span> Botoșani
           </span>
         </span>
       )}
