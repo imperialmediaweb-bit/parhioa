@@ -36,17 +36,27 @@ function cldPathToKey(rest: string): string {
 }
 
 /**
- * Optimize/resize an R2 image through the free wsrv.nl image CDN — upscales
- * small WordPress-era thumbnails, sharpens and re-encodes to WebP. This
- * replaces the automatic quality/resize Cloudinary used to do (f_auto,q_auto,
- * w_), which R2 (plain storage) cannot. R2 stays the origin; wsrv.nl only
- * proxies, so swapping it out later is a one-line change.
+ * Return the delivery URL for an image.
+ *
+ * Images are served DIRECTLY from Cloudflare R2 (a fast, free-egress CDN).
+ * We previously routed them through the wsrv.nl proxy to upscale/sharpen the
+ * small WordPress-era thumbnails, but on image-heavy pages that proxy added
+ * latency and an extra point of failure (404/JSON for missing sources), which
+ * showed up as broken images. Direct R2 is reliable; the few small thumbnails
+ * are an acceptable trade for images that always load.
  */
-export function opt(r2url: string, width = 1600): string {
-  if (!r2url || r2url.includes('wsrv.nl')) return r2url;
-  // Only our own R2 assets go through the optimizer.
-  if (!r2url.includes('.r2.dev') && !r2url.includes(R2_BASE)) return r2url;
-  return `https://wsrv.nl/?url=${encodeURIComponent(r2url)}&w=${width}&q=82&output=webp&we`;
+export function opt(r2url: string, _width = 1600): string {
+  if (!r2url) return '';
+  // Unwrap any legacy wsrv.nl URL back to its R2 source.
+  const m = r2url.match(/wsrv\.nl\/\?url=([^&]+)/);
+  if (m) {
+    try {
+      return decodeURIComponent(m[1]);
+    } catch {
+      return r2url;
+    }
+  }
+  return r2url;
 }
 
 /**
