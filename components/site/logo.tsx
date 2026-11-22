@@ -15,7 +15,7 @@ interface LogoProps {
 const SIZE_CLASSES: Record<NonNullable<LogoProps['size']>, string> = {
   sm: 'w-14 h-14 sm:w-16 sm:h-16',
   // Balanced with the 3-line wordmark next to it in the header.
-  default: 'w-[72px] h-[72px] sm:w-20 sm:h-20 lg:w-[92px] lg:h-[92px]',
+  default: 'w-20 h-20 sm:w-[88px] sm:h-[88px] lg:w-[100px] lg:h-[100px]',
   lg: 'w-24 h-24 sm:w-28 sm:h-28',
   xl: 'w-28 h-28 sm:w-32 sm:h-32',
 };
