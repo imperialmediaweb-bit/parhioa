@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cld } from '@/lib/img';
 
 interface Props {
@@ -56,6 +56,15 @@ function PlaceholderArt({ alt, className }: { alt: string; className?: string })
 
 export function PostImage({ src, alt, className }: Props) {
   const [errored, setErrored] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+
+  // A server-rendered <img> can finish (and fail) loading before React
+  // hydrates and attaches `onError`, so the handler never fires. Catch those
+  // already-broken images on mount and fall back to the branded placeholder.
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) setErrored(true);
+  }, []);
 
   if (errored) {
     return <PlaceholderArt alt={alt} className={className} />;
@@ -63,6 +72,7 @@ export function PostImage({ src, alt, className }: Props) {
 
   return (
     <img
+      ref={ref}
       src={cld(src)}
       alt={alt}
       className={className}
