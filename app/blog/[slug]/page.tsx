@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { prisma } from '../../../lib/prisma';
 import { Hero } from '../../../components/site/hero';
 import { Badge } from '../../../components/ui/badge';
-import { formatDateRo } from '../../../lib/utils';
+import { formatDateRo, stripEmoji } from '../../../lib/utils';
 import { PLACEHOLDER_POSTS } from '../../../lib/placeholder-posts';
 import { sanitizePostHtml } from '@/lib/sanitize';
 import { cld, cldAll } from '@/lib/img';
@@ -67,7 +67,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return { title: 'Articol negăsit', robots: { index: false } };
 
   const url = `/blog/${post.slug}`;
-  const description = post.excerpt || undefined;
+  const title = stripEmoji(post.title);
+  const description = stripEmoji(post.excerpt) || undefined;
   const image = post.featured?.url ? cld(post.featured.url) : DEFAULT_OG_IMAGE;
   const publishedTime =
     post.publishedAt instanceof Date
@@ -75,18 +76,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : post.publishedAt || undefined;
 
   return {
-    title: post.title,
+    title,
     description,
     alternates: { canonical: url },
     openGraph: {
       type: 'article',
       url,
-      title: post.title,
+      title,
       description,
       publishedTime,
-      images: [{ url: image, alt: post.featured?.alt || post.title }],
+      images: [{ url: image, alt: post.featured?.alt || title }],
     },
-    twitter: { card: 'summary_large_image', title: post.title, description, images: [image] },
+    twitter: { card: 'summary_large_image', title, description, images: [image] },
   };
 }
 
@@ -94,14 +95,16 @@ export default async function PostPage({ params }: Props) {
   const post = await getPost(params.slug);
   if (!post) notFound();
 
+  const cleanTitle = stripEmoji(post.title);
+
   return (
     <>
       <JsonLd
         data={[
           blogPostingJsonLd({
             slug: post.slug,
-            title: post.title,
-            excerpt: post.excerpt,
+            title: cleanTitle,
+            excerpt: stripEmoji(post.excerpt),
             publishedAt: post.publishedAt,
             updatedAt: (post as any).updatedAt ?? null,
             imageUrl: post.featured?.url ?? null,
@@ -109,24 +112,24 @@ export default async function PostPage({ params }: Props) {
           breadcrumbJsonLd([
             { name: 'Acasă', path: '/' },
             { name: 'Blog', path: '/blog' },
-            { name: post.title, path: `/blog/${post.slug}` },
+            { name: cleanTitle, path: `/blog/${post.slug}` },
           ]),
         ]}
       />
       <Hero
-        title={post.title}
+        title={cleanTitle}
         subtitle={post.publishedAt ? formatDateRo(post.publishedAt) : undefined}
         breadcrumb={[
           { label: 'Acasă', href: '/' },
           { label: 'Blog', href: '/blog' },
-          { label: post.title },
+          { label: cleanTitle },
         ]}
       />
       <article className="container py-16 max-w-3xl">
         {post.featured?.url && (
           <img
             src={cld(post.featured.url)}
-            alt={post.featured.alt || post.title}
+            alt={post.featured.alt || cleanTitle}
             className="rounded-2xl w-full max-h-[480px] object-cover mb-10 shadow-sm"
           />
         )}

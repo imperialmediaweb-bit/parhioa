@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { Megaphone } from 'lucide-react';
 import { anuntPostActiv } from '@/lib/anunt-post';
 import { ARTICOLE_STATICE } from '@/lib/articole-statice';
+import { stripEmoji } from '@/lib/utils';
 
 const CATEGORY_LABEL: Record<string, string> = {
   evenimente: 'Eveniment',
@@ -84,7 +85,7 @@ export async function NewsTicker() {
       key: `post-${p.id}`,
       label: cat ? CATEGORY_LABEL[cat] : null,
       date: formatDate(p.publishedAt),
-      text: p.title,
+      text: stripEmoji(p.title),
       href: `/blog/${p.slug}`,
     });
   }

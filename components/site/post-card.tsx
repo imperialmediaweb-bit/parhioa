@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { formatDateRo } from '@/lib/utils';
+import { formatDateRo, stripEmoji } from '@/lib/utils';
 import { PostImage } from './post-image';
 
 interface PostCardProps {
@@ -34,7 +34,7 @@ export function PostCard({
             featuredUrl ||
             'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png'
           }
-          alt={featuredAlt || title}
+          alt={featuredAlt || stripEmoji(title)}
           className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </Link>
@@ -50,7 +50,7 @@ export function PostCard({
         )}
         <Link href={url}>
           <h3 className="font-display text-xl font-semibold text-navy leading-snug transition-colors group-hover:text-coral">
-            {title}
+            {stripEmoji(title)}
           </h3>
         </Link>
         {publishedAt && (
@@ -58,7 +58,9 @@ export function PostCard({
             {formatDateRo(publishedAt)}
           </p>
         )}
-        {excerpt && <p className="text-sm text-ink-muted line-clamp-3">{excerpt}</p>}
+        {excerpt && (
+          <p className="text-sm text-ink-muted line-clamp-3">{stripEmoji(excerpt)}</p>
+        )}
         <Link
           href={url}
           className="mt-auto pt-2 text-sm font-medium text-coral hover:text-coral-dark inline-flex items-center gap-1"
