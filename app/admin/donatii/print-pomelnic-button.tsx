@@ -55,7 +55,7 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
   </div>
   <p class="intro">Pentru sănătatea, mântuirea și binecuvântarea robilor lui Dumnezeu,<br/>ctitori și binefăcători ai sfântului lăcaș:</p>
   ${names.length ? `<ul>${items}</ul>` : '<p class="empty">(încă niciun donator)</p>'}
-  <p class="foot">Întocmit automat · ${today} · ${names.length} nume</p>
+  <p class="foot">Întocmit automat · ${today} · ${names.length} prenume</p>
   <button class="noprint" onclick="window.print()" style="display:block;margin:24px auto 0;padding:10px 20px;border:1px solid #651a14;background:#651a14;color:#fff;border-radius:999px;cursor:pointer;font-size:14px;">Printează pomelnicul</button>
 </div>
 <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>

@@ -11,6 +11,66 @@ interface SearchParams {
   key?: string;
 }
 
+// Common Romanian first names (diacritic-folded, lowercase) used to pick the
+// „prenume" out of a full name regardless of order (Nume Prenume / Prenume Nume).
+const FIRST_NAMES = new Set(
+  (
+    'andrei alexandru adrian marian ion ionut gabriel george gheorghe mihai mihail nicolae ' +
+    'vasile constantin catalin cristian cristi daniel dan florin bogdan razvan radu sorin stefan ' +
+    'stefanita stefanut marius valentin vlad victor dragos emil eugen paul petru petre teodor tudor ' +
+    'toma dumitru grigore iulian lucian marcel octavian ovidiu sebastian silviu traian viorel ciprian ' +
+    'costel costin doru ilie laurentiu liviu luca matei narcis sandu virgil aurel anton pavel iacob ' +
+    'simion avram david darius denis robert rares eduard gelu nelu relu nicu puiu cosmin alin calin ' +
+    'horia iosif leon marin mircea remus romeo sever tiberiu valeriu zaharia samoila ananie gavril ' +
+    'maria ioana elena ana andreea alexandra gabriela mihaela daniela nicoleta cristina camelia carmen ' +
+    'florentina georgiana larisa laura monica oana raluca roxana simona teodora diana denisa bianca ' +
+    'loredana lavinia mirela claudia corina catalina doina dorina eugenia felicia florica geta ileana ' +
+    'iuliana lacramioara liliana livia luminita magdalena manuela marcela mariana marilena marinela ' +
+    'madalina melania narcisa natalia otilia paula petronela rodica sanda silvia sofia stela steluta ' +
+    'tatiana valentina valeria veronica victoria violeta viorica zoe aurelia anca adela adriana alina ' +
+    'amalia angela antonia beatrice crina daria delia emilia estera eva gina irina isabela izabela ' +
+    'lidia lia lucia margareta miruna nadia olga ramona sabina smaranda sorina tamara vasilica ' +
+    'ecaterina paraschiva profira zamfira ruxandra anisoara lenuta mioara saveta safta catinca ' +
+    'aurica elisabeta eleonora'
+  ).split(/\s+/),
+);
+
+function fold(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/ș|ş/g, 's')
+    .replace(/ț|ţ/g, 't')
+    .toLowerCase();
+}
+
+/**
+ * Extract the first name(s) (prenume) from a donor's full name for the pomelnic.
+ * Drops „Familia/Fam./Pr." prefixes, splits „X și Y" / „X & Y" / „X - Y" into
+ * separate people, then for each person picks the token that is a known Romanian
+ * first name (works for both „Nume Prenume" and „Prenume Nume"); if none match,
+ * falls back to the last word. Hyphenated names like „Andreea-Elena" stay whole.
+ */
+function firstNamesOf(full: string): string[] {
+  const cleaned = full
+    .trim()
+    .replace(/^(familia|fam\.?|pr\.?|preot|p[ăa]rinte|dl\.?|d-l|dna\.?|d-na)\s+/i, '');
+  return cleaned
+    .split(/\s+(?:și|si)\s+|\s*[&/,+]\s*|\s+-\s+/i)
+    .map((person) => {
+      const words = person.trim().split(/\s+/).filter(Boolean);
+      for (const w of words) {
+        const whole = fold(w.replace(/[.,;:]+$/, ''));
+        const head = whole.split('-')[0];
+        if (FIRST_NAMES.has(whole) || FIRST_NAMES.has(head)) {
+          return w.replace(/[.,;:]+$/, '').trim();
+        }
+      }
+      return (words[words.length - 1] || '').replace(/[.,;:]+$/, '').trim();
+    })
+    .filter((n) => n.length > 1);
+}
+
 export default async function DonationsAdminPage({
   searchParams,
 }: {
@@ -70,8 +130,9 @@ export default async function DonationsAdminPage({
   const monthCount = paidThisMonth.length;
   const monthLabel = now.toLocaleDateString('ro-RO', { month: 'long', year: 'numeric' });
 
-  // Pomelnic „pentru vii" — each donor's name once (deduped), only real (paid)
-  // donations, sorted alphabetically for easy reading at the Liturgy.
+  // Pomelnic „pentru vii" — ONLY first names (prenume), as read at the Liturgy:
+  // strip „Familia/Fam./Pr.", split „X și Y", „X & Y", „X - Y" into separate
+  // people, take each person's first name, then dedupe and sort.
   const pomelnicNames = Array.from(
     new Set(
       donations
@@ -80,8 +141,7 @@ export default async function DonationsAdminPage({
             (d.status === 'completed' || d.status === 'self_reported_bank') &&
             d.donor?.name,
         )
-        .map((d) => d.donor!.name!.trim())
-        .filter(Boolean),
+        .flatMap((d) => firstNamesOf(d.donor!.name!)),
     ),
   ).sort((a, b) => a.localeCompare(b, 'ro'));
 
@@ -128,7 +188,7 @@ export default async function DonationsAdminPage({
           sub={`${totalCompleted} donații reușite`}
         />
         <Stat label="Emailuri colectate" value={String(donors.length)} />
-        <Stat label="Nume în pomelnic" value={String(pomelnicNames.length)} />
+        <Stat label="Prenume în pomelnic" value={String(pomelnicNames.length)} />
       </div>
 
       {/* Pomelnic — for the living donors */}
@@ -137,9 +197,9 @@ export default async function DonationsAdminPage({
           <div className="min-w-0">
             <h2 className="font-display text-xl text-burgundy">☩ Pomelnic (pentru vii)</h2>
             <p className="text-xs text-ink-soft mt-1 max-w-xl">
-              {pomelnicNames.length} nume unice ale ctitorilor și binefăcătorilor, pentru
-              pomenire la Sfânta Liturghie. Fiecare nume apare o singură dată, chiar dacă a
-              donat de mai multe ori. Se deschide gata de printat, cu logo.
+              {pomelnicNames.length} prenume, pentru pomenire la Sfânta Liturghie — doar
+              numele mic (fără nume de familie), fiecare o singură dată. Se deschide gata de
+              printat, cu logo și cruce.
             </p>
           </div>
           <PrintPomelnicButton names={pomelnicNames} />
