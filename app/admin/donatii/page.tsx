@@ -188,14 +188,14 @@ export default async function DonationsAdminPage({
           sub={`${totalCompleted} donații reușite`}
         />
         <Stat label="Emailuri colectate" value={String(donors.length)} />
-        <Stat label="Prenume în pomelnic" value={String(pomelnicNames.length)} />
+        <Stat label="Prenume în acatist" value={String(pomelnicNames.length)} />
       </div>
 
       {/* Pomelnic — for the living donors */}
       <section className="mb-8 rounded-2xl border border-gold/45 bg-gradient-to-br from-[#fffdf8] to-[#f6ead1] p-5 sm:p-6">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="min-w-0">
-            <h2 className="font-display text-xl text-burgundy">☩ Pomelnic (pentru vii)</h2>
+            <h2 className="font-display text-xl text-burgundy">☩ Acatist (pentru vii)</h2>
             <p className="text-xs text-ink-soft mt-1 max-w-xl">
               {pomelnicNames.length} prenume, pentru pomenire la Sfânta Liturghie — doar
               numele mic (fără nume de familie), fiecare o singură dată. Se deschide gata de

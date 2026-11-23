@@ -19,7 +19,7 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
       .map((n) => `<li>${escapeHtml(n)}</li>`)
       .join('');
     const html = `<!doctype html><html lang="ro"><head><meta charset="utf-8">
-<title>Pomelnic — Parohia Sf. Cuv. Teodora de la Sihla</title>
+<title>Acatist — Parohia Sf. Cuv. Teodora de la Sihla</title>
 <style>
   @page { size: A4; margin: 18mm; }
   * { box-sizing: border-box; }
@@ -50,7 +50,7 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
       </g>
     </svg>
     <img src="${LOGO}" alt="Parohia Sf. Cuv. Teodora de la Sihla" />
-    <h1>Pomelnic</h1>
+    <h1>Acatist</h1>
     <p class="sub">Parohia „Sfânta Cuvioasă Teodora de la Sihla" — Botoșani</p>
   </div>
   <p class="intro">Pentru sănătatea, mântuirea și binecuvântarea robilor lui Dumnezeu,<br/>ctitori și binefăcători ai sfântului lăcaș:</p>
@@ -73,7 +73,7 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
       onClick={open}
       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark bg-gradient-to-br from-gold to-gold-dark text-burgundy-dark text-xs font-semibold hover:brightness-105 transition"
     >
-      ☩ Scoate pomelnicul
+      ☩ Scoate acatistul
     </button>
   );
 }
