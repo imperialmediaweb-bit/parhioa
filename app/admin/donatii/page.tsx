@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { CopyEmailsButton } from './copy-emails-button';
+import { PrintPomelnicButton } from './print-pomelnic-button';
 import { isAdminKeyValid } from '@/lib/admin-auth';
 import { AdminLocked } from '../admin-locked';
 
@@ -57,6 +58,33 @@ export default async function DonationsAdminPage({
   const totalCompleted =
     (totals.completed?.count || 0) + (totals.self_reported_bank?.count || 0);
 
+  // Donations in the current calendar month.
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const paidThisMonth = donations.filter(
+    (d) =>
+      (d.status === 'completed' || d.status === 'self_reported_bank') &&
+      d.createdAt >= monthStart,
+  );
+  const monthSum = paidThisMonth.reduce((s, d) => s + d.amount, 0);
+  const monthCount = paidThisMonth.length;
+  const monthLabel = now.toLocaleDateString('ro-RO', { month: 'long', year: 'numeric' });
+
+  // Pomelnic „pentru vii" — each donor's name once (deduped), only real (paid)
+  // donations, sorted alphabetically for easy reading at the Liturgy.
+  const pomelnicNames = Array.from(
+    new Set(
+      donations
+        .filter(
+          (d) =>
+            (d.status === 'completed' || d.status === 'self_reported_bank') &&
+            d.donor?.name,
+        )
+        .map((d) => d.donor!.name!.trim())
+        .filter(Boolean),
+    ),
+  ).sort((a, b) => a.localeCompare(b, 'ro'));
+
   const allEmails = donors.map((d) => d.email!).filter(Boolean).join(', ');
 
   const csv = [
@@ -74,27 +102,49 @@ export default async function DonationsAdminPage({
 
   return (
     <div className="container py-10 max-w-6xl">
-      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <div>
-          <h1 className="font-display text-3xl text-burgundy">Donații & ctitori</h1>
-          <p className="text-xs text-ink-soft mt-1">
-            Toți cei care au inițiat o donație (reușită, în transfer sau abandonată)
-            sunt salvați aici.
-          </p>
-        </div>
+      <div className="mb-6">
+        <p className="font-ceremonial uppercase text-[11px] tracking-[0.28em] text-gold-dark flex items-center gap-2">
+          <span className="text-burgundy">☩</span> Administrare parohie
+        </p>
+        <h1 className="font-display text-3xl text-burgundy mt-1">Donații & ctitori</h1>
+        <p className="text-xs text-ink-soft mt-1">
+          Toți cei care au inițiat o donație (reușită, în transfer sau abandonată)
+          sunt salvați aici.
+        </p>
+        <div className="mt-3 h-px w-full bg-gradient-to-r from-gold/50 via-gold/20 to-transparent" />
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-        <Stat label="Total strâns" value={`${totalRaised.toLocaleString('ro-RO')} RON`} />
-        <Stat label="Donații reușite" value={String(totalCompleted)} />
-        <Stat label="Emailuri colectate" value={String(donors.length)} />
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <Stat
-          label="Refunded"
-          value={String(totals.refunded?.count || 0)}
-          muted
+          label={`Luna aceasta · ${monthLabel}`}
+          value={`${monthSum.toLocaleString('ro-RO')} RON`}
+          sub={`${monthCount} donații`}
+          accent
         />
+        <Stat
+          label="Total strâns"
+          value={`${totalRaised.toLocaleString('ro-RO')} RON`}
+          sub={`${totalCompleted} donații reușite`}
+        />
+        <Stat label="Emailuri colectate" value={String(donors.length)} />
+        <Stat label="Nume în pomelnic" value={String(pomelnicNames.length)} />
       </div>
+
+      {/* Pomelnic — for the living donors */}
+      <section className="mb-8 rounded-2xl border border-gold/45 bg-gradient-to-br from-[#fffdf8] to-[#f6ead1] p-5 sm:p-6">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="min-w-0">
+            <h2 className="font-display text-xl text-burgundy">☩ Pomelnic (pentru vii)</h2>
+            <p className="text-xs text-ink-soft mt-1 max-w-xl">
+              {pomelnicNames.length} nume unice ale ctitorilor și binefăcătorilor, pentru
+              pomenire la Sfânta Liturghie. Fiecare nume apare o singură dată, chiar dacă a
+              donat de mai multe ori. Se deschide gata de printat, cu logo.
+            </p>
+          </div>
+          <PrintPomelnicButton names={pomelnicNames} />
+        </div>
+      </section>
 
       {/* Email list for future campaigns */}
       <section className="mb-10 rounded-2xl border border-border bg-white p-5 sm:p-6">
@@ -215,24 +265,27 @@ export default async function DonationsAdminPage({
 function Stat({
   label,
   value,
-  muted = false,
+  sub,
+  accent = false,
 }: {
   label: string;
   value: string;
-  muted?: boolean;
+  sub?: string;
+  accent?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-white px-4 py-4">
-      <p className="text-[10px] uppercase tracking-wider text-ink-soft font-ceremonial">
+    <div
+      className={`rounded-2xl px-4 py-4 shadow-[0_8px_22px_-16px_rgba(101,26,20,0.45)] ${
+        accent
+          ? 'border border-gold/50 bg-gradient-to-br from-[#fffaf0] to-[#f3e4c6]'
+          : 'border border-border bg-white'
+      }`}
+    >
+      <p className="text-[10px] uppercase tracking-wider text-ink-soft font-ceremonial truncate">
         {label}
       </p>
-      <p
-        className={`font-display text-2xl font-bold mt-1 ${
-          muted ? 'text-ink-soft' : 'text-burgundy'
-        }`}
-      >
-        {value}
-      </p>
+      <p className="font-display text-2xl font-bold mt-1 text-burgundy">{value}</p>
+      {sub && <p className="text-[11px] text-ink-soft mt-0.5">{sub}</p>}
     </div>
   );
 }
