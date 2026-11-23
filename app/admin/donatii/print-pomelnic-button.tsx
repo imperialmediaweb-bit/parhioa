@@ -26,8 +26,8 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
   body { font-family: Georgia, 'Times New Roman', serif; color: #3a1512; margin: 0; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 24px; }
   .head { text-align: center; border-bottom: 2px solid #c9a361; padding-bottom: 16px; margin-bottom: 20px; }
-  .head img { height: 96px; width: auto; }
-  .cross { color: #c9a361; font-size: 20px; }
+  .head img { height: 84px; width: auto; }
+  .bigcross { display:block; margin: 0 auto 6px; }
   h1 { font-size: 30px; letter-spacing: 3px; text-transform: uppercase; margin: 10px 0 4px; color: #651a14; }
   .sub { font-style: italic; color: #6b4a2a; font-size: 15px; margin: 0; }
   .intro { text-align: center; margin: 18px 0; font-size: 16px; }
@@ -41,8 +41,15 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
 </style></head>
 <body><div class="wrap">
   <div class="head">
+    <svg class="bigcross" width="56" height="88" viewBox="0 0 56 88" aria-hidden="true">
+      <g stroke="#651a14" stroke-width="3.2" stroke-linecap="round" fill="none">
+        <line x1="28" y1="4" x2="28" y2="84"/>
+        <line x1="17" y1="18" x2="39" y2="18"/>
+        <line x1="8" y1="36" x2="48" y2="36"/>
+        <line x1="17" y1="64" x2="39" y2="56"/>
+      </g>
+    </svg>
     <img src="${LOGO}" alt="Parohia Sf. Cuv. Teodora de la Sihla" />
-    <div class="cross">☩</div>
     <h1>Pomelnic</h1>
     <p class="sub">Parohia „Sfânta Cuvioasă Teodora de la Sihla" — Botoșani</p>
   </div>
