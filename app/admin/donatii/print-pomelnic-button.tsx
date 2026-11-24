@@ -76,11 +76,23 @@ export function PrintPomelnicButton({
 </div>
 <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>
 </body></html>`;
-    const w = window.open('', '_blank');
-    if (!w) return;
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
+    const slug =
+      (periodLabel || 'parohie')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 40) || 'acatist';
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Acatist-${slug}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
   };
 
   return (

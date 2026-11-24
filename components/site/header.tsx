@@ -115,16 +115,8 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Ornamental gold divider with a central cross medallion */}
-      <div className="relative h-[3px] bg-gradient-to-r from-transparent via-gold/50 to-transparent">
-        <span
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center rounded-full text-[11px] leading-none text-burgundy"
-          style={{ background: 'radial-gradient(circle at 50% 40%, #f4dfb3, #EAC784 70%, #c9a361)' }}
-          aria-hidden
-        >
-          ☩
-        </span>
-      </div>
+      {/* Gold divider under the header */}
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
     </header>
   );
 }
