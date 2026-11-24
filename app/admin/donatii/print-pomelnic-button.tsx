@@ -35,7 +35,7 @@ export function PrintPomelnicButton({
     const html = `<!doctype html><html lang="ro"><head><meta charset="utf-8">
 <title>Acatist — Parohia Sf. Cuv. Teodora de la Sihla</title>
 <style>
-  @page { size: A4; margin: 18mm; }
+  @page { size: A4 portrait; margin: 16mm; }
   * { box-sizing: border-box; }
   body { font-family: Georgia, 'Times New Roman', serif; color: #3a1512; margin: 0; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 24px; }
@@ -46,8 +46,8 @@ export function PrintPomelnicButton({
   .sub { font-style: italic; color: #6b4a2a; font-size: 15px; margin: 0; }
   .period { margin: 8px 0 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #8a6a3a; }
   .intro { text-align: center; margin: 18px 0; font-size: 16px; }
-  ul { columns: 3; column-gap: 28px; list-style: none; padding: 0; margin: 0; font-size: 15px; line-height: 1.9; }
-  @media (max-width: 640px) { ul { columns: 2; } }
+  ul { columns: 2; column-gap: 34px; list-style: none; padding: 0; margin: 0; font-size: 15px; line-height: 2; }
+  @media (max-width: 640px) { ul { columns: 1; } }
   li { break-inside: avoid; border-bottom: 1px dotted #d9c7a0; padding: 1px 2px; }
   .forwhom { margin: 6px 0 0; font-family: Georgia, serif; font-size: 16px; color: #651a14; }
   .foot { margin-top: 26px; text-align: center; color: #8a6a3a; font-size: 12px; border-top: 1px solid #e0d2ab; padding-top: 12px; }
