@@ -130,20 +130,23 @@ export default async function DonationsAdminPage({
   const monthCount = paidThisMonth.length;
   const monthLabel = now.toLocaleDateString('ro-RO', { month: 'long', year: 'numeric' });
 
-  // Pomelnic „pentru vii" — ONLY first names (prenume), as read at the Liturgy:
-  // strip „Familia/Fam./Pr.", split „X și Y", „X & Y", „X - Y" into separate
-  // people, take each person's first name, then dedupe and sort.
-  const pomelnicNames = Array.from(
-    new Set(
-      donations
-        .filter(
-          (d) =>
-            (d.status === 'completed' || d.status === 'self_reported_bank') &&
-            d.donor?.name,
-        )
-        .flatMap((d) => firstNamesOf(d.donor!.name!)),
-    ),
-  ).sort((a, b) => a.localeCompare(b, 'ro'));
+  // Acatist „pentru vii" — ONLY first names (prenume), deduped & sorted. Built
+  // for three periods so the priest can read the right one each week/month.
+  const paidWithName = donations.filter(
+    (d) =>
+      (d.status === 'completed' || d.status === 'self_reported_bank') && d.donor?.name,
+  );
+  const namesFrom = (list: typeof paidWithName) =>
+    Array.from(new Set(list.flatMap((d) => firstNamesOf(d.donor!.name!)))).sort((a, b) =>
+      a.localeCompare(b, 'ro'),
+    );
+  const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const pomelnicNames = namesFrom(paidWithName);
+  const namesMonth = namesFrom(paidWithName.filter((d) => d.createdAt >= monthStart));
+  const namesWeek = namesFrom(paidWithName.filter((d) => d.createdAt >= weekStart));
+  const fmtDay = (d: Date) => d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' });
+  const weekLabel = `Săptămâna aceasta · ${fmtDay(weekStart)} – ${fmtDay(now)}`;
+  const monthPeriodLabel = `Luna aceasta · ${monthLabel}`;
 
   const allEmails = donors.map((d) => d.email!).filter(Boolean).join(', ');
 
@@ -191,18 +194,31 @@ export default async function DonationsAdminPage({
         <Stat label="Prenume în acatist" value={String(pomelnicNames.length)} />
       </div>
 
-      {/* Pomelnic — for the living donors */}
+      {/* Acatist (pentru vii) — weekly / monthly / all */}
       <section className="mb-8 rounded-2xl border border-gold/45 bg-gradient-to-br from-[#fffdf8] to-[#f6ead1] p-5 sm:p-6">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="min-w-0">
-            <h2 className="font-display text-xl text-burgundy">☩ Acatist (pentru vii)</h2>
-            <p className="text-xs text-ink-soft mt-1 max-w-xl">
-              {pomelnicNames.length} prenume, pentru pomenire la Sfânta Liturghie — doar
-              numele mic (fără nume de familie), fiecare o singură dată. Se deschide gata de
-              printat, cu logo și cruce.
-            </p>
-          </div>
-          <PrintPomelnicButton names={pomelnicNames} />
+        <h2 className="font-display text-xl text-burgundy">☩ Acatist (pentru vii)</h2>
+        <p className="text-xs text-ink-soft mt-1 max-w-2xl">
+          Doar numele mic (prenumele), fiecare o singură dată — pentru pomenire la Sfânta
+          Liturghie. Se deschide gata de printat, cu logo și cruce. Alege perioada:
+        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <PrintPomelnicButton
+            names={namesWeek}
+            periodLabel={weekLabel}
+            buttonLabel={`☩ Săptămâna aceasta (${namesWeek.length})`}
+          />
+          <PrintPomelnicButton
+            names={namesMonth}
+            periodLabel={monthPeriodLabel}
+            buttonLabel={`☩ Luna aceasta (${namesMonth.length})`}
+            variant="outline"
+          />
+          <PrintPomelnicButton
+            names={pomelnicNames}
+            periodLabel="Toți ctitorii și binefăcătorii"
+            buttonLabel={`Toți (${pomelnicNames.length})`}
+            variant="outline"
+          />
         </div>
       </section>
 

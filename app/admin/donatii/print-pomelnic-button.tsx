@@ -4,17 +4,31 @@ const LOGO =
   'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png';
 
 /**
- * Opens a clean, print-ready „pomelnic" in a new window — the parish logo, a
- * commemoration header and the donors' names in columns — then triggers the
- * browser print dialog. The priest can print it to read at the Holy Liturgy.
+ * Opens a clean, print-ready „acatist" in a new window — the parish logo, a
+ * commemoration header and the donors' first names in columns — then triggers
+ * the browser print dialog. `periodLabel` names the period (week/month/all) and
+ * `buttonLabel` is the visible button text.
  */
-export function PrintPomelnicButton({ names }: { names: string[] }) {
+export function PrintPomelnicButton({
+  names,
+  periodLabel,
+  buttonLabel = '☩ Scoate acatistul',
+  variant = 'solid',
+}: {
+  names: string[];
+  periodLabel?: string;
+  buttonLabel?: string;
+  variant?: 'solid' | 'outline';
+}) {
   const open = () => {
     const today = new Date().toLocaleDateString('ro-RO', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
     });
+    const periodHtml = periodLabel
+      ? `<p class="period">${escapeHtml(periodLabel)}</p>`
+      : '';
     const items = names
       .map((n) => `<li>${escapeHtml(n)}</li>`)
       .join('');
@@ -30,6 +44,7 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
   .bigcross { display:block; margin: 0 auto 6px; }
   h1 { font-size: 30px; letter-spacing: 3px; text-transform: uppercase; margin: 10px 0 4px; color: #651a14; }
   .sub { font-style: italic; color: #6b4a2a; font-size: 15px; margin: 0; }
+  .period { margin: 8px 0 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #8a6a3a; }
   .intro { text-align: center; margin: 18px 0; font-size: 16px; }
   ul { columns: 3; column-gap: 28px; list-style: none; padding: 0; margin: 0; font-size: 15px; line-height: 1.9; }
   @media (max-width: 640px) { ul { columns: 2; } }
@@ -52,11 +67,12 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
     <img src="${LOGO}" alt="Parohia Sf. Cuv. Teodora de la Sihla" />
     <h1>Acatist</h1>
     <p class="sub">Parohia „Sfânta Cuvioasă Teodora de la Sihla" — Botoșani</p>
+    ${periodHtml}
   </div>
   <p class="intro">Pentru sănătatea, mântuirea și binecuvântarea robilor lui Dumnezeu,<br/>ctitori și binefăcători ai sfântului lăcaș:</p>
   ${names.length ? `<ul>${items}</ul>` : '<p class="empty">(încă niciun donator)</p>'}
   <p class="foot">Întocmit automat · ${today} · ${names.length} prenume</p>
-  <button class="noprint" onclick="window.print()" style="display:block;margin:24px auto 0;padding:10px 20px;border:1px solid #651a14;background:#651a14;color:#fff;border-radius:999px;cursor:pointer;font-size:14px;">Printează pomelnicul</button>
+  <button class="noprint" onclick="window.print()" style="display:block;margin:24px auto 0;padding:10px 20px;border:1px solid #651a14;background:#651a14;color:#fff;border-radius:999px;cursor:pointer;font-size:14px;">Printează acatistul</button>
 </div>
 <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>
 </body></html>`;
@@ -71,9 +87,13 @@ export function PrintPomelnicButton({ names }: { names: string[] }) {
     <button
       type="button"
       onClick={open}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark bg-gradient-to-br from-gold to-gold-dark text-burgundy-dark text-xs font-semibold hover:brightness-105 transition"
+      className={
+        variant === 'outline'
+          ? 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark/60 bg-white text-burgundy text-xs font-semibold hover:bg-cream-card transition'
+          : 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark bg-gradient-to-br from-gold to-gold-dark text-burgundy-dark text-xs font-semibold hover:brightness-105 transition'
+      }
     >
-      ☩ Scoate acatistul
+      {buttonLabel}
     </button>
   );
 }
