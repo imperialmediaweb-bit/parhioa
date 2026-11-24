@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { fetchFeed, type FeedItem } from '@/lib/facebook-feed';
 import { rewriteAsArticle } from '@/lib/ai-rewriter';
 import { uploadRemoteImage } from '@/lib/image-upload';
-import { isAdminKeyValid } from '@/lib/admin-auth';
+import { isAdminAuthorized } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     providedKey = body?.key;
   } catch {}
-  if (!isAdminKeyValid(providedKey)) {
+  if (!isAdminAuthorized(providedKey)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
 

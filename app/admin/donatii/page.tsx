@@ -1,8 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { CopyEmailsButton } from './copy-emails-button';
 import { PrintPomelnicButton } from './print-pomelnic-button';
-import { isAdminKeyValid } from '@/lib/admin-auth';
-import { AdminLocked } from '../admin-locked';
+import { isAdminAuthorized } from '@/lib/admin-auth';
+import { AdminGate } from '../admin-gate';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Donații' };
@@ -80,8 +80,8 @@ export default async function DonationsAdminPage({
 
   // FAIL-CLOSED: donor PII (names, emails, phones) is never rendered unless
   // a valid ADMIN_KEY is configured and matched.
-  if (!isAdminKeyValid(provided)) {
-    return <AdminLocked />;
+  if (!isAdminAuthorized(provided)) {
+    return <AdminGate />;
   }
 
   const [donations, donors, aggByStatus] = await Promise.all([

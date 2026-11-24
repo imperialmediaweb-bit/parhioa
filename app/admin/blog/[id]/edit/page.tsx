@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { PostEditor } from '../../post-editor';
-import { isAdminKeyValid } from '@/lib/admin-auth';
-import { AdminLocked } from '../../../admin-locked';
+import { isAdminAuthorized } from '@/lib/admin-auth';
+import { AdminGate } from '../../../admin-gate';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Modifică articol' };
@@ -15,8 +15,8 @@ export default async function EditPostPage({
   searchParams: { key?: string };
 }) {
   const provided = searchParams.key;
-  if (!isAdminKeyValid(provided)) {
-    return <AdminLocked />;
+  if (!isAdminAuthorized(provided)) {
+    return <AdminGate />;
   }
 
   const id = Number(params.id);
@@ -31,7 +31,7 @@ export default async function EditPostPage({
     <div className="container py-10 max-w-3xl">
       <h1 className="font-display text-3xl text-burgundy mb-6">Modifică articol</h1>
       <PostEditor
-        adminKey={provided}
+        adminKey={provided ?? ''}
         initial={{
           id: post.id,
           title: post.title,

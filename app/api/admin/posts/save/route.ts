@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { isAdminKeyValid } from '@/lib/admin-auth';
+import { isAdminAuthorized } from '@/lib/admin-auth';
 import { sanitizePostHtml, sanitizeText } from '@/lib/sanitize';
 
 export const dynamic = 'force-dynamic';
@@ -11,7 +11,7 @@ const SAFE_FEATURED_URL = /^https:\/\/[a-z0-9.\-]+\/[^\s<>"']+$/i;
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({} as any));
 
-  if (!isAdminKeyValid(body.key)) {
+  if (!isAdminAuthorized(body.key)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
 

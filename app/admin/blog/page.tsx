@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { Plus, ExternalLink, Pencil } from 'lucide-react';
 import { DeletePostButton } from './delete-post-button';
-import { isAdminKeyValid } from '@/lib/admin-auth';
-import { AdminLocked } from '../admin-locked';
+import { isAdminAuthorized } from '@/lib/admin-auth';
+import { AdminGate } from '../admin-gate';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Blog' };
@@ -18,10 +18,10 @@ export default async function AdminBlogList({
   searchParams: SearchParams;
 }) {
   const provided = searchParams.key;
-  if (!isAdminKeyValid(provided)) {
-    return <AdminLocked />;
+  if (!isAdminAuthorized(provided)) {
+    return <AdminGate />;
   }
-  const keyParam = `?key=${encodeURIComponent(provided as string)}`;
+  const keyParam = provided ? `?key=${encodeURIComponent(provided)}` : '';
 
   const posts = await prisma.post.findMany({
     orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],

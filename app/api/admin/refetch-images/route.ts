@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { prisma } from '@/lib/prisma';
 import { uploadRemoteImage } from '@/lib/image-upload';
-import { isAdminKeyValid } from '@/lib/admin-auth';
+import { isAdminAuthorized } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     provided = body?.key;
   } catch {}
-  if (!isAdminKeyValid(provided)) {
+  if (!isAdminAuthorized(provided)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
   if (

@@ -1,0 +1,33 @@
+{
+  "name": "Parohia Sf. Cuv. Teodora de la Sihla",
+  "short_name": "Sf. Teodora",
+  "description": "Parohia „Sfânta Cuvioasă Teodora de la Sihla” — Botoșani. Slujbe, știri, donații și progresul șantierului.",
+  "lang": "ro",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4ead3",
+  "theme_color": "#651a14",
+  "categories": ["lifestyle", "education"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

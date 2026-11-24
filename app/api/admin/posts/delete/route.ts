@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { isAdminKeyValid } from '@/lib/admin-auth';
+import { isAdminAuthorized } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -8,7 +8,7 @@ export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  if (!isAdminKeyValid(body.key)) {
+  if (!isAdminAuthorized(body.key)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
   }
 

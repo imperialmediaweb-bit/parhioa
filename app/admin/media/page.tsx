@@ -1,6 +1,6 @@
 import { prisma } from '../../../lib/prisma';
-import { isAdminKeyValid } from '@/lib/admin-auth';
-import { AdminLocked } from '../admin-locked';
+import { isAdminAuthorized } from '@/lib/admin-auth';
+import { AdminGate } from '../admin-gate';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin · Media' };
@@ -10,8 +10,8 @@ export default async function MediaAdminPage({
 }: {
   searchParams: { key?: string };
 }) {
-  if (!isAdminKeyValid(searchParams.key)) {
-    return <AdminLocked />;
+  if (!isAdminAuthorized(searchParams.key)) {
+    return <AdminGate />;
   }
 
   const media = await prisma.media.findMany({

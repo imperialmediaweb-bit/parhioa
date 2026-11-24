@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
 import { SearchModal } from '@/components/site/search-modal';
 import { UtmCapture } from '@/components/site/utm-capture';
+import { PwaInstall } from '@/components/site/pwa-install';
 import { MobileDonateCta } from '@/components/site/mobile-donate-cta';
 import { SmoothScrollProvider } from '@/components/site/smooth-scroll-provider';
 import { JsonLd } from '@/components/site/jsonld';
@@ -58,6 +59,12 @@ export const metadata: Metadata = {
   description:
     'Comunitate creștin-ortodoxă în formare la Botoșani, sub ocrotirea Sfintei Cuvioase Teodora de la Sihla. Slujbe, mărturii și lucrarea de zidire a bisericii.',
   applicationName: 'Parohia Sf. Teodora',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Sf. Teodora',
+  },
   alternates: { canonical: '/' },
   keywords: [
     'Parohia Sf. Teodora',
@@ -81,10 +88,12 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false, email: false, address: false },
   icons: {
     icon: [
-      { url: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png' },
+      { url: '/icons/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png',
-    apple: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/sf_theodora_de_la_sihla_ri9rz2.png',
+    shortcut: '/icons/icon-192.png',
+    apple: '/icons/apple-touch-icon.png',
   },
 };
 
@@ -110,6 +119,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-[60vh]">{children}</main>
         <SiteFooter />
         <MobileDonateCta />
+        <PwaInstall />
         <MetaPixel />
       </body>
     </html>
