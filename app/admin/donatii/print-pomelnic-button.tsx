@@ -49,7 +49,7 @@ export function PrintPomelnicButton({
   ul { columns: 3; column-gap: 28px; list-style: none; padding: 0; margin: 0; font-size: 15px; line-height: 1.9; }
   @media (max-width: 640px) { ul { columns: 2; } }
   li { break-inside: avoid; border-bottom: 1px dotted #d9c7a0; padding: 1px 2px; }
-  li::before { content: '☩ '; color: #c9a361; font-size: 11px; }
+  .forwhom { margin: 6px 0 0; font-family: Georgia, serif; font-size: 16px; color: #651a14; }
   .foot { margin-top: 26px; text-align: center; color: #8a6a3a; font-size: 12px; border-top: 1px solid #e0d2ab; padding-top: 12px; }
   .empty { text-align:center; color:#8a6a3a; font-style:italic; }
   @media print { .noprint { display: none !important; } }
@@ -59,6 +59,7 @@ export function PrintPomelnicButton({
     <div class="sitecross">☩</div>
     <img src="${LOGO}" alt="Parohia Sf. Cuv. Teodora de la Sihla" />
     <h1>Acatist</h1>
+    <p class="forwhom">pentru ctitorii și binefăcătorii bisericii</p>
     <p class="sub">Parohia „Sfânta Cuvioasă Teodora de la Sihla" — Botoșani</p>
     ${periodHtml}
   </div>
