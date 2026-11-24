@@ -21,12 +21,37 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(ba, bb);
 }
 
-/** True only when ADMIN_KEY is configured AND the provided value matches. */
+/**
+ * All valid admin access codes. The primary one is ADMIN_KEY (also used to
+ * sign the session cookie and for cron). Extra codes — one per person, e.g.
+ * the parish priest — live in ADMIN_KEYS as a comma-separated list. Every
+ * code grants the same full access.
+ */
+function adminKeyList(): string[] {
+  const keys: string[] = [];
+  const primary = process.env.ADMIN_KEY?.trim();
+  if (primary) keys.push(primary);
+  const extra = process.env.ADMIN_KEYS;
+  if (extra) {
+    for (const k of extra.split(',')) {
+      const t = k.trim();
+      if (t) keys.push(t);
+    }
+  }
+  return keys;
+}
+
+/** True when ADMIN codes are configured AND the provided value matches one. */
 export function isAdminKeyValid(provided: string | null | undefined): boolean {
-  const expected = process.env.ADMIN_KEY;
-  if (!expected) return false; // fail closed
   if (!provided) return false;
-  return safeEqual(provided, expected);
+  const keys = adminKeyList();
+  if (keys.length === 0) return false; // fail closed
+  // Check every candidate (no early return) to keep timing uniform.
+  let ok = false;
+  for (const k of keys) {
+    if (safeEqual(provided, k)) ok = true;
+  }
+  return ok;
 }
 
 /**
