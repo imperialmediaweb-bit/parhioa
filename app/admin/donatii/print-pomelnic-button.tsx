@@ -41,7 +41,7 @@ export function PrintPomelnicButton({
   .wrap { max-width: 760px; margin: 0 auto; padding: 24px; }
   .head { text-align: center; border-bottom: 2px solid #c9a361; padding-bottom: 16px; margin-bottom: 20px; }
   .head img { height: 84px; width: auto; }
-  .bigcross { display:block; margin: 0 auto 6px; }
+  .sitecross { display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; margin:0 auto 10px; background:radial-gradient(circle at 50% 40%, #f4dfb3, #EAC784 70%, #c9a361); color:#651a14; font-size:20px; line-height:1; }
   h1 { font-size: 30px; letter-spacing: 3px; text-transform: uppercase; margin: 10px 0 4px; color: #651a14; }
   .sub { font-style: italic; color: #6b4a2a; font-size: 15px; margin: 0; }
   .period { margin: 8px 0 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #8a6a3a; }
@@ -56,6 +56,7 @@ export function PrintPomelnicButton({
 </style></head>
 <body><div class="wrap">
   <div class="head">
+    <div class="sitecross">☩</div>
     <img src="${LOGO}" alt="Parohia Sf. Cuv. Teodora de la Sihla" />
     <h1>Acatist</h1>
     <p class="sub">Parohia „Sfânta Cuvioasă Teodora de la Sihla" — Botoșani</p>
@@ -68,6 +69,16 @@ export function PrintPomelnicButton({
 </div>
 <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>
 </body></html>`;
+    // Open a print-ready window (it auto-opens the print dialog, where the
+    // priest can print OR „Salvează ca PDF" to download). If pop-ups are
+    // blocked, fall back to downloading the file directly.
+    const w = window.open('', '_blank');
+    if (w) {
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+      return;
+    }
     const slug =
       (periodLabel || 'parohie')
         .toLowerCase()

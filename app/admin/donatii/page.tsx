@@ -223,7 +223,8 @@ export default async function DonationsAdminPage({
         <h2 className="font-display text-xl text-burgundy">☩ Acatist (pentru vii)</h2>
         <p className="text-xs text-ink-soft mt-1 max-w-2xl">
           Doar numele mic (prenumele), fiecare o singură dată — pentru pomenire la Sfânta
-          Liturghie. Se descarcă un fișier gata de printat (cu logo). Alege perioada:
+          Liturghie. Se deschide gata de printat (sau „Salvează ca PDF"), cu logo și cruce.
+          Alege perioada:
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <PrintPomelnicButton
