@@ -56,14 +56,6 @@ export function PrintPomelnicButton({
 </style></head>
 <body><div class="wrap">
   <div class="head">
-    <svg class="bigcross" width="56" height="88" viewBox="0 0 56 88" aria-hidden="true">
-      <g stroke="#651a14" stroke-width="3.2" stroke-linecap="round" fill="none">
-        <line x1="28" y1="4" x2="28" y2="84"/>
-        <line x1="17" y1="18" x2="39" y2="18"/>
-        <line x1="8" y1="36" x2="48" y2="36"/>
-        <line x1="17" y1="64" x2="39" y2="56"/>
-      </g>
-    </svg>
     <img src="${LOGO}" alt="Parohia Sf. Cuv. Teodora de la Sihla" />
     <h1>Acatist</h1>
     <p class="sub">Parohia „Sfânta Cuvioasă Teodora de la Sihla" — Botoșani</p>
