@@ -41,7 +41,7 @@ export function PrintPomelnicButton({
   .wrap { max-width: 760px; margin: 0 auto; padding: 24px; }
   .head { text-align: center; border-bottom: 2px solid #c9a361; padding-bottom: 16px; margin-bottom: 20px; }
   .head img { height: 84px; width: auto; }
-  .sitecross { display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; margin:0 auto 10px; background:radial-gradient(circle at 50% 40%, #f4dfb3, #EAC784 70%, #c9a361); color:#651a14; font-size:20px; line-height:1; }
+  .sitecross { display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; margin:0 auto 8px; background:radial-gradient(circle at 50% 40%, #f4dfb3, #EAC784 70%, #c9a361); color:#651a14; font-size:14px; line-height:1; }
   h1 { font-size: 30px; letter-spacing: 3px; text-transform: uppercase; margin: 10px 0 4px; color: #651a14; }
   .sub { font-style: italic; color: #6b4a2a; font-size: 15px; margin: 0; }
   .period { margin: 8px 0 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #8a6a3a; }
@@ -65,7 +65,7 @@ export function PrintPomelnicButton({
   <p class="intro">Pentru sănătatea, mântuirea și binecuvântarea robilor lui Dumnezeu,<br/>ctitori și binefăcători ai sfântului lăcaș:</p>
   ${names.length ? `<ul>${items}</ul>` : '<p class="empty">(încă niciun donator)</p>'}
   <p class="foot">Întocmit automat · ${today} · ${names.length} prenume</p>
-  <button class="noprint" onclick="window.print()" style="display:block;margin:24px auto 0;padding:10px 20px;border:1px solid #651a14;background:#651a14;color:#fff;border-radius:999px;cursor:pointer;font-size:14px;">Printează acatistul</button>
+  <button class="noprint" onclick="window.print()" style="display:block;margin:24px auto 0;padding:10px 20px;border:1px solid #651a14;background:#651a14;color:#fff;border-radius:999px;cursor:pointer;font-size:14px;">Printează / Salvează ca PDF</button>
 </div>
 <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>
 </body></html>`;
