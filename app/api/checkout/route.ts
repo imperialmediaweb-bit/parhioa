@@ -97,6 +97,13 @@ export async function POST(req: NextRequest) {
       : '';
     const isPublic = body.isPublic !== false;
 
+    // Traffic source for ad-attribution: explicit UTM source sent by the
+    // client, else "facebook-ads" when the Facebook click cookie (_fbc, set on
+    // an ad click) is present.
+    const utmSource = sanitizeShortText(String(body.source || ''), 40);
+    const hasFbc = !!req.cookies.get('_fbc')?.value;
+    const source = (utmSource || (hasFbc ? 'facebook-ads' : '')).toLowerCase();
+
     const camp = findCampaign(campaign);
     const productName = camp ? `Donație — ${camp.shortTitle}` : 'Donație parohie';
 
@@ -131,6 +138,7 @@ export async function POST(req: NextRequest) {
         donorName,
         donorPhone,
         isPublic: isPublic ? '1' : '0',
+        source,
         // 21.11.2026 — pentru donația trimisă la Facebook de pe server (lib/meta-capi.ts)
         fbp: (req.cookies.get('_fbp')?.value || '').slice(0, 200),
         fbc: (req.cookies.get('_fbc')?.value || '').slice(0, 300),
@@ -145,6 +153,7 @@ export async function POST(req: NextRequest) {
                 donorName,
                 donorPhone,
                 isPublic: isPublic ? '1' : '0',
+                source,
               },
             },
           }

@@ -153,6 +153,10 @@ model Donation {
   amount               Int
   currency             String   @default("ron")
   campaign             String
+  // Traffic source at donation time: UTM source (e.g. "facebook", "instagram")
+  // or "facebook-ads" when the Facebook click id cookie (_fbc) was present.
+  // Null for older rows / direct visits. Used for ad-attribution in admin.
+  source               String?
   recurring            Boolean  @default(false)
   status               String   @default("completed")
   // Per-donation public/anonymous preference. Captured at donation time so

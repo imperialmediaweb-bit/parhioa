@@ -148,6 +148,24 @@ export default async function DonationsAdminPage({
   const weekLabel = `Săptămâna aceasta · ${fmtDay(weekStart)} – ${fmtDay(now)}`;
   const monthPeriodLabel = `Luna aceasta · ${monthLabel}`;
 
+  // Ad attribution: donations whose source looks like a paid/social channel.
+  const AD_RE = /facebook|instagram|meta|google|tiktok|youtube|ads|cpc|paid|fbclid/i;
+  const paidDonations = donations.filter(
+    (d) => d.status === 'completed' || d.status === 'self_reported_bank',
+  );
+  const fromAds = paidDonations.filter((d) => d.source && AD_RE.test(d.source));
+  const adsSum = fromAds.reduce((s, d) => s + d.amount, 0);
+  const adsCount = fromAds.length;
+  // Breakdown by source (within the loaded donations).
+  const bySourceMap: Record<string, { sum: number; count: number }> = {};
+  for (const d of paidDonations) {
+    const key = d.source || 'direct / necunoscut';
+    (bySourceMap[key] ||= { sum: 0, count: 0 });
+    bySourceMap[key].sum += d.amount;
+    bySourceMap[key].count += 1;
+  }
+  const bySource = Object.entries(bySourceMap).sort((a, b) => b[1].sum - a[1].sum);
+
   const allEmails = donors.map((d) => d.email!).filter(Boolean).join(', ');
 
   const csv = [
@@ -178,11 +196,17 @@ export default async function DonationsAdminPage({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
         <Stat
           label={`Luna aceasta · ${monthLabel}`}
           value={`${monthSum.toLocaleString('ro-RO')} RON`}
           sub={`${monthCount} donații`}
+          accent
+        />
+        <Stat
+          label="Din reclame"
+          value={`${adsSum.toLocaleString('ro-RO')} RON`}
+          sub={`${adsCount} donații`}
           accent
         />
         <Stat
@@ -220,6 +244,53 @@ export default async function DonationsAdminPage({
             variant="outline"
           />
         </div>
+      </section>
+
+      {/* Source breakdown — where donors come from (ads vs direct) */}
+      <section className="mb-10 rounded-2xl border border-border bg-white p-5 sm:p-6">
+        <h2 className="font-display text-xl text-burgundy">De unde vin donatorii</h2>
+        <p className="text-xs text-ink-soft mt-1 mb-4">
+          Sursa e salvată la donație (din linkul de reclamă cu <code>?utm_source=</code> sau din
+          clicul pe reclama Facebook). Donațiile mai vechi apar ca „direct / necunoscut".
+        </p>
+        {bySource.length === 0 ? (
+          <p className="text-sm text-ink-muted">Încă nu sunt date de sursă.</p>
+        ) : (
+          <div className="space-y-2">
+            {bySource.map(([src, v]) => {
+              const maxSum = bySource[0][1].sum || 1;
+              const pct = Math.round((v.sum / maxSum) * 100);
+              const isAd = AD_RE.test(src);
+              return (
+                <div key={src} className="flex items-center gap-3">
+                  <span className="w-40 shrink-0 text-xs truncate flex items-center gap-1.5">
+                    {isAd && <span className="text-gold-dark">☩</span>}
+                    <span className={isAd ? 'text-burgundy font-medium' : 'text-ink-muted'}>
+                      {src}
+                    </span>
+                  </span>
+                  <span className="flex-1 h-2 rounded-full bg-cream-card overflow-hidden">
+                    <span
+                      className="block h-full rounded-full"
+                      style={{
+                        width: `${Math.min(100, pct)}%`,
+                        background: isAd
+                          ? 'linear-gradient(90deg,#c9a361,#EAC784)'
+                          : '#cbb89a',
+                      }}
+                    />
+                  </span>
+                  <span className="w-28 shrink-0 text-right text-xs text-ink">
+                    <span className="font-display font-bold text-burgundy">
+                      {v.sum.toLocaleString('ro-RO')}
+                    </span>{' '}
+                    RON · {v.count}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       {/* Email list for future campaigns */}
@@ -271,6 +342,7 @@ export default async function DonationsAdminPage({
                 <th className="px-4 py-3 text-right">Sumă</th>
                 <th className="px-4 py-3 text-left">Metodă</th>
                 <th className="px-4 py-3 text-left">Status</th>
+                <th className="px-4 py-3 text-left">Sursă</th>
                 <th className="px-4 py-3 text-left">Public</th>
               </tr>
             </thead>
@@ -316,6 +388,21 @@ export default async function DonationsAdminPage({
                     <td className="px-4 py-3 text-xs whitespace-nowrap">{method}</td>
                     <td className="px-4 py-3">
                       <StatusBadge status={d.status} />
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      {d.source ? (
+                        <span
+                          className={
+                            AD_RE.test(d.source)
+                              ? 'text-burgundy font-medium'
+                              : 'text-ink-muted'
+                          }
+                        >
+                          {d.source}
+                        </span>
+                      ) : (
+                        <span className="text-ink-soft">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-xs">
                       {isPublic ? (

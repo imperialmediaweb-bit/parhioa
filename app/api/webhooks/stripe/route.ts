@@ -91,6 +91,7 @@ async function recordDonation(session: Stripe.Checkout.Session) {
   const isPublic = meta.isPublic !== '0';
   const donorName = (meta.donorName || '').trim() || null;
   const donorPhone = (meta.donorPhone || '').trim() || null;
+  const source = (meta.source || '').trim().toLowerCase() || null;
 
   const email = session.customer_details?.email || session.customer_email || null;
   const fallbackName = session.customer_details?.name || null;
@@ -156,6 +157,7 @@ async function recordDonation(session: Stripe.Checkout.Session) {
       amount: amountRon,
       currency,
       campaign,
+      source,
       recurring,
       status: 'completed',
       isPublic,
@@ -252,6 +254,7 @@ async function recordRenewal(invoice: Stripe.Invoice) {
   const isPublic = meta.isPublic !== '0';
   const metaName = (meta.donorName || '').trim() || null;
   const metaPhone = (meta.donorPhone || '').trim() || null;
+  const source = (meta.source || '').trim().toLowerCase() || null;
 
   const email =
     invoice.customer_email ||
@@ -281,6 +284,7 @@ async function recordRenewal(invoice: Stripe.Invoice) {
       amount: amountRon,
       currency,
       campaign,
+      source,
       recurring: true,
       status: 'completed',
       isPublic,

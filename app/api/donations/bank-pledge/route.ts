@@ -112,6 +112,9 @@ export async function POST(req: NextRequest) {
       ? donorPhoneRaw.replace(/[^\d+\-\s()]/g, '').slice(0, 20) || null
       : null;
     const isPublic = body.isPublic !== false;
+    const source =
+      (sanitizeShortText(String(body.source || ''), 40) ||
+        (req.cookies.get('_fbc')?.value ? 'facebook-ads' : '')).toLowerCase() || null;
 
     // 4. Per-email rate limit (stops attackers iterating different emails
     //    through the same IP, and spammers using one harvested email).
@@ -170,6 +173,7 @@ export async function POST(req: NextRequest) {
         amount,
         currency: 'ron',
         campaign: campaignSlug,
+        source,
         recurring: false,
         status: 'self_reported_bank',
         isPublic,

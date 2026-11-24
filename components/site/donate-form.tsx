@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { readStoredSource } from './utm-capture';
 import { Button } from '@/components/ui/button';
 import {
   Loader2,
@@ -109,6 +110,7 @@ export function DonateForm({
             donorEmail: donorEmail.trim(),
             donorPhone: donorPhone.trim(),
             isPublic,
+            source: readStoredSource(),
           }),
         });
         const data = await res.json();
@@ -136,6 +138,7 @@ export function DonateForm({
           donorEmail: donorEmail.trim(),
           donorPhone: donorPhone.trim(),
           isPublic,
+          source: readStoredSource(),
         }),
       });
       const data = await res.json();

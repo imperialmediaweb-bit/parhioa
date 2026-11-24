@@ -4,6 +4,7 @@ import { Lora, Cinzel_Decorative, Marcellus_SC, Cinzel } from 'next/font/google'
 import { SiteHeader } from '@/components/site/header';
 import { SiteFooter } from '@/components/site/footer';
 import { SearchModal } from '@/components/site/search-modal';
+import { UtmCapture } from '@/components/site/utm-capture';
 import { MobileDonateCta } from '@/components/site/mobile-donate-cta';
 import { SmoothScrollProvider } from '@/components/site/smooth-scroll-provider';
 import { JsonLd } from '@/components/site/jsonld';
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScrollProvider />
         <SiteHeader />
         <SearchModal />
+        <UtmCapture />
         <main className="min-h-[60vh]">{children}</main>
         <SiteFooter />
         <MobileDonateCta />
