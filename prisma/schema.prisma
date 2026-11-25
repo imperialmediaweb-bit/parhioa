@@ -170,3 +170,24 @@ model Donation {
   @@index([createdAt])
   @@index([stripeSubscriptionId])
 }
+
+// Agenda internă a părintelui: unde merge la cuvântări / slujbe / întâlniri.
+// Privată (doar admin). Se poate adăuga prin text sau prin voce (transcrisă
+// în browser), iar un pas AI extrage data/ora/locul/titlul din ce se spune.
+model AgendaItem {
+  id        Int      @id @default(autoincrement())
+  // Momentul evenimentului (data + ora, dacă e cunoscută).
+  startAt   DateTime
+  // true când ora nu a fost precizată (afișăm doar ziua, nu "00:00").
+  allDay    Boolean  @default(false)
+  title     String
+  location  String?
+  notes     String?  @db.Text
+  // Textul brut dictat/scris, păstrat pentru referință.
+  rawText   String?  @db.Text
+  done      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startAt])
+}

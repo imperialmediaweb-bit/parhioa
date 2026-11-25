@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { Heart, FileText, Image as ImageIcon, Users, Mail, ExternalLink } from 'lucide-react';
+import { Heart, FileText, Image as ImageIcon, Users, Mail, ExternalLink, CalendarDays } from 'lucide-react';
 import { MigrateImagesButton } from './migrate-images-button';
 import { ImportFeedButton } from './import-feed-button';
 import { RefetchImagesButton } from './refetch-images-button';
@@ -83,6 +83,14 @@ export default async function AdminDashboard({
       href: `/admin/donatii${keyParam}`,
       icon: Heart,
       stat: `${totalRaised.toLocaleString('ro-RO')} RON · ${totalDonations} donații · ${donorCount} ctitori`,
+      accent: 'burgundy',
+    },
+    {
+      title: 'Agenda părintelui',
+      desc: 'Unde merge, ce are de făcut — adaugi scriind sau cu vocea',
+      href: `/admin/agenda${keyParam}`,
+      icon: CalendarDays,
+      stat: 'Program & cuvântări',
       accent: 'burgundy',
     },
     {
