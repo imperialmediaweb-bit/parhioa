@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import { Hero } from '@/components/site/hero';
 import { FadeIn } from '@/components/magicui/fade-in';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { DonateForm, type PresetTier } from '@/components/site/donate-form';
 import { ChurchProgress } from '@/components/site/church-progress';
 import { ChurchRising3D } from '@/components/site/church-rising-3d';
@@ -13,10 +12,16 @@ import { prisma } from '@/lib/prisma';
 import { CtitoriList } from '@/components/site/ctitori-list';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { CopyButton } from '@/components/site/copy-button';
-import { Heart, ShieldCheck, Building2, Landmark, User } from 'lucide-react';
+import { ShieldCheck, Building2, Landmark, User } from 'lucide-react';
 import { isStripeConfigured } from '@/lib/stripe';
 import { findCampaign } from '@/lib/campaigns';
 import { DEFAULT_OG_IMAGE } from '@/lib/site';
+import { getImages } from '@/lib/images';
+import { LandingHero } from '@/components/site/landing-hero';
+import { LandingImpact } from '@/components/site/landing-impact';
+import { SectionEyebrow } from '@/components/site/section-eyebrow';
+import { FloatingEmbers } from '@/components/site/floating-embers';
+import { ShimmerButton } from '@/components/magicui/shimmer-button';
 
 // Amount → realistic construction unit (price-anchored). Each preset describes
 // what the gift actually pays for in the church build.
@@ -87,6 +92,7 @@ export default async function DonationCampaignPage({
   const progress = isConstruction
     ? await fetchCampaignProgress(campaign.slug, 1_500_000)
     : null;
+  const IMG = await getImages();
 
   const tiers: PresetTier[] = campaign.presetAmounts.map((amount) => ({
     amount,
@@ -97,24 +103,30 @@ export default async function DonationCampaignPage({
 
   return (
     <>
-      <Hero
-        title={campaign.title}
-        breadcrumb={[
-          { label: 'Acasă', href: '/' },
-          { label: 'Campanii', href: '/campanii' },
-          { label: campaign.shortTitle },
-        ]}
-      />
+      {isConstruction ? (
+        <LandingHero
+          src={IMG.churchRendering}
+          donors={progress?.donors ?? 0}
+          percent={progress?.percent ?? 0}
+        />
+      ) : (
+        <Hero
+          title={campaign.title}
+          breadcrumb={[
+            { label: 'Acasă', href: '/' },
+            { label: 'Campanii', href: '/campanii' },
+            { label: campaign.shortTitle },
+          ]}
+        />
+      )}
 
-      {/* ── CENTERPIECE: parchment-framed church with rising golden light ────── */}
-      <section className="container py-10 sm:py-14">
+      {/* ── CENTERPIECE: the church rising ───────────────────────────────────── */}
+      <section id="biserica-3d" className="container py-12 sm:py-16 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <FadeIn>
             <div className="text-center mb-8">
-              <p className="font-ceremonial uppercase text-xs tracking-[0.24em] text-burgundy mb-2">
-                Biserica din inimi
-              </p>
-              <h2 className="font-display text-3xl sm:text-4xl italic text-navy">
+              <SectionEyebrow align="center">Împreună zidim</SectionEyebrow>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-burgundy">
                 {isConstruction ? 'Biserica se ridică, bucată cu bucată' : 'Lumina se ridică odată cu noi'}
               </h2>
               <p className="text-ink-muted mt-3 max-w-2xl mx-auto leading-relaxed">
@@ -142,13 +154,20 @@ export default async function DonationCampaignPage({
         </div>
       </section>
 
-      {/* ── CÂT COSTĂ ZIDIREA (doar la campania de construcție) ─────────────── */}
-      {campaign.slug === 'strangere-de-fonduri-pentru-construirea-bisericii' && (
-        <CosturiZidire />
-      )}
+      {/* ── CE ZIDEȘTI CU DARUL TĂU + CÂT COSTĂ (doar construcție) ──────────── */}
+      {isConstruction && <LandingImpact />}
+      {isConstruction && <CosturiZidire />}
 
       {/* ── DONATE + CTITORI ────────────────────────────────────────────────── */}
-      <section id="donate-zidirea-bisericii" className="container pb-12 sm:pb-16 scroll-mt-24">
+      <section id="doneaza" className="container py-12 sm:py-16 scroll-mt-24">
+        <FadeIn>
+          <div className="text-center mb-8">
+            <SectionEyebrow align="center">Dăruiește</SectionEyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-burgundy">
+              Pune și tu o cărămidă
+            </h2>
+          </div>
+        </FadeIn>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto">
           {/* Donate form (left, sticky on desktop) */}
           <div className="lg:col-span-3 min-w-0">
@@ -282,32 +301,34 @@ export default async function DonationCampaignPage({
         </div>
       </section>
 
-      {/* ── BOTTOM CTA ───────────────────────────────────────────────────────── */}
-      <section className="bg-burgundy text-white py-12">
-        <div className="container max-w-2xl text-center">
+      {/* ── BOTTOM CTA (premium, cu jar plutitor) ───────────────────────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#4f120d] to-[#2c0a07] text-cream py-16 sm:py-20">
+        <FloatingEmbers density={30} className="pointer-events-none absolute inset-0 h-full w-full" />
+        <div className="container relative max-w-2xl text-center">
           <FadeIn>
-            <Heart className="h-10 w-10 text-gold mx-auto mb-4" />
-            <h2 className="font-display text-3xl sm:text-4xl italic mb-4">
-              Mulțumim pentru darul tău
+            <div className="text-gold text-3xl mb-3">☩</div>
+            <h2 className="font-display text-3xl sm:text-5xl italic mb-4">
+              Pune și tu o cărămidă
             </h2>
-            <p className="text-white/85 mb-6 leading-relaxed">
-              Dacă preferi să redirecționezi 3,5% din impozitul pe venit (fără cost), vezi pagina
-              dedicată. Sau implică-te ca voluntar — toate căile sunt o cărămidă vie în zidire.
+            <p className="text-cream/85 mb-8 leading-relaxed max-w-xl mx-auto">
+              De la 10 cărămizi (29 lei), numele tău va fi pomenit la Sfânta Liturghie și va rămâne
+              în zidul acestei biserici. Împreună o ridicăm.
             </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/redirectioneaza-3-5">
-                <Button variant="cream" size="lg">
-                  Redirecționează 3,5%
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-white/30 text-white hover:bg-white hover:text-burgundy"
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center">
+              <a href="#doneaza">
+                <ShimmerButton
+                  background="linear-gradient(135deg,#EAC784,#c9a361)"
+                  shimmerColor="#fff7e6"
+                  className="!text-burgundy-dark font-ceremonial uppercase tracking-[0.18em] text-sm px-8 py-4 font-semibold"
                 >
-                  Voluntariat
-                </Button>
+                  Dăruiește acum
+                </ShimmerButton>
+              </a>
+              <Link
+                href="/redirectioneaza-3-5"
+                className="rounded-full border border-cream/35 px-7 py-4 text-sm font-ceremonial uppercase tracking-[0.18em] hover:bg-cream hover:text-burgundy transition-colors"
+              >
+                Redirecționează 3,5%
               </Link>
             </div>
           </FadeIn>
