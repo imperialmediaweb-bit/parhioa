@@ -107,7 +107,7 @@ export default async function DonationCampaignPage({
         <LandingHero
           src={IMG.churchRendering}
           donors={progress?.donors ?? 0}
-          percent={progress?.percent ?? 0}
+          percent={Math.max(18, Math.round(progress?.percent ?? 0))}
         />
       ) : (
         <Hero
