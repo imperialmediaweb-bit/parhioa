@@ -66,6 +66,24 @@ export default function InstaleazaPage() {
         </Feature>
       </div>
 
+      <h2 className="font-display text-2xl text-burgundy mt-12 mb-4">Pas cu pas</h2>
+      <div className="grid sm:grid-cols-2 gap-5">
+        <img
+          src="/instaleaza/pasi-android.jpg"
+          alt="Pașii de instalare pe Android"
+          width={1080}
+          height={1350}
+          className="w-full rounded-2xl border border-gold/40 shadow-sm"
+        />
+        <img
+          src="/instaleaza/pasi-iphone.jpg"
+          alt="Pașii de instalare pe iPhone"
+          width={1080}
+          height={1350}
+          className="w-full rounded-2xl border border-gold/40 shadow-sm"
+        />
+      </div>
+
       <div className="mt-10 rounded-2xl border border-border bg-cream-card p-5 text-left text-sm text-ink-soft">
         <p className="font-medium text-burgundy flex items-center gap-2 mb-2">
           <Smartphone className="h-4 w-4" /> Dacă nu apare butonul de instalare
