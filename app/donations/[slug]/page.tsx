@@ -115,9 +115,9 @@ export default async function DonationCampaignPage({
 
       {/* ── DONATE + CTITORI ────────────────────────────────────────────────── */}
       <section id="donate-zidirea-bisericii" className="container pb-12 sm:pb-16 scroll-mt-24">
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto">
           {/* Donate form (left, sticky on desktop) */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 min-w-0">
             <div className="lg:sticky lg:top-32">
               <FadeIn>
                 <Card className="p-6 sm:p-8 bg-white border border-border shadow-2xl">
@@ -147,7 +147,7 @@ export default async function DonationCampaignPage({
           </div>
 
           {/* Ctitori list (right) */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 min-w-0">
             <FadeIn delay={0.1}>
               <CtitoriList campaign={campaign.slug} />
             </FadeIn>

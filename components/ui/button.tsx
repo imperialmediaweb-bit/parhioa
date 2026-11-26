@@ -25,9 +25,9 @@ const buttonVariants = cva(
         link: 'text-burgundy underline-offset-4 hover:underline normal-case tracking-normal',
       },
       size: {
-        default: 'h-11 px-7 text-[12px] min-w-[160px]',
-        sm: 'h-9 px-5 text-[11px] min-w-[120px]',
-        lg: 'h-13 px-9 text-[13px] min-w-[200px]',
+        default: 'h-11 px-7 py-2 text-[12px] min-w-[160px]',
+        sm: 'h-9 px-5 py-1.5 text-[11px] min-w-[120px]',
+        lg: 'min-h-[56px] px-9 py-3.5 text-[14px] min-w-[200px]',
         icon: 'h-11 w-11 min-w-0',
       },
     },
