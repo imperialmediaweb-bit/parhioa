@@ -18,6 +18,7 @@ import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { NewsTicker } from '@/components/site/news-ticker';
+import { Evenimente } from '@/components/site/evenimente';
 import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
@@ -76,7 +77,8 @@ const TESTIMONIALS: Testimonial[] = [
 
 async function getHomeData() {
   try {
-    const [posts, gallery, cloudinaryAssets] = await Promise.all([
+    const nowMinus6h = new Date(Date.now() - 6 * 60 * 60 * 1000);
+    const [posts, gallery, cloudinaryAssets, events] = await Promise.all([
       prisma.post
         .findMany({
           where: { status: 'publish' },
@@ -114,15 +116,22 @@ async function getHomeData() {
         })
         .catch(() => []),
       listGalleryAssets(30).catch(() => []),
+      prisma.event
+        .findMany({
+          where: { startAt: { gte: nowMinus6h } },
+          orderBy: { startAt: 'asc' },
+          take: 4,
+        })
+        .catch(() => []),
     ]);
-    return { posts, gallery, cloudinaryAssets };
+    return { posts, gallery, cloudinaryAssets, events };
   } catch {
-    return { posts: [], gallery: [], cloudinaryAssets: [] };
+    return { posts: [], gallery: [], cloudinaryAssets: [], events: [] };
   }
 }
 
 export default async function HomePage() {
-  const [{ posts, gallery, cloudinaryAssets }, IMG] = await Promise.all([
+  const [{ posts, gallery, cloudinaryAssets, events }, IMG] = await Promise.all([
     getHomeData(),
     getImages(),
   ]);
@@ -250,6 +259,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ============= 2b. SLUJBE & EVENIMENTE (din anunțuri) ============= */}
+      <Evenimente events={events} />
 
       {/* ============= 3. PĂRINTELE CĂTĂLIN AILENEI ============= */}
       <section id="parohul" className="container py-10 sm:py-16 lg:py-20 scroll-mt-44">

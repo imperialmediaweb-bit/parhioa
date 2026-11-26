@@ -7,6 +7,7 @@ import { rewriteAsArticle } from '@/lib/ai-rewriter';
 import { uploadRemoteImage } from '@/lib/image-upload';
 import { isAdminAuthorized } from '@/lib/admin-auth';
 import { notifyNewPosts } from '@/lib/push';
+import { syncPostEvents } from '@/lib/events';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -94,6 +95,7 @@ export async function POST(req: NextRequest) {
             where: { id: existing.id },
             data: { title: r.title, excerpt: r.excerpt, content: r.contentHtml },
           });
+          await syncPostEvents({ sourceGuid: guid, slug: existing.slug, text: item.description, pubDate: item.pubDate });
           if (!existing.featuredId && item.image) {
             const uploaded = await uploadImage(item.image, existing.slug);
             if (uploaded) {
@@ -195,6 +197,8 @@ export async function POST(req: NextRequest) {
           categories: { connect: [{ id: category.id }] },
         },
       });
+
+      await syncPostEvents({ sourceGuid: guid, slug, text: item.description, pubDate: item.pubDate });
 
       imported++;
       newPosts.push({ title: rewritten.title, slug });
