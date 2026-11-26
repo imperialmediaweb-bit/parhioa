@@ -327,10 +327,7 @@ export default async function HomePage() {
       <section id="despre-parohia" className="container py-10 sm:py-16 lg:py-20 scroll-mt-44">
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           <FadeIn delay={0.15} className="lg:col-span-2 lg:order-2 flex items-center">
-            <div className="relative mx-auto w-full max-w-[400px] pt-10">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 drop-shadow-[0_4px_14px_rgba(129,35,27,0.4)]">
-                <OrthodoxCross height={54} />
-              </div>
+            <div className="relative mx-auto w-full max-w-[400px]">
               <div
                 className="relative rounded-[28px] aspect-square overflow-hidden shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)] p-5"
                 style={{
@@ -342,7 +339,7 @@ export default async function HomePage() {
                 <img
                   src={IMG.parishIcon}
                   alt="Sfânta Cuvioasă Teodora de la Sihla"
-                  className="absolute inset-6 w-[calc(100%-3rem)] h-[calc(100%-3rem)] object-contain"
+                  className="absolute inset-[18px] w-[calc(100%-36px)] h-[calc(100%-36px)] object-contain"
                 />
               </div>
             </div>
