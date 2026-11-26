@@ -21,6 +21,7 @@ import { NewsTicker } from '@/components/site/news-ticker';
 import { Evenimente } from '@/components/site/evenimente';
 import { CosturiZidire } from '@/components/site/costuri-zidire';
 import { ChurchRisingSection } from '@/components/site/church-rising-section';
+import { YoutubeEmbed } from '@/components/site/youtube-embed';
 import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
@@ -426,6 +427,21 @@ export default async function HomePage() {
 
       {/* ============= 6a. CÂT COSTĂ ZIDIREA (transparență) ============= */}
       <CosturiZidire />
+
+      {/* ============= 6a·. VIDEO SFINȚIREA LOCULUI ============= */}
+      <section className="container py-10 sm:py-14">
+        <div className="max-w-2xl mx-auto text-center mb-6">
+          <p className="font-ceremonial uppercase text-[11px] tracking-[0.28em] text-gold-dark">
+            Începutul lucrării
+          </p>
+          <h2 className="font-display text-2xl sm:text-3xl text-burgundy mt-2">
+            Sfințirea locului viitoarei biserici
+          </h2>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <YoutubeEmbed id="jeetreDXXG4" title="Sfințirea locului viitoarei biserici" />
+        </div>
+      </section>
 
       {/* ============= 6b. ȘANTIERUL NOII BISERICI (video + randări) ============= */}
       <SantierShowcase />
