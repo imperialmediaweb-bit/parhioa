@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { Heart, FileText, Image as ImageIcon, Users, Mail, ExternalLink, CalendarDays } from 'lucide-react';
+import { Heart, FileText, Image as ImageIcon, Users, Mail, ExternalLink, CalendarDays, BellRing } from 'lucide-react';
 import { MigrateImagesButton } from './migrate-images-button';
 import { ImportFeedButton } from './import-feed-button';
 import { RefetchImagesButton } from './refetch-images-button';
@@ -34,7 +34,7 @@ export default async function AdminDashboard({
 
   const paidWhere = { status: { in: ['completed', 'self_reported_bank'] } };
 
-  const [donationAgg, monthAgg, donorCount, postCount, mediaCount, recent] =
+  const [donationAgg, monthAgg, donorCount, postCount, mediaCount, recent, pushCount] =
     await Promise.all([
       prisma.donation.aggregate({
         where: paidWhere,
@@ -55,6 +55,7 @@ export default async function AdminDashboard({
         take: 6,
         include: { donor: true },
       }),
+      prisma.pushSubscription.count(),
     ]).catch(() => [
       { _sum: { amount: 0 }, _count: { _all: 0 } } as any,
       { _sum: { amount: 0 }, _count: { _all: 0 } } as any,
@@ -62,6 +63,7 @@ export default async function AdminDashboard({
       0,
       0,
       [] as any[],
+      0,
     ]);
 
   const totalRaised = donationAgg._sum?.amount || 0;
@@ -92,6 +94,14 @@ export default async function AdminDashboard({
       icon: CalendarDays,
       stat: 'Program & cuvântări',
       accent: 'burgundy',
+    },
+    {
+      title: 'Anunțuri (notificări)',
+      desc: 'Trimite un anunț pe telefoanele celor care au aplicația',
+      href: `/admin/anunturi${keyParam}`,
+      icon: BellRing,
+      stat: `${pushCount} ${pushCount === 1 ? 'telefon abonat' : 'telefoane abonate'}`,
+      accent: 'gold',
     },
     {
       title: 'Blog · articole',

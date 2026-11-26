@@ -1,65 +1,96 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Download, X, Share } from 'lucide-react';
+import { Download, X, Share, Bell, Check } from 'lucide-react';
 
 type BIPEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 };
 
-const DISMISS_KEY = 'pwa_install_dismissed_v1';
+const DISMISS_KEY = 'pwa_install_dismissed_v2';
+const VAPID = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '';
+
+function urlBase64ToUint8Array(base64: string): Uint8Array {
+  const padding = '='.repeat((4 - (base64.length % 4)) % 4);
+  const b64 = (base64 + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = atob(b64);
+  const arr = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+  return arr;
+}
 
 /**
- * Registers the service worker and offers an "install app" button.
- * - On Chrome/Edge/Android it uses the native `beforeinstallprompt`.
- * - On iOS Safari (no such event) it shows the manual "Adaugă la ecranul
- *   principal" instructions instead.
- * The prompt hides once installed or dismissed (remembered per device).
+ * One button that installs the app AND turns on announcements, so a person
+ * taps once. Registers the service worker, shows an install prompt
+ * (Chrome/Android) or iOS instructions, and — on install / tap — asks for
+ * notification permission and subscribes to push.
  */
 export function PwaInstall() {
   const [deferred, setDeferred] = useState<BIPEvent | null>(null);
   const [show, setShow] = useState(false);
   const [iosHint, setIosHint] = useState(false);
+  const [standalone, setStandalone] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
-    // Register the service worker (installability + light offline support).
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
 
-    // Already installed? Never nag.
-    const standalone =
+    const isStandalone =
       window.matchMedia?.('(display-mode: standalone)').matches ||
       (window.navigator as any).standalone === true;
-    if (standalone) return;
+    setStandalone(isStandalone);
 
     let dismissed = false;
     try {
       dismissed = localStorage.getItem(DISMISS_KEY) === '1';
     } catch {}
-    if (dismissed) return;
+
+    const canPush =
+      'serviceWorker' in navigator && 'PushManager' in window && !!VAPID;
+
+    // Already subscribed? Then nothing to offer.
+    const check = async () => {
+      let alreadySub = false;
+      if (canPush) {
+        try {
+          const reg = await navigator.serviceWorker.ready;
+          const s = await reg.pushManager.getSubscription();
+          alreadySub = !!s;
+        } catch {}
+      }
+      setSubscribed(alreadySub);
+
+      if (dismissed || alreadySub) return;
+
+      // iOS Safari (not installed): must install first; can't push until then.
+      const ua = window.navigator.userAgent;
+      const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream;
+      const isSafari = /^((?!chrome|crios|fxios|android).)*safari/i.test(ua);
+      if (isIOS && isSafari && !isStandalone) {
+        setIosHint(true);
+        setTimeout(() => setShow(true), 2500);
+        return;
+      }
+
+      // Installed already (standalone) but not subscribed → offer announcements.
+      if (isStandalone && canPush) {
+        setShow(true);
+      }
+    };
+    check();
 
     const onBIP = (e: Event) => {
+      if (dismissed) return;
       e.preventDefault();
       setDeferred(e as BIPEvent);
       setShow(true);
     };
     window.addEventListener('beforeinstallprompt', onBIP);
-
-    // iOS Safari: no beforeinstallprompt — detect and show manual hint.
-    const ua = window.navigator.userAgent;
-    const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream;
-    const isSafari = /^((?!chrome|crios|fxios|android).)*safari/i.test(ua);
-    if (isIOS && isSafari) {
-      const t = setTimeout(() => setShow(true), 2500);
-      setIosHint(true);
-      return () => {
-        clearTimeout(t);
-        window.removeEventListener('beforeinstallprompt', onBIP);
-      };
-    }
-
     return () => window.removeEventListener('beforeinstallprompt', onBIP);
   }, []);
 
@@ -70,17 +101,56 @@ export function PwaInstall() {
     } catch {}
   };
 
-  const install = async () => {
-    if (!deferred) return;
-    await deferred.prompt();
+  const subscribePush = async (): Promise<boolean> => {
+    if (!VAPID || !('serviceWorker' in navigator) || !('PushManager' in window))
+      return false;
     try {
-      await deferred.userChoice;
-    } catch {}
-    setDeferred(null);
-    setShow(false);
+      if (!('Notification' in window)) return false;
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') return false;
+      const reg = await navigator.serviceWorker.ready;
+      const existing = await reg.pushManager.getSubscription();
+      const sub =
+        existing ||
+        (await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID),
+        }));
+      await fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription: sub }),
+      });
+      setSubscribed(true);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const onClick = async () => {
+    setBusy(true);
+    try {
+      // 1) Install, if we can.
+      if (deferred) {
+        await deferred.prompt();
+        try {
+          await deferred.userChoice;
+        } catch {}
+        setDeferred(null);
+      }
+      // 2) Turn on announcements (asks permission once).
+      await subscribePush();
+      setDone(true);
+      setTimeout(() => setShow(false), 2200);
+    } finally {
+      setBusy(false);
+    }
   };
 
   if (!show) return null;
+
+  const label = standalone ? 'Primește anunțuri' : 'Instalează + anunțuri';
 
   return (
     <div className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:right-5 sm:bottom-5 z-[60] sm:max-w-sm">
@@ -92,26 +162,32 @@ export function PwaInstall() {
         />
         <div className="flex-1 min-w-0">
           <p className="font-display text-burgundy text-sm leading-tight">
-            Instalează aplicația parohiei
+            Aplicația parohiei + anunțuri
           </p>
           {iosHint ? (
             <p className="text-xs text-ink-soft mt-1 leading-snug">
-              Apasă{' '}
-              <Share className="inline h-3.5 w-3.5 -mt-0.5 text-burgundy" /> (Partajează)
-              în Safari, apoi „Adaugă la ecranul principal”.
+              Apasă <Share className="inline h-3.5 w-3.5 -mt-0.5 text-burgundy" />{' '}
+              (Partajează) în Safari → „Adaugă la ecranul principal”. Apoi deschide
+              aplicația și pornești anunțurile.
+            </p>
+          ) : done ? (
+            <p className="text-xs text-green-700 mt-1 leading-snug flex items-center gap-1">
+              <Check className="h-3.5 w-3.5" /> Gata! Vei primi anunțurile parohiei.
             </p>
           ) : (
             <p className="text-xs text-ink-soft mt-1 leading-snug">
-              O deschizi direct de pe telefon sau desktop, ca pe orice aplicație.
+              Instaleaz-o pe telefon și primești o notificare când părintele
+              anunță ceva nou.
             </p>
           )}
-          {!iosHint && (
+          {!iosHint && !done && (
             <button
-              onClick={install}
-              className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-burgundy text-cream px-3.5 py-1.5 text-xs font-medium hover:bg-burgundy-dark transition"
+              onClick={onClick}
+              disabled={busy}
+              className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-burgundy text-cream px-3.5 py-1.5 text-xs font-medium hover:bg-burgundy-dark transition disabled:opacity-60"
             >
-              <Download className="h-3.5 w-3.5" />
-              Instalează
+              {standalone ? <Bell className="h-3.5 w-3.5" /> : <Download className="h-3.5 w-3.5" />}
+              {busy ? 'Un moment…' : label}
             </button>
           )}
         </div>
