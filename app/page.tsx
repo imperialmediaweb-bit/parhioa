@@ -19,6 +19,7 @@ import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { NewsTicker } from '@/components/site/news-ticker';
 import { Evenimente } from '@/components/site/evenimente';
+import { CosturiZidire } from '@/components/site/costuri-zidire';
 import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
@@ -418,6 +419,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ============= 6a. CÂT COSTĂ ZIDIREA (transparență) ============= */}
+      <CosturiZidire />
 
       {/* ============= 6b. ȘANTIERUL NOII BISERICI (video + randări) ============= */}
       <SantierShowcase />
