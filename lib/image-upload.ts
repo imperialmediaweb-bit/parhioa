@@ -13,6 +13,7 @@
  */
 
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
+import { isR2Configured, uploadToR2, extFromType } from './r2';
 
 const BROWSER_HEADERS: Record<string, string> = {
   'User-Agent':
@@ -88,6 +89,13 @@ export async function uploadRemoteImage(
   // 1) Try fetch-then-upload (works for Facebook CDN with proper headers)
   const fetched = await fetchImageBuffer(url);
   if (fetched) {
+    // Prefer R2 (free egress, served directly by the site). The key mirrors
+    // the on-site path so cld()/opt() leave the stored URL untouched.
+    if (isR2Configured()) {
+      const key = `${folder}/${publicIdBase}.${extFromType(fetched.contentType)}`;
+      const r2url = await uploadToR2(key, fetched.buffer, fetched.contentType);
+      if (r2url) return { url: r2url, publicId: key };
+    }
     try {
       const result = await uploadBuffer(fetched.buffer, publicIdBase, folder);
       return { url: result.secure_url, publicId: result.public_id };

@@ -28,7 +28,7 @@ function isTransformOrVersion(seg: string): boolean {
 }
 
 /** The R2 object key for a Cloudinary public-id path (strips transforms/version). */
-function cldPathToKey(rest: string): string {
+export function cldPathToKey(rest: string): string {
   return rest
     .split('/')
     .filter((s) => !isTransformOrVersion(s))
