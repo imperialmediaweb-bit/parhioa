@@ -46,8 +46,8 @@ export default function InstaleazaPage() {
         Parohia „Sfânta Cuvioasă Teodora de la Sihla” — Botoșani
       </p>
       <p className="text-ink mt-4 max-w-md mx-auto">
-        Instaleaz-o pe telefon și ai parohia la un click: anunțurile părintelui îți
-        apar direct pe ecran, cu program, vești și donații.
+        Instaleaz-o pe telefon și ai parohia la un click: veștile din viața
+        parohiei îți apar direct pe ecran, cu program, slujbe și anunțuri.
       </p>
 
       <div className="mt-7 flex justify-center">
@@ -56,7 +56,7 @@ export default function InstaleazaPage() {
 
       <div className="mt-10 grid sm:grid-cols-3 gap-4 text-left">
         <Feature icon={Bell} title="Anunțuri pe telefon">
-          Primești o notificare când părintele anunță ceva nou.
+          Primești o notificare când apare ceva nou în viața parohiei.
         </Feature>
         <Feature icon={CalendarCheck} title="Program & vești">
           Slujbe, evenimente și noutăți din parohie, mereu la îndemână.
