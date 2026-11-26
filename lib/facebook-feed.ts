@@ -238,7 +238,9 @@ export async function fetchFeed(): Promise<FeedItem[]> {
       const guidRaw = pick(itemXml, 'guid') || linkRaw;
 
       const title = stripHtml(titleRaw).slice(0, 200);
-      const description = stripHtml(descRaw).slice(0, 600);
+      // Keep the full post text (programs/schedules run well past 600 chars);
+      // a generous cap only guards against pathological input.
+      const description = stripHtml(descRaw).slice(0, 8000);
       const link = decodeEntities(stripHtml(linkRaw));
       const pubDate = pubDateRaw ? new Date(pubDateRaw) : null;
       let image = pickImage(itemXml, descRaw);
