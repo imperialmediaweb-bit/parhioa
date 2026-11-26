@@ -66,23 +66,26 @@ export default function InstaleazaPage() {
         </Feature>
       </div>
 
-      <h2 className="font-display text-2xl text-burgundy mt-12 mb-4">Pas cu pas</h2>
-      <div className="grid sm:grid-cols-2 gap-5">
-        <img
-          src="/instaleaza/pasi-android.jpg"
-          alt="Pașii de instalare pe Android"
-          width={1080}
-          height={1350}
-          className="w-full rounded-2xl border border-gold/40 shadow-sm"
-        />
-        <img
-          src="/instaleaza/pasi-iphone.jpg"
-          alt="Pașii de instalare pe iPhone"
-          width={1080}
-          height={1350}
-          className="w-full rounded-2xl border border-gold/40 shadow-sm"
-        />
-      </div>
+      <h2 className="font-display text-2xl text-burgundy mt-12 mb-1">Pas cu pas</h2>
+      <p className="text-sm text-ink-soft mb-5">Așa arată pe telefon, pas cu pas.</p>
+
+      <h3 className="font-display text-lg text-burgundy mb-2 text-left">Pe Android</h3>
+      <img
+        src="/instaleaza/android.png"
+        alt="Instalare pe Android: apasă Instalează aplicația, apoi Instalează, apare iconița"
+        width={2560}
+        height={2120}
+        className="w-full rounded-2xl border border-gold/40 shadow-sm mb-8"
+      />
+
+      <h3 className="font-display text-lg text-burgundy mb-2 text-left">Pe iPhone</h3>
+      <img
+        src="/instaleaza/iphone.png"
+        alt="Instalare pe iPhone din Safari: apasă Partajează, apoi Adaugă la ecranul principal"
+        width={2560}
+        height={2120}
+        className="w-full rounded-2xl border border-gold/40 shadow-sm"
+      />
 
       <div className="mt-10 rounded-2xl border border-border bg-cream-card p-5 text-left text-sm text-ink-soft">
         <p className="font-medium text-burgundy flex items-center gap-2 mb-2">
