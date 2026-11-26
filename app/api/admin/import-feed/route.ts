@@ -68,6 +68,7 @@ export async function POST(req: NextRequest) {
   let imported = 0;
   let skipped = 0;
   let failed = 0;
+  let eventsSynced = 0;
   const log: string[] = [];
   const newPosts: { title: string; slug: string }[] = [];
 
@@ -95,7 +96,7 @@ export async function POST(req: NextRequest) {
             where: { id: existing.id },
             data: { title: r.title, excerpt: r.excerpt, content: r.contentHtml },
           });
-          await syncPostEvents({ sourceGuid: guid, slug: existing.slug, text: item.description, pubDate: item.pubDate });
+          eventsSynced += await syncPostEvents({ sourceGuid: guid, slug: existing.slug, text: item.description, pubDate: item.pubDate });
           if (!existing.featuredId && item.image) {
             const uploaded = await uploadImage(item.image, existing.slug);
             if (uploaded) {
@@ -198,7 +199,7 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      await syncPostEvents({ sourceGuid: guid, slug, text: item.description, pubDate: item.pubDate });
+      eventsSynced += await syncPostEvents({ sourceGuid: guid, slug, text: item.description, pubDate: item.pubDate });
 
       imported++;
       newPosts.push({ title: rewritten.title, slug });
@@ -220,5 +221,6 @@ export async function POST(req: NextRequest) {
     failed,
     log,
     aiEnabled: !!process.env.OPENAI_API_KEY,
+    eventsSynced,
   });
 }
