@@ -7,7 +7,9 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DonateForm, type PresetTier } from '@/components/site/donate-form';
 import { ChurchProgress } from '@/components/site/church-progress';
+import { ChurchRising } from '@/components/site/church-rising';
 import { CosturiZidire } from '@/components/site/costuri-zidire';
+import { prisma } from '@/lib/prisma';
 import { CtitoriList } from '@/components/site/ctitori-list';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { CopyButton } from '@/components/site/copy-button';
@@ -26,6 +28,25 @@ const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }
   500: { symbol: '1 grindă', icon: '🪵', subtitle: 'acoperiș' },
   1000: { symbol: '1 fereastră', icon: '🪟', subtitle: 'lumină' },
 };
+
+const CONSTRUCTION_SLUG = 'strangere-de-fonduri-pentru-construirea-bisericii';
+
+/** Real donation progress for the 3D rising church (no money sum shown). */
+async function fetchCampaignProgress(slug: string, goalRon: number) {
+  try {
+    const [agg, donors] = await Promise.all([
+      prisma.donation.aggregate({
+        where: { campaign: slug, status: { in: ['completed', 'self_reported_bank'] } },
+        _sum: { amount: true },
+      }),
+      prisma.donor.count({ where: { donations: { some: { campaign: slug } } } }),
+    ]);
+    const raised = agg._sum.amount || 0;
+    return { percent: goalRon > 0 ? Math.min(100, (raised / goalRon) * 100) : 0, donors };
+  } catch {
+    return { percent: 0, donors: 0 };
+  }
+}
 
 export async function generateMetadata({
   params,
@@ -60,6 +81,11 @@ export default async function DonationCampaignPage({
   const campaign = findCampaign(params.slug);
   if (!campaign) notFound();
 
+  const isConstruction = campaign.slug === CONSTRUCTION_SLUG;
+  const progress = isConstruction
+    ? await fetchCampaignProgress(campaign.slug, campaign.goalRon)
+    : null;
+
   const tiers: PresetTier[] = campaign.presetAmounts.map((amount) => ({
     amount,
     symbol: SYMBOLS[amount]?.symbol || `${amount} RON`,
@@ -87,16 +113,22 @@ export default async function DonationCampaignPage({
                 Biserica din inimi
               </p>
               <h2 className="font-display text-3xl sm:text-4xl italic text-navy">
-                Lumina se ridică odată cu noi
+                {isConstruction ? 'Biserica se ridică, bucată cu bucată' : 'Lumina se ridică odată cu noi'}
               </h2>
               <p className="text-ink-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-                Fiecare jertfă adusă cu inima curată ridică lumina de la temelie spre cer.
+                {isConstruction
+                  ? 'Cu fiecare dar, se ridică mai mult din casa Domnului. Așa am ajuns până acum:'
+                  : 'Fiecare jertfă adusă cu inima curată ridică lumina de la temelie spre cer.'}
               </p>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <ChurchProgress campaign={campaign.slug} goalRon={campaign.goalRon} />
+            {isConstruction && progress ? (
+              <ChurchRising percent={progress.percent} donors={progress.donors} />
+            ) : (
+              <ChurchProgress campaign={campaign.slug} goalRon={campaign.goalRon} />
+            )}
           </FadeIn>
 
           {/* Construction stages — parchment-style list of seven phases. */}

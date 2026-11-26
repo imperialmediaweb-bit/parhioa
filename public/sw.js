@@ -4,7 +4,7 @@
  * app. It uses network-first for everything and only falls back to a cached
  * copy when the network is unavailable. It NEVER caches admin or API requests.
  */
-const CACHE = 'parohia-v1';
+const CACHE = 'parohia-v3';
 const OFFLINE_URLS = ['/', '/manifest.webmanifest', '/icons/icon-192.png'];
 
 self.addEventListener('install', (event) => {
