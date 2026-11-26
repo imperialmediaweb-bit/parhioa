@@ -21,7 +21,7 @@ import { DEFAULT_OG_IMAGE } from '@/lib/site';
 // Amount → realistic construction unit (price-anchored). Each preset describes
 // what the gift actually pays for in the church build.
 const SYMBOLS: Record<number, { symbol: string; icon: string; subtitle: string }> = {
-  25: { symbol: '5 cărămizi', icon: '🧱', subtitle: 'fundație' },
+  29: { symbol: '10 cărămizi', icon: '🧱', subtitle: 'fundație' },
   50: { symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelie' },
   100: { symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereți' },
   250: { symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereți' },

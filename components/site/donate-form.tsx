@@ -33,7 +33,7 @@ export type BankDetails = {
 };
 
 const DEFAULT_PRESETS: PresetTier[] = [
-  { amount: 25, symbol: '5 cărămizi', icon: '🧱', subtitle: 'fundație' },
+  { amount: 29, symbol: '10 cărămizi', icon: '🧱', subtitle: 'fundație' },
   { amount: 50, symbol: '1 sac de ciment', icon: '🪨', subtitle: 'temelie' },
   { amount: 100, symbol: '1 m² de tencuială', icon: '🛠️', subtitle: 'pereți' },
   { amount: 250, symbol: '1 m² de zidărie', icon: '🧱', subtitle: 'pereți' },
