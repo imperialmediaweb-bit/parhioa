@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma';
 import { CopyEmailsButton } from './copy-emails-button';
-import { PrintPomelnicButton } from './print-pomelnic-button';
 import { isAdminAuthorized } from '@/lib/admin-auth';
 import { AdminGate } from '../admin-gate';
 
@@ -141,6 +140,7 @@ export default async function DonationsAdminPage({
       a.localeCompare(b, 'ro'),
     );
   const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const acatistKey = provided ? `&key=${encodeURIComponent(provided)}` : '';
   const pomelnicNames = namesFrom(paidWithName);
   const namesMonth = namesFrom(paidWithName.filter((d) => d.createdAt >= monthStart));
   const namesWeek = namesFrom(paidWithName.filter((d) => d.createdAt >= weekStart));
@@ -227,23 +227,24 @@ export default async function DonationsAdminPage({
           Alege perioada:
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          <PrintPomelnicButton
-            names={namesWeek}
-            periodLabel={weekLabel}
-            buttonLabel={`☩ Săptămâna aceasta (${namesWeek.length})`}
-          />
-          <PrintPomelnicButton
-            names={namesMonth}
-            periodLabel={monthPeriodLabel}
-            buttonLabel={`☩ Luna aceasta (${namesMonth.length})`}
-            variant="outline"
-          />
-          <PrintPomelnicButton
-            names={pomelnicNames}
-            periodLabel="Toți ctitorii și binefăcătorii"
-            buttonLabel={`Toți (${pomelnicNames.length})`}
-            variant="outline"
-          />
+          <a
+            href={`/api/admin/acatist?period=week${acatistKey}`}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark bg-gradient-to-br from-gold to-gold-dark text-burgundy-dark text-xs font-semibold hover:brightness-105 transition"
+          >
+            ☩ Săptămâna aceasta ({namesWeek.length})
+          </a>
+          <a
+            href={`/api/admin/acatist?period=month${acatistKey}`}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark/60 bg-white text-burgundy text-xs font-semibold hover:bg-cream-card transition"
+          >
+            ☩ Luna aceasta ({namesMonth.length})
+          </a>
+          <a
+            href={`/api/admin/acatist?period=all${acatistKey}`}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gold-dark/60 bg-white text-burgundy text-xs font-semibold hover:bg-cream-card transition"
+          >
+            Toți ({pomelnicNames.length})
+          </a>
         </div>
       </section>
 
