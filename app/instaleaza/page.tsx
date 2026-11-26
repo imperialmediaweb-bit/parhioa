@@ -5,8 +5,30 @@ import { Bell, CalendarCheck, Image as ImageIcon, Smartphone } from 'lucide-reac
 export const metadata: Metadata = {
   title: 'Instalează aplicația parohiei',
   description:
-    'Instalează aplicația Parohiei Sf. Cuvioasă Teodora de la Sihla pe telefon și primește anunțurile părintelui, programul slujbelor și veștile din parohie.',
+    'Instalează aplicația Parohiei Sf. Cuvioasă Teodora de la Sihla pe telefon și primește veștile din viața parohiei, programul slujbelor și anunțurile — direct pe ecran.',
   alternates: { canonical: '/instaleaza' },
+  openGraph: {
+    type: 'website',
+    title: 'Instalează aplicația parohiei',
+    description:
+      'Vești, slujbe și anunțuri din viața parohiei, direct pe telefon. Android și iPhone.',
+    url: '/instaleaza',
+    images: [
+      {
+        url: '/instaleaza-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Aplicația Parohiei Sf. Cuvioasă Teodora de la Sihla',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Instalează aplicația parohiei',
+    description:
+      'Vești, slujbe și anunțuri din viața parohiei, direct pe telefon. Android și iPhone.',
+    images: ['/instaleaza-og.jpg'],
+  },
 };
 
 export default function InstaleazaPage() {
