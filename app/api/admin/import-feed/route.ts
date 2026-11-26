@@ -38,9 +38,11 @@ function uniqueSlug(base: string): string {
 
 export async function POST(req: NextRequest) {
   let providedKey: string | undefined;
+  let refresh = false;
   try {
     const body = await req.json();
     providedKey = body?.key;
+    refresh = body?.refresh === true;
   } catch {}
   if (!isAdminAuthorized(providedKey)) {
     return NextResponse.json({ error: 'Acces refuzat' }, { status: 403 });
@@ -78,6 +80,46 @@ export async function POST(req: NextRequest) {
 
     const existing = await prisma.post.findUnique({ where: { sourceGuid: guid } });
     if (existing) {
+      // refresh=true → re-run the rewrite and update the post's text so older,
+      // truncated/emoji-laden imports get the full, cleaned content.
+      if (refresh) {
+        try {
+          const r = await rewriteAsArticle({
+            rawTitle: item.title,
+            rawDescription: item.description,
+            pubDate: item.pubDate,
+            link: item.link,
+          });
+          await prisma.post.update({
+            where: { id: existing.id },
+            data: { title: r.title, excerpt: r.excerpt, content: r.contentHtml },
+          });
+          if (!existing.featuredId && item.image) {
+            const uploaded = await uploadImage(item.image, existing.slug);
+            if (uploaded) {
+              const media = await prisma.media.create({
+                data: {
+                  filename: existing.slug + '.jpg',
+                  url: uploaded.url,
+                  cloudinaryId: uploaded.publicId,
+                  alt: r.title,
+                  wpUrl: item.image,
+                },
+              });
+              await prisma.post.update({
+                where: { id: existing.id },
+                data: { featuredId: media.id },
+              });
+            }
+          }
+          imported++;
+          log.push(`♻️ actualizat: ${r.title.slice(0, 60)}`);
+        } catch (err: any) {
+          failed++;
+          log.push(`❌ refresh ${existing.title.slice(0, 40)}: ${(err?.message || '').slice(0, 50)}`);
+        }
+        continue;
+      }
       // If the existing post has no featured image and the feed now has one
       // (better extraction), try to attach it. Otherwise skip.
       if (!existing.featuredId && item.image) {

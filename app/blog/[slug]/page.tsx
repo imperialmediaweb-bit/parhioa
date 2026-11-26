@@ -138,7 +138,7 @@ export default async function PostPage({ params }: Props) {
             never sanitized. */}
         <div
           className="wp-content"
-          dangerouslySetInnerHTML={{ __html: cldAll(sanitizePostHtml(post.content)) }}
+          dangerouslySetInnerHTML={{ __html: stripEmoji(cldAll(sanitizePostHtml(post.content))) }}
         />
         {post.categories.length > 0 && (
           <div className="mt-10 pt-6 border-t border-border flex flex-wrap items-center gap-2">

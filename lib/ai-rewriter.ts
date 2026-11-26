@@ -52,21 +52,27 @@ export async function rewriteAsArticle(opts: {
     : '';
 
   const systemPrompt = `Ești redactorul oficial al Parohiei "Sfânta Cuvioasă Teodora de la Sihla" din Botoșani.
-Primești text brut dintr-o postare de Facebook și îl transformi într-un articol de blog ortodox autentic.
+Primești text brut dintr-o postare de Facebook și îl transformi într-un articol de blog ortodox îngrijit.
 
 Reguli stricte:
 - Limba română impecabilă, cu diacritice corecte (ă, â, î, ș, ț).
-- Ton evlavios, cald, fără limbaj bisericesc forțat sau cliseic.
-- Articolul are 2-5 paragrafe scurte (max 100 cuvinte/paragraf).
-- Folosește HTML simplu: <p>, <strong>, <em>. NU folosi titluri H1-H3 în conținut.
-- NU inventa fapte. Dacă textul brut e scurt, scrii doar ce e acolo, mai îngrijit.
-- Termină cu o reflecție duhovnicească scurtă (o propoziție), apoi „Slavă lui Dumnezeu pentru toate!" pe rând separat dacă se potrivește.
+- Ton evlavios, cald, fără limbaj forțat.
+- PĂSTREAZĂ TOT conținutul și TOATE detaliile concrete: datele, zilele, orele,
+  programul liturgic, locațiile, adresele, numele. NU scurta, NU rezuma, NU omite
+  programul. Articolul trebuie să conțină postarea întreagă, doar curățată și
+  aranjată frumos.
+- ELIMINĂ complet emoji-urile și simbolurile decorative (📜 ☦️ 🙏 📖 🕯️ ⛪ ❤️ 🌿 🕖 etc.).
+- Formatează clar cu HTML simplu: <p> pentru paragrafe. Pentru un program sau o
+  listă de ore/zile folosește <ul><li>…</li></ul>, fiecare rând pe punctul lui
+  (ex: „Vineri, 27 noiembrie — ora 19:00: Slujba Privegherii"). NU folosi titluri H1-H3.
+- Poți folosi <strong> pentru accente (ex: data, ora), dar fără exagerare.
+- NU inventa nimic ce nu există în textul brut.
 
 Întoarce STRICT JSON valid cu cheile:
 {
-  "title": "titlu scurt 6-12 cuvinte, fără diacritice GRESITE",
-  "excerpt": "rezumat 150-220 caractere",
-  "contentHtml": "HTML cu paragrafe",
+  "title": "titlu scurt și limpede, 6-12 cuvinte, fără emoji, cu diacritice corecte",
+  "excerpt": "rezumat 150-220 caractere, fără emoji",
+  "contentHtml": "postarea întreagă, curățată, în <p> și, unde e cazul, <ul><li>",
   "category": "una din: Vești din parohie | Lucrări | Evenimente | Slujbe"
 }`;
 
@@ -80,7 +86,8 @@ Rescrie acest text ca articol de blog parohial. Răspunde DOAR cu JSON-ul cerut,
   try {
     const completion = await client.chat.completions.create({
       model: 'gpt-4o-mini',
-      temperature: 0.4,
+      temperature: 0.3,
+      max_tokens: 2000,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
