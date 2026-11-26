@@ -1,5 +1,51 @@
 import OpenAI from 'openai';
 import { sanitizePostHtml, sanitizeText } from './sanitize';
+import { stripEmoji } from './utils';
+
+/**
+ * Build the article body from the FULL original post text — deterministically,
+ * so nothing is ever dropped (the AI tends to shorten and cut the liturgical
+ * program). Removes emoji, splits into paragraphs, and turns a program / list
+ * of days into a bullet list.
+ */
+function formatBodyFromRaw(raw: string, link: string): string {
+  let t = stripEmoji(raw || '').replace(/[ \t ]+/g, ' ').trim();
+  if (!t) return '';
+
+  // Put structural markers on their own lines.
+  t = t.replace(/\s*(Programul liturgic[:：])/gi, '\n\n$1\n');
+  t = t.replace(/\s*(Loca[țt]ia[:：])/gi, '\n\n$1 ');
+  t = t.replace(/\s*(V[ăa] a[șs]tept[ăa]m)/g, '\n\n$1');
+  // Each day of the week starts a new line (program entries).
+  t = t.replace(
+    /\s+(Luni|Mar[țt]i|Miercuri|Joi|Vineri|S[âa]mb[ăa]t[ăa]|Duminic[ăa])([,:]| –| -| ora)/g,
+    '\n$1$2',
+  );
+
+  const blocks = t
+    .split(/\n\n+/)
+    .map((b) => b.trim())
+    .filter(Boolean);
+
+  let html = '';
+  for (const b of blocks) {
+    const lines = b
+      .split(/\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+    if (lines.length > 1) {
+      const [head, ...rest] = lines;
+      html += `<p><strong>${escapeHtml(head)}</strong></p>`;
+      html += '<ul>' + rest.map((l) => `<li>${escapeHtml(l)}</li>`).join('') + '</ul>';
+    } else {
+      html += `<p>${escapeHtml(lines[0])}</p>`;
+    }
+  }
+  if (link) {
+    html += `<p><a href="${escapeAttr(link)}" target="_blank" rel="noopener noreferrer">Vezi postarea originală pe Facebook</a></p>`;
+  }
+  return sanitizePostHtml(html);
+}
 
 const client = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
@@ -28,17 +74,11 @@ export async function rewriteAsArticle(opts: {
   const fallbackCategory = inferCategory(opts.rawTitle + ' ' + opts.rawDescription);
 
   if (!client) {
-    // Fallback when OPENAI_API_KEY is unset. Even here we sanitize — the
-    // raw Facebook description is attacker-controlled text.
-    const rawHtml = `<p>${escapeHtml(opts.rawDescription)}</p>${
-      opts.link
-        ? `<p><a href="${escapeAttr(opts.link)}" target="_blank" rel="noopener noreferrer">Vezi postarea originală pe Facebook</a></p>`
-        : ''
-    }`;
+    // Fallback when OPENAI_API_KEY is unset: still keep the full post, cleaned.
     return {
-      title: sanitizeText(opts.rawTitle).slice(0, 140) || 'Vești din parohie',
-      excerpt: sanitizeText(opts.rawDescription).slice(0, 240),
-      contentHtml: sanitizePostHtml(rawHtml),
+      title: stripEmoji(sanitizeText(opts.rawTitle)).slice(0, 140) || 'Vești din parohie',
+      excerpt: stripEmoji(sanitizeText(opts.rawDescription)).slice(0, 240),
+      contentHtml: formatBodyFromRaw(opts.rawDescription, opts.link),
       category: fallbackCategory,
     };
   }
@@ -108,25 +148,22 @@ Rescrie acest text ca articol de blog parohial. Răspunde DOAR cu JSON-ul cerut,
         ? (parsed.category as RewrittenArticle['category'])
         : fallbackCategory;
 
-    // Sanitize EVERYTHING the model returned. The model can be jailbroken
-    // by an attacker-controlled Facebook post body into emitting <script>
-    // or unsafe links. Defense in depth: we also sanitize on render, but
-    // there's no reason to store unsafe HTML in the DB.
-    const safeContent = sanitizePostHtml(
-      parsed.contentHtml || `<p>${escapeHtml(opts.rawDescription)}</p>`,
-    );
+    // Body is built deterministically from the FULL original text (never the
+    // AI's shortened version), so the whole post — program, hours, location —
+    // is always kept. The AI is used only for a clean title/excerpt/category.
+    const contentHtml = formatBodyFromRaw(opts.rawDescription, opts.link);
     return {
-      title: sanitizeText(parsed.title || opts.rawTitle || 'Vești din parohie').slice(0, 200),
-      excerpt: sanitizeText(parsed.excerpt || '').slice(0, 260),
-      contentHtml: safeContent,
+      title: stripEmoji(sanitizeText(parsed.title || opts.rawTitle || 'Vești din parohie')).slice(0, 200),
+      excerpt: stripEmoji(sanitizeText(parsed.excerpt || opts.rawDescription || '')).slice(0, 260),
+      contentHtml,
       category,
     };
   } catch (err) {
     console.error('[ai-rewriter] OpenAI call failed, falling back:', err);
     return {
-      title: sanitizeText(opts.rawTitle).slice(0, 140) || 'Vești din parohie',
-      excerpt: sanitizeText(opts.rawDescription).slice(0, 240),
-      contentHtml: sanitizePostHtml(`<p>${escapeHtml(opts.rawDescription)}</p>`),
+      title: stripEmoji(sanitizeText(opts.rawTitle)).slice(0, 140) || 'Vești din parohie',
+      excerpt: stripEmoji(sanitizeText(opts.rawDescription)).slice(0, 240),
+      contentHtml: formatBodyFromRaw(opts.rawDescription, opts.link),
       category: fallbackCategory,
     };
   }
