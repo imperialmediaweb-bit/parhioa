@@ -67,25 +67,21 @@ export default function InstaleazaPage() {
       </div>
 
       <h2 className="font-display text-2xl text-burgundy mt-12 mb-1">Pas cu pas</h2>
-      <p className="text-sm text-ink-soft mb-5">Așa arată pe telefon, pas cu pas.</p>
+      <p className="text-sm text-ink-soft mb-6">Așa arată pe telefon, pas cu pas.</p>
 
-      <h3 className="font-display text-lg text-burgundy mb-2 text-left">Pe Android</h3>
-      <img
-        src="/instaleaza/android.png"
-        alt="Instalare pe Android: apasă Instalează aplicația, apoi Instalează, apare iconița"
-        width={2560}
-        height={2120}
-        className="w-full rounded-2xl border border-gold/40 shadow-sm mb-8"
-      />
+      <h3 className="font-display text-xl text-burgundy mb-4 text-left">Pe Android</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+        <PhoneStep img="/instaleaza/android-1.png" n={1}>Apasă „Instalează aplicația”.</PhoneStep>
+        <PhoneStep img="/instaleaza/android-2.png" n={2}>Apasă „Instalează” în fereastra care apare.</PhoneStep>
+        <PhoneStep img="/instaleaza/android-3.png" n={3}>Gata — iconița apare pe telefon.</PhoneStep>
+      </div>
 
-      <h3 className="font-display text-lg text-burgundy mb-2 text-left">Pe iPhone</h3>
-      <img
-        src="/instaleaza/iphone.png"
-        alt="Instalare pe iPhone din Safari: apasă Partajează, apoi Adaugă la ecranul principal"
-        width={2560}
-        height={2120}
-        className="w-full rounded-2xl border border-gold/40 shadow-sm"
-      />
+      <h3 className="font-display text-xl text-burgundy mb-4 text-left">Pe iPhone</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <PhoneStep img="/instaleaza/iphone-1.png" n={1}>Apasă butonul „Partajează” (jos).</PhoneStep>
+        <PhoneStep img="/instaleaza/iphone-2.png" n={2}>Alege „Adaugă la ecranul principal”.</PhoneStep>
+        <PhoneStep img="/instaleaza/iphone-3.png" n={3}>Gata — iconița apare pe telefon.</PhoneStep>
+      </div>
 
       <div className="mt-10 rounded-2xl border border-border bg-cream-card p-5 text-left text-sm text-ink-soft">
         <p className="font-medium text-burgundy flex items-center gap-2 mb-2">
@@ -99,6 +95,34 @@ export default function InstaleazaPage() {
           <strong>iPhone (Safari):</strong> apasă <em>Partajează</em> → „Adaugă la
           ecranul principal”, apoi deschide aplicația și pornește anunțurile.
         </p>
+      </div>
+    </div>
+  );
+}
+
+function PhoneStep({
+  img,
+  n,
+  children,
+}: {
+  img: string;
+  n: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <img
+        src={img}
+        alt={`Pasul ${n}`}
+        width={1260}
+        height={2640}
+        className="w-full max-w-[280px] rounded-[28px] shadow-lg"
+      />
+      <div className="mt-3 flex items-start gap-2 text-left max-w-[280px]">
+        <span className="shrink-0 h-7 w-7 rounded-full bg-gold text-burgundy-dark font-bold text-sm flex items-center justify-center">
+          {n}
+        </span>
+        <p className="text-sm text-ink mt-0.5">{children}</p>
       </div>
     </div>
   );
