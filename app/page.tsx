@@ -18,7 +18,6 @@ import { ParchmentFrame } from '@/components/site/parchment-frame';
 import { ProgramSlujbe } from '@/components/site/program-slujbe';
 import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { NewsTicker } from '@/components/site/news-ticker';
-import { Anunturi } from '@/components/site/anunturi';
 import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
@@ -239,9 +238,6 @@ export default async function HomePage() {
 
       {/* ============= 1b. NEWS TICKER — Facebook announcements ============= */}
       <NewsTicker />
-
-      {/* ============= 1c. ANUNȚURI — latest parish notices ============= */}
-      <Anunturi posts={posts} />
 
       {/* ============= 2. PROGRAM SLUJBE + SĂRBĂTOAREA ZILEI ============= */}
       <section className="container py-10 sm:py-14">
