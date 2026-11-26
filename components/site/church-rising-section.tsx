@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma';
-import { getImages } from '@/lib/images';
 import { ChurchRising } from './church-rising';
 
 const CAMPAIGN = 'strangere-de-fonduri-pentru-construirea-bisericii';
@@ -26,7 +25,6 @@ async function fetchProgress() {
  * handlers revalidate '/').
  */
 export async function ChurchRisingSection() {
-  const IMG = await getImages();
   const { raised, donors } = await fetchProgress();
   const percent = Math.min(100, (raised / GOAL_RON) * 100);
 
@@ -43,7 +41,7 @@ export async function ChurchRisingSection() {
           Cu fiecare dar, se ridică mai mult din casa Domnului. Așa am ajuns până acum:
         </p>
       </div>
-      <ChurchRising src={IMG.churchRendering} percent={percent} donors={donors} />
+      <ChurchRising percent={percent} donors={donors} />
     </section>
   );
 }

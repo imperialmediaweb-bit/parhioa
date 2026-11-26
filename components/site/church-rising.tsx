@@ -1,96 +1,52 @@
 'use client';
 
 import { useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, useInView } from 'framer-motion';
 
-/**
- * „Biserica se ridică bucată cu bucată" — uses the REAL church rendering and
- * reveals it in full colour from the foundation up to the current REAL
- * donation progress; above the line it stays a faint blueprint until more is
- * gathered. The money sum is never shown — only the progress.
- */
+// 3D church — client-only (Three.js/WebGL), loaded in the browser.
+const Church3D = dynamic(() => import('./church-3d'), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="w-full rounded-2xl bg-gradient-to-br from-[#f6ecd8] to-[#efe0c0] animate-pulse"
+      style={{ height: 'min(70vh, 460px)' }}
+    />
+  ),
+});
+
 const STAGES = [
-  { label: 'Temelie', at: 8 },
-  { label: 'Ziduri', at: 30 },
-  { label: 'Acoperiș', at: 60 },
-  { label: 'Turlă', at: 82 },
-  { label: 'Cruce', at: 96 },
+  { label: 'Temelie', at: 4 },
+  { label: 'Ziduri', at: 18 },
+  { label: 'Acoperiș', at: 50 },
+  { label: 'Turlă', at: 66 },
+  { label: 'Cupolă', at: 82 },
+  { label: 'Cruce', at: 95 },
 ] as const;
 
 export function ChurchRising({
-  src,
   percent,
   donors = 0,
 }: {
-  src: string;
   percent: number;
   donors?: number;
 }) {
-  const pct = Math.max(2, Math.min(100, Math.round(percent)));
+  const pct = Math.max(0, Math.min(100, Math.round(percent)));
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
     <div ref={ref} className="relative mx-auto w-full max-w-2xl">
-      {/* Floating cross */}
-      <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 text-gold text-3xl drop-shadow">☩</div>
-
       <div
-        className="relative overflow-hidden shadow-[0_30px_60px_-30px_rgba(101,26,20,0.55)]"
-        style={{
-          aspectRatio: '16 / 11',
-          borderTopLeftRadius: '48% 16%',
-          borderTopRightRadius: '48% 16%',
-          borderBottomLeftRadius: '14px',
-          borderBottomRightRadius: '14px',
-          border: '2px solid rgba(201,163,97,0.6)',
-        }}
+        className="relative overflow-hidden rounded-3xl border-2 border-gold/50 shadow-[0_30px_60px_-30px_rgba(101,26,20,0.5)]"
       >
-        {/* Blueprint / "to be built" layer (faint, cool) */}
-        <img
-          src={src}
-          alt="Macheta viitoarei biserici"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'grayscale(0.7) brightness(1.05) sepia(0.25) opacity(0.4)' }}
-          loading="lazy"
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(180deg, rgba(30,40,70,0.28), rgba(30,40,70,0.05))' }}
-          aria-hidden
-        />
-
-        {/* Built layer — full colour, revealed from the bottom up to pct%.
-            One full-size image clipped from the top; aligns with the blueprint. */}
-        <motion.img
-          src={src}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover"
-          initial={{ clipPath: 'inset(100% 0 0 0)' }}
-          animate={inView ? { clipPath: `inset(${100 - pct}% 0 0 0)` } : {}}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-        />
-
-        {/* Golden construction line at the current height */}
-        <motion.div
-          className="absolute inset-x-0 pointer-events-none"
-          initial={{ bottom: '0%', opacity: 0 }}
-          animate={inView ? { bottom: `${pct}%`, opacity: pct < 100 ? 1 : 0 } : {}}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            height: '3px',
-            background:
-              'linear-gradient(to right, transparent, rgba(255,224,150,0.95) 20%, #fff7d6 50%, rgba(255,224,150,0.95) 80%, transparent)',
-            boxShadow: '0 0 16px 3px rgba(255,212,128,0.8)',
-          }}
-          aria-hidden
-        />
-
-        <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 70px 8px rgba(61,15,10,0.35)' }} aria-hidden />
+        <Church3D percent={pct} />
+        <p className="absolute top-3 left-1/2 -translate-x-1/2 font-ceremonial uppercase text-[10px] tracking-[0.28em] text-burgundy/80 pointer-events-none">
+          ☩ machetă 3D · rotește cu degetul ☩
+        </p>
       </div>
 
-      {/* progress — NO money sum */}
+      {/* progress — NO money sum, only progress */}
       <div className="mt-4">
         <div className="h-2.5 rounded-full bg-burgundy/10 overflow-hidden">
           <motion.div
