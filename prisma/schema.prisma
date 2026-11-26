@@ -204,3 +204,20 @@ model PushSubscription {
   ua        String?
   createdAt DateTime @default(now())
 }
+
+// Evenimente/slujbe speciale extrase automat din anunțurile de Facebook
+// (priveghere, maslu, acatist, hram...). Afișate lângă program; cele trecute
+// se ascund singure. Construcțiile NU intră aici.
+model Event {
+  id         Int      @id @default(autoincrement())
+  sourceGuid String?  // guid-ul postării din care provine (pentru re-extragere)
+  postSlug   String?  // link „Vezi detalii"
+  title      String
+  startAt    DateTime
+  allDay     Boolean  @default(false)
+  location   String?
+  createdAt  DateTime @default(now())
+
+  @@index([startAt])
+  @@index([sourceGuid])
+}
