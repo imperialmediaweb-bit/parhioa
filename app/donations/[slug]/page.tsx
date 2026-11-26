@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DonateForm, type PresetTier } from '@/components/site/donate-form';
 import { ChurchProgress } from '@/components/site/church-progress';
-import { ChurchRising } from '@/components/site/church-rising';
+import { ChurchRising3D } from '@/components/site/church-rising-3d';
 import { CosturiZidire } from '@/components/site/costuri-zidire';
 import { prisma } from '@/lib/prisma';
 import { CtitoriList } from '@/components/site/ctitori-list';
@@ -127,7 +127,7 @@ export default async function DonationCampaignPage({
 
           <FadeIn delay={0.1}>
             {isConstruction && progress ? (
-              <ChurchRising percent={progress.percent} donors={progress.donors} />
+              <ChurchRising3D percent={progress.percent} donors={progress.donors} />
             ) : (
               <ChurchProgress campaign={campaign.slug} goalRon={campaign.goalRon} />
             )}
