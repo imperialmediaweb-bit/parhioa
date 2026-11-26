@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, MapPin, Mail, Phone, User } from 'lucide-react';
+import { Facebook, Youtube, MapPin, Mail, Phone, User } from 'lucide-react';
 import { OrthodoxCross } from './cross-divider';
 
 const INFO = [
@@ -23,6 +23,10 @@ const RESURSE = [
 const FACEBOOK_URL =
   process.env.NEXT_PUBLIC_FACEBOOK_URL ||
   'https://www.facebook.com/profile.php?id=61573108296072';
+
+const YOUTUBE_URL =
+  process.env.NEXT_PUBLIC_YOUTUBE_URL ||
+  'https://www.youtube.com/@Sf%C3%A2ntaCuvioas%C4%83TeodoradelaSihla';
 
 export function SiteFooter() {
   return (
@@ -75,6 +79,9 @@ export function SiteFooter() {
             <div className="flex gap-2.5 pt-1">
               <SocialLink href={FACEBOOK_URL} label="Facebook" external>
                 <Facebook className="h-4 w-4" />
+              </SocialLink>
+              <SocialLink href={YOUTUBE_URL} label="YouTube" external>
+                <Youtube className="h-4 w-4" />
               </SocialLink>
             </div>
           </div>
