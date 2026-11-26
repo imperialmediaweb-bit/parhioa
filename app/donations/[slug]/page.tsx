@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DonateForm, type PresetTier } from '@/components/site/donate-form';
 import { ChurchProgress } from '@/components/site/church-progress';
+import { CosturiZidire } from '@/components/site/costuri-zidire';
 import { CtitoriList } from '@/components/site/ctitori-list';
 import { ConstructionProgress } from '@/components/site/construction-progress';
 import { CopyButton } from '@/components/site/copy-button';
@@ -106,6 +107,11 @@ export default async function DonationCampaignPage({
           </FadeIn>
         </div>
       </section>
+
+      {/* ── CÂT COSTĂ ZIDIREA (doar la campania de construcție) ─────────────── */}
+      {campaign.slug === 'strangere-de-fonduri-pentru-construirea-bisericii' && (
+        <CosturiZidire />
+      )}
 
       {/* ── DONATE + CTITORI ────────────────────────────────────────────────── */}
       <section id="donate-zidirea-bisericii" className="container pb-12 sm:pb-16 scroll-mt-24">

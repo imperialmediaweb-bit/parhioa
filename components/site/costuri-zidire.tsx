@@ -6,7 +6,7 @@ import { Landmark, Layers, HardHat, Coins } from 'lucide-react';
  * (masonry) stage; they build trust and complement the donation campaign.
  */
 const ROWS = [
-  { icon: Landmark, label: 'Cărămidă', detail: '100.000 buc.', value: '290.000 lei' },
+  { icon: Landmark, label: 'Cărămidă', detail: '100.000 buc. · 2,90 lei/buc', value: '290.000 lei' },
   { icon: Layers, label: 'Mortar', detail: '3.018 saci', value: '75.450 lei' },
   { icon: HardHat, label: 'Manoperă', detail: 'conform devizului', value: '52.480 lei' },
 ];
