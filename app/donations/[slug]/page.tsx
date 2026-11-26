@@ -82,8 +82,10 @@ export default async function DonationCampaignPage({
   if (!campaign) notFound();
 
   const isConstruction = campaign.slug === CONSTRUCTION_SLUG;
+  // Same goal basis as the homepage "Biserica se ridică" section, so the 3D
+  // church shows the SAME real progress on both pages (not 0%).
   const progress = isConstruction
-    ? await fetchCampaignProgress(campaign.slug, campaign.goalRon)
+    ? await fetchCampaignProgress(campaign.slug, 1_500_000)
     : null;
 
   const tiers: PresetTier[] = campaign.presetAmounts.map((amount) => ({
