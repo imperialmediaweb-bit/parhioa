@@ -55,10 +55,10 @@ export async function buildAcatistPdf(
   let y = H - M;
 
   if (logo) {
-    const lw = 66;
+    const lw = 60;
     const lh = (logo.height / logo.width) * lw;
     page.drawImage(logo, { x: (W - lw) / 2, y: y - lh, width: lw, height: lh });
-    y -= lh + 14;
+    y -= lh + 28;
   } else {
     y -= 10;
   }
