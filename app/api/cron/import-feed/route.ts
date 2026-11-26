@@ -7,6 +7,7 @@ import { fetchFeed, type FeedItem } from '@/lib/facebook-feed';
 import { rewriteAsArticle } from '@/lib/ai-rewriter';
 import { uploadRemoteImage } from '@/lib/image-upload';
 import { isAdminKeyValid } from '@/lib/admin-auth';
+import { notifyNewPosts } from '@/lib/push';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -91,6 +92,7 @@ async function runImport(maxAgeHours: number = 24) {
   let skipped = 0;
   let failed = 0;
   const log: string[] = [];
+  const newPosts: { title: string; slug: string }[] = [];
 
   for (const item of recent) {
     const guid = item.guid || item.link;
@@ -149,12 +151,16 @@ async function runImport(maxAgeHours: number = 24) {
       });
 
       imported++;
+      newPosts.push({ title: rewritten.title, slug });
       log.push(`✅ ${rewritten.title.slice(0, 60)}`);
     } catch (err: any) {
       failed++;
       log.push(`❌ ${item.title.slice(0, 40)}: ${(err?.message || '').slice(0, 60)}`);
     }
   }
+
+  // Push a notification to subscribers for the newly published posts.
+  await notifyNewPosts(newPosts);
 
   console.log(
     `[cron import-feed] total=${items.length} recent=${recent.length} imported=${imported} skipped=${skipped} failed=${failed}`,

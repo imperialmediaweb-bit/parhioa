@@ -43,11 +43,19 @@ self.addEventListener('push', (event) => {
     tag: 'parohie-anunt',
     renotify: true,
   };
-  event.waitUntil(self.registration.showNotification(title, options));
+  // Show the notification AND put a badge (dot/number) on the app icon.
+  const jobs = [self.registration.showNotification(title, options)];
+  if (self.navigator && self.navigator.setAppBadge) {
+    jobs.push(self.navigator.setAppBadge().catch(() => {}));
+  }
+  event.waitUntil(Promise.all(jobs));
 });
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+  if (self.navigator && self.navigator.clearAppBadge) {
+    self.navigator.clearAppBadge().catch(() => {});
+  }
   const url = (event.notification.data && event.notification.data.url) || '/';
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {

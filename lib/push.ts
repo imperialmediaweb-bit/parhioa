@@ -66,3 +66,34 @@ export async function sendPushToAll(
 
   return { sent, removed: dead.length, total: subs.length };
 }
+
+/**
+ * Notify subscribers about freshly imported posts. Sends AT MOST one push per
+ * import run: a single article when one is new, or a summary when several are.
+ * Never throws — notification failure must not break the import.
+ */
+export async function notifyNewPosts(
+  posts: { title: string; slug: string }[],
+): Promise<void> {
+  try {
+    if (!isPushConfigured() || posts.length === 0) return;
+    if (posts.length === 1) {
+      await sendPushToAll({
+        title: 'Articol nou pe site',
+        body: posts[0].title,
+        url: `/blog/${posts[0].slug}`,
+      });
+    } else {
+      await sendPushToAll({
+        title: `${posts.length} articole noi pe site`,
+        body: posts
+          .slice(0, 3)
+          .map((p) => p.title)
+          .join(' · '),
+        url: '/blog',
+      });
+    }
+  } catch (err) {
+    console.error('[push] notifyNewPosts failed:', err);
+  }
+}

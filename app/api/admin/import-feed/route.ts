@@ -6,6 +6,7 @@ import { fetchFeed, type FeedItem } from '@/lib/facebook-feed';
 import { rewriteAsArticle } from '@/lib/ai-rewriter';
 import { uploadRemoteImage } from '@/lib/image-upload';
 import { isAdminAuthorized } from '@/lib/admin-auth';
+import { notifyNewPosts } from '@/lib/push';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -65,6 +66,7 @@ export async function POST(req: NextRequest) {
   let skipped = 0;
   let failed = 0;
   const log: string[] = [];
+  const newPosts: { title: string; slug: string }[] = [];
 
   for (const item of items) {
     const guid = item.guid || item.link;
@@ -153,6 +155,7 @@ export async function POST(req: NextRequest) {
       });
 
       imported++;
+      newPosts.push({ title: rewritten.title, slug });
       log.push(`✅ ${rewritten.title.slice(0, 60)} → ${rewritten.category}`);
     } catch (err: any) {
       failed++;
@@ -160,6 +163,8 @@ export async function POST(req: NextRequest) {
       log.push(`❌ ${item.title.slice(0, 40)}: ${msg.slice(0, 80)}`);
     }
   }
+
+  await notifyNewPosts(newPosts);
 
   return NextResponse.json({
     ok: true,

@@ -40,6 +40,11 @@ export function PwaInstall() {
       navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
 
+    // Opening the app clears the icon badge (the "new" dot).
+    if ('clearAppBadge' in navigator) {
+      (navigator as any).clearAppBadge?.().catch(() => {});
+    }
+
     const isStandalone =
       window.matchMedia?.('(display-mode: standalone)').matches ||
       (window.navigator as any).standalone === true;
