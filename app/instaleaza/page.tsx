@@ -74,7 +74,7 @@ export default function InstaleazaPage() {
             <Smartphone className="h-5 w-5" /> Pe Android
           </h3>
           <ol className="space-y-4">
-            <StepLine n={1}>Deschide <strong>parohiasfteodoradelasihla.ro/instaleaza</strong> (sau scanează codul QR).</StepLine>
+            <StepLine n={1}>Deschide <strong className="break-all [overflow-wrap:anywhere]">parohiasfteodoradelasihla.ro/instaleaza</strong> (sau scanează codul QR).</StepLine>
             <StepLine n={2}>Apasă butonul <strong>„Instalează aplicația”</strong>.</StepLine>
             <StepLine n={3}>Apasă <strong>„Instalează”</strong> în fereastra care apare și acceptă notificările.</StepLine>
             <StepLine n={4}>Gata — iconița cu Sfânta apare pe ecranul telefonului.</StepLine>
@@ -107,7 +107,7 @@ function StepLine({ n, children }: { n: number; children: React.ReactNode }) {
       <span className="shrink-0 h-8 w-8 rounded-full bg-gold text-burgundy-dark font-bold flex items-center justify-center">
         {n}
       </span>
-      <span className="text-ink mt-0.5 leading-snug">{children}</span>
+      <span className="text-ink mt-0.5 leading-snug min-w-0 break-words">{children}</span>
     </li>
   );
 }

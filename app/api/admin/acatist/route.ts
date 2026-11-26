@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isAdminAuthorized } from '@/lib/admin-auth';
 import { uniqueFirstNames, buildAcatistHtml } from '@/lib/acatist';
+import { buildAcatistPdf } from '@/lib/acatist-pdf';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -52,7 +53,29 @@ export async function GET(req: NextRequest) {
     .filter((n: any): n is string => !!n && n.trim().length > 1);
   const names = uniqueFirstNames(fullNames);
 
-  const html = buildAcatistHtml(names, label);
+  // Direct PDF download — works everywhere, incl. WhatsApp's in-app browser.
+  if (req.nextUrl.searchParams.get('format') === 'pdf') {
+    try {
+      const pdf = await buildAcatistPdf(names, label);
+      const slug = (period || 'toti').replace(/[^a-z0-9]/gi, '');
+      return new NextResponse(Buffer.from(pdf), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': `attachment; filename="Acatist-${slug}.pdf"`,
+          'Cache-Control': 'no-store',
+        },
+      });
+    } catch (err) {
+      console.error('[acatist] pdf failed', err);
+      // fall through to HTML on failure
+    }
+  }
+
+  const pdfUrl = `/api/admin/acatist?period=${encodeURIComponent(period)}${
+    key ? `&key=${encodeURIComponent(key)}` : ''
+  }&format=pdf`;
+  const html = buildAcatistHtml(names, label, pdfUrl);
   return new NextResponse(html, {
     status: 200,
     headers: { 'Content-Type': 'text/html; charset=utf-8' },

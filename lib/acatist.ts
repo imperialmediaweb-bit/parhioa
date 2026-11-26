@@ -77,7 +77,11 @@ function escapeHtml(s: string): string {
  * so it works everywhere (incl. WhatsApp's in-app browser). The priest prints
  * or saves to PDF from the button / browser menu.
  */
-export function buildAcatistHtml(names: string[], periodLabel?: string): string {
+export function buildAcatistHtml(
+  names: string[],
+  periodLabel?: string,
+  pdfUrl?: string,
+): string {
   const today = new Date().toLocaleDateString('ro-RO', {
     day: 'numeric',
     month: 'long',
@@ -94,7 +98,8 @@ export function buildAcatistHtml(names: string[], periodLabel?: string): string 
   * { box-sizing: border-box; }
   body { font-family: Georgia, 'Times New Roman', serif; color: #3a1512; margin: 0; background:#f6efe0; }
   .bar { position: sticky; top: 0; background:#651a14; color:#fff; padding:12px 16px; display:flex; gap:10px; justify-content:center; }
-  .bar button { background:#EAC784; color:#4f120d; border:0; border-radius:999px; padding:10px 18px; font-size:15px; font-weight:700; cursor:pointer; }
+  .bar button, .bar .btn { background:#EAC784; color:#4f120d; border:0; border-radius:999px; padding:10px 18px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; }
+  .bar .btn { background:#fff; }
   .hint { text-align:center; font-size:12px; color:#8a6a3a; padding:8px 16px 0; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 24px; background:#fff; }
   .head { text-align: center; border-bottom: 2px solid #c9a361; padding-bottom: 16px; margin-bottom: 20px; }
@@ -114,9 +119,10 @@ export function buildAcatistHtml(names: string[], periodLabel?: string): string 
 </style></head>
 <body>
   <div class="bar noprint">
-    <button onclick="window.print()">Printează / Salvează ca PDF</button>
+    ${pdfUrl ? `<a class="btn" href="${pdfUrl}">⬇ Descarcă PDF</a>` : ''}
+    <button onclick="window.print()">Printează</button>
   </div>
-  <p class="hint noprint">Dacă butonul nu funcționează în WhatsApp, deschide pagina în Chrome/Safari (meniul din colț → „Deschide în browser").</p>
+  <p class="hint noprint">Apasă „Descarcă PDF" — merge oriunde, inclusiv în WhatsApp. (Apoi îl poți trimite sau printa.)</p>
   <div class="wrap">
     <div class="head">
       <div class="sitecross">☩</div>
