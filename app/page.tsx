@@ -25,7 +25,6 @@ import { YoutubeEmbed } from '@/components/site/youtube-embed';
 import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
-import { ConstructionProgress } from '@/components/site/construction-progress';
 import { SantierShowcase } from '@/components/site/santier-showcase';
 import { PLACEHOLDER_POSTS } from '@/lib/placeholder-posts';
 import { type GalleryImage } from '@/components/site/photo-gallery';
@@ -405,10 +404,6 @@ export default async function HomePage() {
                 întâlnire cu Dumnezeu. Fiecare dar adus cu inimă curată devine o cărămidă vie în acest
                 lăcaș al harului.
               </p>
-              <div className="mb-7">
-                <ConstructionProgress label="Stadiul zidirii bisericii" />
-              </div>
-
               <div className="flex flex-wrap gap-3">
                 <Link href="/donations/strangere-de-fonduri-pentru-construirea-bisericii">
                   <Button size="lg">Sprijină lucrarea parohiei</Button>

@@ -19,12 +19,9 @@ export function SantierShowcase({
   videoSrc = '/santier/santier-biserica.mp4',
   poster = '/santier/poster.jpg',
   donateHref = '/donations/strangere-de-fonduri-pentru-construirea-bisericii',
+  // Note: the main rendering (wp-28263) is featured in the „Biserica se ridică"
+  // section, so here we show only the other view to avoid repeating it.
   renders = [
-    {
-      src: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg',
-      alt: 'Randare — așa va arăta biserica parohiei',
-      caption: 'Proiectul viitoarei biserici',
-    },
     {
       src: 'https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28264.png',
       alt: 'Randare — biserica văzută din lateral',
