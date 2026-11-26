@@ -60,24 +60,39 @@ export function opt(r2url: string, _width = 1600): string {
 }
 
 /**
- * Rewrite a Cloudinary (dghmoelly) delivery URL to its R2 equivalent AND run
- * it through the optimizer. Non-Cloudinary, non-R2 URLs are returned
- * unchanged. Used at render time on image URLs from the database.
+ * Build a Cloudinary delivery URL for an upload path, injecting automatic
+ * format/quality when the path has no transform yet.
+ */
+function cldDeliver(rest: string): string {
+  const first = rest.split('/')[0];
+  const body = isTransformOrVersion(first) ? rest : `f_auto,q_auto/${rest}`;
+  return `https://res.cloudinary.com/dghmoelly/image/upload/${body}`;
+}
+
+/**
+ * Normalize an image URL for rendering.
+ *
+ * Most assets live on R2 and are stored as R2 URLs in the DB — those are
+ * returned unchanged. Recent blog imports, however, are uploaded to
+ * Cloudinary and stored as Cloudinary (dghmoelly) URLs; the one-time
+ * Cloudinary→R2 migration never copied them, so rewriting them to R2 yields
+ * a 404 (broken image → placeholder). We therefore serve those directly from
+ * Cloudinary (where they actually exist), with f_auto/q_auto optimization.
  */
 export function cld(url: string | null | undefined, width = 1600): string {
   if (!url) return '';
   const m = url.match(
     /^https?:\/\/res\.cloudinary\.com\/dghmoelly\/image\/upload\/(.+)$/,
   );
-  const r2 = m ? `${R2_BASE}/${cldPathToKey(m[1])}` : url;
-  return opt(r2, width);
+  if (m) return cldDeliver(m[1]);
+  return opt(url, width);
 }
 
 /** Rewrite + optimize every Cloudinary/R2 image URL inside a longer string. */
 export function cldAll(text: string | null | undefined): string {
   if (!text) return '';
   return text
-    .replace(CLD_RE, (_full, rest) => opt(`${R2_BASE}/${cldPathToKey(rest)}`))
+    .replace(CLD_RE, (_full, rest) => cldDeliver(rest))
     .replace(
       /https?:\/\/pub-[a-z0-9]+\.r2\.dev\/[^"'\s)]+\.(?:png|jpe?g|webp|gif)/gi,
       (u) => (u.includes('wsrv.nl') ? u : opt(u)),
