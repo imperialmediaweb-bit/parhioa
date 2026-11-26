@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 import { sendThankYouEmail } from '@/lib/email';
 import { findCampaign } from '@/lib/campaigns';
 import { clientIp, rateLimitMulti } from '@/lib/rate-limit';
@@ -180,6 +181,7 @@ export async function POST(req: NextRequest) {
         donorId: donor.id,
       },
     });
+    revalidatePath('/');
 
     const camp = findCampaign(campaignSlug);
     // Don't block the response on a flaky email send.

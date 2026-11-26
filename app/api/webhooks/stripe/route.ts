@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 import { sendThankYouEmail, sendAdminPaymentFailedEmail } from '@/lib/email';
 import { findCampaign } from '@/lib/campaigns';
 import { trimiteDonatieLaFacebook } from '@/lib/meta-capi';
@@ -164,6 +165,7 @@ async function recordDonation(session: Stripe.Checkout.Session) {
       donorId,
     },
   });
+  revalidatePath('/'); // update the „church rising" progress right after a donation
 
   if (email) {
     const camp = findCampaign(campaign);
@@ -291,6 +293,7 @@ async function recordRenewal(invoice: Stripe.Invoice) {
       donorId,
     },
   });
+  revalidatePath('/');
 
   // Send a brief thank-you each month — keeps the relationship warm and
   // gives the donor an audit trail for their own records (Form 230, etc.).

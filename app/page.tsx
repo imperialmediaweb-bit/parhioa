@@ -20,6 +20,7 @@ import { SarbatoareaZilei } from '@/components/site/sarbatoarea-zilei';
 import { NewsTicker } from '@/components/site/news-ticker';
 import { Evenimente } from '@/components/site/evenimente';
 import { CosturiZidire } from '@/components/site/costuri-zidire';
+import { ChurchRisingSection } from '@/components/site/church-rising-section';
 import { NewsletterForm } from '@/components/site/newsletter-form';
 import { SectionRibbon } from '@/components/site/section-ribbon';
 import { DonationProgress } from '@/components/site/donation-progress';
@@ -419,6 +420,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ============= 6·. BISERICA SE RIDICĂ (progres real) ============= */}
+      <ChurchRisingSection />
 
       {/* ============= 6a. CÂT COSTĂ ZIDIREA (transparență) ============= */}
       <CosturiZidire />
