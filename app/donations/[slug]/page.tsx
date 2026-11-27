@@ -19,6 +19,8 @@ import { DEFAULT_OG_IMAGE } from '@/lib/site';
 import { getImages } from '@/lib/images';
 import { LandingHero } from '@/components/site/landing-hero';
 import { LandingImpact } from '@/components/site/landing-impact';
+import { LandingTrust } from '@/components/site/landing-trust';
+import { LandingStickyCta } from '@/components/site/landing-sticky-cta';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { FloatingEmbers } from '@/components/site/floating-embers';
 import { ShimmerButton } from '@/components/magicui/shimmer-button';
@@ -119,6 +121,8 @@ export default async function DonationCampaignPage({
           ]}
         />
       )}
+
+      {isConstruction && <LandingTrust />}
 
       {/* ── CENTERPIECE: the church rising ───────────────────────────────────── */}
       <section id="biserica-3d" className="container py-12 sm:py-16 scroll-mt-24">
@@ -334,6 +338,8 @@ export default async function DonationCampaignPage({
           </FadeIn>
         </div>
       </section>
+
+      {isConstruction && <LandingStickyCta />}
     </>
   );
 }
