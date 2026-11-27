@@ -16,7 +16,7 @@ export type SymbolicUnit =
   | 'ferestre';     // 1 fereastră simplă pentru biserică
 
 export const TIER_VALUES: Record<SymbolicUnit, number> = {
-  caramizi: 5,
+  caramizi: 2.9,
   saciCiment: 50,
   tencuiala: 100,
   zidarie: 250,

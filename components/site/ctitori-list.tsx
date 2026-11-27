@@ -1,5 +1,17 @@
 import { prisma } from '@/lib/prisma';
 import { symbolicLabel } from '@/lib/symbolic';
+import { BrickWall, Package, Hammer, Blocks, TreePine, AppWindow, Flame, type LucideIcon } from 'lucide-react';
+
+/** Lucide icon for a symbolic donation label (emoji don't render everywhere). */
+function symIcon(label: string): LucideIcon {
+  const s = label.toLowerCase();
+  if (/fereastr/.test(s)) return AppWindow;
+  if (/grin/.test(s)) return TreePine;
+  if (/zid[ăa]rie/.test(s)) return Blocks;
+  if (/tencuial/.test(s)) return Hammer;
+  if (/ciment|mortar/.test(s)) return Package;
+  return BrickWall;
+}
 
 interface Props {
   campaign: string;
@@ -54,7 +66,7 @@ export async function CtitoriList({ campaign, limit = 24 }: Props) {
 
       {donations.length === 0 ? (
         <div className="px-6 py-12 text-center">
-          <p className="text-4xl mb-3">🕯️</p>
+          <Flame className="h-9 w-9 mx-auto mb-3 text-burgundy/70" />
           <p className="text-ink-muted text-sm leading-relaxed max-w-xs mx-auto">
             Fii primul ctitor al acestei biserici. Numele tău va deschide pomelnicul.
           </p>
@@ -79,8 +91,11 @@ export async function CtitoriList({ campaign, limit = 24 }: Props) {
                 key={d.id}
                 className="px-5 sm:px-6 py-3.5 flex items-center gap-3 hover:bg-cream-card/50 transition-colors"
               >
-                <div className="flex-shrink-0 h-10 w-10 rounded-full bg-burgundy/10 border border-burgundy/20 flex items-center justify-center text-lg">
-                  {isAnon ? '🕯️' : sym.icon}
+                <div className="flex-shrink-0 h-10 w-10 rounded-full bg-burgundy/10 border border-burgundy/20 flex items-center justify-center text-burgundy">
+                  {(() => {
+                    const Icon = isAnon ? Flame : symIcon(sym.label);
+                    return <Icon className="h-5 w-5" />;
+                  })()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p

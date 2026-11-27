@@ -371,6 +371,13 @@ export function DonateForm({
             RON
           </span>
         </div>
+        {Number(customAmount) > 0 && (
+          <p className="mt-2 text-xs text-burgundy flex items-center gap-1.5">
+            <BrickWall className="h-3.5 w-3.5" />
+            ≈ {Math.max(1, Math.floor(Number(customAmount) / 2.9)).toLocaleString('ro-RO')} cărămizi
+            <span className="text-ink-soft">(2,90 lei bucata)</span>
+          </p>
+        )}
       </div>
 
       {/* Ctitor identity */}
