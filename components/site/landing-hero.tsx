@@ -33,12 +33,12 @@ export function LandingHero({
       <motion.div className="absolute inset-0 -z-10" style={{ y: yImg, scale: scaleImg }}>
         <img src={src} alt="Viitoarea biserică — Parohia Sf. Teodora de la Sihla" className="h-full w-full object-cover" />
       </motion.div>
-      {/* Warm veil for legibility */}
+      {/* Warm veil for legibility — darker, centre-weighted behind the text */}
       <div
         className="absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(180deg, rgba(40,10,8,0.55) 0%, rgba(40,10,8,0.25) 35%, rgba(61,15,10,0.7) 100%)',
+            'radial-gradient(130% 90% at 50% 42%, rgba(26,7,5,0.34) 0%, rgba(26,7,5,0.74) 100%), linear-gradient(180deg, rgba(26,7,5,0.6) 0%, rgba(26,7,5,0.34) 38%, rgba(44,10,7,0.82) 100%)',
         }}
         aria-hidden
       />
@@ -57,10 +57,10 @@ export function LandingHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-4xl sm:text-6xl md:text-7xl leading-[1.05] mt-4 max-w-4xl drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]"
+          className="font-display text-cream text-4xl sm:text-6xl md:text-7xl leading-[1.05] mt-4 max-w-4xl [text-shadow:0_2px_4px_rgba(20,5,3,0.7),0_6px_30px_rgba(20,5,3,0.65)]"
         >
           Să ridicăm împreună<br />
-          <em className="italic text-gold">o biserică</em>
+          <em className="italic text-gold [text-shadow:0_2px_4px_rgba(20,5,3,0.7),0_6px_30px_rgba(20,5,3,0.6)]">o biserică</em>
         </motion.h1>
 
         <motion.p

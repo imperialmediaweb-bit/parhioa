@@ -1,19 +1,20 @@
 import Link from 'next/link';
+import { BrickWall, Package, Hammer, Blocks, TreePine, AppWindow } from 'lucide-react';
 import { FadeIn } from '@/components/magicui/fade-in';
 import { SectionEyebrow } from './section-eyebrow';
 
 /**
  * „Ce zidești cu darul tău" — concrete, price-anchored impact cards that mirror
- * the donation presets (brick 2,90 lei/buc). Informational + a gentle CTA to the
- * donate form. No money sum of the campaign is shown.
+ * the donation presets (brick 2,90 lei/buc). Icons are lucide components (render
+ * everywhere, unlike emoji). No campaign money sum is shown.
  */
 const ITEMS = [
-  { icon: '🧱', title: '10 cărămizi', price: '29 lei', note: 'temelia zidului — 2,90 lei bucata' },
-  { icon: '🪨', title: 'Un sac de mortar', price: '50 lei', note: 'leagă cărămizile între ele' },
-  { icon: '🛠️', title: '1 m² de tencuială', price: '100 lei', note: 'pereții care îmbracă biserica' },
-  { icon: '🧱', title: '1 m² de zidărie', price: '250 lei', note: 'un petic întreg de zid' },
-  { icon: '🪵', title: 'O grindă', price: '500 lei', note: 'acoperișul de deasupra altarului' },
-  { icon: '🪟', title: 'O fereastră', price: '1000 lei', note: 'lumina care intră în casa Domnului' },
+  { Icon: BrickWall, title: '10 cărămizi', price: '29 lei', note: 'temelia zidului — 2,90 lei bucata' },
+  { Icon: Package, title: 'Un sac de mortar', price: '50 lei', note: 'leagă cărămizile între ele' },
+  { Icon: Hammer, title: '1 m² de tencuială', price: '100 lei', note: 'pereții care îmbracă biserica' },
+  { Icon: Blocks, title: '1 m² de zidărie', price: '250 lei', note: 'un petic întreg de zid' },
+  { Icon: TreePine, title: 'O grindă', price: '500 lei', note: 'acoperișul de deasupra altarului' },
+  { Icon: AppWindow, title: 'O fereastră', price: '1000 lei', note: 'lumina care intră în casa Domnului' },
 ] as const;
 
 export function LandingImpact() {
@@ -41,7 +42,9 @@ export function LandingImpact() {
                 className="group block h-full rounded-3xl border border-gold/40 bg-gradient-to-br from-[#fdfaf2] to-[#f4e8cd] p-6 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-24px_rgba(101,26,20,0.5)] hover:border-gold"
               >
                 <div className="flex items-start justify-between">
-                  <span className="text-4xl transition-transform group-hover:scale-110">{it.icon}</span>
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-burgundy/10 text-burgundy transition-transform group-hover:scale-110">
+                    <it.Icon className="h-6 w-6" />
+                  </span>
                   <span className="font-display text-xl text-burgundy">{it.price}</span>
                 </div>
                 <h3 className="font-display text-lg text-navy mt-4">{it.title}</h3>

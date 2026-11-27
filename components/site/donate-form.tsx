@@ -12,7 +12,26 @@ import {
   ShieldCheck,
   Landmark,
   CheckCircle2,
+  BrickWall,
+  Package,
+  Hammer,
+  Blocks,
+  TreePine,
+  AppWindow,
+  type LucideIcon,
 } from 'lucide-react';
+
+/** Lucide icon for a preset (emoji don't render on every device). */
+function tierIcon(symbol: string): LucideIcon {
+  const s = symbol.toLowerCase();
+  if (/c[ăa]r[ăa]miz/.test(s)) return BrickWall;
+  if (/ciment|mortar/.test(s)) return Package;
+  if (/tencuial/.test(s)) return Hammer;
+  if (/zid[ăa]rie/.test(s)) return Blocks;
+  if (/grind/.test(s)) return TreePine;
+  if (/fereastr/.test(s)) return AppWindow;
+  return Heart;
+}
 import { cn } from '@/lib/utils';
 import { CopyButton } from './copy-button';
 
@@ -279,11 +298,14 @@ export function DonateForm({
               >
                 <div
                   className={cn(
-                    'text-2xl mb-1 transition-transform group-hover:scale-110',
-                    isActive && 'animate-pulse',
+                    'mb-1 transition-transform group-hover:scale-110',
+                    isActive ? 'text-gold' : 'text-burgundy',
                   )}
                 >
-                  {tier.icon}
+                  {(() => {
+                    const Icon = tierIcon(tier.symbol);
+                    return <Icon className="h-7 w-7" />;
+                  })()}
                 </div>
                 <div className="font-display font-bold text-xl leading-none">
                   {tier.amount}{' '}
@@ -455,9 +477,12 @@ export function DonateForm({
               {method === 'card' ? 'card bancar' : 'transfer bancar'}
             </strong>
             {selectedTier && (
-              <span className="block mt-1 text-xs">
-                {selectedTier.icon} {selectedTier.symbol} pentru{' '}
-                <em>{selectedTier.subtitle || 'biserică'}</em>
+              <span className="mt-1 flex items-center justify-center gap-1.5 text-xs">
+                {(() => {
+                  const Icon = tierIcon(selectedTier.symbol);
+                  return <Icon className="h-4 w-4 text-burgundy" />;
+                })()}
+                {selectedTier.symbol} pentru <em>{selectedTier.subtitle || 'biserică'}</em>
               </span>
             )}
           </p>
