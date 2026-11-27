@@ -6,6 +6,7 @@ import { HeroSlider, type HeroSlide } from '@/components/site/hero-slider';
 import { PostCard } from '@/components/site/post-card';
 import { SectionEyebrow } from '@/components/site/section-eyebrow';
 import { type Testimonial } from '@/components/site/testimonials';
+import { ShieldCheck, ReceiptText, Church } from 'lucide-react';
 
 // Heavier interactive blocks are loaded only after the hero/above-the-fold
 // content paints — keeps mobile LCP/INP fast.
@@ -367,7 +368,7 @@ export default async function HomePage() {
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
       <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
-          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-start max-w-5xl mx-auto">
             <FadeIn className="lg:col-span-2 space-y-6">
               <ParchmentFrame
                 src={IMG.ctitorPhoto}
@@ -408,6 +409,25 @@ export default async function HomePage() {
                 <Link href="/campanii">
                   <Button size="lg" variant="outline">Vezi toate campaniile</Button>
                 </Link>
+              </div>
+
+              {/* Reassurance row — fills the column height and lifts trust. */}
+              <div className="mt-7 grid sm:grid-cols-3 gap-4 border-t border-gold/25 pt-5">
+                {[
+                  { Icon: ShieldCheck, t: 'Plată securizată', s: 'Stripe · card sau transfer' },
+                  { Icon: ReceiptText, t: '100% transparent', s: 'vezi unde merge darul' },
+                  { Icon: Church, t: 'Pomenire la Liturghie', s: 'numele tău, în rugăciune' },
+                ].map((b) => (
+                  <div key={b.t} className="flex items-start gap-2.5">
+                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-burgundy/10 text-burgundy">
+                      <b.Icon className="h-4 w-4" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-display text-sm text-burgundy leading-tight">{b.t}</p>
+                      <p className="text-[11px] text-ink-soft leading-snug">{b.s}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </FadeIn>
           </div>
