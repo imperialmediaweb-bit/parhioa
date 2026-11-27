@@ -368,24 +368,14 @@ export default async function HomePage() {
       {/* ============= 6. FII CTITOR AL UNEI LUCRĂRI SFINTE ============= */}
       <section id="daruieste" className="relative iconostasis py-12 sm:py-20 scroll-mt-44">
         <div className="container">
-          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-start max-w-5xl mx-auto">
-            <FadeIn className="lg:col-span-2 space-y-6">
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
+            <FadeIn className="lg:col-span-2">
               <ParchmentFrame
-                src={IMG.ctitorPhoto}
-                alt="Comunitatea parohiei adunată în rugăciune"
-                caption="Comunitatea parohiei"
+                src="https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg"
+                alt="Viitoarea biserică a parohiei"
+                caption="Viitoarea biserică"
                 ratio="4/5"
               />
-              {/* Second photo hidden on mobile — saves vertical space. */}
-              <div className="hidden lg:block">
-                <ParchmentFrame
-                  src="https://pub-49f4280024fa4ca2b8a4f6323442efe8.r2.dev/parhioa/wp-28263.jpg"
-                  alt="Locul viitoarei biserici"
-                  caption="Locul viitoarei biserici"
-                  ratio="4/5"
-                  cross={false}
-                />
-              </div>
             </FadeIn>
             <FadeIn delay={0.15} className="lg:col-span-3">
               <SectionEyebrow>Devino ctitor</SectionEyebrow>
