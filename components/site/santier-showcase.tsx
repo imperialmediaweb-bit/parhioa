@@ -181,7 +181,7 @@ export function SantierShowcase({
             >
               ✛ Așa va arăta biserica
             </motion.p>
-            <div className="grid sm:grid-cols-2 gap-5 sm:gap-6">
+            <div className={`grid gap-5 sm:gap-6 ${renders.length === 1 ? 'grid-cols-1 max-w-3xl mx-auto' : 'sm:grid-cols-2'}`}>
               {renders.map((r, i) => (
                 <motion.figure
                   key={r.src}
@@ -195,7 +195,7 @@ export function SantierShowcase({
                     src={r.src}
                     alt={r.alt}
                     loading="lazy"
-                    className="w-full aspect-[4/3] object-cover transition-transform [transition-duration:1200ms] group-hover:scale-105"
+                    className={`w-full object-cover transition-transform [transition-duration:1200ms] group-hover:scale-105 ${renders.length === 1 ? 'aspect-video' : 'aspect-[4/3]'}`}
                   />
                   <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 pt-10 pb-3">
                     <span className="font-serif italic text-cream text-sm">{r.caption}</span>
